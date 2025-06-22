@@ -1,0 +1,252 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Fira+Code:wght@400;500&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  /* Hacker-inspired dark theme */
+  --background: 220 18% 6%;
+  --foreground: 150 100% 98%;
+  --muted: 220 14% 12%;
+  --muted-foreground: 150 10% 70%;
+  --popover: 220 18% 9%;
+  --popover-foreground: 150 100% 98%;
+  --card: 220 20% 10%;
+  --card-foreground: 150 100% 98%;
+  --border: 220 14% 16%;
+  --input: 220 14% 16%;
+  --primary: 142 70% 50%;
+  --primary-foreground: 220 18% 6%;
+  --secondary: 220 14% 16%;
+  --secondary-foreground: 150 100% 98%;
+  --accent: 142 30% 20%;
+  --accent-foreground: 142 70% 50%;
+  --destructive: 0 84% 60%;
+  --destructive-foreground: 150 100% 98%;
+  --ring: 142 70% 50%;
+  --radius: 0.5rem;
+  
+  /* Font settings */
+  font-family: 'Fira Code', monospace;
+  font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+}
+
+.light {
+  /* Light mode with hacker aesthetic */
+  --background: 220 20% 97%;
+  --foreground: 220 80% 5%;
+  --muted: 220 14% 90%;
+  --muted-foreground: 220 10% 40%;
+  --popover: 220 20% 97%;
+  --popover-foreground: 220 80% 5%;
+  --card: 220 20% 94%;
+  --card-foreground: 220 80% 5%;
+  --border: 220 14% 84%;
+  --input: 220 14% 84%;
+  --primary: 142 70% 45%;
+  --primary-foreground: 220 20% 97%;
+  --secondary: 220 14% 84%;
+  --secondary-foreground: 220 80% 5%;
+  --accent: 142 30% 94%;
+  --accent-foreground: 142 70% 45%;
+  --destructive: 0 84% 60%;
+  --destructive-foreground: 220 20% 97%;
+  --ring: 142 70% 45%;
+}
+
+@layer base {
+  * {
+    @apply border-border;
+    cursor: none !important; /* Hide default cursor on all elements */
+  }
+  
+  body {
+    @apply font-mono antialiased bg-background text-foreground;
+  }
+  
+  /* Custom red dot cursor */
+  body::after {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 8px;
+    height: 8px;
+    background: #ff0000;
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9999;
+    transform: translate(var(--mouse-x, 0), var(--mouse-y, 0));
+    transition: transform 0.1s ease;
+  }
+  
+  /* Ensure all interactive elements don't show default cursor */
+  a, button, input, textarea, select, [role="button"], [tabindex] {
+    cursor: none !important;
+  }
+  
+  /* Hover effects for interactive elements */
+  a:hover, button:hover, [role="button"]:hover {
+    cursor: none !important;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-mono font-bold;
+  }
+  
+  /* Terminal-like text */
+  .terminal-text::before {
+    content: '> ';
+    @apply text-primary;
+  }
+  
+  /* Blinking cursor */
+  .cursor::after {
+    content: '';
+    @apply inline-block w-2 h-4 bg-primary ml-1;
+    animation: blink 1s step-end infinite;
+  }
+  
+  @keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+  }
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-muted;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-primary/50 rounded-full;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  @apply bg-primary;
+}
+
+/* Hide scrollbar for horizontal scrolling */
+.scrollbar-hide {
+  -ms-overflow-style: none;  /* Internet Explorer 10+ */
+  scrollbar-width: none;  /* Firefox */
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;  /* Safari and Chrome */
+}
+
+/* Horizontal scrolling styles */
+.horizontal-scroll {
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+}
+
+.horizontal-scroll > * {
+  scroll-snap-align: start;
+  flex-shrink: 0;
+  width: 100vw;
+}
+
+/* Timeline styles */
+.timeline {
+  position: relative;
+  padding: 1rem 0;
+  width: 100%;
+}
+
+.timeline-item {
+  position: relative;
+  margin-bottom: 2rem;
+}
+
+/* Animation for timeline items */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.timeline-dot {
+  transition: all 0.3s ease;
+}
+
+.timeline-item:hover .timeline-dot {
+  transform: scale(1.1);
+  box-shadow: 0 0 15px rgba(var(--primary-rgb), 0.4);
+}
+
+/* Add responsive adjustments for timeline on mobile */
+@media (max-width: 768px) {
+  .timeline-item {
+    flex-direction: column !important;
+    align-items: center;
+  }
+  
+  .timeline-item > div:first-child {
+    width: 90% !important;
+    padding: 0 !important;
+    margin-top: 2.5rem;
+  }
+  
+  .timeline-item .absolute.top-6 {
+    top: 0;
+  }
+  
+  .timeline-item .absolute.top-20 {
+    top: 2.5rem;
+  }
+}
+
+/* Glass morphism effect */
+.glass {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Glow effects */
+.glow {
+  box-shadow: 0 0 20px rgba(34, 197, 94, 0.3);
+}
+
+.glow:hover {
+  box-shadow: 0 0 30px rgba(34, 197, 94, 0.5);
+}
+
+/* Matrix rain effect background */
+.matrix-bg {
+  background: linear-gradient(180deg, 
+    rgba(34, 197, 94, 0.1) 0%, 
+    rgba(34, 197, 94, 0.05) 50%, 
+    rgba(34, 197, 94, 0.1) 100%);
+}
+
+/* Typing animation */
+.typing-animation {
+  overflow: hidden;
+  border-right: 2px solid hsl(var(--primary));
+  white-space: nowrap;
+  animation: typing 3.5s steps(40, end), blink-caret 0.75s step-end infinite;
+}
+
+@keyframes typing {
+  from { width: 0; }
+  to { width: 100%; }
+}
+
+@keyframes blink-caret {
+  from, to { border-color: transparent; }
+  50% { border-color: hsl(var(--primary)); }
+} 

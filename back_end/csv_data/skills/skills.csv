@@ -1,0 +1,2 @@
+_id,name,rating,skill_category_id,description
+skill_001,Python,5.0,skill_category_001,Programming language for data science and machine learning 
