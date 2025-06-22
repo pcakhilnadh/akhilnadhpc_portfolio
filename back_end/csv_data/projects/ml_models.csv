@@ -1,2 +1,0 @@
-_id,name,model_type,framework,accuracy,training_data_size,deployment_status
-model_001,Sample Model,classification,scikit-learn,0.95,10000,deployed 

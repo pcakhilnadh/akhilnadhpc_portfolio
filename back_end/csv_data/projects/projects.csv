@@ -1,2 +1,0 @@
-_id,username,title,description,project_type,project_url,duration,role,company,ml_model_id,deployment,hosting_platform,cicd_pipeline,monitoring_tracking
-project_001,akhilnadhpc,Sample ML Project,Machine learning project for demonstration purposes.,personal,https://github.com/johndoe/sample-project,3 months,Lead Developer,Personal Project,model_001,mlops-docker,mlops-aws,mlops-github-actions,mleng-prom-graf 
