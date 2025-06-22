@@ -1,2 +1,0 @@
-_id,username,name,issuer,issue_date,expiry_date,credential_id,credential_url,description
-cert_001,akhilnadhpc,Sample Certification,Sample Issuer,2024-01-01,2027-01-01,CERT123,https://example.com/cert,Sample certification for demonstration purposes
