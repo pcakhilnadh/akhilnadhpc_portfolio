@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ExternalLink, Github, Calendar, MapPin, Users, Zap, Globe, GitBranch, Activity, Terminal, Building2, Clock, Code, Trophy, Rocket, Database, Server, Brain, Target, Settings, Cloud, GitMerge } from 'lucide-react';
+import { ExternalLink, Github, Calendar, MapPin, Users, Zap, Globe, GitBranch, Activity, Terminal, Building2, Clock, Code, Trophy, Rocket, Database, Server, Brain, Target, Settings, Cloud, GitMerge, Lock } from 'lucide-react';
 import { Project } from '@/types/data';
 import { Badge } from '@/components/ui/badge';
 import { Dialog, DialogContent } from '@/components/ui/dialog';
@@ -94,13 +94,23 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ project, isOpen, onClose })
                       <Terminal className="h-4 w-4" />
                       <span>Overview</span>
                     </TabsTrigger>
-                    <TabsTrigger 
-                      value="details" 
-                      className="data-[state=active]:bg-cyan-500/20 data-[state=active]:text-cyan-300 text-muted-foreground font-mono text-sm px-4 py-2 rounded-none h-full flex-1 flex items-center justify-center space-x-2"
-                    >
-                      <Settings className="h-4 w-4" />
-                      <span>Details</span>
-                    </TabsTrigger>
+                    {project.company ? (
+                      <div
+                        className="flex-1 h-full flex items-center justify-center space-x-2 font-mono text-sm px-4 py-2 text-muted-foreground cursor-not-allowed"
+                        title="Details Hidden for Professional projects"
+                      >
+                        <Lock className="h-4 w-4" />
+                        <span>Details</span>
+                      </div>
+                    ) : (
+                      <TabsTrigger 
+                        value="details" 
+                        className="data-[state=active]:bg-cyan-500/20 data-[state=active]:text-cyan-300 text-muted-foreground font-mono text-sm px-4 py-2 rounded-none h-full flex-1 flex items-center justify-center space-x-2"
+                      >
+                        <Settings className="h-4 w-4" />
+                        <span>Details</span>
+                      </TabsTrigger>
+                    )}
                   </TabsList>
                 </div>
 

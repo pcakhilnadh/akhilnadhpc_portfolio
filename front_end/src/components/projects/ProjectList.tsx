@@ -71,7 +71,7 @@ const ProjectList: React.FC<ProjectListProps> = ({ projects }) => {
       {/* Hacker-themed header */}
       
 
-      <Tabs value={activeTab} onValuRange={setActiveTab} className="w-full">
+      <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
         {/* Hacker-themed tabs */}
         <TabsList className="flex flex-wrap w-full mb-8 gap-3 justify-center bg-transparent p-0">
           {projectCategories.map((category) => (

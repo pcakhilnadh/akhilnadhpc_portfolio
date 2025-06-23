@@ -86,15 +86,66 @@ class AboutRepository(IAboutRepository):
             welcome_text="curious_about_me?"
         )
 
-    # The following private methods need to be implemented or adjusted
     def _get_work_experience(self, username: str) -> list:
-        # Placeholder
-        return []
+        """Get work experience data for the user."""
+        try:
+            from .work_experience_repository import WorkExperienceRepository
+            work_exp_repo = WorkExperienceRepository(self.data_access)
+            experiences = work_exp_repo.get_work_experience_data(username)
+            return experiences
+        except Exception:
+            return []
 
     def _get_current_company(self, work_experience: list) -> str:
-        # Placeholder
-        return "Not specified"
+        """Get current company from work experience."""
+        if not work_experience:
+            return "Not specified"
+        
+        # Find the most recent experience (one without end_date)
+        current_job = None
+        for exp in work_experience:
+            if exp.end_date is None:  # Current job
+                current_job = exp
+                break
+        
+        return current_job.company if current_job else "Not specified"
 
     def _calculate_average_time_in_company(self, work_experience: list, total_years: float) -> str:
-        # Placeholder
-        return "Not specified" 
+        """Calculate average time spent in companies (excluding current job)."""
+        if not work_experience:
+            return "Not specified"
+        
+        from datetime import datetime
+        
+        total_duration_years = 0.0
+        completed_companies = 0
+        
+        for exp in work_experience:
+            # Skip current job (no end_date) - only count completed tenures
+            if exp.end_date is None:
+                continue
+                
+            try:
+                start_date = datetime.strptime(exp.start_date, '%Y-%m-%d')
+                end_date = datetime.strptime(exp.end_date, '%Y-%m-%d')
+                
+                # Calculate duration in years for this completed job
+                duration_days = (end_date - start_date).days
+                duration_years = duration_days / 365.25
+                total_duration_years += duration_years
+                completed_companies += 1
+                
+            except (ValueError, AttributeError) as e:
+                # If date parsing fails, skip this experience
+                continue
+        
+        if completed_companies == 0:
+            return "Not specified"
+        
+        avg_years = total_duration_years / completed_companies
+        
+        if avg_years >= 1:
+            return f"{avg_years:.1f} years"
+        else:
+            months = avg_years * 12
+            return f"{months:.0f} months" 
