@@ -14,7 +14,8 @@ import {
   Clock, 
   Home,
   UserCheck,
-  GraduationCap
+  GraduationCap,
+  Link
 } from 'lucide-react';
 
 interface PersonalInfo {
@@ -32,11 +33,16 @@ interface PersonalInfo {
   profile_image?: string;
 }
 
+interface FamilyMember {
+  relationship: string;
+  full_name: string;
+  occupation: string;
+  age: number | null;
+  profile_url: string | null;
+}
+
 interface FamilyInfo {
-  father_name: string;
-  father_occupation: string;
-  mother_name: string;
-  mother_occupation: string;
+  family_members: FamilyMember[];
 }
 
 interface UserProfileCardProps {
@@ -217,53 +223,62 @@ export default function UserProfileCard({ personalInfo, familyInfo, hobbies }: U
               <div className="bg-card rounded-lg p-4 border border-border/50 hover:border-primary/20 transition-colors">
                 <h4 className="font-semibold text-foreground mb-3 text-base flex items-center">
                   <Users className="h-4 w-4 mr-2 text-primary" />
-                  Family
+                  Family Members
                 </h4>
-                <div className="space-y-4">
-                  <div>
-                    <h5 className="text-sm font-medium text-foreground mb-2 text-primary flex items-center">
-                      <UserCheck className="h-3 w-3 mr-1" />
-                      Father
-                    </h5>
-                    <div className="space-y-2">
-                      <div className="grid grid-cols-1 gap-1">
-                        <span className="text-xs text-muted-foreground uppercase tracking-wide flex items-center">
-                          <User className="h-3 w-3 mr-1" />
-                          Name
-                        </span>
-                        <span className="text-sm text-foreground font-medium">{familyInfo.father_name}</span>
+                <div className="space-y-2">
+                  {familyInfo.family_members && familyInfo.family_members.length > 0 ? (
+                    familyInfo.family_members.map((member, index) => (
+                      <div key={index} className="bg-muted/30 rounded-lg p-3 border border-border/30 hover:border-primary/20 transition-all duration-200 hover:shadow-sm">
+                        <div className="flex items-start justify-between">
+                          <div className="flex items-start space-x-3 min-w-0 flex-1">
+                            <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
+                              <UserCheck className="h-4 w-4 text-primary" />
+                            </div>
+                            <div className="min-w-0 flex-1">
+                              <div className="flex items-center justify-between mb-1">
+                                <div className="flex items-center space-x-2">
+                                  {member.profile_url ? (
+                                    <a 
+                                      href={member.profile_url} 
+                                      target="_blank" 
+                                      rel="noopener noreferrer"
+                                      className="text-sm font-semibold text-foreground hover:text-primary transition-colors flex items-center space-x-1"
+                                      title="View Profile"
+                                    >
+                                      <span className="truncate">{member.full_name}</span>
+                                      <Link className="h-3 w-3 text-primary flex-shrink-0" />
+                                    </a>
+                                  ) : (
+                                    <h5 className="text-sm font-semibold text-foreground truncate">{member.full_name}</h5>
+                                  )}
+                                </div>
+                                {member.age && (
+                                  <div className="bg-primary/10 px-2 py-1 rounded-full flex-shrink-0">
+                                    <span className="text-xs font-medium text-primary">{member.age}</span>
+                                  </div>
+                                )}
+                              </div>
+                              <div className="flex items-center space-x-2 text-xs text-muted-foreground mb-1">
+                                <div className="flex items-center space-x-1">
+                                  <Users className="h-3 w-3" />
+                                  <span className="bg-muted px-2 py-0.5 rounded-full capitalize">{member.relationship}</span>
+                                </div>
+                              </div>
+                              <div className="flex items-center space-x-1 text-xs text-muted-foreground">
+                                <GraduationCap className="h-3 w-3 flex-shrink-0" />
+                                <span className="truncate">{member.occupation}</span>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
                       </div>
-                      <div className="grid grid-cols-1 gap-1">
-                        <span className="text-xs text-muted-foreground uppercase tracking-wide flex items-center">
-                          <GraduationCap className="h-3 w-3 mr-1" />
-                          Occupation
-                        </span>
-                        <span className="text-sm text-foreground font-medium">{familyInfo.father_occupation}</span>
-                      </div>
+                    ))
+                  ) : (
+                    <div className="text-center py-6">
+                      <Users className="h-8 w-8 text-muted-foreground mx-auto mb-2" />
+                      <span className="text-sm text-muted-foreground">No family information available</span>
                     </div>
-                  </div>
-                  <div>
-                    <h5 className="text-sm font-medium text-foreground mb-2 text-primary flex items-center">
-                      <UserCheck className="h-3 w-3 mr-1" />
-                      Mother
-                    </h5>
-                    <div className="space-y-2">
-                      <div className="grid grid-cols-1 gap-1">
-                        <span className="text-xs text-muted-foreground uppercase tracking-wide flex items-center">
-                          <User className="h-3 w-3 mr-1" />
-                          Name
-                        </span>
-                        <span className="text-sm text-foreground font-medium">{familyInfo.mother_name}</span>
-                      </div>
-                      <div className="grid grid-cols-1 gap-1">
-                        <span className="text-xs text-muted-foreground uppercase tracking-wide flex items-center">
-                          <GraduationCap className="h-3 w-3 mr-1" />
-                          Occupation
-                        </span>
-                        <span className="text-sm text-foreground font-medium">{familyInfo.mother_occupation}</span>
-                      </div>
-                    </div>
-                  </div>
+                  )}
                 </div>
               </div>
 
@@ -291,4 +306,4 @@ export default function UserProfileCard({ personalInfo, familyInfo, hobbies }: U
       </Card>
     </motion.div>
   );
-} 
+}

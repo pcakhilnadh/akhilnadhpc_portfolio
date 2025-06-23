@@ -33,9 +33,21 @@ export interface HomeResponse {
 }
 
 // New simplified domain data types
+export interface FamilyMember {
+  relationship: string;
+  full_name: string;
+  occupation: string;
+  age: number | null;
+  profile_url: string | null;
+}
+
+export interface FamilyInfo {
+  family_members: FamilyMember[];
+}
+
 export interface AboutDomainData {
   personal_info: any;
-  family_info: any;
+  family_info: FamilyInfo;
   hobbies: string[];
   skills: any[];
   welcome_text: string;

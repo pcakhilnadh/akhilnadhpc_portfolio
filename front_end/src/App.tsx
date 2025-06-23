@@ -6,7 +6,7 @@ import { useCustomCursor } from '@/hooks/useCustomCursor'
 import usePersonalData from '@/hooks/usePersonalData'
 import { Button } from '@/components/ui/button'
 import { Moon, Sun, Loader2 } from 'lucide-react'
-import { Navbar, HorizontalLayout } from '@/components/common/index'
+import { Navbar, HorizontalLayout, Footer } from '@/components/common/index'
 import Home from '@/pages/Home'
 import About from '@/pages/About'
 import Timeline from '@/pages/Timeline'
@@ -84,26 +84,7 @@ function AppContent() {
       </div>
 
       {/* Sticky Footer */}
-      <footer className="fixed bottom-0 left-0 right-0 bg-background/90 backdrop-blur-md border-t border-border z-40">
-        <div className="container mx-auto px-4 py-3 relative">
-          <p className="text-center text-sm text-muted-foreground font-mono">
-            © 2025 Akhil Nadh PC. Built with lots of ☕
-          </p>
-          
-          {/* Theme Toggle Button - Right Aligned */}
-          <div className="absolute right-4 top-1/2 transform -translate-y-1/2">
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={toggleTheme}
-              className="text-muted-foreground hover:text-primary transition-colors"
-              aria-label="Toggle theme"
-            >
-              {theme === 'dark' ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
-            </Button>
-          </div>
-        </div>
-      </footer>
+      <Footer />
     </div>
   )
 }
