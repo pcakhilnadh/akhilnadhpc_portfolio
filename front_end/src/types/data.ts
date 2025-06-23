@@ -92,16 +92,30 @@ export interface CompanyBase {
   location: string;
 }
 
+export interface MLModelUseCase {
+  id: string;
+  use_case_name: string;
+  business_impact: string;
+}
+
+export interface MLModelTrainingParameter {
+  id: string;
+  parameter_name: string;
+  parameter_value: string;
+  parameter_type: string;
+}
+
 export interface MLModel {
   id: string;
   name: string;
-  description: string;
   model_type: string;
+  framework: string;
+  version: string;
+  accuracy: number;
   training_data_size: string;
-  accuracy: string;
-  use_cases: string[];
   deployment_status: string;
-  model_url?: string;
+  use_cases?: MLModelUseCase[];
+  training_parameters?: MLModelTrainingParameter[];
 }
 
 export interface ProjectAchievement {
