@@ -17,6 +17,15 @@ class SkillCategory(BaseModel):
     skills: List[Skill] = Field(description="Skills in this category")
 
 
+class FamilyMember(BaseModel):
+    """Model for individual family member."""
+    relationship: str = Field(description="Relationship to the person")
+    full_name: str = Field(description="Full name of family member")
+    occupation: str = Field(description="Occupation of family member")
+    age: Optional[int] = Field(default=None, description="Age of family member")
+    profile_url: Optional[str] = Field(default=None, description="Profile URL or image of family member")
+
+
 class PersonalInfo(BaseModel):
     """Model for personal information."""
     full_name: str = Field(description="Full name")
@@ -36,10 +45,7 @@ class PersonalInfo(BaseModel):
 
 class FamilyInfo(BaseModel):
     """Model for family information."""
-    father_name: str = Field(description="Father's name")
-    father_occupation: str = Field(description="Father's occupation")
-    mother_name: str = Field(description="Mother's name")
-    mother_occupation: str = Field(description="Mother's occupation")
+    family_members: List[FamilyMember] = Field(description="List of family members")
 
 
 class AboutDomainData(BaseModel):

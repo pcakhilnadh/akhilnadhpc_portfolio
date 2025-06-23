@@ -86,8 +86,8 @@ class HomeRepository(IHomeRepository):
         for profile_data in profile_data_list:
             platform = profile_data['platform'].lower().replace(' ', '_')
             profiles[platform] = Profile(
-                url=profile_data['url'],
-                handler=profile_data['handler']
+                url=profile_data['profile_url'],
+                handler=profile_data['username']
             )
         
         return profiles 

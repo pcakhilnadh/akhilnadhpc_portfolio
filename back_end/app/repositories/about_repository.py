@@ -1,4 +1,4 @@
-from ..models.about_models import AboutDomainData, IAboutRepository, PersonalInfo, FamilyInfo, SkillCategory, Skill
+from ..models.about_models import AboutDomainData, IAboutRepository, PersonalInfo, FamilyInfo, FamilyMember, SkillCategory, Skill
 from ..data_access.interfaces import IPersonalDataAccess
 from ..data_access.csv_data_access import CSVDataAccess
 from ..core.config import settings
@@ -70,36 +70,24 @@ class AboutRepository(IAboutRepository):
         
         try:
             import csv
+            family_members = []
             with open(family_members_path, 'r', encoding='utf-8') as file:
                 reader = csv.DictReader(file)
-                father_name = ""
-                father_occupation = ""
-                mother_name = ""
-                mother_occupation = ""
-                
                 for row in reader:
                     if row['personal_profile_id'] == username:
-                        if row['relationship'].lower() == 'father':
-                            father_name = row['name']
-                            father_occupation = row['occupation']
-                        elif row['relationship'].lower() == 'mother':
-                            mother_name = row['name']
-                            mother_occupation = row['occupation']
+                        family_member = FamilyMember(
+                            relationship=row['relationship'],
+                            full_name=row['full_name'],
+                            occupation=row['occupation'],
+                            age=int(row['age']) if row['age'] and row['age'] != 'None' else None,
+                            profile_url=row['profile_url'] if row['profile_url'] and row['profile_url'].strip() and row['profile_url'] != 'None' else None
+                        )
+                        family_members.append(family_member)
                 
-                return FamilyInfo(
-                    father_name=father_name or "Not specified",
-                    father_occupation=father_occupation or "Not specified",
-                    mother_name=mother_name or "Not specified",
-                    mother_occupation=mother_occupation or "Not specified"
-                )
+                return FamilyInfo(family_members=family_members)
         except Exception as e:
             self.data_access.logger.error(f"Error reading family info for {username}: {e}")
-            return FamilyInfo(
-                father_name="Not specified",
-                father_occupation="Not specified",
-                mother_name="Not specified",
-                mother_occupation="Not specified"
-            )
+            return FamilyInfo(family_members=[])
     
     def _get_hobbies(self, username: str) -> list[str]:
         """Get hobbies from CSV."""
@@ -112,7 +100,7 @@ class AboutRepository(IAboutRepository):
                 reader = csv.DictReader(file)
                 for row in reader:
                     if row['personal_profile_id'] == username:
-                        hobbies.append(row['hobby'])
+                        hobbies.append(row['hobby_name'])
             return hobbies
         except Exception as e:
             self.data_access.logger.error(f"Error reading hobbies for {username}: {e}")
@@ -186,12 +174,7 @@ class AboutRepository(IAboutRepository):
                 address="Default Address",
                 profile_image=""
             ),
-            family_info=FamilyInfo(
-                father_name="Not specified",
-                father_occupation="Not specified",
-                mother_name="Not specified",
-                mother_occupation="Not specified"
-            ),
+            family_info=FamilyInfo(family_members=[]),
             hobbies=["Coding", "Reading", "Gaming"],
             skills=[],
             welcome_text="curious_about_me?"
@@ -267,8 +250,17 @@ class AboutRepository(IAboutRepository):
                 start_date_str = job['start_date'].strip()
                 end_date_str = job['end_date'].strip()
                 
-                start_date = datetime.strptime(start_date_str, '%Y-%m')
-                end_date = datetime.strptime(end_date_str, '%Y-%m')
+                # Handle both YYYY-MM-DD and YYYY-MM formats
+                try:
+                    start_date = datetime.strptime(start_date_str, '%Y-%m-%d')
+                    end_date = datetime.strptime(end_date_str, '%Y-%m-%d')
+                except ValueError:
+                    try:
+                        start_date = datetime.strptime(start_date_str, '%Y-%m')
+                        end_date = datetime.strptime(end_date_str, '%Y-%m')
+                    except ValueError:
+                        self.data_access.logger.error(f"Invalid date format: {start_date_str} or {end_date_str}")
+                        continue
                 
                 # Calculate months difference more accurately
                 years_diff = end_date.year - start_date.year

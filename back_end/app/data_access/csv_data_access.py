@@ -37,8 +37,21 @@ class CSVDataAccess(IPersonalDataAccess):
             with open(social_profiles_path, 'r', encoding='utf-8') as file:
                 reader = csv.DictReader(file)
                 for row in reader:
-                    if row['personal_profile_id'] == username and row['profile_type'] == profile_type:
-                        profiles.append(row)
+                    if row['personal_profile_id'] == username:
+                        # Categorize profiles based on platform name
+                        platform = row['platform'].lower().strip()
+                        
+                        # Define profile type mappings
+                        if profile_type == "social" and platform in ['linkedin', 'twitter']:
+                            profiles.append(row)
+                        elif profile_type == "professional" and platform in ['linkedin', 'portfolio website']:
+                            profiles.append(row)
+                        elif profile_type == "coding" and platform in ['github', 'kaggle']:
+                            profiles.append(row)
+                        elif profile_type == "personal" and platform in ['medium', 'portfolio website']:
+                            profiles.append(row)
+            
+            self.logger.info(f"Found {len(profiles)} {profile_type} profiles for {username}")
             return profiles
         except Exception as e:
             self.logger.error(f"Error reading {profile_type} profiles for {username}: {e}")
