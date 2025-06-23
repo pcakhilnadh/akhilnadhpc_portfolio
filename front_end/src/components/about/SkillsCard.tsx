@@ -2,27 +2,24 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import SkillsRadarChart from './SkillsRadarChart';
-
-interface Skill {
-  name: string;
-  rating: number;
-  category: string;
-  description?: string;
-}
-
-interface SkillCategory {
-  name: string;
-  skills: Skill[];
-}
+import { SkillCategory } from '@/types/data';
 
 interface SkillsCardProps {
   skills: SkillCategory[];
 }
 
 export default function SkillsCard({ skills }: SkillsCardProps) {
+  // Since our data structure has skills as SkillCategory[], we need to extract skills
+  // For now, we'll create a flat list of skills with category information
+  const allSkills = skills.map(category => ({
+    name: category.name,
+    rating: 3.5, // Default rating since we don't have individual skill ratings in this context
+    category: category.name,
+    description: category.description
+  }));
+
   // Prepare data for radar chart (top 8 skills by rating)
-  const radarChartData = skills
-    .flatMap(category => category.skills)
+  const radarChartData = allSkills
     .sort((a, b) => b.rating - a.rating)
     .slice(0, 8)
     .map(skill => ({

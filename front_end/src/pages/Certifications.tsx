@@ -80,22 +80,24 @@ export default function Certifications({ setNavbarWelcomeText }: CertificationsP
                   <div className="flex items-center gap-3">
                     <Award className="h-8 w-8 text-primary" />
                     <div>
-                      <h3 className="text-xl font-bold text-primary">{cert.title}</h3>
+                      <h3 className="text-xl font-bold text-primary">{cert.name}</h3>
                       <p className="text-muted-foreground">{cert.issuer}</p>
                     </div>
                   </div>
-                  <span className="text-sm text-muted-foreground font-mono">{cert.date}</span>
+                  <span className="text-sm text-muted-foreground font-mono">{cert.issue_date}</span>
                 </div>
                 
-                <p className="text-muted-foreground mb-4 leading-relaxed">{cert.description}</p>
+                <p className="text-muted-foreground mb-4 leading-relaxed">
+                  Skills covered: {cert.skills.join(', ')}
+                </p>
                 
                 <div className="flex items-center justify-between">
                   {cert.credential_id && (
                     <span className="text-sm font-mono text-primary">ID: {cert.credential_id}</span>
                   )}
-                  {cert.url && (
+                  {cert.credential_url && (
                     <a
-                      href={cert.url}
+                      href={cert.credential_url}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="flex items-center gap-2 text-muted-foreground hover:text-primary transition-colors"

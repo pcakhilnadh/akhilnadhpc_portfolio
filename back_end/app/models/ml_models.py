@@ -13,7 +13,6 @@ class MLModelUseCase(BaseModel):
     """Model for ML model use cases."""
     id: str = Field(description="Use case ID")
     use_case_name: str = Field(description="Name of the use case")
-    use_case_description: str = Field(description="Description of the use case")
     business_impact: str = Field(description="Business impact of the use case")
 
 

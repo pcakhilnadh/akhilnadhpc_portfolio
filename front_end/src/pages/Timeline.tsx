@@ -77,35 +77,22 @@ export default function Timeline({ setNavbarWelcomeText }: TimelineProps) {
               >
                 <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-4">
                   <h3 className="text-xl font-bold text-primary">{exp.title}</h3>
-                  <span className="text-muted-foreground font-mono">{exp.period}</span>
+                  <span className="text-muted-foreground font-mono">
+                    {exp.start_date} - {exp.end_date || 'Present'}
+                  </span>
                 </div>
                 <h4 className="text-lg text-foreground mb-3">{exp.company}</h4>
-                <p className="text-muted-foreground leading-relaxed">{exp.description}</p>
                 
-                {exp.technologies && exp.technologies.length > 0 && (
+                {exp.company_url && (
                   <div className="mt-4">
-                    <h5 className="text-sm font-semibold text-primary mb-2">Technologies:</h5>
-                    <div className="flex flex-wrap gap-2">
-                      {exp.technologies.map((tech: string) => (
-                        <span
-                          key={tech}
-                          className="px-2 py-1 bg-primary/10 text-primary text-xs rounded font-mono"
-                        >
-                          {tech}
-                        </span>
-                      ))}
-                    </div>
-                  </div>
-                )}
-                
-                {exp.achievements && exp.achievements.length > 0 && (
-                  <div className="mt-4">
-                    <h5 className="text-sm font-semibold text-primary mb-2">Key Achievements:</h5>
-                    <ul className="list-disc list-inside text-sm text-muted-foreground space-y-1">
-                      {exp.achievements.map((achievement: string, i: number) => (
-                        <li key={i}>{achievement}</li>
-                      ))}
-                    </ul>
+                    <a
+                      href={exp.company_url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-primary hover:underline text-sm"
+                    >
+                      Visit Company Website
+                    </a>
                   </div>
                 )}
               </motion.div>

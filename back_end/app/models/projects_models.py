@@ -2,7 +2,7 @@ from abc import ABC, abstractmethod
 from typing import List, Optional
 from pydantic import BaseModel
 from .experience_models import CompanyBase
-from .ml_models import MLModelBase
+from .ml_models import MLModel
 from .skills_models import SkillBase
 from .project_achievements_models import ProjectAchievementBase
 
@@ -19,7 +19,7 @@ class Project(BaseModel):
     end_date: Optional[str] = None    # ISO format: YYYY-MM-DD
     role: Optional[str] = None
     company: Optional[CompanyBase] = None
-    ml_models: Optional[MLModelBase] = None
+    ml_models: Optional[MLModel] = None
     skills: Optional[List[SkillBase]] = None
     achievements: Optional[List[ProjectAchievementBase]] = None
     deployment: Optional[str] = None

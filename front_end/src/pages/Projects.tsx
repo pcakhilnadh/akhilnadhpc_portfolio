@@ -81,12 +81,12 @@ export default function Projects({ setNavbarWelcomeText }: ProjectsProps) {
                 <p className="text-muted-foreground mb-6 leading-relaxed">{project.description}</p>
                 
                 <div className="flex flex-wrap gap-2 mb-6">
-                  {project.technologies.map((tech: string) => (
+                  {project.skills?.map((skill) => (
                     <span
-                      key={tech}
+                      key={skill.id}
                       className="px-3 py-1 bg-primary/20 text-primary text-sm rounded-full font-mono"
                     >
-                      {tech}
+                      {skill.name}
                     </span>
                   ))}
                 </div>

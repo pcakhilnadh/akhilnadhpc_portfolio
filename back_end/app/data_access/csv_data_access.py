@@ -28,8 +28,8 @@ class CSVDataAccess(IPersonalDataAccess):
             self.logger.error(f"Error reading personal profile for {username}: {e}")
             return None
     
-    def read_social_profiles(self, username: str, profile_type: str) -> List[Dict[str, str]]:
-        """Read social profiles by type from CSV."""
+    def read_profiles(self, username: str, profile_type: str) -> List[Dict[str, str]]:
+        """Read profiles by type from CSV (handles all profile types)."""
         social_profiles_path = os.path.join(self.csv_data_path, "personal", "social_profiles.csv")
         profiles = []
         
@@ -57,6 +57,42 @@ class CSVDataAccess(IPersonalDataAccess):
             self.logger.error(f"Error reading {profile_type} profiles for {username}: {e}")
             return []
     
+    def read_family_info(self, username: str) -> List[Dict[str, str]]:
+        """Read family information from CSV."""
+        family_path = os.path.join(self.csv_data_path, "personal", "family_members.csv")
+        family_members = []
+        
+        try:
+            with open(family_path, 'r', encoding='utf-8') as file:
+                reader = csv.DictReader(file)
+                for row in reader:
+                    if row['personal_profile_id'] == username:
+                        family_members.append(row)
+            
+            self.logger.info(f"Found {len(family_members)} family members for {username}")
+            return family_members
+        except Exception as e:
+            self.logger.error(f"Error reading family info for {username}: {e}")
+            return []
+    
+    def read_hobbies(self, username: str) -> List[Dict[str, str]]:
+        """Read hobbies information from CSV."""
+        hobbies_path = os.path.join(self.csv_data_path, "personal", "hobbies.csv")
+        hobbies = []
+        
+        try:
+            with open(hobbies_path, 'r', encoding='utf-8') as file:
+                reader = csv.DictReader(file)
+                for row in reader:
+                    if row['personal_profile_id'] == username:
+                        hobbies.append(row)
+            
+            self.logger.info(f"Found {len(hobbies)} hobbies for {username}")
+            return hobbies
+        except Exception as e:
+            self.logger.error(f"Error reading hobbies for {username}: {e}")
+            return []
+    
     def calculate_years_of_experience(self, work_start_date_str: str) -> float:
         """Calculate years of experience from work start date."""
         try:
@@ -70,4 +106,19 @@ class CSVDataAccess(IPersonalDataAccess):
             return round(max(0.0, years_of_experience), 1)
         except Exception as e:
             self.logger.error(f"Error calculating years of experience: {e}")
-            return 0.0 
+            return 0.0
+    
+    def read_skills_data(self) -> List[Dict[str, str]]:
+        """Read all skills data from CSV."""
+        skills_path = os.path.join(self.csv_data_path, "skills", "skills.csv")
+        skills = []
+        try:
+            with open(skills_path, 'r', encoding='utf-8') as file:
+                reader = csv.DictReader(file)
+                for row in reader:
+                    skills.append(row)
+            self.logger.info(f"Found {len(skills)} skills in skills.csv")
+            return skills
+        except Exception as e:
+            self.logger.error(f"Error reading skills data: {e}")
+            return [] 

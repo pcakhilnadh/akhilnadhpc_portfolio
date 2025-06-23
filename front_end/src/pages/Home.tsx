@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react';
 import { Hero } from '@/components/home/index';
-import { PersonalData } from '@/types/data';
+import { UserProfile } from '@/types/data';
 
 interface HomeProps {
-  personalData: PersonalData;
+  personalData: UserProfile;
   welcomeText: string;
   setNavbarWelcomeText: (text: string) => void;
 }

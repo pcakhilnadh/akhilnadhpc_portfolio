@@ -56,7 +56,20 @@ class SkillsResponse(BaseModel):
     page_welcome_texts: str = Field(default="what_can_i_do?", description="Welcome text for the current page")
 
 
+class SkillCategoryWithSkills(BaseModel):
+    """Model for skill category with its associated skills - used for About page."""
+    id: str = Field(description="Skill category ID")
+    name: str = Field(description="Skill category name")
+    description: str = Field(description="Skill category description")
+    skills: List[SkillBase] = Field(description="Skills in this category")
+
+
 class ISkillsRepository(ABC):
     @abstractmethod
     def get_skills_data(self, username: str) -> SkillsDomainData:
+        pass
+    
+    @abstractmethod
+    def get_skills_by_category(self, username: str) -> List[SkillCategoryWithSkills]:
+        """Get skills organized by category for About page."""
         pass 

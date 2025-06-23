@@ -7,7 +7,7 @@ import {
   X, Mail, Github, Linkedin, Twitter, Instagram, Globe, Code, MessageSquare, 
   ExternalLink, Map, Terminal, Zap, User, Briefcase as BriefcaseIcon
 } from "lucide-react";
-import { PersonalData } from "@/types/data";
+import { UserProfile } from "@/types/data";
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
@@ -15,12 +15,12 @@ import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 interface ContactModalProps {
   isOpen: boolean;
   onClose: () => void;
-  personalData: PersonalData;
+  personalData: UserProfile;
 }
 
 export default function ContactModal({ isOpen, onClose, personalData }: ContactModalProps) {
   const { 
-    basic_info, 
+    personal_info, 
     social_profiles, 
     professional_profiles, 
     coding_profiles, 
@@ -315,7 +315,7 @@ export default function ContactModal({ isOpen, onClose, personalData }: ContactM
               <Mail className="w-3.5 h-3.5 mr-1.5" /> Direct Contact
             </h3>
             <a 
-              href={`mailto:${basic_info.email}`} 
+              href={`mailto:${personal_info.email}`} 
               className="flex items-center justify-between p-3 hover:bg-primary/5 rounded-md transition-all border border-dashed border-primary/30 hover:border-primary group"
             >
               <div className="flex items-center">
@@ -324,7 +324,7 @@ export default function ContactModal({ isOpen, onClose, personalData }: ContactM
                 </span>
                 <div>
                   <div className="font-medium">Email</div>
-                  <div className="text-xs font-mono text-muted-foreground">{basic_info.email}</div>
+                  <div className="text-xs font-mono text-muted-foreground">{personal_info.email}</div>
                 </div>
               </div>
               <span className="opacity-0 group-hover:opacity-100 transition-opacity">

@@ -78,12 +78,12 @@ export default function Skills({ setNavbarWelcomeText }: SkillsProps) {
               >
                 <div className="flex justify-between items-center mb-3">
                   <span className="font-mono text-foreground text-lg">{skill.name}</span>
-                  <span className="text-primary font-mono font-bold">{skill.level}%</span>
+                  <span className="text-primary font-mono font-bold">{Math.round(skill.rating * 20)}%</span>
                 </div>
                 <div className="w-full bg-muted rounded-full h-3">
                   <motion.div
                     initial={{ width: 0 }}
-                    whileInView={{ width: `${skill.level}%` }}
+                    whileInView={{ width: `${Math.round(skill.rating * 20)}%` }}
                     transition={{ duration: 1, delay: 0.5 + index * 0.1 }}
                     viewport={{ once: true }}
                     className="bg-primary h-3 rounded-full"

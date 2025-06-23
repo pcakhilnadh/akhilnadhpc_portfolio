@@ -3,16 +3,16 @@ import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
 import { Mail, Briefcase } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { PersonalData } from "@/types/data";
+import { UserProfile } from "@/types/data";
 import { ContactModal } from "@/components/common/index";
 import { useTheme } from "@/hooks/useTheme";
 
 interface HeroProps {
-  personalData: PersonalData;
+  personalData: UserProfile;
 }
 
 export default function Hero({ personalData }: HeroProps) {
-  const { basic_info } = personalData;
+  const { personal_info } = personalData;
   const [isContactModalOpen, setIsContactModalOpen] = useState(false);
   const { theme } = useTheme();
 
@@ -62,7 +62,7 @@ export default function Hero({ personalData }: HeroProps) {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.8, delay: 0.2 }}
                 >
-                  {basic_info.full_name}
+                  {personal_info.full_name}
                 </motion.h1>
                 <motion.h2 
                   className="text-2xl md:text-3xl font-medium text-primary leading-relaxed"
@@ -70,7 +70,7 @@ export default function Hero({ personalData }: HeroProps) {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.8, delay: 0.4 }}
                 >
-                  {basic_info.tagline}
+                  {personal_info.tagline}
                 </motion.h2>
               </div>
               
@@ -80,7 +80,7 @@ export default function Hero({ personalData }: HeroProps) {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, delay: 0.6 }}
               >
-                {basic_info.short_summary}
+                {personal_info.short_summary}
               </motion.p>
             </motion.div>
             
@@ -93,7 +93,7 @@ export default function Hero({ personalData }: HeroProps) {
             >
               <div className="inline-flex items-center px-6 py-3 rounded-full bg-primary/10 border border-primary/30 shadow-lg backdrop-blur-sm">
                 <span className="text-primary font-mono font-semibold text-lg">
-                  {basic_info.total_years_of_experiece} Years of Experience
+                  {personal_info.total_years_of_experience || '0'} Years of Experience
                 </span>
               </div>
               <Button 
@@ -114,10 +114,10 @@ export default function Hero({ personalData }: HeroProps) {
               className="relative"
             >
               <div className="w-72 h-72 md:w-96 md:h-96 rounded-full overflow-hidden border-8 border-primary/30 shadow-xl shadow-primary/20 flex items-center justify-center bg-muted">
-                {basic_info.profile_image ? (
+                {personal_info.profile_image ? (
                   <img 
-                    src={basic_info.profile_image} 
-                    alt={basic_info.full_name}
+                    src={personal_info.profile_image} 
+                    alt={personal_info.full_name}
                     className="w-full h-full object-cover"
                     onError={(e) => {
                       // Fallback to initials if image fails to load
@@ -127,8 +127,8 @@ export default function Hero({ personalData }: HeroProps) {
                     }}
                   />
                 ) : null}
-                <div className={`${basic_info.profile_image ? 'hidden' : ''} w-full h-full flex items-center justify-center text-6xl font-bold text-primary`}>
-                  {basic_info.full_name.split(' ').map(n => n[0]).join('')}
+                <div className={`${personal_info.profile_image ? 'hidden' : ''} w-full h-full flex items-center justify-center text-6xl font-bold text-primary`}>
+                  {personal_info.full_name.split(' ').map(n => n[0]).join('')}
                 </div>
               </div>
             </motion.div>

@@ -3,10 +3,10 @@ import { useLocation, useNavigate, Link } from "react-router-dom";
 import { cn } from "@/lib/utils";
 import { Menu, X, Terminal, User, Clock, Code, Briefcase, Award } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { PersonalData } from "@/types/data";
+import { UserProfile } from "@/types/data";
 
 interface NavbarProps {
-  personalData: PersonalData;
+  personalData: UserProfile;
   welcomeText: string;
   setWelcomeText: (text: string) => void;
 }

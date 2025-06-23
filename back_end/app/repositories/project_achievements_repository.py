@@ -28,8 +28,7 @@ class ProjectAchievementsRepository:
                         achievements.append(
                             ProjectAchievementBase(
                                 id=row['_id'],
-                                achievement_title=row['achievement_title'],
-                                achievement_date=row['achievement_date']
+                                achievement_title=row['achievement_title']
                             )
                         )
             
@@ -55,8 +54,7 @@ class ProjectAchievementsRepository:
                         return ProjectAchievement(
                             id=row['_id'],
                             achievement_title=row['achievement_title'],
-                            achievement_description=row['achievement_description'],
-                            achievement_date=row['achievement_date']
+                            achievement_description=row['achievement_description']
                         )
             
             return None

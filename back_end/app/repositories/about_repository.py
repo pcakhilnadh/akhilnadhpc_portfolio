@@ -2,17 +2,18 @@ from typing import List, Optional
 from abc import ABC, abstractmethod
 from pydantic import BaseModel, Field
 from ..models.user_profile_models import PersonalInfo, FamilyMember
-from ..models.skills_models import SkillCategory
+from ..models.skills_models import SkillCategoryWithSkills
 from ..data_access.interfaces import IPersonalDataAccess
 from ..data_access.csv_data_access import CSVDataAccess
 from ..core.config import settings
+from .skills_repository import SkillsRepository
 
 class AboutDomainData(BaseModel):
     """Domain model for about endpoint data."""
     personal_info: PersonalInfo = Field(description="Personal information")
     family_info: Optional[List[FamilyMember]] = Field(description="Family information")
     hobbies: Optional[List[str]] = Field(description="Hobbies and interests")
-    skills: List[SkillCategory] = Field(description="Skills organized by category")
+    skills: List[SkillCategoryWithSkills] = Field(description="Skills organized by category")
     welcome_text: str = Field(description="Welcome text for the about page")
 
 class IAboutRepository(ABC):
@@ -26,8 +27,9 @@ class IAboutRepository(ABC):
 class AboutRepository(IAboutRepository):
     """Repository for about endpoint data."""
     
-    def __init__(self, data_access: IPersonalDataAccess = None):
+    def __init__(self, data_access: IPersonalDataAccess = None, skills_repository: SkillsRepository = None):
         self.data_access = data_access or CSVDataAccess()
+        self.skills_repository = skills_repository or SkillsRepository(data_access)
     
     def get_about_data(self, username: str) -> AboutDomainData:
         """Get about information from CSV data."""
@@ -73,7 +75,8 @@ class AboutRepository(IAboutRepository):
         hobbies_data = self.data_access.read_hobbies(username)
         hobbies = [hobby['hobby_name'] for hobby in hobbies_data]
         
-        skills = self._get_skills_by_category()
+        # Use the Skills repository to get skills organized by category
+        skills = self.skills_repository.get_skills_by_category(username)
         
         return AboutDomainData(
             personal_info=personal_info,
@@ -82,21 +85,6 @@ class AboutRepository(IAboutRepository):
             skills=skills,
             welcome_text="curious_about_me?"
         )
-
-    def _get_skills_by_category(self) -> list[SkillCategory]:
-        """Helper to get skills organized by category."""
-        # This is a simplified example. In a real scenario, this would
-        # likely use the SkillsRepository or have more complex logic.
-        skills_data = self.data_access.read_skills_data() # Assuming this method exists
-        
-        categories = {}
-        for skill in skills_data:
-            cat_name = skill.get('category_name', 'Uncategorized')
-            if cat_name not in categories:
-                categories[cat_name] = SkillCategory(name=cat_name, skills=[])
-            categories[cat_name].skills.append(skill)
-            
-        return list(categories.values())
 
     # The following private methods need to be implemented or adjusted
     def _get_work_experience(self, username: str) -> list:

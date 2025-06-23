@@ -66,7 +66,6 @@ class MLModelsRepository:
                             MLModelUseCase(
                                 id=row['_id'],
                                 use_case_name=row['use_case_name'],
-                                use_case_description=row['use_case_description'],
                                 business_impact=row['business_impact']
                             )
                         )

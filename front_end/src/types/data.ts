@@ -22,17 +22,23 @@ export interface PersonalData {
   personal_profiles: Record<string, Profile>;
 }
 
-export interface HomeResponse {
-  success: boolean;
-  message: string;
-  status: string;
-  version: string;
-  endpoints: Record<string, string>;
-  personal_data: PersonalData;
-  page_welcome_texts: string;
+// Updated to match new backend structure
+export interface PersonalInfo {
+  full_name: string;
+  tagline: string;
+  designation: string;
+  email: string;
+  profile_image?: string;
+  short_summary: string;
+  long_descriptive_summary?: string;
+  total_years_of_experience?: string;
+  current_company?: string;
+  average_time_in_company?: string;
+  dob?: string;
+  place_of_birth?: string;
+  address?: string;
 }
 
-// New simplified domain data types
 export interface FamilyMember {
   relationship: string;
   full_name: string;
@@ -41,35 +47,143 @@ export interface FamilyMember {
   profile_url: string | null;
 }
 
-export interface FamilyInfo {
-  family_members: FamilyMember[];
+export interface UserProfile {
+  personal_info: PersonalInfo;
+  social_profiles: Record<string, Profile>;
+  professional_profiles: Record<string, Profile>;
+  coding_profiles: Record<string, Profile>;
+  personal_profiles: Record<string, Profile>;
+  family_info?: FamilyMember[];
+  hobbies?: string[];
 }
 
-export interface AboutDomainData {
-  personal_info: any;
-  family_info: FamilyInfo;
-  hobbies: string[];
-  skills: any[];
-  welcome_text: string;
+export interface HomeResponse {
+  success: boolean;
+  message: string;
+  status: string;
+  version: string;
+  endpoints: Record<string, string>;
+  personal_data: UserProfile;
+  page_welcome_texts: string;
+}
+
+// New domain data types matching backend structure
+export interface SkillCategory {
+  id: string;
+  name: string;
+  description: string;
+}
+
+export interface Skill {
+  id: string;
+  name: string;
+  rating: number;
+  description: string;
+  category: SkillCategory;
 }
 
 export interface SkillsDomainData {
-  skills: any[];
+  skills: Skill[];
   welcome_text: string;
+}
+
+export interface CompanyBase {
+  name: string;
+  location: string;
+}
+
+export interface MLModel {
+  id: string;
+  name: string;
+  description: string;
+  model_type: string;
+  training_data_size: string;
+  accuracy: string;
+  use_cases: string[];
+  deployment_status: string;
+  model_url?: string;
+}
+
+export interface ProjectAchievement {
+  id: string;
+  achievement_title: string;
+  achievement_description: string;
+  impact_metrics: string;
+  recognition: string;
+}
+
+export interface Project {
+  id: number;
+  title: string;
+  description: string;
+  project_type: string;
+  github_url?: string;
+  live_url?: string;
+  duration?: string;
+  start_date?: string;
+  end_date?: string;
+  role?: string;
+  company?: CompanyBase;
+  ml_models?: MLModel;
+  skills?: Skill[];
+  achievements?: ProjectAchievement[];
+  deployment?: string;
+  hosting_platform?: string;
+  cicd_pipeline?: string;
+  monitoring_tracking?: string;
 }
 
 export interface ProjectsDomainData {
-  projects: any[];
+  projects: Project[];
   welcome_text: string;
+}
+
+export interface Certification {
+  id: number;
+  name: string;
+  issuer: string;
+  issue_date: string;
+  expiry_date?: string;
+  credential_id?: string;
+  credential_url?: string;
+  skills: string[];
 }
 
 export interface CertificationsDomainData {
-  certifications: any[];
+  certifications: Certification[];
   welcome_text: string;
 }
 
+export interface CompanyReference {
+  id: string;
+  name: string;
+  designation: string;
+  email: string;
+  phone: string;
+  linkedin_url?: string;
+  relationship: string;
+}
+
+export interface Experience {
+  id: number;
+  title: string;
+  company: string;
+  company_url?: string;
+  start_date: string;
+  end_date?: string;
+  references?: CompanyReference[];
+}
+
 export interface TimelineDomainData {
-  experiences: any[];
+  experiences: Experience[];
+  welcome_text: string;
+}
+
+export interface AboutDomainData {
+  personal_info: PersonalInfo;
+  family_info?: FamilyMember[];
+  hobbies?: string[];
+  skills: SkillCategory[];
   welcome_text: string;
 }
 

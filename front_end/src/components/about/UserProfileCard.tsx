@@ -17,38 +17,12 @@ import {
   GraduationCap,
   Link
 } from 'lucide-react';
-
-interface PersonalInfo {
-  full_name: string;
-  tagline: string;
-  short_summary: string;
-  designation: string;
-  total_years_of_experience: string;
-  current_company: string;
-  average_time_in_company: string;
-  email: string;
-  dob: string;
-  place_of_birth: string;
-  address: string;
-  profile_image?: string;
-}
-
-interface FamilyMember {
-  relationship: string;
-  full_name: string;
-  occupation: string;
-  age: number | null;
-  profile_url: string | null;
-}
-
-interface FamilyInfo {
-  family_members: FamilyMember[];
-}
+import { PersonalInfo, FamilyMember } from '@/types/data';
 
 interface UserProfileCardProps {
   personalInfo: PersonalInfo;
-  familyInfo: FamilyInfo;
-  hobbies: string[];
+  familyInfo?: FamilyMember[];
+  hobbies?: string[];
 }
 
 // Function to calculate age from date of birth
@@ -169,21 +143,21 @@ export default function UserProfileCard({ personalInfo, familyInfo, hobbies }: U
                       <Clock className="h-3 w-3 mr-1" />
                       Experience
                     </span>
-                    <span className="text-sm text-foreground font-medium">{personalInfo.total_years_of_experience}</span>
+                    <span className="text-sm text-foreground font-medium">{personalInfo.total_years_of_experience || 'Not specified'}</span>
                   </div>
                   <div className="grid grid-cols-1 gap-1">
                     <span className="text-xs text-muted-foreground uppercase tracking-wide flex items-center">
                       <Building2 className="h-3 w-3 mr-1" />
                       Current Company
                     </span>
-                    <span className="text-sm text-foreground font-medium">{personalInfo.current_company}</span>
+                    <span className="text-sm text-foreground font-medium">{personalInfo.current_company || 'Not specified'}</span>
                   </div>
                   <div className="grid grid-cols-1 gap-1">
                     <span className="text-xs text-muted-foreground uppercase tracking-wide flex items-center">
                       <Clock className="h-3 w-3 mr-1" />
                       Avg. Time in Company
                     </span>
-                    <span className="text-sm text-foreground font-medium">{personalInfo.average_time_in_company}</span>
+                    <span className="text-sm text-foreground font-medium">{personalInfo.average_time_in_company || 'Not specified'}</span>
                   </div>
                 </div>
               </div>
@@ -200,21 +174,21 @@ export default function UserProfileCard({ personalInfo, familyInfo, hobbies }: U
                       <Calendar className="h-3 w-3 mr-1" />
                       Age
                     </span>
-                    <span className="text-sm text-foreground font-medium">{calculateAge(personalInfo.dob)}</span>
+                    <span className="text-sm text-foreground font-medium">{personalInfo.dob ? calculateAge(personalInfo.dob) : 'Not specified'}</span>
                   </div>
                   <div className="grid grid-cols-1 gap-1">
                     <span className="text-xs text-muted-foreground uppercase tracking-wide flex items-center">
                       <MapPin className="h-3 w-3 mr-1" />
                       Birth Place
                     </span>
-                    <span className="text-sm text-foreground font-medium">{personalInfo.place_of_birth}</span>
+                    <span className="text-sm text-foreground font-medium">{personalInfo.place_of_birth || 'Not specified'}</span>
                   </div>
                   <div className="grid grid-cols-1 gap-1">
                     <span className="text-xs text-muted-foreground uppercase tracking-wide flex items-center">
                       <Home className="h-3 w-3 mr-1" />
                       Address
                     </span>
-                    <span className="text-sm text-foreground font-medium leading-relaxed">{personalInfo.address}</span>
+                    <span className="text-sm text-foreground font-medium leading-relaxed">{personalInfo.address || 'Not specified'}</span>
                   </div>
                 </div>
               </div>
@@ -226,8 +200,8 @@ export default function UserProfileCard({ personalInfo, familyInfo, hobbies }: U
                   Family Members
                 </h4>
                 <div className="space-y-2">
-                  {familyInfo.family_members && familyInfo.family_members.length > 0 ? (
-                    familyInfo.family_members.map((member, index) => (
+                  {familyInfo && familyInfo.length > 0 ? (
+                    familyInfo.map((member, index) => (
                       <div key={index} className="bg-muted/30 rounded-lg p-3 border border-border/30 hover:border-primary/20 transition-all duration-200 hover:shadow-sm">
                         <div className="flex items-start justify-between">
                           <div className="flex items-start space-x-3 min-w-0 flex-1">
@@ -289,15 +263,22 @@ export default function UserProfileCard({ personalInfo, familyInfo, hobbies }: U
                   Hobbies & Interests
                 </h4>
                 <div className="flex flex-wrap gap-2">
-                  {hobbies.map((hobby, index) => (
-                    <Badge 
-                      key={index} 
-                      variant="secondary" 
-                      className="text-xs px-3 py-1 bg-primary/10 hover:bg-primary/20 border-primary/20 text-primary font-medium"
-                    >
-                      {hobby}
-                    </Badge>
-                  ))}
+                  {hobbies && hobbies.length > 0 ? (
+                    hobbies.map((hobby, index) => (
+                      <Badge 
+                        key={index} 
+                        variant="secondary" 
+                        className="text-xs px-3 py-1 bg-primary/10 hover:bg-primary/20 border-primary/20 text-primary font-medium"
+                      >
+                        {hobby}
+                      </Badge>
+                    ))
+                  ) : (
+                    <div className="text-center py-6">
+                      <Users className="h-8 w-8 text-muted-foreground mx-auto mb-2" />
+                      <span className="text-sm text-muted-foreground">No hobbies or interests available</span>
+                    </div>
+                  )}
                 </div>
               </div>
             </motion.div>

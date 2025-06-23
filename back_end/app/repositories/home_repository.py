@@ -62,7 +62,16 @@ class HomeRepository(IHomeRepository):
     def get_user_profile(self, username: str) -> UserProfile:
         """Get the complete user profile data."""
         profile_data = self.data_access.read_personal_profile(username)
-        
+        if profile_data is None:
+            profile_data = {
+                'full_name': 'Default User',
+                'tagline': 'Welcome to the Portfolio',
+                'designation': 'N/A',
+                'email': 'default@example.com',
+                'profile_image': None,
+                'short_summary': 'This is a default user profile.',
+                'long_descriptive_summary': 'No detailed biography available.',
+            }
         personal_info = PersonalInfo(
             full_name=profile_data.get('full_name'),
             tagline=profile_data.get('tagline'),
@@ -72,15 +81,12 @@ class HomeRepository(IHomeRepository):
             short_summary=profile_data.get('short_summary'),
             long_descriptive_summary=profile_data.get('long_descriptive_summary')
         )
-        
         social_profiles = self._get_profiles_by_type(username, "social")
         professional_profiles = self._get_profiles_by_type(username, "professional")
         coding_profiles = self._get_profiles_by_type(username, "coding")
         personal_profiles = self._get_profiles_by_type(username, "personal")
-        
         family_info = self._get_family_info(username)
         hobbies = self._get_hobbies(username)
-
         return UserProfile(
             personal_info=personal_info,
             social_profiles=social_profiles,
@@ -95,7 +101,7 @@ class HomeRepository(IHomeRepository):
         """Get profiles from CSV based on their type."""
         profiles_data = self.data_access.read_profiles(username, profile_type)
         return {
-            profile['profile_name']: Profile(url=profile['url'], handler=profile['handler'])
+            profile['platform']: Profile(url=profile['profile_url'], handler=profile['username'])
             for profile in profiles_data
         }
 

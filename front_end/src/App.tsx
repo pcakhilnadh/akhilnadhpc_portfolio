@@ -13,7 +13,7 @@ import Timeline from '@/pages/Timeline'
 import Skills from '@/pages/Skills'
 import Projects from '@/pages/Projects'
 import Certifications from '@/pages/Certifications'
-import { PersonalData } from '@/types/data'
+import { UserProfile } from '@/types/data'
 
 function AppContent() {
   const { theme, setTheme } = useTheme()

@@ -1,6 +1,6 @@
 from typing import List, Optional
 from ..core.config import settings
-from ..models.skills_models import SkillsDomainData, Skill, ISkillsRepository, SkillBase, SkillCategory, SkillCategoryBase
+from ..models.skills_models import SkillsDomainData, Skill, ISkillsRepository, SkillBase, SkillCategory, SkillCategoryBase, SkillCategoryWithSkills
 from ..data_access.interfaces import IPersonalDataAccess
 from ..data_access.csv_data_access import CSVDataAccess
 
@@ -131,4 +131,37 @@ class SkillsRepository(ISkillsRepository):
             return skill_ids
         except Exception as e:
             settings.get_logger(__name__).error(f"Error getting skill IDs for project {project_id}: {e}")
-            return [] 
+            return []
+
+    def get_skills_by_category(self, username: str) -> List[SkillCategoryWithSkills]:
+        """Get skills organized by category for About page."""
+        all_skills = self._get_all_skills()
+        all_categories = self._get_all_skill_categories()
+        
+        # Create a mapping of category ID to category
+        category_map = {cat.id: cat for cat in all_categories}
+        
+        # Group skills by category
+        skills_by_category = {}
+        for skill in all_skills:
+            category_id = skill.category.id
+            if category_id not in skills_by_category:
+                skills_by_category[category_id] = []
+            skills_by_category[category_id].append(
+                SkillBase(id=skill.id, name=skill.name, rating=skill.rating)
+            )
+        
+        # Create SkillCategoryWithSkills objects
+        result = []
+        for category in all_categories:
+            skills_in_category = skills_by_category.get(category.id, [])
+            result.append(
+                SkillCategoryWithSkills(
+                    id=category.id,
+                    name=category.name,
+                    description=category.description,
+                    skills=skills_in_category
+                )
+            )
+        
+        return result 

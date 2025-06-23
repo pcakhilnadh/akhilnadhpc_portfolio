@@ -2,7 +2,7 @@ from typing import List
 from ..core.config import settings
 from ..models.projects_models import ProjectsDomainData, Project, IProjectsRepository
 from ..models.experience_models import CompanyBase
-from ..models.ml_models import MLModelBase
+from ..models.ml_models import MLModel
 from ..data_access.interfaces import IPersonalDataAccess
 from ..data_access.csv_data_access import CSVDataAccess
 from .work_experience_repository import WorkExperienceRepository
@@ -65,12 +65,8 @@ class ProjectsRepository(IProjectsRepository):
                         if row.get('ml_models'):
                             full_ml_model = self.ml_models_repository.get_ml_model_by_id(row['ml_models'])
                             if full_ml_model:
-                                # Create base ML model object with only essential info
-                                ml_model_info = MLModelBase(
-                                    id=full_ml_model.id,
-                                    name=full_ml_model.name,
-                                    model_type=full_ml_model.model_type
-                                )
+                                # Return the full ML model with training parameters and use cases
+                                ml_model_info = full_ml_model
                         
                         # Get skills for this project
                         skills = self.skills_repository.get_skills_by_project_id(project_id_str)
