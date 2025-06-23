@@ -3,7 +3,7 @@ from pydantic import BaseModel
 from ..core.config import settings
 from ..repositories.home_repository import HomeRepository
 from ..services.home_service import HomeService
-from ..models.home_models import HomeResponse
+from ..models.response_models import HomeResponse
 
 
 class HomeRequest(BaseModel):
@@ -37,16 +37,4 @@ async def home(
     """
     logger.info(f"Home endpoint accessed by user: {request.username}")
     
-    home_data = home_service.get_home_data(request.username)
-    endpoints_data = home_service.get_endpoints_data()
-    personal_data = home_service.get_personal_data(request.username)
-    
-    return HomeResponse(
-        success=True,
-        message=home_data.message,
-        status=home_data.status,
-        version=home_data.version,
-        endpoints=endpoints_data,
-        personal_data=personal_data,
-        page_welcome_texts="who_am_i?"
-    ) 
+    return home_service.get_home_details(request.username) 

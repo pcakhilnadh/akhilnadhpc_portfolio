@@ -1,4 +1,4 @@
-from ..models.about_models import AboutDomainData, IAboutRepository
+from ..repositories.about_repository import AboutDomainData, IAboutRepository
 
 
 class AboutService:

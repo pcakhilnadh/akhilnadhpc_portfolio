@@ -1,20 +1,46 @@
-from pydantic import BaseModel, Field
-from typing import List
 from abc import ABC, abstractmethod
+from typing import List, Optional
+from pydantic import BaseModel, Field
 
 
-class Skill(BaseModel):
-    """Model for individual skill."""
-    id: int = Field(description="Skill ID")
+class SkillCategoryBase(BaseModel):
+    """Base model for skill category information - baseline data."""
+    id: str = Field(description="Skill category ID (e.g., skill_category_001)")
+    name: str = Field(description="Skill category name")
+    description: str = Field(description="Skill category description")
+
+
+class SkillCategory(SkillCategoryBase):
+    """Extended skill category model - currently same as base but allows future extensions."""
+    # Inherited fields: id, name, description
+    pass
+
+
+class SkillBase(BaseModel):
+    """Base model for skill information - baseline data."""
+    id: str = Field(description="Skill ID (e.g., skill_001)")
     name: str = Field(description="Skill name")
-    level: int = Field(description="Skill level (0-100)", ge=0, le=100)
-    category: str = Field(description="Skill category")
+    rating: float = Field(description="Skill rating (1.0-5.0)", ge=1.0, le=5.0)
+
+
+class Skill(SkillBase):
+    """Extended skill model with category information and description."""
+    # Inherited fields: id, name, rating
+    description: str = Field(description="Skill description")
+    category: SkillCategoryBase = Field(description="Skill category information")
+
+
+class ProjectSkill(BaseModel):
+    """Model for project-skill relationship."""
+    id: str = Field(description="Project skill relationship ID")
+    project_id: str = Field(description="Project ID")
+    skill_id: str = Field(description="Skill ID")
 
 
 class SkillsDomainData(BaseModel):
     """Domain model for skills endpoint data."""
-    skills: List[Skill] = Field(description="List of skills")
-    welcome_text: str = Field(description="Welcome text for the skills page")
+    skills: List[Skill]
+    welcome_text: str
 
 
 class SkillsResponse(BaseModel):
@@ -31,9 +57,6 @@ class SkillsResponse(BaseModel):
 
 
 class ISkillsRepository(ABC):
-    """Abstract interface for skills data access."""
-    
     @abstractmethod
     def get_skills_data(self, username: str) -> SkillsDomainData:
-        """Get skills information."""
         pass 

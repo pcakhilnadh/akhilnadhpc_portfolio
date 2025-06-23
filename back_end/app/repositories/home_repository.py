@@ -1,9 +1,35 @@
-from typing import Dict
+from typing import Dict, List
+from abc import ABC, abstractmethod
+from pydantic import BaseModel, Field
 from ..core.config import settings
-from ..models.home_models import HomeDomainData, PersonalData, BasicInfo, Profile, IHomeRepository
+from ..models.user_profile_models import UserProfile, PersonalInfo, Profile, FamilyMember
 from ..data_access.interfaces import IPersonalDataAccess
 from ..data_access.csv_data_access import CSVDataAccess
 
+class HomeDomainData(BaseModel):
+    """Domain model for home endpoint data."""
+    username: str = Field(description="Username")
+    message: str = Field(description="Welcome message")
+    status: str = Field(description="API status")
+    version: str = Field(description="API version")
+
+class IHomeRepository(ABC):
+    """Abstract interface for home data access."""
+    
+    @abstractmethod
+    def get_home_info(self, username: str) -> HomeDomainData:
+        """Get home information."""
+        pass
+    
+    @abstractmethod
+    def get_user_profile(self, username: str) -> UserProfile:
+        """Get the complete user profile."""
+        pass
+
+    @abstractmethod
+    def get_endpoints_info(self) -> Dict[str, str]:
+        """Get available endpoints."""
+        pass
 
 class HomeRepository(IHomeRepository):
     """Repository for home endpoint data."""
@@ -26,68 +52,59 @@ class HomeRepository(IHomeRepository):
         return {
             "home": "/",
             "about": "/about",
+            "skills": "/skills",
+            "projects": "/projects",
+            "certifications": "/certifications",
+            "timeline": "/timeline",
             "docs": "/docs"
         }
     
-    def get_personal_data(self, username: str) -> PersonalData:
-        """Get personal data for the portfolio."""
-        # Read basic info from personal profiles CSV
-        basic_info = self._get_basic_info(username)
+    def get_user_profile(self, username: str) -> UserProfile:
+        """Get the complete user profile data."""
+        profile_data = self.data_access.read_personal_profile(username)
         
-        # Read social profiles
+        personal_info = PersonalInfo(
+            full_name=profile_data.get('full_name'),
+            tagline=profile_data.get('tagline'),
+            designation=profile_data.get('designation'),
+            email=profile_data.get('email'),
+            profile_image=profile_data.get('profile_image'),
+            short_summary=profile_data.get('short_summary'),
+            long_descriptive_summary=profile_data.get('long_descriptive_summary')
+        )
+        
         social_profiles = self._get_profiles_by_type(username, "social")
         professional_profiles = self._get_profiles_by_type(username, "professional")
         coding_profiles = self._get_profiles_by_type(username, "coding")
         personal_profiles = self._get_profiles_by_type(username, "personal")
         
-        return PersonalData(
-            basic_info=basic_info,
+        family_info = self._get_family_info(username)
+        hobbies = self._get_hobbies(username)
+
+        return UserProfile(
+            personal_info=personal_info,
             social_profiles=social_profiles,
             professional_profiles=professional_profiles,
             coding_profiles=coding_profiles,
-            personal_profiles=personal_profiles
+            personal_profiles=personal_profiles,
+            family_info=family_info,
+            hobbies=hobbies
         )
-    
-    def _get_basic_info(self, username: str) -> BasicInfo:
-        """Get basic information using data access layer."""
-        profile_data = self.data_access.read_personal_profile(username)
-        
-        if profile_data:
-            years_of_experience = self.data_access.calculate_years_of_experience(
-                profile_data['work_start_date']
-            )
-            
-            return BasicInfo(
-                full_name=profile_data['full_name'],
-                tagline=profile_data['tagline'],
-                short_summary=profile_data['short_summary'],
-                designation=profile_data['tagline'].split(' at ')[0] if ' at ' in profile_data['tagline'] else profile_data['tagline'],
-                total_years_of_experiece=f"{years_of_experience}",
-                email=profile_data['email'],
-                profile_image=profile_data['profile_image']
-            )
-        
-        # Return default data if user not found
-        return BasicInfo(
-            full_name="Default User",
-            tagline="Default Tagline",
-            short_summary="Default summary",
-            designation="Default Role",
-            total_years_of_experiece="0.0",
-            email="default@example.com",
-            profile_image=""
-        )
-    
+
     def _get_profiles_by_type(self, username: str, profile_type: str) -> Dict[str, Profile]:
-        """Get profiles by type using data access layer."""
-        profile_data_list = self.data_access.read_social_profiles(username, profile_type)
-        profiles = {}
-        
-        for profile_data in profile_data_list:
-            platform = profile_data['platform'].lower().replace(' ', '_')
-            profiles[platform] = Profile(
-                url=profile_data['profile_url'],
-                handler=profile_data['username']
-            )
-        
-        return profiles 
+        """Get profiles from CSV based on their type."""
+        profiles_data = self.data_access.read_profiles(username, profile_type)
+        return {
+            profile['profile_name']: Profile(url=profile['url'], handler=profile['handler'])
+            for profile in profiles_data
+        }
+
+    def _get_family_info(self, username: str) -> List[FamilyMember]:
+        """Reads family info from CSV."""
+        family_data = self.data_access.read_family_info(username)
+        return [FamilyMember(**member) for member in family_data]
+
+    def _get_hobbies(self, username: str) -> List[str]:
+        """Reads hobbies from CSV."""
+        hobbies_data = self.data_access.read_hobbies(username)
+        return [hobby['hobby_name'] for hobby in hobbies_data] 

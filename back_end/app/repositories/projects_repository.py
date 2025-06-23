@@ -1,8 +1,14 @@
 from typing import List
 from ..core.config import settings
 from ..models.projects_models import ProjectsDomainData, Project, IProjectsRepository
+from ..models.experience_models import CompanyBase
+from ..models.ml_models import MLModelBase
 from ..data_access.interfaces import IPersonalDataAccess
 from ..data_access.csv_data_access import CSVDataAccess
+from .work_experience_repository import WorkExperienceRepository
+from .ml_models_repository import MLModelsRepository
+from .skills_repository import SkillsRepository
+from .project_achievements_repository import ProjectAchievementsRepository
 
 
 class ProjectsRepository(IProjectsRepository):
@@ -10,6 +16,10 @@ class ProjectsRepository(IProjectsRepository):
     
     def __init__(self, data_access: IPersonalDataAccess = None):
         self.data_access = data_access or CSVDataAccess()
+        self.work_exp_repository = WorkExperienceRepository(data_access)
+        self.ml_models_repository = MLModelsRepository(data_access)
+        self.skills_repository = SkillsRepository(data_access)
+        self.achievements_repository = ProjectAchievementsRepository(data_access)
     
     def get_projects_data(self, username: str) -> ProjectsDomainData:
         """Get projects information."""
@@ -35,21 +45,59 @@ class ProjectsRepository(IProjectsRepository):
                 reader = csv.DictReader(file)
                 for row in reader:
                     if row['username'] == username:
-                        # Parse technologies string to list
-                        technologies = row.get('technologies', '').split(',') if row.get('technologies') else []
-                        technologies = [tech.strip() for tech in technologies if tech.strip()]
+                        # Extract ID from _id field (e.g., "project_001" -> 1)
+                        project_id = int(row.get('_id', '0').replace('project_', '') or len(projects) + 1)
+                        project_id_str = row.get('_id', '')
+                        
+                        # Resolve company information if it's a work project
+                        company_info = None
+                        if row.get('project_type') == 'work' and row.get('company'):
+                            full_company = self.work_exp_repository.get_company_by_id(username, row['company'])
+                            if full_company:
+                                # Create base company object with only name and location
+                                company_info = CompanyBase(
+                                    name=full_company.name,
+                                    location=full_company.location
+                                )
+                        
+                        # Resolve ML model information if present
+                        ml_model_info = None
+                        if row.get('ml_models'):
+                            full_ml_model = self.ml_models_repository.get_ml_model_by_id(row['ml_models'])
+                            if full_ml_model:
+                                # Create base ML model object with only essential info
+                                ml_model_info = MLModelBase(
+                                    id=full_ml_model.id,
+                                    name=full_ml_model.name,
+                                    model_type=full_ml_model.model_type
+                                )
+                        
+                        # Get skills for this project
+                        skills = self.skills_repository.get_skills_by_project_id(project_id_str)
+                        
+                        # Get achievements for this project
+                        achievements = self.achievements_repository.get_achievements_by_project_id(project_id_str)
                         
                         projects.append(
                             Project(
-                                id=int(row.get('id', len(projects) + 1)),
+                                id=project_id,
                                 title=row['title'],
                                 description=row['description'],
-                                technologies=technologies,
+                                project_type=row.get('project_type', 'personal'),
                                 github_url=row.get('github_url'),
                                 live_url=row.get('live_url'),
-                                image_url=row.get('image_url'),
-                                category=row.get('category', 'Web Development'),
-                                completion_date=row.get('completion_date')
+                                duration=row.get('duration'),
+                                start_date=row.get('start_date'),
+                                end_date=row.get('end_date'),
+                                role=row.get('role'),
+                                company=company_info,
+                                ml_models=ml_model_info,
+                                skills=skills if skills else None,
+                                achievements=achievements if achievements else None,
+                                deployment=row.get('deployment'),
+                                hosting_platform=row.get('hosting_platform'),
+                                cicd_pipeline=row.get('cicd_pipeline'),
+                                monitoring_tracking=row.get('monitoring_tracking')
                             )
                         )
             

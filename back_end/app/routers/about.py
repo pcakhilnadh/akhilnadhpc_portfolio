@@ -1,9 +1,8 @@
 from fastapi import APIRouter, Depends
 from pydantic import BaseModel
 from ..core.config import settings
-from ..repositories.about_repository import AboutRepository
+from ..repositories.about_repository import AboutRepository, AboutDomainData
 from ..services.about_service import AboutService
-from ..models.about_models import AboutDomainData
 
 class AboutRequest(BaseModel):
     username: str
@@ -13,10 +12,8 @@ def get_about_service() -> AboutService:
     repository = AboutRepository()
     return AboutService(repository)
 
-
 router = APIRouter()
 logger = settings.get_logger("about")
-
 
 @router.post("/about", summary="About endpoint", tags=["About"], response_model=AboutDomainData)
 async def about(

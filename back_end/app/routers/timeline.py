@@ -1,17 +1,15 @@
 from fastapi import APIRouter, Depends
 from pydantic import BaseModel
 from ..core.config import settings
-from ..repositories.timeline_repository import TimelineRepository
 from ..services.timeline_service import TimelineService
-from ..models.timeline_models import TimelineDomainData
+from ..repositories.timeline_repository import TimelineDomainData
 
 class TimelineRequest(BaseModel):
     username: str
 
 def get_timeline_service() -> TimelineService:
     """Dependency injection for TimelineService."""
-    repository = TimelineRepository()
-    return TimelineService(repository)
+    return TimelineService()
 
 
 router = APIRouter()
