@@ -1,0 +1,7 @@
+_id,personal_profile_id,platform,profile_url,username,is_primary
+social_001,akhilnadhpc,LinkedIn,https://linkedin.com/in/akhilnadhpc,akhilnadhpc,true
+social_002,akhilnadhpc,GitHub,https://github.com/akhilnadhpc,akhilnadhpc,false
+social_003,akhilnadhpc,Twitter,https://twitter.com/akhilnadhpc,akhilnadhpc,false
+social_004,akhilnadhpc,Medium,https://medium.com/@akhilnadhpc,akhilnadhpc,false
+social_005,akhilnadhpc,Kaggle,https://kaggle.com/akhilnadhpc,akhilnadhpc,false
+social_006,akhilnadhpc,Portfolio Website,https://akhilnadhpc.dev,akhilnadhpc,false 

@@ -1,0 +1,7 @@
+_id,ml_model_id,use_case_name,business_impact
+use_case_017,model_009,Personal Stock Prediction,82% accuracy in price predictions
+use_case_018,model_009,Trading Signal Generation,18% increase in trading returns
+use_case_019,model_010,Image Classification,91% accuracy in image classification
+use_case_020,model_010,Object Detection,88% accuracy in object detection
+use_case_021,model_011,Weather Forecasting,88% accuracy in weather predictions
+use_case_022,model_011,Climate Analysis,Used by 10K+ users 

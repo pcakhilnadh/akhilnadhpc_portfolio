@@ -1,0 +1,9 @@
+_id,work_experience_id,project_id
+work_proj_001,work_exp_001,project_001
+work_proj_002,work_exp_001,project_002
+work_proj_003,work_exp_001,project_003
+work_proj_004,work_exp_001,project_004
+work_proj_005,work_exp_002,project_005
+work_proj_006,work_exp_002,project_006
+work_proj_007,work_exp_003,project_007
+work_proj_008,work_exp_003,project_008 

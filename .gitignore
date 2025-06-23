@@ -1,5 +1,5 @@
-# CSV Data - contains sensitive personal information
-back_end/csv_data/
+# CSV Data - contains mocked data
+
 
 # Python
 __pycache__/

@@ -1,0 +1,9 @@
+_id,username,name,issuer,issue_date,expiry_date,credential_id,credential_url,description
+cert_001,akhilnadhpc,AWS Certified Machine Learning - Specialty,Amazon Web Services,2022-03-15,2025-03-15,AWS-ML-123456,https://aws.amazon.com/verification,Advanced ML certification covering SageMaker, data engineering, and ML deployment
+cert_002,akhilnadhpc,Google Cloud Professional Machine Learning Engineer,Google Cloud,2022-06-20,2025-06-20,GCP-ML-789012,https://cloud.google.com/certification,Professional ML engineering certification covering GCP ML services
+cert_003,akhilnadhpc,Microsoft Certified: Azure Data Scientist Associate,Microsoft,2021-09-10,2024-09-10,MS-AZURE-345678,https://docs.microsoft.com/certifications,Azure data science certification covering ML workflows and deployment
+cert_004,akhilnadhpc,Deep Learning Specialization,Coursera/DeepLearning.AI,2020-12-01,No Expiry,DL-SPEC-901234,https://coursera.org/verify,Comprehensive deep learning course by Andrew Ng covering CNNs, RNNs, and transformers
+cert_005,akhilnadhpc,Data Science Professional Certificate,IBM,2021-03-15,No Expiry,IBM-DS-567890,https://coursera.org/verify,IBM data science professional certificate covering Python, SQL, and ML
+cert_006,akhilnadhpc,TensorFlow Developer Certificate,Google,2022-01-20,2025-01-20,TF-DEV-234567,https://tensorflow.org/certificate,TensorFlow developer certification for building and deploying ML models
+cert_007,akhilnadhpc,Kubernetes Administrator (CKA),Cloud Native Computing Foundation,2023-05-10,2026-05-10,CKA-890123,https://cncf.io/certification,Certified Kubernetes Administrator for container orchestration
+cert_008,akhilnadhpc,Docker Certified Associate,Docker Inc.,2022-11-15,2025-11-15,DCA-456789,https://docker.com/certification,Docker containerization certification for application deployment

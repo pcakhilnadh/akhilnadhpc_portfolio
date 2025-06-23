@@ -1,0 +1,5 @@
+_id,username,company_id,reference_name,designation,email,phone,linkedin_url,relationship
+ref_001,akhilnadhpc,work_exp_001,John Smith,Senior Data Scientist,john.smith@airindia.com,+91-9876543210,https://linkedin.com/in/johnsmith,Direct Manager
+ref_002,akhilnadhpc,work_exp_001,Sarah Johnson,Head of Data Science,sarah.johnson@airindia.com,+91-9876543211,https://linkedin.com/in/sarahjohnson,Department Head
+ref_003,akhilnadhpc,work_exp_002,Michael Chen,Technical Lead,michael.chen@nestdigital.com,+91-9876543212,https://linkedin.com/in/michaelchen,Project Manager
+ref_004,akhilnadhpc,work_exp_002,Lisa Wang,Engineering Manager,lisa.wang@nestdigital.com,+91-9876543213,https://linkedin.com/in/lisawang,Direct Manager 

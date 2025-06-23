@@ -1,0 +1,4 @@
+_id,name,model_type,framework,version,accuracy,training_data_size,deployment_status
+model_009,StockPriceLSTM,Long Short-Term Memory,TensorFlow,1.0,0.82,2M stock price records,production
+model_010,ImageClassifierCNN,Convolutional Neural Network,TensorFlow,1.0,0.91,100K images,production
+model_011,WeatherForecastLSTM,Long Short-Term Memory,TensorFlow,1.0,0.88,500K weather records,production 
