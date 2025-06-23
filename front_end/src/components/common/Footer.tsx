@@ -15,15 +15,12 @@ const Footer: React.FC = () => {
     <footer className="fixed bottom-0 left-0 right-0 bg-background/90 backdrop-blur-md border-t border-border z-40">
       <div className="container mx-auto px-4 py-3 relative">
         <motion.div
-          initial={{ opacity: 0, y: 50 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          viewport={{ once: true }}
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.2 }}
           className="text-center"
         >
-          
-          
-          <p className="text-muted-foreground font-mono">
+          <p className="text-foreground/80 font-mono text-sm">
             © 2025{' '}
             <a 
               href="https://akhilnadhpc.in/" 
