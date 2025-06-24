@@ -83,7 +83,7 @@ export default function About({ setNavbarWelcomeText }: AboutProps) {
             {/* Right Column - Biography and Skills */}
             <div className="lg:col-span-2 space-y-8">
               <BiographyCard 
-                longDescriptiveSummary={aboutData.personal_info.long_descriptive_summary}
+                longDescriptiveSummary={aboutData.personal_info.long_descriptive_summary || ''}
               />
               
               <SkillsCard skills={aboutData.skills} />

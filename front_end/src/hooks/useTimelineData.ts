@@ -1,43 +1,46 @@
 import { useState, useEffect } from 'react';
-import { TimelineDomainData } from '@/types/data';
-import YAML from 'yaml';
-
-const API_BASE_URL = 'http://localhost:8000';
+import { TimelineDomainData, TimelineResponse } from '@/types/data';
+import useConfig from './useConfig';
 
 function useTimelineData() {
   const [timelineData, setTimelineData] = useState<TimelineDomainData | null>(null);
   const [welcomeText, setWelcomeText] = useState<string>('');
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  
+  const { config, loading: configLoading, error: configError } = useConfig();
 
   useEffect(() => {
+    if (configLoading || !config) return;
+    
+    if (configError) {
+      setError(configError);
+      setLoading(false);
+      return;
+    }
+
     const fetchData = async () => {
       try {
         setLoading(true);
         setError(null);
-        
-        // Fetch and parse config.yml
-        const configResponse = await fetch('/src/config.yml');
-        const configText = await configResponse.text();
-        const config = YAML.parse(configText);
-        const username = config.username;
 
-        const response = await fetch(`${API_BASE_URL}/timeline`, {
+        const response = await fetch(`${config.api_base_url}/timeline`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ username }),
+            body: JSON.stringify({ username: config.username }),
         });
         
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
         
-        const data: TimelineDomainData = await response.json();
+        const data: TimelineResponse = await response.json();
         
         setTimelineData(data);
         setWelcomeText(data.welcome_text);
+
       } catch (err) {
         setError(err instanceof Error ? err.message : 'Failed to fetch timeline data');
         console.error('Error fetching timeline data:', err);
@@ -47,9 +50,9 @@ function useTimelineData() {
     };
 
     fetchData();
-  }, []);
+  }, [config, configLoading, configError]);
 
-  return { timelineData, welcomeText, loading, error };
+  return { timelineData, welcomeText, loading: loading || configLoading, error: error || configError };
 }
 
 export default useTimelineData; 

@@ -4,5 +4,5 @@ export { Navbar, Footer, HorizontalLayout, ThemeProvider, ContactModal } from '.
 // Feature-specific components
 export { SkillsRadarChart, UserProfileCard, BiographyCard, SkillsCard } from './about/index';
 export { Hero } from './home/index';
-export { Projects } from './projects/index';
+export { ProjectList } from './projects/index';
 export { Experience } from './timeline/index'; 

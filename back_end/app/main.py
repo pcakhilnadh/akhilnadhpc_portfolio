@@ -20,7 +20,7 @@ class PortfolioAPI:
         
         self.app = self._create_app()
         self._setup_middleware()
-        self._setup_routes()
+        self._setup_api_routes()
         self._log_startup_info()
     
     def _create_app(self) -> FastAPI:
@@ -29,7 +29,8 @@ class PortfolioAPI:
         return FastAPI(
             title=settings.api_title,
             version=settings.api_version,
-            description=settings.api_description
+            description=settings.api_description,
+            root_path="/api"
         )
     
     def _setup_middleware(self):
@@ -43,8 +44,8 @@ class PortfolioAPI:
             allow_headers=settings.allowed_headers,
         )
     
-    def _setup_routes(self):
-        """Setup API routes."""
+    def _setup_api_routes(self):
+        """Setup API routes only."""
         self.logger.info("Setting up API routes")
         self.app.include_router(home_router)
         self.app.include_router(about_router)
@@ -52,7 +53,7 @@ class PortfolioAPI:
         self.app.include_router(projects_router)
         self.app.include_router(certifications_router)
         self.app.include_router(timeline_router)
-        self.logger.info("Routes configured: /, /about, /skills, /projects, /certifications, /timeline")
+        self.logger.info("API routes configured at /, /about, /skills, etc.")
     
     def _log_startup_info(self):
         """Log startup information."""

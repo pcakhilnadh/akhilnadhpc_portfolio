@@ -37,7 +37,7 @@ export default function HorizontalLayout({ children }: HorizontalLayoutProps) {
   };
 
   useEffect(() => {
-    let scrollTimeout: number;
+    let scrollTimeout: NodeJS.Timeout;
 
     const handleWheel = (e: WheelEvent) => {
       // Prevent multiple rapid scroll events

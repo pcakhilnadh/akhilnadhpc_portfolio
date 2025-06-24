@@ -1,0 +1,71 @@
+# Git
+.git
+.gitignore
+README.md
+
+# Node modules and build artifacts
+front_end/node_modules
+front_end/.vite
+front_end/dist
+
+# Python cache and virtual environments
+back_end/__pycache__
+back_end/.pytest_cache
+back_end/.venv
+back_end/venv
+back_end/*.pyc
+back_end/*pyo
+back_end/*pyd
+back_end/.Python
+back_end/env
+back_end/pip-log.txt
+back_end/pip-delete-this-directory.txt
+back_end/.tox
+back_end/.coverage
+back_end/.coverage.*
+back_end/.cache
+back_end/nosetests.xml
+back_end/coverage.xml
+back_end/*.cover
+back_end/*.log
+
+# IDE and editor files
+.vscode
+.idea
+*.swp
+*.swo
+*~
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Docker files
+Dockerfile*
+.dockerignore
+
+# Development and testing
+*.env
+.env.*
+docker-compose*
+
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Runtime data
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# Documentation (not needed in container)
+*.md 

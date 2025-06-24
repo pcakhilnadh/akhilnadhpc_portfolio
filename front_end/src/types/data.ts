@@ -201,61 +201,14 @@ export interface AboutDomainData {
   welcome_text: string;
 }
 
-// Legacy types for backward compatibility (can be removed later)
-export interface AboutResponse {
-  success: boolean;
-  message: string;
-  developer: string;
-  technology: string;
-  description: string;
-  features: string[];
-  personal_info: any;
-  family_info: any;
-  hobbies: string[];
-  skills: any[];
-  page_welcome_texts: string;
+// Corrected response type to match the backend's AboutDomainData
+export interface AboutResponse extends AboutDomainData {
+  // The backend directly returns the AboutDomainData structure.
+  // We can extend it if there were additional metadata, but for now, it's identical.
 }
 
-export interface SkillsResponse {
-  success: boolean;
-  message: string;
-  developer: string;
-  technology: string;
-  description: string;
-  features: string[];
-  skills: any[];
-  page_welcome_texts: string;
-}
-
-export interface ProjectsResponse {
-  success: boolean;
-  message: string;
-  developer: string;
-  technology: string;
-  description: string;
-  features: string[];
-  projects: any[];
-  page_welcome_texts: string;
-}
-
-export interface CertificationsResponse {
-  success: boolean;
-  message: string;
-  developer: string;
-  technology: string;
-  description: string;
-  features: string[];
-  certifications: any[];
-  page_welcome_texts: string;
-}
-
-export interface TimelineResponse {
-  success: boolean;
-  message: string;
-  developer: string;
-  technology: string;
-  description: string;
-  features: string[];
-  experiences: any[];
-  page_welcome_texts: string;
-} 
+// Corrected response types to match the backend's DomainData structures
+export interface SkillsResponse extends SkillsDomainData {}
+export interface ProjectsResponse extends ProjectsDomainData {}
+export interface CertificationsResponse extends CertificationsDomainData {}
+export interface TimelineResponse extends TimelineDomainData {} 
