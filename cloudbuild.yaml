@@ -72,7 +72,7 @@ steps:
       '--timeout=300',
       '--cpu-boost',
       '--execution-environment=gen2',
-      '--update-env-vars=PYTHONUNBUFFERED=1,PYTHONDONTWRITEBYTECODE=1,PORT=8000,RELOAD=false',
+      '--update-env-vars=PYTHONUNBUFFERED=1,PYTHONDONTWRITEBYTECODE=1,RELOAD=false',
       '--clear-cloudsql-instances',
       '--service-account=',
       '--no-cpu-throttling'
