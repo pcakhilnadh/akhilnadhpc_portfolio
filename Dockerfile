@@ -12,23 +12,13 @@ COPY front_end/package*.json ./
 RUN npm install
 
 # Copy frontend source code
-COPY front_end/src ./src/
-COPY front_end/public ./public/
-COPY front_end/index.html ./
-COPY front_end/vite.config.ts ./
-COPY front_end/tsconfig.json ./
-COPY front_end/tailwind.config.ts ./
-COPY front_end/postcss.config.js ./
-COPY front_end/components.json ./
-COPY front_end/.eslintrc.cjs ./
+COPY front_end/ ./
 
-# Debug: Check if lib directory and utils.ts exist
-RUN echo "=== Checking copied files ===" && \
-    ls -la ./src/ && \
-    echo "=== Checking lib directory ===" && \
-    ls -la ./src/lib/ && \
-    echo "=== Checking utils.ts content ===" && \
-    head -10 ./src/lib/utils.ts
+# Ensure lib directory is copied explicitly
+COPY front_end/src/lib ./src/lib/
+
+# Verify lib directory is copied
+RUN ls -la ./src/lib/
 
 # Build the React application
 RUN npm run build
