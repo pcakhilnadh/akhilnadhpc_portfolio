@@ -73,11 +73,8 @@ steps:
       '--timeout=300',
       '--cpu-boost',  # Enable CPU boost for better performance
       '--execution-environment=gen2',  # Use 2nd gen execution environment
-      '--set-env-vars=PYTHONUNBUFFERED=1,PYTHONDONTWRITEBYTECODE=1,HOST=127.0.0.1,PORT=8000,RELOAD=false',
-      '--update-env-vars=PYTHONUNBUFFERED=1,PYTHONDONTWRITEBYTECODE=1,HOST=127.0.0.1,PORT=8000,RELOAD=false',
-      '--set-cloudsql-instances=',  # No Cloud SQL needed for this app
-      '--add-cloudsql-instances=',
-      '--remove-cloudsql-instances=',
+      '--set-env-vars=PYTHONUNBUFFERED=1,PYTHONDONTWRITEBYTECODE=1,PORT=8000,RELOAD=false',
+      '--update-env-vars=PYTHONUNBUFFERED=1,PYTHONDONTWRITEBYTECODE=1,PORT=8000,RELOAD=false',
       '--clear-cloudsql-instances',
       '--service-account=',  # Use default service account
       '--no-cpu-throttling',  # Disable CPU throttling for better performance
@@ -87,7 +84,7 @@ steps:
     id: 'deploy-cloud-run'
     waitFor: ['push-image-commit', 'push-image-latest', 'push-image-branch']
 
-  # Step 4: Send traffic to new revision
+  # Step 4: Route traffic to latest
   - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
     entrypoint: gcloud
     args: [
@@ -101,15 +98,13 @@ steps:
     id: 'update-traffic'
     waitFor: ['deploy-cloud-run']
 
-  # Step 5: Verify deployment with health check
+  # Step 5: Health check using bash to resolve URL
   - name: 'gcr.io/cloud-builders/curl'
-    args: [
-      '-f',
-      '-m', '30',
-      '--retry', '3',
-      '--retry-delay', '5',
-      '$(gcloud run services describe akhilnadhpc-portfolio --region=asia-southeast1 --format="value(status.url)")/health'
-    ]
+    entrypoint: bash
+    args:
+      - '-c'
+      - |
+        curl -f -m 30 --retry 3 --retry-delay 5 "$(gcloud run services describe akhilnadhpc-portfolio --region=asia-southeast1 --format='value(status.url)')/health"
     id: 'health-check'
     waitFor: ['update-traffic']
 
