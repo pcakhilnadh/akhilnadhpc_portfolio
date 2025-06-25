@@ -16,15 +16,21 @@ A modern, full-stack personal portfolio application featuring a React (Vite + Ty
 
 ```
 akhilnadhpc_portfolio/
-├── back_end/      # FastAPI backend (Python)
-│   ├── app/       # Application code (models, routers, services, etc.)
-│   ├── csv_data/  # CSV data files
-│   └── ...
-├── front_end/     # React frontend (Vite + TypeScript)
-│   ├── src/       # Source code (components, hooks, pages, etc.)
-│   └── ...
-├── README.md      # Root documentation (this file)
-└── ...
+├── back_end/          # FastAPI backend (Python)
+│   ├── app/           # Application code
+│   ├── csv_data/      # CSV data files
+│   ├── requirements.txt
+│   └── README.md
+├── front_end/         # React frontend (Vite + TypeScript)
+│   ├── src/           # Source code
+│   ├── package.json
+│   ├── tailwind.config.ts
+│   ├── vite.config.ts
+│   └── README.md
+├── Dockerfile         # Multi-stage Docker build
+├── nginx.conf         # Nginx configuration
+├── start.sh           # Container startup script
+└── README.md          # Root documentation (this file)
 ```
 
 ## 🏛️ Application Architecture
