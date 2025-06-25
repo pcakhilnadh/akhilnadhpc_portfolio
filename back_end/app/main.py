@@ -20,6 +20,7 @@ class PortfolioAPI:
         
         self.app = self._create_app()
         self._setup_middleware()
+        self._setup_health_endpoint()
         self._setup_api_routes()
         self._log_startup_info()
     
@@ -43,6 +44,18 @@ class PortfolioAPI:
             allow_methods=settings.allowed_methods,
             allow_headers=settings.allowed_headers,
         )
+    
+    def _setup_health_endpoint(self):
+        """Setup health check endpoint."""
+        @self.app.get("/health", tags=["Health"])
+        async def health_check():
+            """Health check endpoint for monitoring and load balancers."""
+            return {
+                "status": "healthy",
+                "service": "akhilnadhpc-portfolio",
+                "version": settings.api_version
+            }
+        self.logger.info("Health check endpoint configured at /health")
     
     def _setup_api_routes(self):
         """Setup API routes only."""

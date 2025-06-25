@@ -52,7 +52,7 @@ steps:
     id: 'tag-image-branch'
     waitFor: ['push-image-commit']
 
-  # Step 5: Deploy to Cloud Run without routing traffic
+  # Step 5: Deploy to Cloud Run
   - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
     entrypoint: gcloud
     args: [
@@ -75,38 +75,21 @@ steps:
       '--update-env-vars=PYTHONUNBUFFERED=1,PYTHONDONTWRITEBYTECODE=1,PORT=8000,RELOAD=false',
       '--clear-cloudsql-instances',
       '--service-account=',
-      '--no-cpu-throttling',
-      '--no-traffic',
-      '--tag=candidate'
+      '--no-cpu-throttling'
     ]
     id: 'deploy-cloud-run'
     waitFor: ['tag-image-latest', 'tag-image-branch']
 
-  # Step 6: Perform health check on the new revision
+  # Step 6: Perform health check
   - name: 'gcr.io/cloud-builders/curl'
     entrypoint: bash
     args:
       - '-c'
       - |
         SERVICE_URL=$(gcloud run services describe $_SERVICE_NAME --region=$_REGION --format='value(status.url)')
-        REVISION_URL=$(echo $$SERVICE_URL | sed "s|https://|https://candidate--|")
-        curl -f -m 30 --retry 3 --retry-delay 5 "$$REVISION_URL/health"
+        curl -f -m 30 --retry 3 --retry-delay 5 "$$SERVICE_URL/health"
     id: 'health-check'
     waitFor: ['deploy-cloud-run']
-
-  # Step 7: Route traffic to latest revision after health check
-  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
-    entrypoint: gcloud
-    args: [
-      'run',
-      'services',
-      'update-traffic',
-      '$_SERVICE_NAME',
-      '--region=$_REGION',
-      '--to-latest'
-    ]
-    id: 'update-traffic'
-    waitFor: ['health-check']
 
 # Total timeout: 20 minutes
 timeout: '1200s'
