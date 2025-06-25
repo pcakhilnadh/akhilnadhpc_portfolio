@@ -1,2 +1,2 @@
 username: "akhilnadhpc"
-api_base_url: "http://localhost:8080/api" 
+# api_base_url will be dynamically determined based on environment 

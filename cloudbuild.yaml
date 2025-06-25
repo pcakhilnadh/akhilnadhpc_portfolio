@@ -81,7 +81,7 @@ steps:
     waitFor: ['tag-image-latest', 'tag-image-branch']
 
   # Step 6: Perform health check
-  - name: 'gcr.io/cloud-builders/curl'
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
     entrypoint: bash
     args:
       - '-c'
