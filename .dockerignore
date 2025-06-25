@@ -67,5 +67,3 @@ pids
 *.seed
 *.pid.lock
 
-# Documentation (not needed in container)
-*.md 

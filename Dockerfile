@@ -53,7 +53,7 @@ COPY nginx.conf /etc/nginx/nginx.conf
 
 # Copy startup script
 COPY start.sh /start.sh
-RUN chmod +x /start.sh
+RUN sed -i 's/\r$//' /start.sh && chmod +x /start.sh
 
 # Create a non-root user for security
 RUN adduser -D -s /bin/bash app
