@@ -10,7 +10,6 @@ import { Navbar, HorizontalLayout, Footer } from '@/components/common/index'
 import Home from '@/pages/Home'
 import About from '@/pages/About'
 import Timeline from '@/pages/Timeline'
-import Skills from '@/pages/Skills'
 import Projects from '@/pages/Projects'
 import Certifications from '@/pages/Certifications'
 import { UserProfile } from '@/types/data'
@@ -112,7 +111,6 @@ function AppContent() {
             <Route path="/" element={<Home personalData={personalData} welcomeText={welcomeText} setNavbarWelcomeText={setNavbarWelcomeText} />} />
             <Route path="/about" element={<About setNavbarWelcomeText={setNavbarWelcomeText} />} />
             <Route path="/timeline" element={<Timeline setNavbarWelcomeText={setNavbarWelcomeText} />} />
-            <Route path="/skills" element={<Skills setNavbarWelcomeText={setNavbarWelcomeText} />} />
             <Route path="/projects" element={<Projects setNavbarWelcomeText={setNavbarWelcomeText} />} />
             <Route path="/certifications" element={<Certifications setNavbarWelcomeText={setNavbarWelcomeText} />} />
             <Route path="*" element={<Navigate to="/" replace />} />

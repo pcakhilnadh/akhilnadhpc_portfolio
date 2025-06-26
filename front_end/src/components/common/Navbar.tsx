@@ -57,7 +57,6 @@ export default function Navbar({ personalData, welcomeText, setWelcomeText }: Na
     { path: "/", label: "Home", icon: <Terminal size={16} /> },
     { path: "/about", label: "About", icon: <User size={16} /> },
     { path: "/timeline", label: "Timeline", icon: <Clock size={16} /> },
-    { path: "/skills", label: "Skills", icon: <Code size={16} /> },
     { path: "/projects", label: "Projects", icon: <Briefcase size={16} /> },
     { path: "/certifications", label: "Certifications", icon: <Award size={16} /> }
   ];
