@@ -12,6 +12,7 @@ import About from '@/pages/About'
 import Timeline from '@/pages/Timeline'
 import Projects from '@/pages/Projects'
 import Certifications from '@/pages/Certifications'
+import Services from '@/pages/Services'
 import { UserProfile } from '@/types/data'
 import { cn } from '@/lib/utils'
 
@@ -112,6 +113,7 @@ function AppContent() {
             <Route path="/about" element={<About setNavbarWelcomeText={setNavbarWelcomeText} />} />
             <Route path="/timeline" element={<Timeline setNavbarWelcomeText={setNavbarWelcomeText} />} />
             <Route path="/projects" element={<Projects setNavbarWelcomeText={setNavbarWelcomeText} />} />
+            <Route path="/services" element={<Services setNavbarWelcomeText={setNavbarWelcomeText} />} />
             <Route path="/certifications" element={<Certifications setNavbarWelcomeText={setNavbarWelcomeText} />} />
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>

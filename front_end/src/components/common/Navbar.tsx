@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useLocation, useNavigate, Link } from "react-router-dom";
 import { cn } from "@/lib/utils";
-import { Menu, X, Terminal, User, Clock, Code, Briefcase, Award } from "lucide-react";
+import { Menu, X, Terminal, User, Clock, Code, Briefcase, Award, Zap } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { UserProfile } from "@/types/data";
 
@@ -58,7 +58,8 @@ export default function Navbar({ personalData, welcomeText, setWelcomeText }: Na
     { path: "/about", label: "About", icon: <User size={16} /> },
     { path: "/timeline", label: "Timeline", icon: <Clock size={16} /> },
     { path: "/projects", label: "Projects", icon: <Briefcase size={16} /> },
-    { path: "/certifications", label: "Certifications", icon: <Award size={16} /> }
+    { path: "/certifications", label: "Certifications", icon: <Award size={16} /> },
+    { path: "/services", label: "Services", icon: <Zap size={16} /> }
   ];
   
   return (

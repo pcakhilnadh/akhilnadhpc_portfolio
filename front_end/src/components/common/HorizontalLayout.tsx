@@ -18,7 +18,7 @@ export default function HorizontalLayout({ children }: HorizontalLayoutProps) {
   const [touchStart, setTouchStart] = useState<number | null>(null);
   const [touchEnd, setTouchEnd] = useState<number | null>(null);
 
-  const routes = ['/', '/about', '/timeline', '/projects', '/certifications'];
+  const routes = ['/', '/about', '/timeline', '/projects', '/certifications', '/services'];
   const currentIndex = routes.indexOf(location.pathname);
 
   // Check if device is mobile and orientation
@@ -64,6 +64,7 @@ export default function HorizontalLayout({ children }: HorizontalLayoutProps) {
       case '/timeline': return 'Timeline';
       case '/projects': return 'Projects';
       case '/certifications': return 'Certifications';
+      case '/services': return 'Services';
       default: return 'Next';
     }
   };

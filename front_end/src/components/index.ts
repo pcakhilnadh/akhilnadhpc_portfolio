@@ -5,4 +5,5 @@ export { Navbar, Footer, HorizontalLayout, ThemeProvider, ContactModal } from '.
 export { SkillsRadarChart, UserProfileCard, BiographyCard, SkillsCard } from './about/index';
 export { Hero } from './home/index';
 export { ProjectList } from './projects/index';
-export { Experience } from './timeline/index'; 
+export { Experience } from './timeline/index';
+export { ServiceCard, ServicesGrid, ServicesHero } from './services/index'; 
