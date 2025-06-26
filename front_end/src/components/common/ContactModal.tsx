@@ -132,10 +132,29 @@ export default function ContactModal({ isOpen, onClose, personalData }: ContactM
             <X className="h-4 w-4" />
           </DialogClose>
         </div>
-        
+        {/* Email Contact */}
+        <div className="p-4 border-b border-primary/10">
+          <a 
+            href={`mailto:${personal_info.email}`} 
+            className="flex items-center justify-between p-2 hover:bg-primary/5 rounded-md transition-all border border-dashed border-primary/30 hover:border-primary group"
+          >
+            <div className="flex items-center">
+              <span className="text-primary mr-3">
+                <Mail className="h-5 w-5" />
+              </span>
+              <div>
+                <div className="font-medium">Email</div>
+                <div className="text-xs font-mono text-muted-foreground">{personal_info.email}</div>
+              </div>
+            </div>
+            <span className="opacity-0 group-hover:opacity-100 transition-opacity">
+              <ExternalLink className="w-4 h-4 text-muted-foreground" />
+            </span>
+          </a>
+        </div>
         <Tabs defaultValue="all" className="w-full">
           <div className="border-b border-primary/10">
-            <div className="px-6 pt-4 pb-2">
+            <div className="px-4 pt-2 pb-2">
               <TabsList className="grid grid-cols-5 w-full">
                 <TabsTrigger value="all" className="data-[state=active]:bg-primary/10">
                   <Terminal className="w-4 h-4 mr-2" /> All
@@ -163,14 +182,13 @@ export default function ContactModal({ isOpen, onClose, personalData }: ContactM
               </TabsList>
             </div>
           </div>
-          
-          <div className="p-6 max-h-[60vh] overflow-y-auto">
+          <div className="p-4 max-h-[60vh] overflow-y-auto">
             {/* All Profiles Tab */}
-            <TabsContent value="all" className="mt-0 space-y-6">
+            <TabsContent value="all" className="mt-0 space-y-4">
               {/* Social Profiles */}
               {Object.keys(social_profiles).length > 0 && (
-                <div className="mb-6">
-                  <div className="flex items-center mb-3">
+                <div className="mb-4">
+                  <div className="flex items-center mb-2">
                     <div className="h-px flex-1 bg-primary/20"></div>
                     <h3 className="font-mono text-xs uppercase text-primary mx-2 flex items-center">
                       <Zap className="w-3.5 h-3.5 mr-1.5" /> Social Profiles
@@ -307,30 +325,6 @@ export default function ContactModal({ isOpen, onClose, personalData }: ContactM
                 </motion.div>
               </AnimatePresence>
             </TabsContent>
-          </div>
-          
-          {/* Email Contact */}
-          <div className="p-6 pt-0 border-t border-primary/10">
-            <h3 className="font-mono text-xs uppercase text-primary mb-3 flex items-center">
-              <Mail className="w-3.5 h-3.5 mr-1.5" /> Direct Contact
-            </h3>
-            <a 
-              href={`mailto:${personal_info.email}`} 
-              className="flex items-center justify-between p-3 hover:bg-primary/5 rounded-md transition-all border border-dashed border-primary/30 hover:border-primary group"
-            >
-              <div className="flex items-center">
-                <span className="text-primary mr-3">
-                  <Mail className="h-5 w-5" />
-                </span>
-                <div>
-                  <div className="font-medium">Email</div>
-                  <div className="text-xs font-mono text-muted-foreground">{personal_info.email}</div>
-                </div>
-              </div>
-              <span className="opacity-0 group-hover:opacity-100 transition-opacity">
-                <ExternalLink className="w-4 h-4 text-muted-foreground" />
-              </span>
-            </a>
           </div>
         </Tabs>
       </DialogContent>
