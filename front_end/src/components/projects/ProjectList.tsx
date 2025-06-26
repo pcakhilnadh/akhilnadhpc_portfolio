@@ -55,7 +55,7 @@ const ProjectList: React.FC<ProjectListProps> = ({ projects }) => {
       
       // Technologies
       project.skills?.forEach(skill => technologies.add(skill.name));
-      
+
       // Years - extract year from start_date
       if (project.start_date) {
         const year = project.start_date.split('-')[0] || project.start_date.split('/')[2] || project.start_date.substring(0, 4);
@@ -148,12 +148,12 @@ const ProjectList: React.FC<ProjectListProps> = ({ projects }) => {
 
   return (
     <div className="w-full space-y-6">
-      {/* Integrated Search & Filter Bar */}
-      <motion.div
+      {/* Integrated Search & Filter Bar - Sticky */}
+        <motion.div 
         initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        className="relative"
-      >
+          animate={{ opacity: 1, y: 0 }}
+        className="sticky top-0 z-10 relative"
+        >
         {/* Subtle glow effect */}
         <div className="absolute inset-0 bg-gradient-to-r from-green-500/10 via-emerald-500/5 to-green-500/10 rounded-lg blur-lg" />
         
@@ -172,9 +172,9 @@ const ProjectList: React.FC<ProjectListProps> = ({ projects }) => {
               />
               {filters.search && (
                 <div className="absolute inset-0 bg-gradient-to-r from-green-500/5 to-emerald-500/5 rounded-md pointer-events-none" />
-              )}
+                  )}
             </div>
-
+                  
             {/* Filter Toggle & Results */}
             <div className="flex items-center space-x-4">
               <div className="flex items-center space-x-2 text-green-300/80">
@@ -187,8 +187,8 @@ const ProjectList: React.FC<ProjectListProps> = ({ projects }) => {
                   showAdvancedFilters || hasAdvancedFilters
                     ? 'bg-green-500/20 text-green-300 border border-green-500/50 shadow-lg shadow-green-500/20'
                     : 'text-green-400/70 hover:text-green-300 hover:bg-green-500/10 border border-transparent hover:border-green-500/30'
-                }`}
-              >
+                      }`}
+                    >
                 <SlidersHorizontal className="h-4 w-4" />
                 <span className="text-sm font-medium">Filters</span>
                 {hasAdvancedFilters && (
@@ -229,7 +229,7 @@ const ProjectList: React.FC<ProjectListProps> = ({ projects }) => {
                           value={filters.company}
                           onChange={(e) => handleFilterChange('company', e.target.value)}
                           className="w-full pl-10 pr-8 py-3 bg-gray-900/60 border border-green-500/30 rounded-md text-green-100 focus:border-green-400 focus:outline-none focus:ring-2 focus:ring-green-500/20 appearance-none backdrop-blur-sm"
-                        >
+                  >
                           <option value="">All Companies</option>
                           {filterOptions.companies.map(company => (
                             <option key={company} value={company}>{company}</option>
@@ -238,7 +238,7 @@ const ProjectList: React.FC<ProjectListProps> = ({ projects }) => {
                         <ChevronDown className="absolute right-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-green-400 pointer-events-none" />
                       </div>
                     </div>
-
+                    
                     {/* Technology Filter */}
                     <div className="relative group">
                       <div className="absolute inset-0 bg-gradient-to-r from-emerald-500/5 to-green-500/5 rounded-md opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
@@ -255,9 +255,9 @@ const ProjectList: React.FC<ProjectListProps> = ({ projects }) => {
                           ))}
                         </select>
                         <ChevronDown className="absolute right-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-emerald-400 pointer-events-none" />
-                      </div>
-                    </div>
-
+              </div>
+            </div>
+            
                     {/* Year Filter */}
                     <div className="relative group">
                       <div className="absolute inset-0 bg-gradient-to-r from-green-500/5 to-lime-500/5 rounded-md opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
@@ -271,12 +271,12 @@ const ProjectList: React.FC<ProjectListProps> = ({ projects }) => {
                           <option value="">All Years</option>
                           {filterOptions.years.map(year => (
                             <option key={year} value={year}>{year}</option>
-                          ))}
+                ))}
                         </select>
                         <ChevronDown className="absolute right-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-lime-400 pointer-events-none" />
-                      </div>
-                    </div>
-                  </div>
+            </div>
+          </div>
+        </div>
 
                   {/* Active Filters */}
                   {hasAdvancedFilters && (
@@ -298,11 +298,11 @@ const ProjectList: React.FC<ProjectListProps> = ({ projects }) => {
                       )}
                     </div>
                   )}
-                </div>
-              </motion.div>
+          </div>
+        </motion.div>
             )}
           </AnimatePresence>
-        </div>
+      </div>
       </motion.div>
 
       {/* Projects Content */}
@@ -334,22 +334,22 @@ const ProjectList: React.FC<ProjectListProps> = ({ projects }) => {
             </div>
           </motion.div>
         ) : (
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            className="space-y-4"
-          >
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -20 }}
+          className="space-y-4"
+        >
             {filteredProjects.map((project, index) => (
-              <ProjectCard
-                key={project.id}
-                project={project}
-                index={index}
+            <ProjectCard 
+              key={project.id} 
+              project={project} 
+              index={index}
                 isExpanded={expandedRows.has(project.id)}
                 onToggleExpand={() => toggleRowExpansion(project.id)}
-              />
-            ))}
-          </motion.div>
+            />
+          ))}
+        </motion.div>
         )}
       </AnimatePresence>
     </div>
@@ -399,8 +399,8 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, index, isExpanded, o
               {/* Title and Year */}
               <div className="flex items-center space-x-3 mb-2">
                 <h3 className="text-xl font-semibold text-green-100 line-clamp-1">
-                  {project.title}
-                </h3>
+                {project.title}
+              </h3>
                 <div className="flex items-center space-x-1">
                   <Zap className="h-4 w-4 text-emerald-400" />
                   <span className="text-green-300 text-sm font-medium">{projectYear || '—'}</span>
@@ -412,7 +412,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, index, isExpanded, o
                 <div className="flex items-center text-green-200">
                   <Building2 className="h-4 w-4 mr-2 text-green-400" />
                   <span>{project.company?.name || 'Personal'}</span>
-                </div>
+                  </div>
                 {project.role && (
                   <div className="flex items-center text-emerald-200">
                     <Users className="h-4 w-4 mr-2 text-emerald-400" />
@@ -426,27 +426,27 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, index, isExpanded, o
                   </div>
                 )}
               </div>
-            </div>
+                </div>
 
             {/* Action Buttons */}
             <div className="flex items-center space-x-2 ml-4">
-              {project.github_url && (
-                <a
-                  href={project.github_url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  onClick={(e) => e.stopPropagation()}
+                {project.github_url && (
+                  <a
+                    href={project.github_url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={(e) => e.stopPropagation()}
                   className="p-2 text-green-400 hover:text-green-300 hover:bg-green-500/20 rounded transition-all duration-200 border border-transparent hover:border-green-500/30"
-                >
+                  >
                   <Github className="h-4 w-4" />
-                </a>
-              )}
-              {project.live_url && (
-                <a
-                  href={project.live_url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  onClick={(e) => e.stopPropagation()}
+                  </a>
+                )}
+                {project.live_url && (
+                  <a
+                    href={project.live_url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={(e) => e.stopPropagation()}
                   className="p-2 text-emerald-400 hover:text-emerald-300 hover:bg-emerald-500/20 rounded transition-all duration-200 border border-transparent hover:border-emerald-500/30"
                 >
                   <ExternalLink className="h-4 w-4" />
@@ -458,7 +458,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, index, isExpanded, o
                   onToggleExpand();
                 }}
                 className="p-2 text-lime-400 hover:text-lime-300 hover:bg-lime-500/20 rounded transition-all duration-200 border border-transparent hover:border-lime-500/30"
-              >
+                  >
                 {isExpanded ? (
                   <ChevronUp className="h-4 w-4" />
                 ) : (
@@ -477,23 +477,23 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, index, isExpanded, o
           {project.skills && project.skills.length > 0 && (
             <div className="flex flex-wrap gap-2">
               {project.skills.slice(0, isExpanded ? project.skills.length : 6).map((skill, skillIndex) => (
-                <motion.div
+            <motion.div
                   key={skill.id}
                   initial={{ opacity: 0, scale: 0.8 }}
                   animate={{ opacity: 1, scale: 1 }}
                   transition={{ delay: skillIndex * 0.02 }}
-                >
+            >
                   <Badge className="bg-green-500/20 text-green-300 border-green-500/40 text-xs hover:bg-green-500/30 transition-colors">
                     {skill.name}
                   </Badge>
-                </motion.div>
+            </motion.div>
               ))}
               {!isExpanded && project.skills.length > 6 && (
                 <Badge className="bg-emerald-500/30 text-emerald-200 border-emerald-400/50 text-xs animate-pulse">
                   +{project.skills.length - 6} more
                 </Badge>
               )}
-            </div>
+          </div>
           )}
         </div>
 
@@ -524,7 +524,7 @@ const ProjectExpandedContent: React.FC<{ project: Project }> = ({ project }) => 
 
   return (
     <div className="p-6 space-y-6">
-      
+                
       {/* Project Overview Card - Full Width */}
       <motion.div
         initial={{ opacity: 0, y: 10 }}
@@ -542,10 +542,10 @@ const ProjectExpandedContent: React.FC<{ project: Project }> = ({ project }) => 
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {/* Timeline */}
+                  {/* Timeline */}
             <div className="space-y-3">
-              <div className="flex items-center space-x-2">
-                <Clock className="h-4 w-4 text-green-400" />
+                    <div className="flex items-center space-x-2">
+                      <Clock className="h-4 w-4 text-green-400" />
                 <span className="text-green-300 font-medium text-sm">Timeline</span>
               </div>
               <div className="space-y-2 pl-6">
@@ -557,32 +557,32 @@ const ProjectExpandedContent: React.FC<{ project: Project }> = ({ project }) => 
                   <div className="flex items-center justify-between text-sm">
                     <span className="text-green-200/70">Completed</span>
                     <span className="text-green-100 font-mono">{project.end_date}</span>
-                  </div>
+                    </div>
                 )}
-                {project.duration && (
+                      {project.duration && (
                   <div className="flex items-center justify-between text-sm">
                     <span className="text-green-200/70">Duration</span>
                     <span className="text-emerald-300 font-medium">{project.duration}</span>
                   </div>
-                )}
-              </div>
-            </div>
+                      )}
+                    </div>
+                  </div>
 
-            {/* Infrastructure */}
-            {(project.hosting_platform || project.cicd_pipeline) && (
+                  {/* Infrastructure */}
+                  {(project.hosting_platform || project.cicd_pipeline) && (
               <div className="space-y-3">
                 <div className="flex items-center space-x-2">
                   <Building2 className="h-4 w-4 text-emerald-400" />
                   <span className="text-emerald-300 font-medium text-sm">Infrastructure</span>
                 </div>
                 <div className="space-y-2 pl-6">
-                  {project.hosting_platform && (
+                        {project.hosting_platform && (
                     <div className="flex items-center justify-between text-sm">
                       <span className="text-green-200/70">Hosting</span>
                       <span className="text-green-100">{project.hosting_platform}</span>
                     </div>
-                  )}
-                  {project.cicd_pipeline && (
+                        )}
+                        {project.cicd_pipeline && (
                     <div className="flex items-center justify-between text-sm">
                       <span className="text-green-200/70">CI/CD</span>
                       <span className="text-green-100">{project.cicd_pipeline}</span>
@@ -620,34 +620,34 @@ const ProjectExpandedContent: React.FC<{ project: Project }> = ({ project }) => 
                     <div className="text-lime-300/60 text-xs pl-4">
                       +{project.achievements.length - 3} more below
                     </div>
+                        )}
+                      </div>
+                    </div>
                   )}
                 </div>
-              </div>
-            )}
-          </div>
 
           {/* Technology Stack */}
           {project.skills && project.skills.length > 0 && (
             <div className="mt-5 pt-4 border-t border-green-500/20">
-              <div className="flex items-center space-x-2 mb-3">
+                    <div className="flex items-center space-x-2 mb-3">
                 <Code className="h-4 w-4 text-cyan-400" />
                 <span className="text-cyan-300 font-medium text-sm">Technology Stack</span>
-              </div>
-              <div className="flex flex-wrap gap-2">
+                    </div>
+                    <div className="flex flex-wrap gap-2">
                 {project.skills.map((skill, index) => (
                   <motion.div
-                    key={skill.id}
+                          key={skill.id}
                     initial={{ opacity: 0, scale: 0.8 }}
                     animate={{ opacity: 1, scale: 1 }}
                     transition={{ delay: 0.3 + index * 0.02 }}
                     className="bg-cyan-500/20 border border-cyan-500/40 text-cyan-300 px-2 py-1 rounded text-xs font-medium hover:bg-cyan-500/30 transition-colors"
-                  >
-                    {skill.name}
+                        >
+                          {skill.name}
                   </motion.div>
-                ))}
-              </div>
-            </div>
-          )}
+                      ))}
+                    </div>
+                  </div>
+                )}
         </div>
       </motion.div>
 
@@ -706,25 +706,25 @@ const ProjectExpandedContent: React.FC<{ project: Project }> = ({ project }) => 
                        {/* Model Info */}
                        <div className="bg-teal-500/5 border border-teal-500/20 rounded-lg p-3">
                          <div className="space-y-2 text-sm">
-                           <div>
+                  <div>
                              <span className="text-teal-200/70 block">Model</span>
                              <span className="text-teal-100 font-medium">{project.ml_models.name}</span>
-                           </div>
+                    </div>
                            <div>
                              <span className="text-teal-200/70 block">Type</span>
                              <span className="text-teal-100 font-medium">{project.ml_models.model_type}</span>
-                           </div>
+                          </div>
                            <div>
                              <span className="text-teal-200/70 block">Framework</span>
                              <span className="text-teal-100 font-medium">{project.ml_models.framework}</span>
-                           </div>
-                         </div>
-                       </div>
+                        </div>
+                    </div>
+                  </div>
 
                        {/* Performance */}
                        <div className="bg-teal-500/5 border border-teal-500/20 rounded-lg p-3">
                          <div className="space-y-2">
-                           <div>
+                  <div>
                              <div className="flex items-center justify-between mb-2">
                                <span className="text-teal-200/70 text-sm">Accuracy</span>
                                <span className="text-green-300 font-bold text-lg">{(project.ml_models.accuracy * 100).toFixed(1)}%</span>
@@ -743,25 +743,25 @@ const ProjectExpandedContent: React.FC<{ project: Project }> = ({ project }) => 
                              <span className="text-teal-100 font-medium">{project.ml_models.deployment_status}</span>
                            </div>
                          </div>
-                       </div>
-
+                    </div>
+                    
                        {/* Data */}
                        <div className="bg-teal-500/5 border border-teal-500/20 rounded-lg p-3">
                          <div className="text-sm">
                            <span className="text-teal-200/70 block">Training Data Size</span>
                            <span className="text-teal-100 font-medium">{project.ml_models.training_data_size}</span>
-                         </div>
-                       </div>
-                     </div>
+                      </div>
+                      </div>
+                    </div>
 
-                     {/* Use Cases */}
-                     {project.ml_models.use_cases && project.ml_models.use_cases.length > 0 && (
+                    {/* Use Cases */}
+                    {project.ml_models.use_cases && project.ml_models.use_cases.length > 0 && (
                        <div>
                          <h4 className="text-teal-300 font-medium text-sm mb-3 flex items-center">
                            <Globe className="h-3 w-3 mr-2" />
                            Use Cases
                          </h4>
-                         <div className="space-y-2">
+                        <div className="space-y-2">
                            {project.ml_models.use_cases.map((useCase, index) => (
                              <motion.div
                                key={useCase.id}
@@ -775,23 +775,23 @@ const ProjectExpandedContent: React.FC<{ project: Project }> = ({ project }) => 
                                </div>
                                <div className="flex-1 min-w-0">
                                  <span className="text-teal-200 font-medium text-sm block mb-1">
-                                   {useCase.use_case_name}
+                                {useCase.use_case_name}
                                  </span>
                                  <p className="text-teal-100/70 text-xs line-clamp-2">
-                                   {useCase.business_impact}
+                                {useCase.business_impact}
                                  </p>
-                               </div>
+                              </div>
                              </motion.div>
-                           ))}
-                         </div>
-                       </div>
-                     )}
-                   </div>
-                 </motion.div>
-               )}
-             </AnimatePresence>
-           </div>
-         </motion.div>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </div>
+    </motion.div>
        )}
     </div>
   );
