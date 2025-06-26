@@ -43,7 +43,6 @@ function useSkillsData() {
 
       } catch (err) {
         setError(err instanceof Error ? err.message : 'Failed to fetch skills data');
-        console.error('Error fetching skills data:', err);
       } finally {
         setLoading(false);
       }

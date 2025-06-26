@@ -20,7 +20,6 @@ function useConfig() {
 
   useEffect(() => {
     if (configCache) {
-      console.log('Using cached config:', configCache);
       setConfig(configCache);
       setLoading(false);
       return;
@@ -72,7 +71,7 @@ function useConfig() {
           api_base_url: getApiBaseUrl()
         };
         
-        console.log('Dynamic API base URL:', finalConfig.api_base_url);
+        
         console.log('Loaded config:', finalConfig);
         
         // Cache the config for subsequent calls

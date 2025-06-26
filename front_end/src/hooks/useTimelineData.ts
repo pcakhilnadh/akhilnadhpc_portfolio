@@ -43,7 +43,6 @@ function useTimelineData() {
 
       } catch (err) {
         setError(err instanceof Error ? err.message : 'Failed to fetch timeline data');
-        console.error('Error fetching timeline data:', err);
       } finally {
         setLoading(false);
       }

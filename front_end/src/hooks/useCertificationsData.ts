@@ -43,7 +43,6 @@ function useCertificationsData() {
 
       } catch (err) {
         setError(err instanceof Error ? err.message : 'Failed to fetch certifications data');
-        console.error('Error fetching certifications data:', err);
       } finally {
         setLoading(false);
       }

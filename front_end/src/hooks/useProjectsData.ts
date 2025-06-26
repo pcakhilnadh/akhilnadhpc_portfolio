@@ -43,7 +43,6 @@ function useProjectsData() {
 
       } catch (err) {
         setError(err instanceof Error ? err.message : 'Failed to fetch projects data');
-        console.error('Error fetching projects data:', err);
       } finally {
         setLoading(false);
       }

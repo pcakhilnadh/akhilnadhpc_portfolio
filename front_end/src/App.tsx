@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import { useTheme } from '@/hooks/useTheme'
@@ -14,6 +14,7 @@ import Skills from '@/pages/Skills'
 import Projects from '@/pages/Projects'
 import Certifications from '@/pages/Certifications'
 import { UserProfile } from '@/types/data'
+import { cn } from '@/lib/utils'
 
 function AppContent() {
   const { theme, setTheme } = useTheme()
@@ -24,10 +25,42 @@ function AppContent() {
   
   // State to manage navbar welcome text
   const [navbarWelcomeText, setNavbarWelcomeText] = useState<string>('who_am_i?')
+  const [isMobile, setIsMobile] = useState(false)
+  const [isLandscape, setIsLandscape] = useState(false)
 
   const toggleTheme = () => {
     setTheme(theme === 'dark' ? 'light' : 'dark')
   }
+
+  // Check device and orientation
+  useEffect(() => {
+    const checkDeviceAndOrientation = () => {
+      // Better mobile detection that considers both width and user agent
+      const userAgent = navigator.userAgent || navigator.vendor || (window as any).opera;
+      const isMobileUA = /android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini/i.test(userAgent);
+      const hasTouch = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+      const isNarrowWidth = window.innerWidth < 768;
+      const isShortHeight = window.innerHeight < 600; // Increased threshold for better detection
+      
+      // Consider device mobile if:
+      // 1. User agent indicates mobile device, OR
+      // 2. Has touch capability AND (narrow width OR short height in any orientation)
+      const isMobileDevice = isMobileUA || (hasTouch && (isNarrowWidth || isShortHeight));
+      const isLandscapeMode = window.innerWidth > window.innerHeight;
+      
+      setIsMobile(isMobileDevice);
+      setIsLandscape(isLandscapeMode);
+    };
+    
+    checkDeviceAndOrientation();
+    window.addEventListener('resize', checkDeviceAndOrientation);
+    window.addEventListener('orientationchange', checkDeviceAndOrientation);
+    
+    return () => {
+      window.removeEventListener('resize', checkDeviceAndOrientation);
+      window.removeEventListener('orientationchange', checkDeviceAndOrientation);
+    };
+  }, []);
 
   // Update navbar welcome text when personalData changes (home page)
   React.useEffect(() => {
@@ -39,10 +72,10 @@ function AppContent() {
   // Loading state
   if (loading) {
     return (
-      <div className="h-screen bg-background text-foreground flex items-center justify-center">
-        <div className="flex flex-col items-center gap-4">
+      <div className="min-h-screen bg-background text-foreground flex items-center justify-center px-4">
+        <div className="flex flex-col items-center gap-4 text-center">
           <Loader2 className="h-8 w-8 animate-spin text-primary" />
-          <p className="text-muted-foreground">Loading portfolio data...</p>
+          <p className="text-muted-foreground text-sm sm:text-base">Loading portfolio data...</p>
         </div>
       </div>
     )
@@ -51,10 +84,10 @@ function AppContent() {
   // Error state
   if (error || !personalData) {
     return (
-      <div className="h-screen bg-background text-foreground flex items-center justify-center">
-        <div className="flex flex-col items-center gap-4 text-center">
+      <div className="min-h-screen bg-background text-foreground flex items-center justify-center px-4">
+        <div className="flex flex-col items-center gap-4 text-center max-w-md">
           <p className="text-destructive text-lg">Failed to load portfolio data</p>
-          <p className="text-muted-foreground">{error || 'No data available'}</p>
+          <p className="text-muted-foreground text-sm">{error || 'No data available'}</p>
           <Button onClick={() => window.location.reload()}>
             Retry
           </Button>
@@ -64,12 +97,16 @@ function AppContent() {
   }
 
   return (
-    <div className="h-screen bg-background text-foreground overflow-hidden">
+    <div className="flex flex-col h-screen bg-background text-foreground">
       {/* Navbar */}
       <Navbar personalData={personalData} welcomeText={navbarWelcomeText} setWelcomeText={setNavbarWelcomeText} />
 
       {/* Main Content with Horizontal Layout */}
-      <div className="h-[calc(100vh-120px)]">
+      <main className={cn(
+        "flex-1",
+        // Allow scrolling in mobile landscape mode
+        isMobile && isLandscape ? "overflow-y-auto" : "overflow-hidden"
+      )}>
         <HorizontalLayout>
           <Routes>
             <Route path="/" element={<Home personalData={personalData} welcomeText={welcomeText} setNavbarWelcomeText={setNavbarWelcomeText} />} />
@@ -81,9 +118,9 @@ function AppContent() {
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
         </HorizontalLayout>
-      </div>
+      </main>
 
-      {/* Sticky Footer */}
+      {/* Footer */}
       <Footer />
     </div>
   )

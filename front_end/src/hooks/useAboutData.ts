@@ -43,7 +43,6 @@ function useAboutData() {
 
       } catch (err) {
         setError(err instanceof Error ? err.message : 'Failed to fetch about data');
-        console.error('Error fetching about data:', err);
       } finally {
         setLoading(false);
       }

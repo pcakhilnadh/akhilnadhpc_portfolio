@@ -63,17 +63,18 @@ export default function Navbar({ personalData, welcomeText, setWelcomeText }: Na
   ];
   
   return (
-    <header className="sticky top-0 bg-background/90 backdrop-blur-md border-b border-border z-40 transition-colors duration-300">
-      <nav className="container mx-auto px-4 py-5 flex items-center justify-between">
+    <header className="sticky top-0 bg-background/90 backdrop-blur-md border-b border-border z-50 transition-colors duration-300">
+      <nav className="container mx-auto px-4 py-4 flex items-center justify-between">
         <Link 
           to="/" 
-          className="text-xl font-mono font-bold text-primary flex items-center gap-2"
+          className="text-lg sm:text-xl font-mono font-bold text-primary flex items-center gap-2 min-w-0"
+          onClick={closeMobileMenu}
         >
-          <Terminal size={20} className="text-primary" />
-          <div className="w-64 h-8 flex items-center">
-            <span className="cursor">{typedText}</span>
+          <Terminal size={18} className="text-primary flex-shrink-0" />
+          <div className="min-w-0 flex-1 sm:w-64 h-6 sm:h-8 flex items-center overflow-hidden">
+            <span className="cursor truncate text-sm sm:text-base">{typedText}</span>
             <span className={cn(
-              "ml-1 w-0.5 h-5 bg-primary",
+              "ml-1 w-0.5 h-4 sm:h-5 bg-primary flex-shrink-0",
               isTyping ? "animate-pulse" : "opacity-0"
             )}></span>
           </div>
@@ -87,13 +88,13 @@ export default function Navbar({ personalData, welcomeText, setWelcomeText }: Na
               variant="ghost"
               size="sm"
               className={cn(
-                "flex items-center gap-1.5 px-4 py-2",
+                "flex items-center gap-1.5 px-3 lg:px-4 py-2 relative",
                 location.pathname === link.path ? "text-primary" : "text-muted-foreground"
               )}
               onClick={() => navigateToSection(link.path)}
             >
               {link.icon}
-              <span>{link.label}</span>
+              <span className="text-xs lg:text-sm">{link.label}</span>
               {location.pathname === link.path && (
                 <span className="absolute bottom-0 left-0 w-full h-0.5 bg-primary"></span>
               )}
@@ -102,11 +103,12 @@ export default function Navbar({ personalData, welcomeText, setWelcomeText }: Na
         </div>
         
         {/* Mobile Menu Button */}
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 md:hidden">
           <button
-            className="md:hidden focus:outline-none"
+            className="p-2 focus:outline-none focus:ring-2 focus:ring-primary/20 rounded-md transition-colors"
             onClick={toggleMobileMenu}
             aria-label="Toggle mobile menu"
+            aria-expanded={isMobileMenuOpen}
           >
             {isMobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
           </button>
@@ -117,32 +119,39 @@ export default function Navbar({ personalData, welcomeText, setWelcomeText }: Na
       <div
         className={cn(
           "md:hidden absolute w-full bg-background/95 backdrop-blur-md border-b border-border transition-all duration-300 overflow-hidden",
-          isMobileMenuOpen ? "max-h-64" : "max-h-0"
+          isMobileMenuOpen ? "max-h-80 opacity-100" : "max-h-0 opacity-0"
         )}
       >
-        <ul className="py-2 px-4 space-y-3">
+        <div className="py-4 px-4 space-y-1">
           {navLinks.map((link) => (
-            <li key={link.path}>
-              <a
-                href={link.path}
-                className={cn(
-                  "terminal-text block py-2 transition-colors",
-                  location.pathname === link.path ? "text-primary" : "text-muted-foreground"
-                )}
-                onClick={(e) => {
-                  e.preventDefault();
-                  navigateToSection(link.path);
-                }}
-              >
-                <span className="flex items-center gap-2">
-                  {link.icon}
-                  {link.label}
-                </span>
-              </a>
-            </li>
+            <button
+              key={link.path}
+              className={cn(
+                "w-full text-left py-3 px-4 rounded-lg transition-colors duration-200 flex items-center gap-3",
+                location.pathname === link.path 
+                  ? "text-primary bg-primary/10 border border-primary/20" 
+                  : "text-muted-foreground hover:text-foreground hover:bg-muted/50"
+              )}
+              onClick={() => navigateToSection(link.path)}
+            >
+              {link.icon}
+              <span className="font-medium">{link.label}</span>
+              {location.pathname === link.path && (
+                <div className="ml-auto w-2 h-2 bg-primary rounded-full"></div>
+              )}
+            </button>
           ))}
-        </ul>
+        </div>
       </div>
+      
+      {/* Mobile Menu Overlay */}
+      {isMobileMenuOpen && (
+        <div 
+          className="fixed inset-0 bg-black/20 backdrop-blur-sm z-40 md:hidden"
+          onClick={closeMobileMenu}
+          aria-hidden="true"
+        />
+      )}
     </header>
   );
 }

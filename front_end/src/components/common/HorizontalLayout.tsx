@@ -1,6 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronRight, ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
@@ -14,9 +13,43 @@ export default function HorizontalLayout({ children }: HorizontalLayoutProps) {
   const location = useLocation();
   const navigate = useNavigate();
   const [isScrolling, setIsScrolling] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+  const [isLandscape, setIsLandscape] = useState(false);
+  const [touchStart, setTouchStart] = useState<number | null>(null);
+  const [touchEnd, setTouchEnd] = useState<number | null>(null);
 
   const routes = ['/', '/about', '/timeline', '/skills', '/projects', '/certifications'];
   const currentIndex = routes.indexOf(location.pathname);
+
+  // Check if device is mobile and orientation
+  useEffect(() => {
+    const checkMobileAndOrientation = () => {
+      // Better mobile detection that considers both width and user agent
+      const userAgent = navigator.userAgent || navigator.vendor || (window as any).opera;
+      const isMobileUA = /android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini/i.test(userAgent);
+      const hasTouch = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+      const isNarrowWidth = window.innerWidth < 768;
+      const isShortHeight = window.innerHeight < 600; // Increased threshold for better detection
+      
+      // Consider device mobile if:
+      // 1. User agent indicates mobile device, OR
+      // 2. Has touch capability AND (narrow width OR short height in any orientation)
+      const isMobileDevice = isMobileUA || (hasTouch && (isNarrowWidth || isShortHeight));
+      const isLandscapeMode = window.innerWidth > window.innerHeight;
+      
+      setIsMobile(isMobileDevice);
+      setIsLandscape(isLandscapeMode);
+    };
+    
+    checkMobileAndOrientation();
+    window.addEventListener('resize', checkMobileAndOrientation);
+    window.addEventListener('orientationchange', checkMobileAndOrientation);
+    
+    return () => {
+      window.removeEventListener('resize', checkMobileAndOrientation);
+      window.removeEventListener('orientationchange', checkMobileAndOrientation);
+    };
+  }, []);
 
   const handleNextPage = () => {
     if (currentIndex < routes.length - 1) {
@@ -36,111 +69,59 @@ export default function HorizontalLayout({ children }: HorizontalLayoutProps) {
     }
   };
 
-  useEffect(() => {
-    let scrollTimeout: NodeJS.Timeout;
+  // Touch handlers for mobile swipe navigation
+  const onTouchStart = (e: React.TouchEvent) => {
+    setTouchEnd(null);
+    setTouchStart(e.targetTouches[0].clientX);
+  };
 
-    const handleWheel = (e: WheelEvent) => {
-      // Prevent multiple rapid scroll events
-      if (isScrolling) return;
-      
-      // Check if the scroll is significant enough to trigger navigation
-      if (Math.abs(e.deltaY) < 50) return;
-      
-      // Check if we're at the top or bottom of the page content
-      const target = e.target as HTMLElement;
-      const scrollableElement = target.closest('.overflow-y-auto') as HTMLElement;
-      
-      if (scrollableElement) {
-        const { scrollTop, scrollHeight, clientHeight } = scrollableElement;
-        
-        // If scrolling down and we're at the bottom, navigate to next page
-        if (e.deltaY > 0 && scrollTop + clientHeight >= scrollHeight - 10) {
-          e.preventDefault();
-          setIsScrolling(true);
-          if (currentIndex < routes.length - 1) {
-            navigate(routes[currentIndex + 1]);
-          }
-        }
-        // If scrolling up and we're at the top, navigate to previous page
-        else if (e.deltaY < 0 && scrollTop <= 10) {
-          e.preventDefault();
-          setIsScrolling(true);
-          if (currentIndex > 0) {
-            navigate(routes[currentIndex - 1]);
-          }
-        }
-        // Otherwise, allow normal vertical scrolling within the page
-        else {
-          return; // Don't prevent default, allow normal scrolling
-        }
-      } else {
-        // If no scrollable element found, allow horizontal navigation
-        e.preventDefault();
-        setIsScrolling(true);
-        
-        if (e.deltaY > 0 && currentIndex < routes.length - 1) {
-          navigate(routes[currentIndex + 1]);
-        } else if (e.deltaY < 0 && currentIndex > 0) {
-          navigate(routes[currentIndex - 1]);
-        }
-      }
-      
-      // Reset scrolling state after animation
-      scrollTimeout = setTimeout(() => {
-        setIsScrolling(false);
-      }, 600);
-    };
+  const onTouchMove = (e: React.TouchEvent) => {
+    setTouchEnd(e.targetTouches[0].clientX);
+  };
 
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (isScrolling) return;
-      
-      if (e.key === 'ArrowRight' && currentIndex < routes.length - 1) {
-        setIsScrolling(true);
-        navigate(routes[currentIndex + 1]);
-        setTimeout(() => setIsScrolling(false), 600);
-      } else if (e.key === 'ArrowLeft' && currentIndex > 0) {
-        setIsScrolling(true);
-        navigate(routes[currentIndex - 1]);
-        setTimeout(() => setIsScrolling(false), 600);
-      }
-    };
+  const onTouchEnd = () => {
+    if (!touchStart || !touchEnd) return;
+    
+    const distance = touchStart - touchEnd;
+    const isLeftSwipe = distance > 50; // Minimum swipe distance
+    const isRightSwipe = distance < -50;
 
-    const container = containerRef.current;
-    if (container) {
-      container.addEventListener('wheel', handleWheel, { passive: false });
-      window.addEventListener('keydown', handleKeyDown);
+    if (isLeftSwipe && currentIndex < routes.length - 1) {
+      // Swipe left = next page
+      navigate(routes[currentIndex + 1]);
+    } else if (isRightSwipe && currentIndex > 0) {
+      // Swipe right = previous page
+      navigate(routes[currentIndex - 1]);
     }
+  };
+
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'ArrowRight' && currentIndex < routes.length - 1) {
+        navigate(routes[currentIndex + 1]);
+      } else if (e.key === 'ArrowLeft' && currentIndex > 0) {
+        navigate(routes[currentIndex - 1]);
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
 
     return () => {
-      if (container) {
-        container.removeEventListener('wheel', handleWheel);
-      }
       window.removeEventListener('keydown', handleKeyDown);
-      if (scrollTimeout) {
-        clearTimeout(scrollTimeout);
-      }
     };
-  }, [currentIndex, navigate, routes, isScrolling]);
+  }, [currentIndex, navigate, routes]);
 
   return (
     <div 
       ref={containerRef}
-      className="h-full overflow-hidden relative"
+      className="w-full h-full relative"
+      onTouchStart={onTouchStart}
+      onTouchMove={onTouchMove}
+      onTouchEnd={onTouchEnd}
     >
-      <AnimatePresence mode="wait">
-        <motion.div
-          key={location.pathname}
-          initial={{ x: '100%' }}
-          animate={{ x: 0 }}
-          exit={{ x: '-100%' }}
-          transition={{ duration: 0.5, ease: 'easeInOut' }}
-          className="h-full"
-        >
-          {children}
-        </motion.div>
-      </AnimatePresence>
-
-      {/* Floating Arrow Button - Removed as requested */}
+      <div className="w-full h-full">
+        {children}
+      </div>
     </div>
   );
 } 

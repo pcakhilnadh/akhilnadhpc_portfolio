@@ -44,14 +44,6 @@ const calculateAge = (dob: string): string => {
 };
 
 export default function UserProfileCard({ personalInfo, familyInfo, hobbies }: UserProfileCardProps) {
-  // Debug logging
-  console.log('UserProfileCard - personalInfo:', personalInfo);
-  console.log('UserProfileCard - profile_image:', personalInfo.profile_image);
-  
-  if (!personalInfo.profile_image) {
-    console.log('No profile image provided');
-  }
-
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -81,9 +73,7 @@ export default function UserProfileCard({ personalInfo, familyInfo, hobbies }: U
                     src={personalInfo.profile_image} 
                     alt={personalInfo.full_name}
                     className="w-full h-full object-cover"
-                    onLoad={() => console.log('Image loaded successfully:', personalInfo.profile_image)}
                     onError={(e) => {
-                      console.error('Image failed to load:', personalInfo.profile_image, e);
                       // Fallback to initials if image fails to load
                       const target = e.target as HTMLImageElement;
                       target.style.display = 'none';

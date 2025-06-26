@@ -11,21 +11,15 @@ function usePersonalData() {
   const { config, loading: configLoading, error: configError } = useConfig();
 
   useEffect(() => {
-    console.log('usePersonalData effect triggered:', { configLoading, config, configError });
-    
     if (configLoading || !config) {
-      console.log('Waiting for config to load...');
       return;
     }
     
     if (configError) {
-      console.error('Config error:', configError);
       setError(configError);
       setLoading(false);
       return;
     }
-
-    console.log('Making API call with config:', config);
 
     const fetchData = async () => {
       try {
@@ -33,8 +27,6 @@ function usePersonalData() {
         setError(null);
 
         const apiUrl = `${config.api_base_url}/`;
-        console.log('API URL:', apiUrl);
-        console.log('Username:', config.username);
 
         const response = await fetch(apiUrl, {
             method: 'POST',
@@ -58,7 +50,6 @@ function usePersonalData() {
         }
       } catch (err) {
         setError(err instanceof Error ? err.message : 'Failed to fetch personal data');
-        console.error('Error fetching personal data:', err);
       } finally {
         setLoading(false);
       }
