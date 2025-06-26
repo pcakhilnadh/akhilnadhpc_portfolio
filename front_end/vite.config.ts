@@ -6,10 +6,23 @@ export default defineConfig({
   plugins: [react()],
   resolve: {
     alias: {
-      "@": path.resolve(__dirname, "src"),
+      "@": path.resolve(__dirname, "./src"),
+      "@/components": path.resolve(__dirname, "./src/components"),
+      "@/lib": path.resolve(__dirname, "./src/lib"),
+      "@/hooks": path.resolve(__dirname, "./src/hooks"),
+      "@/types": path.resolve(__dirname, "./src/types"),
+      "@/pages": path.resolve(__dirname, "./src/pages"),
     },
   },
   server: {
     port: 5000
-  }
+  },
+  build: {
+    sourcemap: false,
+    rollupOptions: {
+      output: {
+        manualChunks: undefined,
+      },
+    },
+  },
 }); 

@@ -1,26 +1,13 @@
-# Cloud Build configuration for Akhil Nadh PC Portfolio
-# Deploys to Google Cloud Run with Artifact Registry
-# Project: ferrous-linker-457013-s2
-# Region: asia-southeast1
-# Repository: portfolio-docker-cicd
-# Service: akhilnadhpc-portfolio
-
-# 💰 COST OPTIMIZED FOR PORTFOLIO PROJECTS:
-# - Memory: 512Mi (sufficient for portfolio traffic)
-# - CPU: 0.5 (adequate for typical usage)
-# - Max Instances: 5 (scales as needed)
-# - Estimated Cost: $1-3/month (after free tier)
-
 steps:
-  # Step 1: Build the Docker image with multi-stage build
+  # Step 1: Build the Docker image
   - name: 'gcr.io/cloud-builders/docker'
     args: [
       'build',
-      '--no-cache',  # Ensure clean build
-      '--progress=plain',  # Better build output
-      '-t', 'asia-southeast1-docker.pkg.dev/ferrous-linker-457013-s2/portfolio-docker-cicd/akhilnadhpc-portfolio:$COMMIT_SHA',
-      '-t', 'asia-southeast1-docker.pkg.dev/ferrous-linker-457013-s2/portfolio-docker-cicd/akhilnadhpc-portfolio:latest',
-      '-t', 'asia-southeast1-docker.pkg.dev/ferrous-linker-457013-s2/portfolio-docker-cicd/akhilnadhpc-portfolio:$BRANCH_NAME',
+      '--no-cache',
+      '--progress=plain',
+      '-t', '$_REGION-docker.pkg.dev/$_PROJECT_ID/$_REPOSITORY/$_IMAGE_NAME:$COMMIT_SHA',
+      '-t', '$_REGION-docker.pkg.dev/$_PROJECT_ID/$_REPOSITORY/$_IMAGE_NAME:latest',
+      '-t', '$_REGION-docker.pkg.dev/$_PROJECT_ID/$_REPOSITORY/$_IMAGE_NAME:$BRANCH_NAME',
       '.'
     ]
     dir: '.'
@@ -28,114 +15,97 @@ steps:
     env:
       - 'DOCKER_BUILDKIT=1'
 
-  # Step 2: Push images to Artifact Registry with proper tagging
+  # Step 2: Push Docker image to Artifact Registry
   - name: 'gcr.io/cloud-builders/docker'
     args: [
       'push',
-      'asia-southeast1-docker.pkg.dev/ferrous-linker-457013-s2/portfolio-docker-cicd/akhilnadhpc-portfolio:$COMMIT_SHA'
+      '$_REGION-docker.pkg.dev/$_PROJECT_ID/$_REPOSITORY/$_IMAGE_NAME:$COMMIT_SHA'
     ]
     id: 'push-image-commit'
     waitFor: ['build-image']
 
-  - name: 'gcr.io/cloud-builders/docker'
+  # Step 3: Add 'latest' tag to the pushed image
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+    entrypoint: 'gcloud'
     args: [
-      'push',
-      'asia-southeast1-docker.pkg.dev/ferrous-linker-457013-s2/portfolio-docker-cicd/akhilnadhpc-portfolio:latest'
+      'container',
+      'images',
+      'add-tag',
+      '$_REGION-docker.pkg.dev/$_PROJECT_ID/$_REPOSITORY/$_IMAGE_NAME:$COMMIT_SHA',
+      '$_REGION-docker.pkg.dev/$_PROJECT_ID/$_REPOSITORY/$_IMAGE_NAME:latest',
+      '--quiet'
     ]
-    id: 'push-image-latest'
-    waitFor: ['build-image']
+    id: 'tag-image-latest'
+    waitFor: ['push-image-commit']
 
-  - name: 'gcr.io/cloud-builders/docker'
+  # Step 4: Add branch name tag to the pushed image
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+    entrypoint: 'gcloud'
     args: [
-      'push',
-      'asia-southeast1-docker.pkg.dev/ferrous-linker-457013-s2/portfolio-docker-cicd/akhilnadhpc-portfolio:$BRANCH_NAME'
+      'container',
+      'images',
+      'add-tag',
+      '$_REGION-docker.pkg.dev/$_PROJECT_ID/$_REPOSITORY/$_IMAGE_NAME:$COMMIT_SHA',
+      '$_REGION-docker.pkg.dev/$_PROJECT_ID/$_REPOSITORY/$_IMAGE_NAME:$BRANCH_NAME',
+      '--quiet'
     ]
-    id: 'push-image-branch'
-    waitFor: ['build-image']
+    id: 'tag-image-branch'
+    waitFor: ['push-image-commit']
 
-  # Step 3: Deploy to Cloud Run with cost-optimized configuration
+  # Step 5: Deploy to Cloud Run
   - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
     entrypoint: gcloud
     args: [
       'run',
       'deploy',
-      'akhilnadhpc-portfolio',
-      '--image=asia-southeast1-docker.pkg.dev/ferrous-linker-457013-s2/portfolio-docker-cicd/akhilnadhpc-portfolio:$COMMIT_SHA',
-      '--region=asia-southeast1',
+      '$_SERVICE_NAME',
+      '--image=$_REGION-docker.pkg.dev/$_PROJECT_ID/$_REPOSITORY/$_IMAGE_NAME:$COMMIT_SHA',
+      '--region=$_REGION',
       '--platform=managed',
-      '--allow-unauthenticated',  # Make service public
+      '--allow-unauthenticated',
       '--port=8080',
-      '--memory=512Mi',  # Optimized for portfolio projects
-      '--cpu=0.5',  # Sufficient for typical usage
-      '--max-instances=5',  # Scales as needed
-      '--min-instances=0',  # Scale to zero when not used (cost saver)
-      '--concurrency=40',  # Optimized concurrency
-      '--timeout=300',
-      '--cpu-boost',  # Enable CPU boost for better performance
-      '--execution-environment=gen2',  # Use 2nd gen execution environment
-      '--set-env-vars=PYTHONUNBUFFERED=1,PYTHONDONTWRITEBYTECODE=1,PORT=8000,RELOAD=false',
-      '--update-env-vars=PYTHONUNBUFFERED=1,PYTHONDONTWRITEBYTECODE=1,PORT=8000,RELOAD=false',
-      '--clear-cloudsql-instances',
-      '--service-account=',  # Use default service account
-      '--no-cpu-throttling',  # Disable CPU throttling for better performance
-      '--no-traffic',  # Don't send traffic to new revision initially
-      '--tag=latest'  # Tag the deployment
+      # '--memory=512Mi',
+      # '--cpu=0.5',
+      # '--max-instances=5',
+      # '--min-instances=0',
+      # '--concurrency=40',
+      # '--timeout=300',
+      # '--cpu-boost',
+      # '--execution-environment=gen2',
+      # '--update-env-vars=PYTHONUNBUFFERED=1,PYTHONDONTWRITEBYTECODE=1,RELOAD=false',
+      # '--clear-cloudsql-instances',
+      '--service-account=',
+      '--no-cpu-throttling'
     ]
     id: 'deploy-cloud-run'
-    waitFor: ['push-image-commit', 'push-image-latest', 'push-image-branch']
+    waitFor: ['tag-image-latest', 'tag-image-branch']
 
-  # Step 4: Route traffic to latest
+  # Step 6: Perform health check
   - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
-    entrypoint: gcloud
-    args: [
-      'run',
-      'services',
-      'update-traffic',
-      'akhilnadhpc-portfolio',
-      '--region=asia-southeast1',
-      '--to-latest'
-    ]
-    id: 'update-traffic'
-    waitFor: ['deploy-cloud-run']
-
-  # Step 5: Health check using bash to resolve URL
-  - name: 'gcr.io/cloud-builders/curl'
     entrypoint: bash
     args:
       - '-c'
       - |
-        curl -f -m 30 --retry 3 --retry-delay 5 "$(gcloud run services describe akhilnadhpc-portfolio --region=asia-southeast1 --format='value(status.url)')/health"
+        SERVICE_URL=$(gcloud run services describe $_SERVICE_NAME --region=$_REGION --format='value(status.url)')
+        curl -f -m 30 --retry 3 --retry-delay 5 "$$SERVICE_URL/health"
     id: 'health-check'
-    waitFor: ['update-traffic']
+    waitFor: ['deploy-cloud-run']
 
-# Build timeout (20 minutes)
+# Total timeout: 20 minutes
 timeout: '1200s'
 
-# Build options for better performance
+# Build options (safe for default pool)
 options:
   logging: CLOUD_LOGGING_ONLY
-  machineType: 'E2_HIGHCPU_8'  # High CPU for faster builds
-  diskSizeGb: '100'  # Larger disk for multi-stage builds
+  diskSizeGb: '100'
   env:
     - 'DOCKER_BUILDKIT=1'
     - 'COMPOSE_DOCKER_CLI_BUILD=1'
 
-# Substitutions for easy customization
+# Substitutions for flexibility
 substitutions:
   _REGION: 'asia-southeast1'
   _PROJECT_ID: 'ferrous-linker-457013-s2'
   _REPOSITORY: 'portfolio-docker-cicd'
   _SERVICE_NAME: 'akhilnadhpc-portfolio'
-  _IMAGE_NAME: 'akhilnadhpc-portfolio'
-
-# Available substitutions (automatically provided by Cloud Build)
-availableSubstitutions:
-  COMMIT_SHA: 'The commit SHA that triggered the build'
-  BRANCH_NAME: 'The branch name that triggered the build'
-  TAG_NAME: 'The tag name that triggered the build'
-  REVISION_ID: 'The revision ID of the build'
-  SHORT_SHA: 'The first 7 characters of the commit SHA'
-  BUILD_ID: 'The unique identifier for the build'
-  PROJECT_ID: 'The project ID where the build is running'
-  REPO_NAME: 'The name of the repository'
-  TRIGGER_NAME: 'The name of the trigger that started the build' 
+  _IMAGE_NAME: 'akhilnadhpc-portfolio' 

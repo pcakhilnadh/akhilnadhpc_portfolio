@@ -14,6 +14,12 @@ RUN npm install
 # Copy frontend source code
 COPY front_end/ ./
 
+# Ensure lib directory is copied explicitly
+COPY front_end/src/lib ./src/lib/
+
+# Verify lib directory is copied
+RUN ls -la ./src/lib/
+
 # Build the React application
 RUN npm run build
 
@@ -53,7 +59,7 @@ COPY nginx.conf /etc/nginx/nginx.conf
 
 # Copy startup script
 COPY start.sh /start.sh
-RUN chmod +x /start.sh
+RUN sed -i 's/\r$//' /start.sh && chmod +x /start.sh
 
 # Create a non-root user for security
 RUN adduser -D -s /bin/bash app
