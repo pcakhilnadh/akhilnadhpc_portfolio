@@ -43,8 +43,21 @@ function useConfig() {
           const host = window.location.host;
           return `${protocol}//${host}/api`;
         };
+
+        // Dynamically determine config file path
+        const getConfigPath = () => {
+          // Check if we're in development
+          if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+            return '/src/config.yml';
+          }
+          
+          // In production, use the static path
+          return '/static/src/config.yml';
+        };
         
-        const configResponse = await fetch('/static/src/config.yml');
+        const configPath = getConfigPath();
+        console.log('Fetching config from:', configPath);
+        const configResponse = await fetch(configPath);
         
         if (!configResponse.ok) {
           throw new Error(`Failed to load config: ${configResponse.status}`);
@@ -60,6 +73,7 @@ function useConfig() {
         };
         
         console.log('Dynamic API base URL:', finalConfig.api_base_url);
+        console.log('Loaded config:', finalConfig);
         
         // Cache the config for subsequent calls
         configCache = finalConfig;
