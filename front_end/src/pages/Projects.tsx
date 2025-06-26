@@ -18,30 +18,55 @@ export default function Projects({ setNavbarWelcomeText }: ProjectsProps) {
   }, [welcomeText, setNavbarWelcomeText]);
 
   return (
-    <div className="h-full flex items-center justify-center bg-background">
-      <div className="container mx-auto px-4 h-full overflow-y-auto">
-        <div className="max-w-6xl mx-auto py-12">
-          <motion.h2
-            initial={{ opacity: 0, y: 50 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            className="text-4xl font-bold text-center mb-12"
-          >
-            <span className="text-primary">Projects</span>
-          </motion.h2>
+    <div className="h-full w-full overflow-y-auto">
+      <div className="container mx-auto px-4 py-8 max-w-6xl">
+        
+        {/* Simple Header */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          className="mb-12"
+        >
+          <h1 className="text-4xl md:text-5xl font-bold text-center mb-4">
+            <span className="text-green-400">Projects</span>
+          </h1>
           
-          {loading ? (
-            <div className="text-center text-muted-foreground">
-              Loading projects...
+        </motion.div>
+
+        {/* Content */}
+        {loading ? (
+          <div className="flex flex-col items-center justify-center py-20">
+            <div className="w-12 h-12 border-3 border-green-500/30 border-t-green-400 rounded-full animate-spin mb-4" />
+            <p className="text-green-400 text-lg">Loading projects...</p>
+          </div>
+        ) : error || !projectsData ? (
+          <div className="text-center py-20">
+            <div className="bg-red-500/10 border border-red-500/20 rounded-lg p-6 max-w-md mx-auto">
+              <p className="text-red-400 mb-4">⚠️ Error loading projects</p>
+              <p className="text-muted-foreground text-sm mb-4">
+                {error || 'Failed to load projects data. Please try again later.'}
+              </p>
+              <button 
+                onClick={() => window.location.reload()}
+                className="bg-red-500/20 border border-red-500/40 text-red-300 px-4 py-2 rounded hover:bg-red-500/30 transition-colors"
+              >
+                Retry
+              </button>
             </div>
-          ) : error || !projectsData ? (
-            <div className="text-center text-muted-foreground">
-              {error || 'Failed to load projects data. Please try again later.'}
-            </div>
-          ) : (
+          </div>
+        ) : (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+          >
             <ProjectList projects={projectsData.projects} />
-          )}
-        </div>
+          </motion.div>
+        )}
+        
+        {/* Add some bottom padding to ensure last item is fully visible */}
+        <div className="h-8" />
       </div>
     </div>
   );
