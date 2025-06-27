@@ -19,23 +19,23 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ project, isOpen, onClose })
     <AnimatePresence>
       {isOpen && (
         <Dialog open={isOpen} onOpenChange={onClose}>
-          <DialogContent className="max-w-4xl w-full h-[80vh] bg-black/95 border border-green-500/40 backdrop-blur-sm p-0 rounded-lg flex flex-col">
+          <DialogContent className="max-w-4xl w-full h-[80vh] bg-background/95 border border-primary/40 backdrop-blur-sm p-0 rounded-lg flex flex-col">
             {/* Header - Fixed height */}
-            <div className="bg-gradient-to-r from-green-600/20 to-cyan-600/20 border-b border-green-500/40 p-4 rounded-t-lg h-16 flex items-center flex-shrink-0">
+            <div className="bg-gradient-to-r from-primary/20 to-accent/20 border-b border-primary/40 p-4 rounded-t-lg h-16 flex items-center flex-shrink-0">
               <div className="flex items-center justify-between w-full min-w-0">
                 {/* Window Control Buttons */}
                 <div className="flex items-center space-x-2 flex-shrink-0">
                   <button
                     onClick={onClose}
-                    className="w-3 h-3 bg-red-500 rounded-full hover:bg-red-400 transition-colors duration-200"
+                    className="w-3 h-3 bg-destructive rounded-full hover:bg-destructive/80 transition-colors duration-200"
                   />
                   <div className="w-3 h-3 bg-yellow-500 rounded-full opacity-50" />
-                  <div className="w-3 h-3 bg-green-500 rounded-full opacity-50" />
+                  <div className="w-3 h-3 bg-primary rounded-full opacity-50" />
                 </div>
                 
                 {/* Project Title */}
                 <div className="flex items-center space-x-3 min-w-0 flex-1 mx-4">
-                  <span className="text-green-400 font-mono font-bold text-lg truncate">{project.title}</span>
+                  <span className="text-primary font-mono font-bold text-lg truncate">{project.title}</span>
                   {project.deployment && (
                     <Badge
                       className={`font-mono text-xs px-2 py-1 border flex-shrink-0 ${
@@ -47,7 +47,7 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ project, isOpen, onClose })
                           ? 'bg-orange-500/20 text-orange-300 border-orange-500/40'
                           : project.deployment === 'mvp'
                           ? 'bg-blue-500/20 text-blue-300 border-blue-500/40'
-                          : 'bg-slate-500/20 text-slate-300 border-slate-500/40'
+                          : 'bg-muted/20 text-muted-foreground border-muted/40'
                       }`}
                     >
                       {project.deployment.toUpperCase()}
@@ -62,9 +62,9 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ project, isOpen, onClose })
                       href={project.live_url}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="p-2 bg-green-500/20 border border-green-500/40 rounded hover:bg-green-500/30 hover:border-green-400 transition-all duration-300"
+                      className="p-2 bg-primary/20 border border-primary/40 rounded hover:bg-primary/30 hover:border-primary transition-all duration-300"
                     >
-                      <ExternalLink className="h-4 w-4 text-green-400" />
+                      <ExternalLink className="h-4 w-4 text-primary" />
                     </a>
                   )}
                   {project.github_url && (
@@ -72,9 +72,9 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ project, isOpen, onClose })
                       href={project.github_url}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="p-2 bg-cyan-500/20 border border-cyan-500/40 rounded hover:bg-cyan-500/30 hover:border-cyan-400 transition-all duration-300"
+                      className="p-2 bg-accent/20 border border-accent/40 rounded hover:bg-accent/30 hover:border-accent transition-all duration-300"
                     >
-                      <Github className="h-4 w-4 text-cyan-400" />
+                      <Github className="h-4 w-4 text-accent-foreground" />
                     </a>
                   )}
                 </div>
@@ -85,11 +85,11 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ project, isOpen, onClose })
             <div className="flex-1 overflow-hidden">
               <Tabs defaultValue="overview" className="h-full flex flex-col">
                 {/* Tab Navigation - Fixed height */}
-                <div className="border-b border-green-500/20 bg-black/20 h-12 flex-shrink-0">
+                <div className="border-b border-primary/20 bg-background/20 h-12 flex-shrink-0">
                   <TabsList className="bg-transparent border-none p-0 h-full w-full">
                     <TabsTrigger 
                       value="overview" 
-                      className="data-[state=active]:bg-green-500/20 data-[state=active]:text-green-300 text-muted-foreground font-mono text-sm px-4 py-2 rounded-none border-r border-green-500/20 h-full flex-1 flex items-center justify-center space-x-2"
+                      className="data-[state=active]:bg-primary/20 data-[state=active]:text-primary text-muted-foreground font-mono text-sm px-4 py-2 rounded-none border-r border-primary/20 h-full flex-1 flex items-center justify-center space-x-2"
                     >
                       <Terminal className="h-4 w-4" />
                       <span>Overview</span>
@@ -105,7 +105,7 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ project, isOpen, onClose })
                     ) : (
                       <TabsTrigger 
                         value="details" 
-                        className="data-[state=active]:bg-cyan-500/20 data-[state=active]:text-cyan-300 text-muted-foreground font-mono text-sm px-4 py-2 rounded-none h-full flex-1 flex items-center justify-center space-x-2"
+                        className="data-[state=active]:bg-accent/20 data-[state=active]:text-accent-foreground text-muted-foreground font-mono text-sm px-4 py-2 rounded-none h-full flex-1 flex items-center justify-center space-x-2"
                       >
                         <Settings className="h-4 w-4" />
                         <span>Details</span>
@@ -117,19 +117,19 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ project, isOpen, onClose })
                 {/* Tab Content - Scrollable area */}
                 <div className="flex-1">
                   {/* Overview Tab */}
-                  <TabsContent value="overview" className="p-0 m-0 h-[calc(80vh-112px)] overflow-y-auto scrollbar-thin scrollbar-thumb-green-500/50 scrollbar-track-transparent">
+                  <TabsContent value="overview" className="p-0 m-0 h-[calc(80vh-112px)] overflow-y-auto scrollbar-thin scrollbar-thumb-primary/50 scrollbar-track-transparent">
                     <div className="p-5 space-y-4">
                       {/* Description */}
                       <motion.div 
                         initial={{ opacity: 0, y: 10 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: 0.1 }}
-                        className="bg-green-500/5 border border-green-500/20 rounded-lg p-4"
+                        className="bg-primary/5 border border-primary/20 rounded-lg p-4"
                       >
                         <div className="flex items-start space-x-3">
-                          <Terminal className="h-4 w-4 text-green-400 mt-0.5 flex-shrink-0" />
+                          <Terminal className="h-4 w-4 text-primary mt-0.5 flex-shrink-0" />
                           <div className="flex-1 min-w-0">
-                            <h3 className="text-green-300 font-mono font-semibold text-sm mb-2">Description</h3>
+                            <h3 className="text-primary font-mono font-semibold text-sm mb-2">Description</h3>
                             <p className="text-muted-foreground font-mono text-xs leading-relaxed">
                               {project.description}
                             </p>
@@ -144,24 +144,24 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ project, isOpen, onClose })
                           initial={{ opacity: 0, x: -10 }}
                           animate={{ opacity: 1, x: 0 }}
                           transition={{ delay: 0.2 }}
-                          className="bg-cyan-500/5 border border-cyan-500/20 rounded-lg p-4"
+                          className="bg-accent/5 border border-accent/20 rounded-lg p-4"
                         >
                           <div className="flex items-start space-x-3">
-                            <Building2 className="h-4 w-4 text-cyan-400 mt-0.5 flex-shrink-0" />
+                            <Building2 className="h-4 w-4 text-accent-foreground mt-0.5 flex-shrink-0" />
                             <div className="flex-1 min-w-0">
-                              <h3 className="text-cyan-300 font-mono font-semibold text-sm mb-2">Company</h3>
+                              <h3 className="text-accent-foreground font-mono font-semibold text-sm mb-2">Company</h3>
                               <div className="space-y-1">
                                 {project.company && (
                                   <div className="text-muted-foreground font-mono text-xs">
-                                    <span className="text-cyan-200">{project.company.name}</span>
+                                    <span className="text-foreground">{project.company.name}</span>
                                     {project.company.location && (
-                                      <div className="text-cyan-300/70">{project.company.location}</div>
+                                      <div className="text-muted-foreground">{project.company.location}</div>
                                     )}
                                   </div>
                                 )}
                                 {project.role && (
                                   <div className="text-muted-foreground font-mono text-xs">
-                                    <span className="text-cyan-300/70">Role:</span> <span className="text-cyan-200">{project.role}</span>
+                                    <span className="text-muted-foreground">Role:</span> <span className="text-foreground">{project.role}</span>
                                   </div>
                                 )}
                               </div>
@@ -174,20 +174,20 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ project, isOpen, onClose })
                           initial={{ opacity: 0, x: 10 }}
                           animate={{ opacity: 1, x: 0 }}
                           transition={{ delay: 0.3 }}
-                          className="bg-yellow-500/5 border border-yellow-500/20 rounded-lg p-4"
+                          className="bg-secondary/5 border border-secondary/20 rounded-lg p-4"
                         >
                           <div className="flex items-start space-x-3">
-                            <Clock className="h-4 w-4 text-yellow-400 mt-0.5 flex-shrink-0" />
+                            <Clock className="h-4 w-4 text-secondary-foreground mt-0.5 flex-shrink-0" />
                             <div className="flex-1 min-w-0">
-                              <h3 className="text-yellow-300 font-mono font-semibold text-sm mb-2">Timeline</h3>
+                              <h3 className="text-secondary-foreground font-mono font-semibold text-sm mb-2">Timeline</h3>
                               <div className="space-y-1">
                                 {project.duration && (
                                   <div className="text-muted-foreground font-mono text-xs">
-                                    <span className="text-yellow-300/70">Duration:</span> <span className="text-yellow-200">{project.duration}</span>
+                                    <span className="text-secondary-foreground">Duration:</span> <span className="text-foreground">{project.duration}</span>
                                   </div>
                                 )}
                                 <div className="text-muted-foreground font-mono text-xs">
-                                  <span className="text-yellow-300/70">Period:</span> <span className="text-yellow-200">{project.start_date} {project.end_date && `→ ${project.end_date}`}</span>
+                                  <span className="text-secondary-foreground">Period:</span> <span className="text-foreground">{project.start_date} {project.end_date && `→ ${project.end_date}`}</span>
                                 </div>
                               </div>
                             </div>
@@ -201,12 +201,12 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ project, isOpen, onClose })
                           initial={{ opacity: 0, y: 10 }}
                           animate={{ opacity: 1, y: 0 }}
                           transition={{ delay: 0.4 }}
-                          className="bg-purple-500/5 border border-purple-500/20 rounded-lg p-4"
+                          className="bg-muted/5 border border-muted/20 rounded-lg p-4"
                         >
                           <div className="flex items-start space-x-3">
-                            <Code className="h-4 w-4 text-purple-400 mt-0.5 flex-shrink-0" />
+                            <Code className="h-4 w-4 text-muted-foreground mt-0.5 flex-shrink-0" />
                             <div className="flex-1 min-w-0">
-                              <h3 className="text-purple-300 font-mono font-semibold text-sm mb-3">Tech Stack</h3>
+                              <h3 className="text-muted-foreground font-mono font-semibold text-sm mb-3">Tech Stack</h3>
                               <div className="flex flex-wrap gap-2">
                                 {project.skills.map((skill, index) => (
                                   <motion.div
@@ -215,7 +215,7 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ project, isOpen, onClose })
                                     animate={{ opacity: 1, scale: 1 }}
                                     transition={{ delay: 0.5 + index * 0.03 }}
                                   >
-                                    <Badge className="bg-purple-500/20 text-purple-300 border border-purple-500/40 font-mono text-xs hover:bg-purple-500/30 transition-colors">
+                                    <Badge className="bg-muted/20 text-muted-foreground border border-muted/40 font-mono text-xs hover:bg-muted/30 transition-colors">
                                       {skill.name}
                                     </Badge>
                                   </motion.div>
@@ -235,14 +235,14 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ project, isOpen, onClose })
                               initial={{ opacity: 0, x: -10 }}
                               animate={{ opacity: 1, x: 0 }}
                               transition={{ delay: 0.6 }}
-                              className="bg-blue-500/5 border border-blue-500/20 rounded-lg p-4"
+                              className="bg-primary/5 border border-primary/20 rounded-lg p-4"
                             >
                               <div className="flex items-start space-x-3">
-                                <Cloud className="h-4 w-4 text-blue-400 mt-0.5 flex-shrink-0" />
+                                <Cloud className="h-4 w-4 text-primary mt-0.5 flex-shrink-0" />
                                 <div className="flex-1 min-w-0">
-                                  <h3 className="text-blue-300 font-mono font-semibold text-sm mb-2">Hosting</h3>
+                                  <h3 className="text-primary font-mono font-semibold text-sm mb-2">Hosting</h3>
                                   <div className="text-muted-foreground font-mono text-xs">
-                                    <span className="text-blue-200">{project.hosting_platform}</span>
+                                    <span className="text-foreground">{project.hosting_platform}</span>
                                   </div>
                                 </div>
                               </div>
@@ -255,14 +255,14 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ project, isOpen, onClose })
                               initial={{ opacity: 0, x: 10 }}
                               animate={{ opacity: 1, x: 0 }}
                               transition={{ delay: 0.7 }}
-                              className="bg-emerald-500/5 border border-emerald-500/20 rounded-lg p-4"
+                              className="bg-accent/5 border border-accent/20 rounded-lg p-4"
                             >
                               <div className="flex items-start space-x-3">
-                                <GitMerge className="h-4 w-4 text-emerald-400 mt-0.5 flex-shrink-0" />
+                                <GitMerge className="h-4 w-4 text-accent-foreground mt-0.5 flex-shrink-0" />
                                 <div className="flex-1 min-w-0">
-                                  <h3 className="text-emerald-300 font-mono font-semibold text-sm mb-2">CI/CD</h3>
+                                  <h3 className="text-accent-foreground font-mono font-semibold text-sm mb-2">CI/CD</h3>
                                   <div className="text-muted-foreground font-mono text-xs">
-                                    <span className="text-emerald-200">{project.cicd_pipeline}</span>
+                                    <span className="text-foreground">{project.cicd_pipeline}</span>
                                   </div>
                                 </div>
                               </div>
@@ -277,12 +277,12 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ project, isOpen, onClose })
                           initial={{ opacity: 0, y: 10 }}
                           animate={{ opacity: 1, y: 0 }}
                           transition={{ delay: 0.8 }}
-                          className="bg-orange-500/5 border border-orange-500/20 rounded-lg p-4"
+                          className="bg-secondary/5 border border-secondary/20 rounded-lg p-4"
                         >
                           <div className="flex items-start space-x-3">
-                            <Trophy className="h-4 w-4 text-orange-400 mt-0.5 flex-shrink-0" />
+                            <Trophy className="h-4 w-4 text-secondary-foreground mt-0.5 flex-shrink-0" />
                             <div className="flex-1 min-w-0">
-                              <h3 className="text-orange-300 font-mono font-semibold text-sm mb-3">Achievements</h3>
+                              <h3 className="text-secondary-foreground font-mono font-semibold text-sm mb-3">Achievements</h3>
                               <div className="space-y-3">
                                 {project.achievements.map((achievement, index) => (
                                   <motion.div 
@@ -290,17 +290,17 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ project, isOpen, onClose })
                                     initial={{ opacity: 0, x: -10 }}
                                     animate={{ opacity: 1, x: 0 }}
                                     transition={{ delay: 0.9 + index * 0.1 }}
-                                    className="border-l-2 border-orange-400/60 pl-3"
+                                    className="border-l-2 border-secondary-foreground/60 pl-3"
                                   >
-                                    <div className="text-orange-300 font-mono font-semibold text-xs mb-1">
+                                    <div className="text-secondary-foreground font-mono font-semibold text-xs mb-1">
                                       {achievement.achievement_title}
                                     </div>
                                     <div className="text-muted-foreground font-mono text-xs mb-2 leading-relaxed opacity-90">
                                       {achievement.achievement_description}
                                     </div>
                                     {achievement.impact_metrics && (
-                                      <div className="bg-orange-500/10 border border-orange-500/30 rounded px-2 py-1 inline-block">
-                                        <span className="text-orange-300 font-mono text-xs">
+                                      <div className="bg-secondary/10 border border-secondary/30 rounded px-2 py-1 inline-block">
+                                        <span className="text-secondary-foreground font-mono text-xs">
                                           📊 {achievement.impact_metrics}
                                         </span>
                                       </div>
@@ -316,31 +316,31 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ project, isOpen, onClose })
                   </TabsContent>
 
                   {/* Details Tab */}
-                  <TabsContent value="details" className="p-0 m-0 h-[calc(80vh-112px)] overflow-y-auto scrollbar-thin scrollbar-thumb-cyan-500/50 scrollbar-track-transparent">
+                  <TabsContent value="details" className="p-0 m-0 h-[calc(80vh-112px)] overflow-y-auto scrollbar-thin scrollbar-thumb-accent/50 scrollbar-track-transparent">
                     <div className="p-5 space-y-4">
                       {/* Project Links */}
                       <motion.div 
                         initial={{ opacity: 0, y: 10 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: 0.1 }}
-                        className="bg-green-500/5 border border-green-500/20 rounded-lg p-4"
+                        className="bg-primary/5 border border-primary/20 rounded-lg p-4"
                       >
                         <div className="flex items-start space-x-3">
-                          <Globe className="h-4 w-4 text-green-400 mt-0.5 flex-shrink-0" />
+                          <Globe className="h-4 w-4 text-primary mt-0.5 flex-shrink-0" />
                           <div className="flex-1 min-w-0">
-                            <h3 className="text-green-300 font-mono font-semibold text-sm mb-3">Project Links</h3>
+                            <h3 className="text-primary font-mono font-semibold text-sm mb-3">Project Links</h3>
                             <div className="flex flex-wrap gap-3">
                               {project.github_url && (
                                 <motion.a
                                   href={project.github_url}
                                   target="_blank"
                                   rel="noopener noreferrer"
-                                  className="flex items-center space-x-2 bg-green-500/20 border border-green-500/40 rounded-lg px-3 py-2 hover:bg-green-500/30 transition-all duration-300 group"
+                                  className="flex items-center space-x-2 bg-primary/20 border border-primary/40 rounded-lg px-3 py-2 hover:bg-primary/30 transition-all duration-300 group"
                                   whileHover={{ scale: 1.02 }}
                                   whileTap={{ scale: 0.98 }}
                                 >
-                                  <Github className="h-4 w-4 text-green-400" />
-                                  <span className="text-green-400 font-mono text-xs">Source Code</span>
+                                  <Github className="h-4 w-4 text-primary" />
+                                  <span className="text-primary font-mono text-xs">Source Code</span>
                                 </motion.a>
                               )}
                               {project.live_url && (
@@ -348,12 +348,12 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ project, isOpen, onClose })
                                   href={project.live_url}
                                   target="_blank"
                                   rel="noopener noreferrer"
-                                  className="flex items-center space-x-2 bg-cyan-500/20 border border-cyan-500/40 rounded-lg px-3 py-2 hover:bg-cyan-500/30 transition-all duration-300 group"
+                                  className="flex items-center space-x-2 bg-accent/20 border border-accent/40 rounded-lg px-3 py-2 hover:bg-accent/30 transition-all duration-300 group"
                                   whileHover={{ scale: 1.02 }}
                                   whileTap={{ scale: 0.98 }}
                                 >
-                                  <ExternalLink className="h-4 w-4 text-cyan-400" />
-                                  <span className="text-cyan-400 font-mono text-xs">Live Demo</span>
+                                  <ExternalLink className="h-4 w-4 text-accent-foreground" />
+                                  <span className="text-accent-foreground font-mono text-xs">Live Demo</span>
                                 </motion.a>
                               )}
                             </div>
@@ -367,35 +367,35 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ project, isOpen, onClose })
                           initial={{ opacity: 0, y: 10 }}
                           animate={{ opacity: 1, y: 0 }}
                           transition={{ delay: 0.2 }}
-                          className="bg-emerald-500/5 border border-emerald-500/20 rounded-lg p-4"
+                          className="bg-accent/5 border border-accent/20 rounded-lg p-4"
                         >
                           <div className="flex items-start space-x-3">
-                            <Brain className="h-4 w-4 text-emerald-400 mt-0.5 flex-shrink-0" />
+                            <Brain className="h-4 w-4 text-accent-foreground mt-0.5 flex-shrink-0" />
                             <div className="flex-1 min-w-0">
-                              <h3 className="text-emerald-300 font-mono font-semibold text-sm mb-3">ML Model</h3>
+                              <h3 className="text-accent-foreground font-mono font-semibold text-sm mb-3">ML Model</h3>
                               
                               {/* Model Basic Info */}
                               <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-4">
                                 <div className="space-y-2">
                                   <div className="text-muted-foreground font-mono text-xs">
-                                    <span className="text-emerald-300/70">Model:</span> <span className="text-emerald-200">{project.ml_models.name}</span>
+                                    <span className="text-accent-foreground">Model:</span> <span className="text-foreground">{project.ml_models.name}</span>
                                   </div>
                                   <div className="text-muted-foreground font-mono text-xs">
-                                    <span className="text-emerald-300/70">Type:</span> <span className="text-emerald-200">{project.ml_models.model_type}</span>
+                                    <span className="text-accent-foreground">Type:</span> <span className="text-foreground">{project.ml_models.model_type}</span>
                                   </div>
                                   <div className="text-muted-foreground font-mono text-xs">
-                                    <span className="text-emerald-300/70">Framework:</span> <span className="text-emerald-200">{project.ml_models.framework}</span>
+                                    <span className="text-accent-foreground">Framework:</span> <span className="text-foreground">{project.ml_models.framework}</span>
                                   </div>
                                 </div>
                                 <div className="space-y-2">
                                   <div className="text-muted-foreground font-mono text-xs">
-                                    <span className="text-emerald-300/70">Accuracy:</span> <span className="text-emerald-200">{(project.ml_models.accuracy * 100).toFixed(1)}%</span>
+                                    <span className="text-accent-foreground">Accuracy:</span> <span className="text-foreground">{(project.ml_models.accuracy * 100).toFixed(1)}%</span>
                                   </div>
                                   <div className="text-muted-foreground font-mono text-xs">
-                                    <span className="text-emerald-300/70">Data Size:</span> <span className="text-emerald-200">{project.ml_models.training_data_size}</span>
+                                    <span className="text-accent-foreground">Data Size:</span> <span className="text-foreground">{project.ml_models.training_data_size}</span>
                                   </div>
                                   <div className="text-muted-foreground font-mono text-xs">
-                                    <span className="text-emerald-300/70">Status:</span> <span className="text-emerald-200">{project.ml_models.deployment_status}</span>
+                                    <span className="text-accent-foreground">Status:</span> <span className="text-foreground">{project.ml_models.deployment_status}</span>
                                   </div>
                                 </div>
                               </div>
@@ -404,8 +404,8 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ project, isOpen, onClose })
                               {project.ml_models.use_cases && project.ml_models.use_cases.length > 0 && (
                                 <div className="mb-4">
                                   <div className="flex items-center space-x-2 mb-2">
-                                    <Target className="h-3 w-3 text-emerald-400" />
-                                    <h4 className="text-emerald-300 font-mono font-semibold text-xs">Use Cases</h4>
+                                    <Target className="h-3 w-3 text-accent-foreground" />
+                                    <h4 className="text-accent-foreground font-mono font-semibold text-xs">Use Cases</h4>
                                   </div>
                                   <div className="space-y-2">
                                     {project.ml_models.use_cases.map((useCase, index) => (
@@ -414,9 +414,9 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ project, isOpen, onClose })
                                         initial={{ opacity: 0, x: -10 }}
                                         animate={{ opacity: 1, x: 0 }}
                                         transition={{ delay: 0.3 + index * 0.1 }}
-                                        className="bg-emerald-500/10 border border-emerald-500/30 rounded p-2"
+                                        className="bg-accent/10 border border-accent/30 rounded p-2"
                                       >
-                                        <div className="text-emerald-200 font-mono font-semibold text-xs mb-1">
+                                        <div className="text-foreground font-mono font-semibold text-xs mb-1">
                                           {useCase.use_case_name}
                                         </div>
                                         <div className="text-muted-foreground font-mono text-xs leading-relaxed opacity-90">
@@ -432,8 +432,8 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ project, isOpen, onClose })
                               {project.ml_models.training_parameters && project.ml_models.training_parameters.length > 0 && (
                                 <div>
                                   <div className="flex items-center space-x-2 mb-2">
-                                    <Settings className="h-3 w-3 text-emerald-400" />
-                                    <h4 className="text-emerald-300 font-mono font-semibold text-xs">Parameters</h4>
+                                    <Settings className="h-3 w-3 text-accent-foreground" />
+                                    <h4 className="text-accent-foreground font-mono font-semibold text-xs">Parameters</h4>
                                   </div>
                                   <div className="grid grid-cols-1 lg:grid-cols-2 gap-2">
                                     {project.ml_models.training_parameters.map((param, index) => (
@@ -442,12 +442,12 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ project, isOpen, onClose })
                                         initial={{ opacity: 0, y: 5 }}
                                         animate={{ opacity: 1, y: 0 }}
                                         transition={{ delay: 0.4 + index * 0.05 }}
-                                        className="bg-emerald-500/5 border border-emerald-500/20 rounded p-2"
+                                        className="bg-accent/5 border border-accent/20 rounded p-2"
                                       >
                                         <div className="text-muted-foreground font-mono text-xs">
-                                          <span className="text-emerald-300/70">{param.parameter_name}:</span> <span className="text-emerald-200">{param.parameter_value}</span>
+                                          <span className="text-accent-foreground">{param.parameter_name}:</span> <span className="text-foreground">{param.parameter_value}</span>
                                         </div>
-                                        <div className="text-emerald-300/50 text-xs opacity-70">
+                                        <div className="text-accent-foreground/50 text-xs opacity-70">
                                           {param.parameter_type}
                                         </div>
                                       </motion.div>

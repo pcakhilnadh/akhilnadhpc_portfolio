@@ -36,18 +36,18 @@ export default function ServiceCard({
     >
       <Card className={cn(
         "relative h-full border transition-all duration-500 group overflow-hidden",
-        "bg-gradient-to-br from-slate-900/90 to-slate-800/90 backdrop-blur-sm",
+        "bg-gradient-to-br from-card/90 to-muted/90 backdrop-blur-sm",
         "transform-gpu perspective-1000",
         isHovered 
-          ? "border-cyan-400/60 shadow-2xl shadow-cyan-400/25 -translate-y-2 scale-[1.02]" 
-          : "border-slate-700/30 shadow-xl shadow-black/25"
+          ? "border-primary/60 shadow-2xl shadow-primary/25 -translate-y-2 scale-[1.02]" 
+          : "border-muted/30 shadow-xl shadow-black/25"
       )}
       style={{
         transformStyle: 'preserve-3d',
       }}>
         {/* 3D depth layers */}
-        <div className="absolute inset-0 bg-gradient-to-br from-slate-800/50 to-slate-900/50 rounded-lg transform translate-z-[-10px]" />
-        <div className="absolute inset-0 bg-gradient-to-br from-slate-700/30 to-slate-800/30 rounded-lg transform translate-z-[-20px]" />
+        <div className="absolute inset-0 bg-gradient-to-br from-muted/50 to-card/50 rounded-lg transform translate-z-[-10px]" />
+        <div className="absolute inset-0 bg-gradient-to-br from-muted/30 to-card/30 rounded-lg transform translate-z-[-20px]" />
         
         {/* Animated background gradient */}
         <motion.div
@@ -62,7 +62,7 @@ export default function ServiceCard({
 
         {/* Glowing edge highlight */}
         <motion.div
-          className="absolute inset-0 rounded-lg bg-gradient-to-r from-transparent via-cyan-400/20 to-transparent"
+          className="absolute inset-0 rounded-lg bg-gradient-to-r from-transparent via-primary/20 to-transparent"
           animate={{
             opacity: isHovered ? 1 : 0,
             scale: isHovered ? 1 : 0.8,
@@ -78,11 +78,11 @@ export default function ServiceCard({
             <motion.div
               className={cn(
                 "p-3 rounded-lg border transition-all duration-500 relative",
-                "bg-gradient-to-br from-slate-800/80 to-slate-900/80",
+                "bg-gradient-to-br from-muted/80 to-card/80",
                 "shadow-lg backdrop-blur-sm",
                 isHovered 
-                  ? "border-cyan-400/60 bg-gradient-to-br from-cyan-400/20 to-blue-400/20 shadow-cyan-400/25" 
-                  : "border-slate-600/50 shadow-black/20"
+                  ? "border-primary/60 bg-gradient-to-br from-primary/20 to-accent-foreground/20 shadow-primary/25" 
+                  : "border-muted/50 shadow-black/20"
               )}
               whileHover={{ 
                 rotate: 360,
@@ -96,17 +96,17 @@ export default function ServiceCard({
             >
               <Icon className={cn(
                 "w-6 h-6 transition-colors duration-300",
-                isHovered ? "text-cyan-400" : "text-slate-400"
+                isHovered ? "text-primary" : "text-muted-foreground"
               )} />
             </motion.div>
             <div className="flex-1">
               <CardTitle className={cn(
                 "text-xl font-bold transition-colors duration-300",
-                isHovered ? "text-cyan-400" : "text-foreground"
+                isHovered ? "text-primary" : "text-foreground"
               )}>
                 {title}
               </CardTitle>
-              <div className="text-sm text-cyan-400 font-mono mt-1">
+              <div className="text-sm text-primary font-mono mt-1">
                 Contact for pricing
               </div>
             </div>
@@ -118,7 +118,7 @@ export default function ServiceCard({
 
         <CardContent className="relative z-10">
           <div className="space-y-3">
-            <h4 className="text-sm font-semibold text-cyan-400 mb-3 flex items-center gap-2">
+            <h4 className="text-sm font-semibold text-primary mb-3 flex items-center gap-2">
               <Zap className="w-4 h-4" />
               Key Features
             </h4>
@@ -131,7 +131,7 @@ export default function ServiceCard({
                   transition={{ delay: index * 0.1 }}
                   className="flex items-center gap-2 text-sm text-muted-foreground"
                 >
-                  <div className="w-1.5 h-1.5 bg-cyan-400 rounded-full flex-shrink-0" />
+                  <div className="w-1.5 h-1.5 bg-primary rounded-full flex-shrink-0" />
                   {feature}
                 </motion.li>
               ))}
@@ -144,10 +144,10 @@ export default function ServiceCard({
             onClick={onGetQuote}
             className={cn(
               "w-full group transition-all duration-300",
-              "bg-gradient-to-r from-cyan-600 to-blue-600",
-              "hover:from-cyan-500 hover:to-blue-500",
-              "border border-cyan-400/30 hover:border-cyan-400/60",
-              "shadow-lg hover:shadow-cyan-400/25"
+              "bg-gradient-to-r from-primary to-accent-foreground",
+              "hover:from-primary/90 hover:to-accent-foreground/90",
+              "border border-primary/30 hover:border-primary/60",
+              "shadow-lg hover:shadow-primary/25"
             )}
           >
             <span className="flex items-center gap-2">
@@ -167,12 +167,12 @@ export default function ServiceCard({
           <div className={cn(
             "absolute top-2 left-2 w-4 h-0.5 rounded-full transition-all duration-300",
             "shadow-sm",
-            isHovered ? "bg-cyan-400 shadow-cyan-400/50" : "bg-slate-500"
+            isHovered ? "bg-primary shadow-primary/50" : "bg-muted-foreground"
           )} />
           <div className={cn(
             "absolute top-2 left-2 w-0.5 h-4 rounded-full transition-all duration-300",
             "shadow-sm",
-            isHovered ? "bg-cyan-400 shadow-cyan-400/50" : "bg-slate-500"
+            isHovered ? "bg-primary shadow-primary/50" : "bg-muted-foreground"
           )} />
         </motion.div>
         <motion.div 
@@ -184,12 +184,12 @@ export default function ServiceCard({
           <div className={cn(
             "absolute top-2 right-2 w-4 h-0.5 rounded-full transition-all duration-300",
             "shadow-sm",
-            isHovered ? "bg-cyan-400 shadow-cyan-400/50" : "bg-slate-500"
+            isHovered ? "bg-primary shadow-primary/50" : "bg-muted-foreground"
           )} />
           <div className={cn(
             "absolute top-2 right-2 w-0.5 h-4 rounded-full transition-all duration-300",
             "shadow-sm",
-            isHovered ? "bg-cyan-400 shadow-cyan-400/50" : "bg-slate-500"
+            isHovered ? "bg-primary shadow-primary/50" : "bg-muted-foreground"
           )} />
         </motion.div>
         <motion.div 
@@ -201,12 +201,12 @@ export default function ServiceCard({
           <div className={cn(
             "absolute bottom-2 left-2 w-4 h-0.5 rounded-full transition-all duration-300",
             "shadow-sm",
-            isHovered ? "bg-cyan-400 shadow-cyan-400/50" : "bg-slate-500"
+            isHovered ? "bg-primary shadow-primary/50" : "bg-muted-foreground"
           )} />
           <div className={cn(
             "absolute bottom-2 left-2 w-0.5 h-4 rounded-full transition-all duration-300",
             "shadow-sm",
-            isHovered ? "bg-cyan-400 shadow-cyan-400/50" : "bg-slate-500"
+            isHovered ? "bg-primary shadow-primary/50" : "bg-muted-foreground"
           )} />
         </motion.div>
         <motion.div 
@@ -218,12 +218,12 @@ export default function ServiceCard({
           <div className={cn(
             "absolute bottom-2 right-2 w-4 h-0.5 rounded-full transition-all duration-300",
             "shadow-sm",
-            isHovered ? "bg-cyan-400 shadow-cyan-400/50" : "bg-slate-500"
+            isHovered ? "bg-primary shadow-primary/50" : "bg-muted-foreground"
           )} />
           <div className={cn(
             "absolute bottom-2 right-2 w-0.5 h-4 rounded-full transition-all duration-300",
             "shadow-sm",
-            isHovered ? "bg-cyan-400 shadow-cyan-400/50" : "bg-slate-500"
+            isHovered ? "bg-primary shadow-primary/50" : "bg-muted-foreground"
           )} />
         </motion.div>
       </Card>

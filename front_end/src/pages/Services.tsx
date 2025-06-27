@@ -56,7 +56,7 @@ export default function Services({ setNavbarWelcomeText }: ServicesProps) {
         {/* Services Grid Section */}
         <div id="services-grid" className="container mx-auto px-4 py-16">
           <div className="mb-12 text-center">
-            <h2 className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-transparent mb-4">
+            <h2 className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-primary via-accent-foreground to-secondary-foreground bg-clip-text text-transparent mb-4">
               What I Offer
             </h2>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto">

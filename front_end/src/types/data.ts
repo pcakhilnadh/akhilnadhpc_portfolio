@@ -188,8 +188,20 @@ export interface Experience {
   references?: CompanyReference[];
 }
 
+export interface Education {
+  id: string;
+  degree: string;
+  institution: string;
+  institution_url?: string;
+  field_of_study: string;
+  start_date: string;
+  end_date: string;
+  gpa?: number;
+}
+
 export interface TimelineDomainData {
   experiences: Experience[];
+  education: Education[];
   welcome_text: string;
 }
 

@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import useAboutData from '@/hooks/useAboutData';
 import { UserProfileCard, BiographyCard, SkillsCard } from '@/components/about/index';
 import { Skeleton } from '@/components/ui/skeleton';
+import { PageHeader } from '@/components/common';
 
 interface AboutProps {
   setNavbarWelcomeText: (text: string) => void;
@@ -43,14 +44,9 @@ export default function About({ setNavbarWelcomeText }: AboutProps) {
       <div className="h-full flex items-center justify-center bg-background">
         <div className="container mx-auto px-4 h-full overflow-y-auto">
           <div className="max-w-6xl mx-auto py-12">
-            <div className="text-center">
-              <h2 className="text-4xl font-bold mb-4">
-                About <span className="text-primary">Me</span>
-              </h2>
-              <p className="text-muted-foreground">
-                {error || 'Failed to load about data. Please try again later.'}
-              </p>
-            </div>
+            <PageHeader 
+              title="About Me"
+            />
           </div>
         </div>
       </div>
@@ -66,9 +62,9 @@ export default function About({ setNavbarWelcomeText }: AboutProps) {
           transition={{ duration: 0.8 }}
           className="max-w-6xl mx-auto py-12"
         >
-          <h2 className="text-4xl font-bold text-center mb-16">
-            About <span className="text-primary">Me</span>
-          </h2>
+          <PageHeader 
+            title="About Me"
+          />
           
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
             {/* Left Column - User Profile Card */}

@@ -51,7 +51,7 @@ export default function UserProfileCard({ personalInfo, familyInfo, hobbies }: U
       transition={{ duration: 0.6 }}
       className="h-full"
     >
-      <Card className="overflow-hidden border-0 shadow-xl bg-gradient-to-br from-background via-background to-muted/20">
+      <Card className="overflow-hidden border-0 shadow-xl bg-gradient-to-br from-green-50 via-green-50/80 to-green-100/60 dark:from-green-950/30 dark:via-green-900/20 dark:to-green-800/10">
         {/* Hero Section with Gradient Background */}
         <div className="relative h-40 bg-gradient-to-br from-primary/90 via-primary/70 to-primary/50 overflow-hidden">
           {/* Animated background pattern */}
@@ -199,7 +199,7 @@ export default function UserProfileCard({ personalInfo, familyInfo, hobbies }: U
                               <UserCheck className="h-4 w-4 text-primary" />
                             </div>
                             <div className="min-w-0 flex-1">
-                              <div className="flex items-center justify-between mb-1">
+                              <div className="mb-1">
                                 <div className="flex items-center space-x-2">
                                   {member.profile_url ? (
                                     <a 
@@ -216,11 +216,6 @@ export default function UserProfileCard({ personalInfo, familyInfo, hobbies }: U
                                     <h5 className="text-sm font-semibold text-foreground truncate">{member.full_name}</h5>
                                   )}
                                 </div>
-                                {member.age && (
-                                  <div className="bg-primary/10 px-2 py-1 rounded-full flex-shrink-0">
-                                    <span className="text-xs font-medium text-primary">{member.age}</span>
-                                  </div>
-                                )}
                               </div>
                               <div className="flex items-center space-x-2 text-xs text-muted-foreground mb-1">
                                 <div className="flex items-center space-x-1">

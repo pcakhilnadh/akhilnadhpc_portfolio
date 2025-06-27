@@ -17,8 +17,8 @@ export default function ServicesHero() {
       <div className="absolute inset-0 opacity-30">
         <div className="absolute inset-0" style={{
           backgroundImage: `
-            linear-gradient(cyan 1px, transparent 1px),
-            linear-gradient(90deg, cyan 1px, transparent 1px)
+            linear-gradient(hsl(var(--primary)) 1px, transparent 1px),
+            linear-gradient(90deg, hsl(var(--primary)) 1px, transparent 1px)
           `,
           backgroundSize: '40px 40px'
         }} />
@@ -29,7 +29,7 @@ export default function ServicesHero() {
         {[...Array(20)].map((_, i) => (
           <motion.div
             key={i}
-            className="absolute w-1 h-1 bg-cyan-400 rounded-full"
+            className="absolute w-1 h-1 bg-primary rounded-full"
             style={{
               left: `${Math.random() * 100}%`,
               top: `${Math.random() * 100}%`,
@@ -57,7 +57,7 @@ export default function ServicesHero() {
         >
           {/* Main title with glow effect */}
           <motion.h1
-            className="text-5xl md:text-7xl font-bold bg-gradient-to-r from-cyan-400 via-blue-400 to-purple-400 bg-clip-text text-transparent"
+            className="text-5xl md:text-7xl font-bold bg-gradient-to-r from-primary via-accent-foreground to-secondary-foreground bg-clip-text text-transparent"
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.8, delay: 0.2 }}
@@ -72,8 +72,8 @@ export default function ServicesHero() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.4 }}
           >
-            Cutting-edge <span className="text-cyan-400 font-semibold">AI solutions</span> and 
-            <span className="text-purple-400 font-semibold"> digital services</span> to transform your business
+            Cutting-edge <span className="text-primary font-semibold">AI solutions</span> and 
+            <span className="text-accent-foreground font-semibold"> digital services</span> to transform your business
           </motion.p>
 
           {/* Feature highlights */}
@@ -92,14 +92,14 @@ export default function ServicesHero() {
             ].map((feature, index) => (
               <motion.div
                 key={feature}
-                className="flex items-center gap-2 px-4 py-2 bg-slate-800/50 border border-cyan-400/30 rounded-full"
-                whileHover={{ scale: 1.05, borderColor: 'rgb(34 211 238 / 0.6)' }}
+                className="flex items-center gap-2 px-4 py-2 bg-muted/50 border border-primary/30 rounded-full"
+                whileHover={{ scale: 1.05, borderColor: 'hsl(var(--primary) / 0.6)' }}
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: 0.8 + index * 0.1 }}
               >
-                <Sparkles className="w-4 h-4 text-cyan-400" />
-                <span className="text-sm font-mono text-slate-300">{feature}</span>
+                <Sparkles className="w-4 h-4 text-primary" />
+                <span className="text-sm font-mono text-muted-foreground">{feature}</span>
               </motion.div>
             ))}
           </motion.div>
@@ -114,7 +114,7 @@ export default function ServicesHero() {
             <Button
               onClick={scrollToServices}
               size="lg"
-              className="group bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 border border-cyan-400/30 shadow-lg hover:shadow-cyan-400/25 px-8 py-4"
+              className="group bg-gradient-to-r from-primary to-accent-foreground hover:from-primary/90 hover:to-accent-foreground/90 border border-primary/30 shadow-lg hover:shadow-primary/25 px-8 py-4"
             >
               <Zap className="w-5 h-5 mr-2 group-hover:rotate-12 transition-transform" />
               Explore Services
@@ -122,7 +122,7 @@ export default function ServicesHero() {
             </Button>
             
             <div className="text-sm text-muted-foreground font-mono text-center">
-              <span className="text-cyan-400">9+</span> Services Available
+              <span className="text-primary">9+</span> Services Available
             </div>
           </motion.div>
         </motion.div>

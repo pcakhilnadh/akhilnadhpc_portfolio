@@ -34,7 +34,7 @@ const services: Service[] = [
       "Model deployment & monitoring"
     ],
     icon: Brain,
-    gradient: "bg-gradient-to-br from-purple-600/20 to-pink-600/20",
+    gradient: "bg-gradient-to-br from-primary/20 to-accent-foreground/20",
     category: "AI/ML"
   },
   {
@@ -47,7 +47,7 @@ const services: Service[] = [
       "Language translation services"
     ],
     icon: MessageSquare,
-    gradient: "bg-gradient-to-br from-blue-600/20 to-cyan-600/20",
+    gradient: "bg-gradient-to-br from-accent-foreground/20 to-secondary-foreground/20",
     category: "AI/ML"
   },
   {
@@ -60,7 +60,7 @@ const services: Service[] = [
       "Custom template creation"
     ],
     icon: FileSearch,
-    gradient: "bg-gradient-to-br from-green-600/20 to-emerald-600/20",
+    gradient: "bg-gradient-to-br from-primary/20 to-accent-foreground/20",
     category: "AI/ML"
   },
   {
@@ -73,7 +73,7 @@ const services: Service[] = [
       "Custom vision models"
     ],
     icon: Car,
-    gradient: "bg-gradient-to-br from-orange-600/20 to-red-600/20",
+    gradient: "bg-gradient-to-br from-secondary-foreground/20 to-primary/20",
     category: "AI/ML"
   },
   {
@@ -86,7 +86,7 @@ const services: Service[] = [
       "Cover letter writing"
     ],
     icon: FileText,
-    gradient: "bg-gradient-to-br from-indigo-600/20 to-purple-600/20",
+    gradient: "bg-gradient-to-br from-accent-foreground/20 to-primary/20",
     category: "Consulting"
   },
   {
@@ -99,7 +99,7 @@ const services: Service[] = [
       "Content strategy"
     ],
     icon: PenTool,
-    gradient: "bg-gradient-to-br from-teal-600/20 to-blue-600/20",
+    gradient: "bg-gradient-to-br from-primary/20 to-secondary-foreground/20",
     category: "Development"
   },
   {
@@ -112,7 +112,7 @@ const services: Service[] = [
       "Cloud deployment"
     ],
     icon: Globe,
-    gradient: "bg-gradient-to-br from-violet-600/20 to-purple-600/20",
+    gradient: "bg-gradient-to-br from-secondary-foreground/20 to-accent-foreground/20",
     category: "Development"
   },
   {
@@ -125,7 +125,7 @@ const services: Service[] = [
       "Custom solution development"
     ],
     icon: Lightbulb,
-    gradient: "bg-gradient-to-br from-yellow-600/20 to-orange-600/20",
+    gradient: "bg-gradient-to-br from-accent-foreground/20 to-primary/20",
     category: "Consulting"
   },
   {
@@ -138,7 +138,7 @@ const services: Service[] = [
       "Custom AI integrations"
     ],
     icon: Bot,
-    gradient: "bg-gradient-to-br from-cyan-600/20 to-teal-600/20",
+    gradient: "bg-gradient-to-br from-primary/20 to-accent-foreground/20",
     category: "AI/ML"
   }
 ];
@@ -165,8 +165,8 @@ export default function ServicesGrid() {
       <div className="absolute inset-0 opacity-10 pointer-events-none">
         <div className="absolute inset-0" style={{
           backgroundImage: `
-            linear-gradient(cyan 1px, transparent 1px),
-            linear-gradient(90deg, cyan 1px, transparent 1px)
+            linear-gradient(hsl(var(--primary)) 1px, transparent 1px),
+            linear-gradient(90deg, hsl(var(--primary)) 1px, transparent 1px)
           `,
           backgroundSize: '40px 40px'
         }} />
@@ -176,8 +176,8 @@ export default function ServicesGrid() {
       <div className="absolute inset-0 opacity-5 pointer-events-none">
         <div className="absolute inset-0" style={{
           backgroundImage: `
-            linear-gradient(45deg, transparent 35%, cyan 50%, transparent 65%),
-            linear-gradient(-45deg, transparent 35%, cyan 50%, transparent 65%)
+            linear-gradient(45deg, transparent 35%, hsl(var(--primary)) 50%, transparent 65%),
+            linear-gradient(-45deg, transparent 35%, hsl(var(--primary)) 50%, transparent 65%)
           `,
           backgroundSize: '80px 80px'
         }} />
@@ -196,8 +196,8 @@ export default function ServicesGrid() {
             className={`
               px-6 py-3 rounded-lg border-2 transition-all duration-300 font-mono text-sm
               ${activeFilter === category
-                ? 'border-cyan-400 bg-cyan-400/10 text-cyan-400 shadow-lg shadow-cyan-400/25'
-                : 'border-slate-600 bg-slate-800/50 text-slate-400 hover:border-slate-500'
+                ? 'border-primary bg-primary/10 text-primary shadow-lg shadow-primary/25'
+                : 'border-muted bg-muted/50 text-muted-foreground hover:border-muted-foreground'
               }
             `}
             whileHover={{ scale: 1.05 }}
