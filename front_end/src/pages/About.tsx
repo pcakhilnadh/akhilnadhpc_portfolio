@@ -82,7 +82,7 @@ export default function About({ setNavbarWelcomeText }: AboutProps) {
                 longDescriptiveSummary={aboutData.personal_info.long_descriptive_summary || ''}
               />
               
-              <SkillsCard skills={aboutData.skills} />
+              <SkillsCard />
             </div>
           </div>
         </motion.div>
