@@ -98,8 +98,8 @@ export default function CertificationCard({ certification, index }: Certificatio
         "relative border-0 bg-card/80 backdrop-blur-md overflow-hidden transition-all duration-500",
         "transform-gpu perspective-1000 min-h-[400px]",
         isHovered 
-          ? "border-primary/60 shadow-2xl shadow-primary/25" 
-          : "border-primary/20 shadow-xl shadow-black/25"
+          ? "border-primary/60 shadow-2xl shadow-primary/25 dark:border-white/40 dark:shadow-white/20" 
+          : "border-primary/30 dark:border-white/30 shadow-xl shadow-black/25 dark:shadow-white/10"
       )}>
         {/* Animated Background Pattern */}
         <div className="absolute inset-0 opacity-5">
@@ -117,8 +117,8 @@ export default function CertificationCard({ certification, index }: Certificatio
           className={cn(
             "absolute inset-0 rounded-xl p-[2px] transition-all duration-500",
             isHovered 
-              ? "bg-gradient-to-r from-primary via-accent-foreground to-primary" 
-              : "bg-gradient-to-r from-primary/50 via-accent-foreground/30 to-primary/50"
+              ? "bg-gradient-to-r from-primary via-accent-foreground to-primary dark:from-white/60 dark:via-white/40 dark:to-white/60" 
+              : "bg-gradient-to-r from-primary/60 via-accent-foreground/50 to-primary/60 dark:from-white/50 dark:via-white/30 dark:to-white/50"
           )}
           style={{
             backgroundSize: '400% 400%',
@@ -132,25 +132,25 @@ export default function CertificationCard({ certification, index }: Certificatio
         <div className="absolute top-0 left-0 w-8 h-8">
           <div className={cn(
             "w-full h-1 transition-all duration-300",
-            isHovered ? "bg-primary shadow-primary/50" : "bg-muted-foreground"
+            isHovered ? "bg-primary shadow-primary/50 dark:bg-white dark:shadow-white/50" : "bg-muted-foreground dark:bg-white/60"
           )} />
           <div className={cn(
             "w-1 h-full transition-all duration-300",
-            isHovered ? "bg-primary shadow-primary/50" : "bg-muted-foreground"
+            isHovered ? "bg-primary shadow-primary/50 dark:bg-white dark:shadow-white/50" : "bg-muted-foreground dark:bg-white/60"
           )} />
         </div>
         <div className="absolute top-0 right-0 w-8 h-8">
           <div className={cn(
             "w-full h-1 transition-all duration-300",
-            isHovered ? "bg-primary shadow-primary/50" : "bg-muted-foreground"
+            isHovered ? "bg-primary shadow-primary/50 dark:bg-white dark:shadow-white/50" : "bg-muted-foreground dark:bg-white/60"
           )} />
           <div className={cn(
             "w-1 h-full ml-auto transition-all duration-300",
-            isHovered ? "bg-primary shadow-primary/50" : "bg-muted-foreground"
+            isHovered ? "bg-primary shadow-primary/50 dark:bg-white dark:shadow-white/50" : "bg-muted-foreground dark:bg-white/60"
           )} />
         </div>
 
-        <CardContent className="relative z-10 p-6 h-full flex flex-col">
+        <CardContent className="relative z-10 p-6 h-full flex flex-col border border-transparent dark:border-white/10 rounded-xl">
           {/* Header Section - Redesigned for longer names */}
           <div className="space-y-4 mb-6">
             {/* Icon and Status Row */}

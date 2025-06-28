@@ -26,7 +26,8 @@ interface ProjectListProps {
 
 interface Filters {
   company: string;
-  technology: string;
+  project_type: string;
+  status: string;
   year: string;
   search: string;
 }
@@ -34,24 +35,33 @@ interface Filters {
 const ProjectList: React.FC<ProjectListProps> = ({ projects }) => {
   const [filters, setFilters] = useState<Filters>({
     company: '',
-    technology: '',
+    project_type: '',
+    status: '',
     year: '',
     search: ''
   });
   const [showAdvancedFilters, setShowAdvancedFilters] = useState(false);
 
-  // Extract unique companies, technologies, and years
+  // Extract unique companies, project types, statuses, and years
   const filterOptions = useMemo(() => {
     const companies = new Set<string>();
-    const technologies = new Set<string>();
+    const projectTypes = new Set<string>();
+    const statuses = new Set<string>();
     const years = new Set<string>();
 
     projects.forEach(project => {
       // Companies
       companies.add(project.company?.name || 'Personal');
       
-      // Technologies
-      project.skills?.forEach(skill => technologies.add(skill.name));
+      // Project Types
+      if (project.project_type) {
+        projectTypes.add(project.project_type);
+      }
+
+      // Statuses
+      if (project.status) {
+        statuses.add(project.status);
+      }
 
       // Years - extract year from start_date
       if (project.start_date) {
@@ -64,7 +74,8 @@ const ProjectList: React.FC<ProjectListProps> = ({ projects }) => {
 
     return {
       companies: Array.from(companies).sort(),
-      technologies: Array.from(technologies).sort(),
+      projectTypes: Array.from(projectTypes).sort(),
+      statuses: Array.from(statuses).sort(),
       years: Array.from(years).sort().reverse() // Newest years first
     };
   }, [projects]);
@@ -78,10 +89,14 @@ const ProjectList: React.FC<ProjectListProps> = ({ projects }) => {
         if (projectCompany !== filters.company) return false;
       }
 
-      // Technology filter
-      if (filters.technology) {
-        const hasSkill = project.skills?.some(skill => skill.name === filters.technology);
-        if (!hasSkill) return false;
+      // Project Type filter
+      if (filters.project_type) {
+        if (project.project_type !== filters.project_type) return false;
+      }
+
+      // Status filter
+      if (filters.status) {
+        if (project.status !== filters.status) return false;
       }
 
       // Year filter
@@ -124,12 +139,12 @@ const ProjectList: React.FC<ProjectListProps> = ({ projects }) => {
   };
 
   const clearFilters = () => {
-    setFilters({ company: '', technology: '', year: '', search: '' });
+    setFilters({ company: '', project_type: '', status: '', year: '', search: '' });
     setShowAdvancedFilters(false);
   };
 
   const hasActiveFilters = Object.values(filters).some(value => value !== '');
-  const hasAdvancedFilters = filters.company || filters.technology || filters.year;
+  const hasAdvancedFilters = filters.company || filters.project_type || filters.status || filters.year;
 
   return (
     <div className="w-full space-y-6">
@@ -204,7 +219,7 @@ const ProjectList: React.FC<ProjectListProps> = ({ projects }) => {
                 className="overflow-hidden border-t border-primary/20"
               >
                 <div className="p-4 bg-primary/3">
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
                     {/* Company Filter */}
                     <div className="relative group">
                       <div className="absolute inset-0 bg-primary/5 rounded-md opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
@@ -229,14 +244,14 @@ const ProjectList: React.FC<ProjectListProps> = ({ projects }) => {
                       </div>
                     </div>
                     
-                    {/* Technology Filter */}
+                    {/* Project Type Filter */}
                     <div className="relative group">
                       <div className="absolute inset-0 bg-secondary/5 rounded-md opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                       <div className="relative">
                         <Code className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-secondary" />
                         <select
-                          value={filters.technology}
-                          onChange={(e) => handleFilterChange('technology', e.target.value)}
+                          value={filters.project_type}
+                          onChange={(e) => handleFilterChange('project_type', e.target.value)}
                           className="w-full pl-10 pr-8 py-3 bg-card border border-primary/30 rounded-md text-foreground focus:border-secondary focus:outline-none focus:ring-2 focus:ring-secondary/20"
                           style={{ 
                             appearance: 'none',
@@ -244,24 +259,48 @@ const ProjectList: React.FC<ProjectListProps> = ({ projects }) => {
                             MozAppearance: 'none'
                           }}
                         >
-                          <option value="">All Technologies</option>
-                          {filterOptions.technologies.map(tech => (
-                            <option key={tech} value={tech}>{tech}</option>
+                          <option value="">All Project Types</option>
+                          {filterOptions.projectTypes.map(projectType => (
+                            <option key={projectType} value={projectType}>{projectType.toUpperCase()}</option>
                           ))}
                         </select>
                         <ChevronDown className="absolute right-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-secondary pointer-events-none" />
                       </div>
                     </div>
+
+                    {/* Status Filter */}
+                    <div className="relative group">
+                      <div className="absolute inset-0 bg-accent-indigo/5 rounded-md opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                      <div className="relative">
+                        <Play className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-accent-indigo" />
+                        <select
+                          value={filters.status}
+                          onChange={(e) => handleFilterChange('status', e.target.value)}
+                          className="w-full pl-10 pr-8 py-3 bg-card border border-primary/30 rounded-md text-foreground focus:border-accent-indigo focus:outline-none focus:ring-2 focus:ring-accent-indigo/20"
+                          style={{ 
+                            appearance: 'none',
+                            WebkitAppearance: 'none',
+                            MozAppearance: 'none'
+                          }}
+                        >
+                          <option value="">All Statuses</option>
+                          {filterOptions.statuses.map(status => (
+                            <option key={status} value={status}>{status}</option>
+                          ))}
+                        </select>
+                        <ChevronDown className="absolute right-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-accent-indigo pointer-events-none" />
+                      </div>
+                    </div>
             
                     {/* Year Filter */}
                     <div className="relative group">
-                      <div className="absolute inset-0 bg-secondary/5 rounded-md opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                      <div className="absolute inset-0 bg-highlight/5 rounded-md opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                       <div className="relative">
-                        <Calendar className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-secondary-foreground" />
+                        <Calendar className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-highlight" />
                         <select
                           value={filters.year}
                           onChange={(e) => handleFilterChange('year', e.target.value)}
-                          className="w-full pl-10 pr-8 py-3 bg-card border border-primary/30 rounded-md text-foreground focus:border-secondary focus:outline-none focus:ring-2 focus:ring-secondary/20"
+                          className="w-full pl-10 pr-8 py-3 bg-card border border-primary/30 rounded-md text-foreground focus:border-highlight focus:outline-none focus:ring-2 focus:ring-highlight/20"
                           style={{ 
                             appearance: 'none',
                             WebkitAppearance: 'none',
@@ -273,31 +312,10 @@ const ProjectList: React.FC<ProjectListProps> = ({ projects }) => {
                             <option key={year} value={year}>{year}</option>
                           ))}
                         </select>
-                        <ChevronDown className="absolute right-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-secondary-foreground pointer-events-none" />
+                        <ChevronDown className="absolute right-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-highlight pointer-events-none" />
                       </div>
                     </div>
                   </div>
-
-                  {/* Active Filters */}
-                  {hasAdvancedFilters && (
-                    <div className="mt-4 flex flex-wrap gap-2">
-                      {filters.company && (
-                        <Badge className="bg-primary/20 text-primary border-primary/40">
-                          Company: {filters.company}
-                        </Badge>
-                      )}
-                      {filters.technology && (
-                        <Badge className="bg-secondary/20 text-secondary border-secondary/40">
-                          Tech: {filters.technology}
-                        </Badge>
-                      )}
-                      {filters.year && (
-                        <Badge className="bg-secondary/20 text-secondary-foreground border-secondary/40">
-                          Year: {filters.year}
-                        </Badge>
-                      )}
-                    </div>
-                  )}
                 </div>
               </motion.div>
             )}
@@ -466,9 +484,6 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, index }) => {
               <span className="bg-gradient-to-r from-primary via-secondary to-primary bg-clip-text text-transparent group-hover:from-primary group-hover:via-highlight group-hover:to-primary transition-all duration-500">
                 {project.title}
               </span>
-              <span className="text-xs text-muted-foreground/70 group-hover:text-primary/80 transition-all duration-300 ml-2">
-                (click for details)
-              </span>
             </h3>
             
             {/* Company & Role Row */}
@@ -494,88 +509,63 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, index }) => {
               )}
             </div>
             
-            {/* Status & Duration Row */}
-            <div className="flex items-center justify-between mb-4">
-                             {/* Status Badge */}
-               {project.status && (
-                 <Badge className={`text-xs font-bold px-3 py-1.5 border-2 transition-all duration-300 shadow-md ${
-                   project.status.toLowerCase().includes('in progress') || project.status.toLowerCase().includes('ongoing')
-                     ? 'bg-secondary text-secondary-foreground border-secondary hover:bg-secondary/90 hover:shadow-lg hover:shadow-secondary/20'
-                     : project.status.toLowerCase().includes('completed')
-                     ? 'bg-primary text-primary-foreground border-primary hover:bg-primary/90 hover:shadow-lg hover:shadow-primary/20'
-                     : project.status.toLowerCase().includes('paused')
-                     ? 'bg-accent-indigo text-white dark:text-accent-indigo-foreground border-accent-indigo hover:bg-accent-indigo/90 hover:shadow-lg hover:shadow-accent-indigo/20'
-                     : 'bg-muted text-muted-foreground border-muted hover:bg-muted/80'
-                 }`}>
-                                     {project.status.toLowerCase().includes('in progress') || project.status.toLowerCase().includes('ongoing') ? (
-                     <>
-                       <div className="w-2 h-2 bg-secondary-foreground rounded-full mr-2" />
-                       {project.status}
-                     </>
-                   ) : (
-                     project.status
-                   )}
-                </Badge>
+            {/* Compact 3-Column Layout: Status, Project Type, Duration */}
+            <div className="grid grid-cols-3 gap-3 mb-4">
+              {/* Status */}
+              {project.status && (
+                <div className="flex flex-col items-center">
+                  <div className={`flex items-center justify-center w-full px-2 py-1 rounded-md border transition-all duration-300 shadow-sm backdrop-blur-sm ${
+                    project.status.toLowerCase().includes('in progress') || project.status.toLowerCase().includes('ongoing')
+                      ? 'bg-secondary/40 text-secondary border-secondary/60 hover:bg-secondary/50'
+                      : project.status.toLowerCase().includes('completed')
+                      ? 'bg-primary/40 text-primary border-primary/60 hover:bg-primary/50'
+                      : project.status.toLowerCase().includes('paused')
+                      ? 'bg-accent-indigo/40 text-accent-indigo border-accent-indigo/60 hover:bg-accent-indigo/50'
+                      : 'bg-muted/40 text-muted-foreground border-muted/60 hover:bg-muted/50'
+                  }`}>
+                    {project.status.toLowerCase().includes('in progress') || project.status.toLowerCase().includes('ongoing') && (
+                      <div className="w-1.5 h-1.5 bg-current rounded-full mr-1" />
+                    )}
+                    <span className="text-xs font-semibold">
+                      {project.status}
+                    </span>
+                  </div>
+                </div>
+              )}
+
+              {/* Project Type */}
+              {project.project_type && (
+                <div className="flex flex-col items-center">
+                  <div className={`flex items-center justify-center w-full px-2 py-1 rounded-md border transition-all duration-300 shadow-sm backdrop-blur-sm ${
+                    project.project_type === 'production'
+                      ? 'bg-accent-indigo/40 text-accent-indigo border-accent-indigo/60 hover:bg-accent-indigo/50'
+                      : project.project_type === 'development'
+                      ? 'bg-secondary/40 text-secondary border-secondary/60 hover:bg-secondary/50'
+                      : project.project_type === 'poc'
+                      ? 'bg-highlight/40 text-highlight border-highlight/60 hover:bg-highlight/50'
+                      : project.project_type === 'mvp'
+                      ? 'bg-soft/40 text-soft border-soft/60 hover:bg-soft/50'
+                      : 'bg-primary/40 text-primary border-primary/60 hover:bg-primary/50'
+                  }`}>
+                    <span className="text-xs font-semibold">
+                      {project.project_type.toUpperCase()}
+                    </span>
+                  </div>
+                </div>
               )}
 
               {/* Duration */}
               {project.duration && (
-                <div className="flex items-center group/duration">
-                  <div className="w-5 h-5 rounded-md bg-gradient-to-br from-muted/20 to-soft/20 border border-muted/40 flex items-center justify-center mr-2 group-hover/duration:shadow-sm transition-all duration-300">
-                    <Clock className="h-3 w-3 text-muted-foreground group-hover/duration:text-soft transition-colors duration-300" />
+                <div className="flex flex-col items-center">
+                  <div className="flex items-center justify-center w-full px-2 py-1 bg-muted/40 border border-muted/60 rounded-md hover:bg-muted/50 transition-all duration-300 backdrop-blur-sm">
+                    <Clock className="h-3 w-3 text-muted-foreground mr-1" />
+                    <span className="text-xs font-semibold text-muted-foreground">
+                      {project.duration}
+                    </span>
                   </div>
-                  <span className="text-xs font-semibold text-muted-foreground group-hover:text-soft transition-colors duration-300">
-                    {project.duration}
-                  </span>
                 </div>
               )}
             </div>
-            
-                         {/* Enhanced Timeline */}
-             <div className="flex items-center justify-center space-x-3 py-2">
-               {/* Start Date */}
-               <div className="flex items-center space-x-2">
-                 <div className="w-4 h-4 rounded-full bg-secondary/20 border border-secondary/40 flex items-center justify-center group-hover:bg-secondary/30 group-hover:border-secondary/60 transition-all duration-300 flex-shrink-0">
-                   <svg className="w-2 h-2 text-secondary" fill="currentColor" viewBox="0 0 20 20">
-                     <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clipRule="evenodd" />
-                   </svg>
-                 </div>
-                 <span className="text-xs font-mono font-medium text-muted-foreground group-hover:text-secondary transition-colors duration-300 whitespace-nowrap">
-                   {startDate}
-                 </span>
-               </div>
-               
-               {/* Flow Arrow */}
-               <div className="flex items-center space-x-1 flex-shrink-0">
-                 <div className="w-5 h-0.5 bg-gradient-to-r from-secondary/40 to-primary/40 rounded-full" />
-                 <svg className="w-3 h-3 text-muted-foreground group-hover:text-primary transition-colors duration-300" fill="currentColor" viewBox="0 0 20 20">
-                   <path fillRule="evenodd" d="M10.293 15.707a1 1 0 010-1.414L14.586 10l-4.293-4.293a1 1 0 111.414-1.414l5 5a1 1 0 010 1.414l-5 5a1 1 0 01-1.414 0z" clipRule="evenodd" />
-                 </svg>
-                 <div className="w-5 h-0.5 bg-gradient-to-r from-primary/40 to-highlight/40 rounded-full" />
-               </div>
-               
-               {/* End Date */}
-               <div className="flex items-center space-x-2">
-                 <span className="text-xs font-mono font-medium text-muted-foreground group-hover:text-primary transition-colors duration-300 whitespace-nowrap">
-                   {endDate || 'Present'}
-                 </span>
-                 <div className={`w-4 h-4 rounded-full border flex items-center justify-center transition-all duration-300 flex-shrink-0 ${
-                   endDate 
-                     ? 'bg-primary/20 border-primary/40 group-hover:bg-primary/30 group-hover:border-primary/60' 
-                     : 'bg-highlight/20 border-highlight/40 group-hover:bg-highlight/30 group-hover:border-highlight/60'
-                 }`}>
-                   {endDate ? (
-                     <svg className="w-2 h-2 text-primary" fill="currentColor" viewBox="0 0 20 20">
-                       <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-                     </svg>
-                   ) : (
-                     <svg className="w-2 h-2 text-highlight" fill="currentColor" viewBox="0 0 20 20">
-                       <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clipRule="evenodd" />
-                     </svg>
-                   )}
-                 </div>
-               </div>
-             </div>
           </div>
 
           {/* Description */}
@@ -584,28 +574,6 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, index }) => {
               {project.short_description}
             </p>
           </div>
-
-          {/* Project Type Badge */}
-          {project.project_type && (
-            <div className="mb-6 relative z-10">
-                             <Badge className={`font-bold text-xs px-4 py-2 border-2 shadow-lg transition-all duration-300 hover:scale-105 ${
-                 project.project_type === 'production'
-                   ? 'bg-accent-indigo text-accent-indigo-foreground border-accent-indigo hover:bg-accent-indigo/90 hover:shadow-accent-indigo/20'
-                   : project.project_type === 'development'
-                   ? 'bg-secondary text-secondary-foreground border-secondary hover:bg-secondary/90 hover:shadow-secondary/20'
-                   : project.project_type === 'poc'
-                   ? 'bg-highlight text-background border-highlight hover:bg-highlight/90 hover:shadow-highlight/20'
-                   : project.project_type === 'mvp'
-                   ? 'bg-soft text-foreground border-soft hover:bg-soft/90 hover:shadow-soft/20'
-                   : 'bg-primary text-primary-foreground border-primary hover:bg-primary/90 hover:shadow-primary/20'
-               }`}>
-                <span className="relative">
-                  {project.project_type.toUpperCase()}
-                  <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -skew-x-12 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500" />
-                </span>
-              </Badge>
-            </div>
-          )}
 
           {/* Enhanced Tech Stack */}
           {project.skills && project.skills.length > 0 && (
