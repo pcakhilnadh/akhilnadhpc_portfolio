@@ -66,7 +66,9 @@ class AboutRepository(IAboutRepository):
             dob=profile_data.get('dob'),
             place_of_birth=profile_data.get('place_of_birth'),
             address=f"{profile_data.get('address_city', '')}, {profile_data.get('address_state', '')}, {profile_data.get('address_country', '')}",
-            profile_image=profile_data.get('profile_image')
+            profile_image=profile_data.get('profile_image'),
+            resume_summary=profile_data.get('resume_summary'),
+            phone_num=profile_data.get('phone_num')
         )
         
         family_members = self.data_access.read_family_info(username)

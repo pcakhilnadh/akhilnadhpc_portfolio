@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useLocation, useNavigate, Link } from "react-router-dom";
 import { cn } from "@/lib/utils";
-import { Menu, X, Terminal, User, Clock, Code, Briefcase, Award, Zap } from "lucide-react";
+import { Menu, X, Terminal, User, Clock, Code, Briefcase, Award, Zap, FileText } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { UserProfile } from "@/types/data";
 

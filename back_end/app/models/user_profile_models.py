@@ -21,6 +21,8 @@ class PersonalInfo(BaseModel):
     dob: Optional[str] = Field(default=None, description="Date of birth")
     place_of_birth: Optional[str] = Field(default=None, description="Place of birth")
     address: Optional[str] = Field(default=None, description="Current address")
+    resume_summary: Optional[str] = Field(default=None, description="Resume-specific professional summary")
+    phone_num: Optional[str] = Field(default=None, description="Phone number")
 
 class FamilyMember(BaseModel):
     """Model for an individual family member."""

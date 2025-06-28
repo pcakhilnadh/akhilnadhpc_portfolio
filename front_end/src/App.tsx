@@ -14,8 +14,18 @@ import Projects from '@/pages/Projects'
 import ProjectDetails from '@/pages/ProjectDetails'
 import Certifications from '@/pages/Certifications'
 import Services from '@/pages/Services'
+import Resume from '@/pages/Resume'
 import { UserProfile } from '@/types/data'
 import { cn } from '@/lib/utils'
+
+// Standalone Resume Component (no navbar/footer)
+function StandaloneResume() {
+  return (
+    <div className="min-h-screen bg-gray-50">
+      <Resume setNavbarWelcomeText={() => {}} />
+    </div>
+  )
+}
 
 function AppContent() {
   const { theme, setTheme } = useTheme()
@@ -98,33 +108,41 @@ function AppContent() {
   }
 
   return (
-    <div className="flex flex-col h-screen bg-background text-foreground">
-      {/* Navbar */}
-      <Navbar personalData={personalData} welcomeText={navbarWelcomeText} setWelcomeText={setNavbarWelcomeText} />
+    <Routes>
+      {/* Standalone Resume Route (no navbar/footer) */}
+      <Route path="/resume" element={<StandaloneResume />} />
+      
+      {/* Main Portfolio Routes (with navbar/footer) */}
+      <Route path="/*" element={
+        <div className="flex flex-col h-screen bg-background text-foreground">
+          {/* Navbar */}
+          <Navbar personalData={personalData} welcomeText={navbarWelcomeText} setWelcomeText={setNavbarWelcomeText} />
 
-      {/* Main Content with Horizontal Layout */}
-      <main className={cn(
-        "flex-1",
-        // Allow scrolling in mobile landscape mode
-        isMobile && isLandscape ? "overflow-y-auto" : "overflow-hidden"
-      )}>
-        <HorizontalLayout>
-          <Routes>
-            <Route path="/" element={<Home personalData={personalData} welcomeText={welcomeText} setNavbarWelcomeText={setNavbarWelcomeText} />} />
-            <Route path="/about" element={<About setNavbarWelcomeText={setNavbarWelcomeText} />} />
-            <Route path="/timeline" element={<Timeline setNavbarWelcomeText={setNavbarWelcomeText} />} />
-            <Route path="/projects" element={<Projects setNavbarWelcomeText={setNavbarWelcomeText} />} />
-            <Route path="/projects/:projectId" element={<ProjectDetails setNavbarWelcomeText={setNavbarWelcomeText} />} />
-            <Route path="/services" element={<Services setNavbarWelcomeText={setNavbarWelcomeText} />} />
-            <Route path="/certifications" element={<Certifications setNavbarWelcomeText={setNavbarWelcomeText} />} />
-            <Route path="*" element={<Navigate to="/" replace />} />
-          </Routes>
-        </HorizontalLayout>
-      </main>
+          {/* Main Content with Horizontal Layout */}
+          <main className={cn(
+            "flex-1",
+            // Allow scrolling in mobile landscape mode
+            isMobile && isLandscape ? "overflow-y-auto" : "overflow-hidden"
+          )}>
+            <HorizontalLayout>
+              <Routes>
+                <Route path="/" element={<Home personalData={personalData} welcomeText={welcomeText} setNavbarWelcomeText={setNavbarWelcomeText} />} />
+                <Route path="/about" element={<About setNavbarWelcomeText={setNavbarWelcomeText} />} />
+                <Route path="/timeline" element={<Timeline setNavbarWelcomeText={setNavbarWelcomeText} />} />
+                <Route path="/projects" element={<Projects setNavbarWelcomeText={setNavbarWelcomeText} />} />
+                <Route path="/projects/:projectId" element={<ProjectDetails setNavbarWelcomeText={setNavbarWelcomeText} />} />
+                <Route path="/services" element={<Services setNavbarWelcomeText={setNavbarWelcomeText} />} />
+                <Route path="/certifications" element={<Certifications setNavbarWelcomeText={setNavbarWelcomeText} />} />
+                <Route path="*" element={<Navigate to="/" replace />} />
+              </Routes>
+            </HorizontalLayout>
+          </main>
 
-      {/* Footer */}
-      <Footer />
-    </div>
+          {/* Footer */}
+          <Footer />
+        </div>
+      } />
+    </Routes>
   )
 }
 

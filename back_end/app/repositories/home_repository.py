@@ -106,7 +106,9 @@ class HomeRepository(IHomeRepository):
             average_time_in_company=average_time_in_company if average_time_in_company != "Not specified" else None,
             dob=profile_data.get('dob'),
             place_of_birth=profile_data.get('place_of_birth'),
-            address=address if address else None
+            address=address if address else None,
+            resume_summary=profile_data.get('resume_summary'),
+            phone_num=profile_data.get('phone_num')
         )
         social_profiles = self._get_profiles_by_type(username, "social")
         professional_profiles = self._get_profiles_by_type(username, "professional")

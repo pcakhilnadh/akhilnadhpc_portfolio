@@ -121,4 +121,93 @@ class CSVDataAccess(IPersonalDataAccess):
             return skills
         except Exception as e:
             self.logger.error(f"Error reading skills data: {e}")
+            return []
+    
+    def read_education(self, username: str) -> List[Dict[str, str]]:
+        """Read education data from CSV."""
+        education_path = os.path.join(self.csv_data_path, "personal", "education.csv")
+        education = []
+        
+        try:
+            with open(education_path, 'r', encoding='utf-8') as file:
+                reader = csv.DictReader(file)
+                for row in reader:
+                    if row['personal_profile_id'] == username:
+                        education.append(row)
+            
+            self.logger.info(f"Found {len(education)} education records for {username}")
+            return education
+        except Exception as e:
+            self.logger.error(f"Error reading education for {username}: {e}")
+            return []
+    
+    def read_work_experience(self, username: str) -> List[Dict[str, str]]:
+        """Read work experience data from CSV."""
+        work_exp_path = os.path.join(self.csv_data_path, "work_experience", "work_experience.csv")
+        work_experience = []
+        
+        try:
+            with open(work_exp_path, 'r', encoding='utf-8') as file:
+                reader = csv.DictReader(file)
+                for row in reader:
+                    if row['username'] == username:
+                        work_experience.append(row)
+            
+            self.logger.info(f"Found {len(work_experience)} work experience records for {username}")
+            return work_experience
+        except Exception as e:
+            self.logger.error(f"Error reading work experience for {username}: {e}")
+            return []
+    
+    def read_projects(self, username: str) -> List[Dict[str, str]]:
+        """Read projects data from CSV."""
+        projects_path = os.path.join(self.csv_data_path, "projects", "projects.csv")
+        projects = []
+        
+        try:
+            with open(projects_path, 'r', encoding='utf-8') as file:
+                reader = csv.DictReader(file)
+                for row in reader:
+                    if row['username'] == username:
+                        projects.append(row)
+            
+            self.logger.info(f"Found {len(projects)} projects for {username}")
+            return projects
+        except Exception as e:
+            self.logger.error(f"Error reading projects for {username}: {e}")
+            return []
+    
+    def read_certifications(self, username: str) -> List[Dict[str, str]]:
+        """Read certifications data from CSV."""
+        certs_path = os.path.join(self.csv_data_path, "certifications", "certifications.csv")
+        certifications = []
+        
+        try:
+            with open(certs_path, 'r', encoding='utf-8') as file:
+                reader = csv.DictReader(file)
+                for row in reader:
+                    if row['username'] == username:
+                        certifications.append(row)
+            
+            self.logger.info(f"Found {len(certifications)} certifications for {username}")
+            return certifications
+        except Exception as e:
+            self.logger.error(f"Error reading certifications for {username}: {e}")
+            return []
+    
+    def read_project_skills(self) -> List[Dict[str, str]]:
+        """Read project skills relationship data from CSV."""
+        project_skills_path = os.path.join(self.csv_data_path, "projects", "project_skills.csv")
+        project_skills = []
+        
+        try:
+            with open(project_skills_path, 'r', encoding='utf-8') as file:
+                reader = csv.DictReader(file)
+                for row in reader:
+                    project_skills.append(row)
+            
+            self.logger.info(f"Found {len(project_skills)} project-skill relationships")
+            return project_skills
+        except Exception as e:
+            self.logger.error(f"Error reading project skills data: {e}")
             return [] 

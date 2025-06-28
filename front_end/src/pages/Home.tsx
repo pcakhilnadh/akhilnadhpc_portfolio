@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { Hero } from '@/components/home/index';
 import { UserProfile } from '@/types/data';
 import { cn } from '@/lib/utils';
+import { FileText, ExternalLink } from 'lucide-react';
+import { Button } from '@/components/ui/button';
 
 interface HomeProps {
   personalData: UserProfile;
@@ -47,14 +49,40 @@ export default function Home({ personalData, welcomeText, setNavbarWelcomeText }
     };
   }, []);
   
+  const handleViewResume = () => {
+    window.open('/resume', '_blank');
+  };
+
   return (
     <div className={cn(
-      "w-full",
+      "w-full relative",
       isMobileLandscape 
         ? "min-h-full overflow-y-auto" 
         : "h-full"
     )}>
       <Hero personalData={personalData} />
+      
+      {/* Floating Resume Button */}
+      <div className="fixed bottom-20 right-6 z-50">
+        <Button
+          onClick={handleViewResume}
+          variant="outline"
+          className={cn(
+            "bg-background text-foreground border-2 border-foreground",
+            "hover:bg-foreground hover:text-background",
+            "px-4 py-2 rounded-md",
+            "transition-all duration-200",
+            "shadow-sm hover:shadow-md"
+          )}
+          size="default"
+        >
+          <div className="flex items-center gap-2">
+            <FileText className="h-4 w-4" />
+            <span>View Resume</span>
+            <ExternalLink className="h-3 w-3" />
+          </div>
+        </Button>
+      </div>
     </div>
   );
 } 

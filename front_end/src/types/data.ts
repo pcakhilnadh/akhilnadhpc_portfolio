@@ -37,6 +37,8 @@ export interface PersonalInfo {
   dob?: string;
   place_of_birth?: string;
   address?: string;
+  resume_summary?: string;
+  phone_num?: string;
 }
 
 export interface FamilyMember {

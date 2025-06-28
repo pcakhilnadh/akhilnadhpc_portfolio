@@ -33,4 +33,29 @@ class IPersonalDataAccess(ABC):
     @abstractmethod
     def read_skills_data(self) -> List[Dict[str, str]]:
         """Read all skills data from CSV."""
+        pass
+    
+    @abstractmethod
+    def read_education(self, username: str) -> List[Dict[str, str]]:
+        """Read education data."""
+        pass
+    
+    @abstractmethod
+    def read_work_experience(self, username: str) -> List[Dict[str, str]]:
+        """Read work experience data."""
+        pass
+    
+    @abstractmethod
+    def read_projects(self, username: str) -> List[Dict[str, str]]:
+        """Read projects data."""
+        pass
+    
+    @abstractmethod
+    def read_certifications(self, username: str) -> List[Dict[str, str]]:
+        """Read certifications data."""
+        pass
+    
+    @abstractmethod
+    def read_project_skills(self) -> List[Dict[str, str]]:
+        """Read project skills relationship data."""
         pass 
