@@ -35,13 +35,12 @@ class CertificationsRepository(ICertificationsRepository):
                 reader = csv.DictReader(file)
                 for row in reader:
                     if row['username'] == username:
-                        # Parse skills string to list
-                        skills = row.get('skills', '').split(',') if row.get('skills') else []
-                        skills = [skill.strip() for skill in skills if skill.strip()]
+                        # Get skills for this certification using the certification_skills relationship
+                        skills = self._get_certification_skills(row['_id'])
                         
                         certifications.append(
                             Certification(
-                                id=int(row.get('id', len(certifications) + 1)),
+                                id=int(row.get('_id', '').replace('cert_', '')),
                                 name=row['name'],
                                 issuer=row['issuer'],
                                 issue_date=row['issue_date'],
@@ -56,4 +55,50 @@ class CertificationsRepository(ICertificationsRepository):
             
         except Exception as e:
             self.data_access.logger.error(f"Error reading certifications for {username}: {e}")
+            return []
+    
+    def _get_certification_skills(self, certification_id: str) -> List[str]:
+        """Get skills associated with a certification."""
+        try:
+            import csv
+            import os
+            
+            # Path to certification skills CSV file
+            cert_skills_path = os.path.join(self.data_access.csv_data_path, "certifications", "certification_skills.csv")
+            
+            skill_ids = []
+            with open(cert_skills_path, 'r', encoding='utf-8') as file:
+                reader = csv.DictReader(file)
+                for row in reader:
+                    if row['certification_id'] == certification_id:
+                        skill_ids.append(row['skill_id'])
+            
+            # Get skill names from skill IDs
+            skill_names = self._get_skill_names_by_ids(skill_ids)
+            return skill_names
+            
+        except Exception as e:
+            self.data_access.logger.error(f"Error reading certification skills for {certification_id}: {e}")
+            return []
+    
+    def _get_skill_names_by_ids(self, skill_ids: List[str]) -> List[str]:
+        """Get skill names from skill IDs."""
+        try:
+            import csv
+            import os
+            
+            # Path to skills CSV file
+            skills_path = os.path.join(self.data_access.csv_data_path, "skills", "skills.csv")
+            
+            skill_names = []
+            with open(skills_path, 'r', encoding='utf-8') as file:
+                reader = csv.DictReader(file)
+                for row in reader:
+                    if row['_id'] in skill_ids:
+                        skill_names.append(row['name'])
+            
+            return skill_names
+            
+        except Exception as e:
+            self.data_access.logger.error(f"Error reading skill names for IDs {skill_ids}: {e}")
             return [] 
