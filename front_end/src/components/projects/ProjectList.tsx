@@ -17,7 +17,8 @@ import {
   ChevronDown,
   ChevronUp,
   Zap,
-  SlidersHorizontal
+  SlidersHorizontal,
+  Play
 } from 'lucide-react';
 import { Project } from '@/types/data';
 import { Badge } from '@/components/ui/badge';
@@ -366,6 +367,9 @@ interface ProjectCardProps {
 
 const ProjectCard: React.FC<ProjectCardProps> = ({ project, index, isExpanded, onToggleExpand }) => {
   const projectYear = project.start_date?.split('-')[0] || project.start_date?.split('/')[2] || project.start_date?.substring(0, 4);
+  
+  // Check if project is ongoing (no end_date or empty end_date)
+  const isOngoing = !project.end_date || project.end_date.trim() === '';
 
   return (
     <motion.div
@@ -374,18 +378,26 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, index, isExpanded, o
       transition={{ duration: 0.3, delay: index * 0.05 }}
       className="group relative"
     >
-      {/* Enhanced glow effect */}
+      {/* Enhanced glow effect - Special orange/yellow glow for ongoing projects */}
       <div className={`absolute inset-0 rounded-lg transition-all duration-500 ${
-        isExpanded 
-          ? 'bg-gradient-to-r from-primary/20 via-accent/10 to-primary/20 blur-lg' 
-          : 'bg-gradient-to-r from-primary/10 via-accent/5 to-primary/10 blur-lg opacity-0 group-hover:opacity-100'
+        isOngoing
+          ? isExpanded 
+            ? 'bg-gradient-to-r from-orange-400/30 via-yellow-400/20 to-orange-400/30 blur-lg' 
+            : 'bg-gradient-to-r from-orange-400/20 via-yellow-400/10 to-orange-400/20 blur-lg opacity-0 group-hover:opacity-100'
+          : isExpanded 
+            ? 'bg-gradient-to-r from-primary/20 via-accent/10 to-primary/20 blur-lg' 
+            : 'bg-gradient-to-r from-primary/10 via-accent/5 to-primary/10 blur-lg opacity-0 group-hover:opacity-100'
       }`} />
       
-      {/* Main Card */}
+      {/* Main Card - Special styling for ongoing projects */}
       <div className={`relative border rounded-lg backdrop-blur-sm transition-all duration-300 ${
-        isExpanded 
-          ? 'border-primary/60 bg-card/30 shadow-2xl shadow-primary/20' 
-          : 'border-primary/20 bg-transparent hover:border-primary/40 hover:bg-card/20'
+        isOngoing
+          ? isExpanded 
+            ? 'border-orange-400/60 bg-card/30 shadow-2xl shadow-orange-400/20' 
+            : 'border-orange-400/30 bg-transparent hover:border-orange-400/50 hover:bg-orange-50/5'
+          : isExpanded 
+            ? 'border-primary/60 bg-card/30 shadow-2xl shadow-primary/20' 
+            : 'border-primary/20 bg-transparent hover:border-primary/40 hover:bg-card/20'
       }`}>
         
         {/* Card Header */}
@@ -396,21 +408,29 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, index, isExpanded, o
           {/* Top Row */}
           <div className="flex items-start justify-between mb-4">
             <div className="flex-1 min-w-0">
-              {/* Title and Year */}
+              {/* Title and Year with Ongoing Badge */}
               <div className="flex items-center space-x-3 mb-2">
                 <h3 className="text-xl font-semibold text-foreground line-clamp-1">
                 {project.title}
               </h3>
-                <div className="flex items-center space-x-1">
-                  <Zap className="h-4 w-4 text-primary" />
-                  <span className="text-primary text-sm font-medium">{projectYear || '—'}</span>
+                <div className="flex items-center space-x-2">
+                  {isOngoing && (
+                    <Badge className="bg-gradient-to-r from-orange-400 to-yellow-400 text-orange-900 border-orange-300 text-xs font-semibold px-2 py-1 animate-pulse">
+                      <Play className="h-3 w-3 mr-1" />
+                      Ongoing
+                    </Badge>
+                  )}
+                  <div className="flex items-center space-x-1">
+                    <Zap className={`h-4 w-4 ${isOngoing ? 'text-orange-400' : 'text-primary'}`} />
+                    <span className={`text-sm font-medium ${isOngoing ? 'text-orange-400' : 'text-primary'}`}>{projectYear || '—'}</span>
+                  </div>
                 </div>
               </div>
               
               {/* Company and Role */}
               <div className="flex items-center space-x-6 mb-3">
                 <div className="flex items-center text-foreground">
-                  <Building2 className="h-4 w-4 mr-2 text-primary" />
+                  <Building2 className={`h-4 w-4 mr-2 ${isOngoing ? 'text-orange-400' : 'text-primary'}`} />
                   <span>{project.company?.name || 'Personal'}</span>
                   </div>
                 {project.role && (
@@ -421,8 +441,8 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, index, isExpanded, o
                 )}
                 {project.duration && (
                   <div className="flex items-center text-secondary-foreground">
-                    <Clock className="h-4 w-4 mr-2 text-secondary-foreground" />
-                    <span className="text-sm">{project.duration}</span>
+                    <Clock className={`h-4 w-4 mr-2 ${isOngoing ? 'text-orange-400' : 'text-secondary-foreground'}`} />
+                    <span className={`text-sm ${isOngoing ? 'text-orange-400 font-medium' : 'text-secondary-foreground'}`}>{project.duration}</span>
                   </div>
                 )}
               </div>
@@ -436,7 +456,11 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, index, isExpanded, o
                     target="_blank"
                     rel="noopener noreferrer"
                     onClick={(e) => e.stopPropagation()}
-                  className="p-2 text-primary hover:text-primary hover:bg-primary/20 rounded transition-all duration-200 border border-transparent hover:border-primary/30"
+                  className={`p-2 rounded transition-all duration-200 border border-transparent hover:border-primary/30 ${
+                    isOngoing 
+                      ? 'text-orange-400 hover:text-orange-400 hover:bg-orange-400/20' 
+                      : 'text-primary hover:text-primary hover:bg-primary/20'
+                  }`}
                   >
                   <Github className="h-4 w-4" />
                   </a>
@@ -457,7 +481,11 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, index, isExpanded, o
                   e.stopPropagation();
                   onToggleExpand();
                 }}
-                className="p-2 text-secondary-foreground hover:text-secondary-foreground hover:bg-secondary/20 rounded transition-all duration-200 border border-transparent hover:border-secondary/30"
+                className={`p-2 rounded transition-all duration-200 border border-transparent hover:border-secondary/30 ${
+                  isOngoing 
+                    ? 'text-orange-400 hover:text-orange-400 hover:bg-orange-400/20' 
+                    : 'text-secondary-foreground hover:text-secondary-foreground hover:bg-secondary/20'
+                }`}
                   >
                 {isExpanded ? (
                   <ChevronUp className="h-4 w-4" />
@@ -483,7 +511,11 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, index, isExpanded, o
                   animate={{ opacity: 1, scale: 1 }}
                   transition={{ delay: skillIndex * 0.02 }}
             >
-                  <Badge className="bg-primary/20 text-primary border-primary/40 text-xs hover:bg-primary/30 transition-colors">
+                  <Badge className={`text-xs hover:transition-colors ${
+                    isOngoing 
+                      ? 'bg-orange-400/20 text-orange-400 border-orange-400/40 hover:bg-orange-400/30' 
+                      : 'bg-primary/20 text-primary border-primary/40 hover:bg-primary/30'
+                  }`}>
                     {skill.name}
                   </Badge>
             </motion.div>
@@ -507,8 +539,12 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, index, isExpanded, o
               transition={{ duration: 0.4 }}
               className="overflow-hidden"
             >
-              <div className="border-t border-primary/30 bg-gradient-to-r from-primary/5 via-transparent to-primary/5">
-                <ProjectExpandedContent project={project} />
+              <div className={`border-t ${
+                isOngoing 
+                  ? 'border-orange-400/30 bg-gradient-to-r from-orange-400/5 via-transparent to-orange-400/5' 
+                  : 'border-primary/30 bg-gradient-to-r from-primary/5 via-transparent to-primary/5'
+              }`}>
+                <ProjectExpandedContent project={project} isOngoing={isOngoing} />
               </div>
             </motion.div>
           )}
@@ -519,7 +555,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, index, isExpanded, o
 };
 
 // Completely Redesigned Expanded Content Component
-const ProjectExpandedContent: React.FC<{ project: Project }> = ({ project }) => {
+const ProjectExpandedContent: React.FC<{ project: Project; isOngoing: boolean }> = ({ project, isOngoing }) => {
   const [isAiModelExpanded, setIsAiModelExpanded] = useState(false);
 
   return (
@@ -532,21 +568,39 @@ const ProjectExpandedContent: React.FC<{ project: Project }> = ({ project }) => 
         transition={{ delay: 0.1 }}
         className="relative"
       >
-        <div className="absolute inset-0 bg-gradient-to-r from-primary/10 to-accent/10 rounded-xl blur-sm" />
-        <div className="relative bg-card/60 border border-primary/30 rounded-xl p-5 backdrop-blur-sm">
+        <div className={`absolute inset-0 rounded-xl blur-sm ${
+          isOngoing 
+            ? 'bg-gradient-to-r from-orange-400/10 to-yellow-400/10' 
+            : 'bg-gradient-to-r from-primary/10 to-accent/10'
+        }`} />
+        <div className={`relative bg-card/60 border rounded-xl p-5 backdrop-blur-sm ${
+          isOngoing 
+            ? 'border-orange-400/30' 
+            : 'border-primary/30'
+        }`}>
           <div className="flex items-center space-x-3 mb-5">
-            <div className="w-8 h-8 bg-gradient-to-br from-primary to-accent-foreground rounded-lg flex items-center justify-center">
-              <Code className="h-4 w-4 text-primary-foreground" />
+            <div className={`w-8 h-8 rounded-lg flex items-center justify-center ${
+              isOngoing 
+                ? 'bg-gradient-to-br from-orange-400 to-yellow-400' 
+                : 'bg-gradient-to-br from-primary to-accent-foreground'
+            }`}>
+              <Code className="h-4 w-4 text-white" />
             </div>
             <h3 className="text-lg font-semibold text-foreground">Project Overview</h3>
+            {isOngoing && (
+              <Badge className="bg-gradient-to-r from-orange-400 to-yellow-400 text-orange-900 border-orange-300 text-xs font-semibold px-2 py-1 ml-2">
+                <Play className="h-3 w-3 mr-1" />
+                In Progress
+              </Badge>
+            )}
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                   {/* Timeline */}
             <div className="space-y-3">
                     <div className="flex items-center space-x-2">
-                      <Clock className="h-4 w-4 text-primary" />
-                <span className="text-primary font-medium text-sm">Timeline</span>
+                      <Clock className={`h-4 w-4 ${isOngoing ? 'text-orange-400' : 'text-primary'}`} />
+                <span className={`font-medium text-sm ${isOngoing ? 'text-orange-400' : 'text-primary'}`}>Timeline</span>
               </div>
               <div className="space-y-2 pl-6">
                 <div className="flex items-center justify-between text-sm">
@@ -559,10 +613,16 @@ const ProjectExpandedContent: React.FC<{ project: Project }> = ({ project }) => 
                     <span className="text-foreground font-mono">{project.end_date}</span>
                     </div>
                 )}
+                {!project.end_date && (
+                  <div className="flex items-center justify-between text-sm">
+                    <span className="text-muted-foreground">Status</span>
+                    <span className="text-orange-400 font-medium">In Progress</span>
+                  </div>
+                )}
                       {project.duration && (
                   <div className="flex items-center justify-between text-sm">
                     <span className="text-muted-foreground">Duration</span>
-                    <span className="text-primary font-medium">{project.duration}</span>
+                    <span className={`font-medium ${isOngoing ? 'text-orange-400' : 'text-primary'}`}>{project.duration}</span>
                   </div>
                       )}
                     </div>
