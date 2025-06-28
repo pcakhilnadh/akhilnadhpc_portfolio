@@ -50,14 +50,15 @@ const CommonBg: React.FC = () => {
       if (isAnimating) return;
       isAnimating = true;
 
-      const targetX = mousePosition.x;
-      const targetY = mousePosition.y;
-      
       // Robot dimensions
       const robotWidth = 67;
       const robotHeight = 100;
       const headOffsetX = 33.5; // Center of robot (67/2)
       const headOffsetY = 16.5; // Head position (100/6)
+      const navbarHeight = 120; // Account for sticky navbar height + padding
+      
+      const targetX = mousePosition.x;
+      const targetY = Math.max(navbarHeight + headOffsetY, mousePosition.y); // Don't target navbar area
       
       // Calculate desired robot body position so head reaches cursor
       const desiredBodyX = targetX - headOffsetX;
@@ -66,7 +67,7 @@ const CommonBg: React.FC = () => {
       // Calculate screen boundaries for robot body (keep robot fully visible)
       const minX = -(windowSize.width - 100); // Can move left from initial position
       const maxX = 0; // Initial position is already at right edge
-      const minY = -(windowSize.height - 100); // Can move up from initial position  
+      const minY = -(windowSize.height - 100 - navbarHeight); // Can move up but respect navbar
       const maxY = 0; // Initial position is already at bottom edge
       
       // Constrain desired position to screen boundaries
@@ -145,6 +146,9 @@ const CommonBg: React.FC = () => {
               if (!windowSize.width) return 1;
               const robotBodyScreenX = (windowSize.width - 100) + robotPosition.x;
               const headScreenX = robotBodyScreenX + 33.5;
+              // Respect navbar area for body flip direction
+              const navbarHeight = 120;
+              const adjustedMouseY = Math.max(navbarHeight, mousePosition.y);
               const deltaX = mousePosition.x - headScreenX;
               return deltaX < 0 ? -1 : 1; // Flip robot to face movement direction
             })(),
@@ -168,8 +172,12 @@ const CommonBg: React.FC = () => {
                   const headScreenX = robotBodyScreenX + 33.5; // Center of robot (67/2)
                   const headScreenY = robotBodyScreenY + 16.5; // Head position (100/6)
                   
+                  // Respect navbar area for head tracking
+                  const navbarHeight = 120;
+                  const adjustedMouseY = Math.max(navbarHeight, mousePosition.y);
+                  
                   const deltaX = mousePosition.x - headScreenX;
-                  const deltaY = mousePosition.y - headScreenY;
+                  const deltaY = adjustedMouseY - headScreenY;
                   const angle = Math.atan2(deltaY, deltaX) * (180 / Math.PI);
                   // Limit rotation to reasonable range for ninja head movement
                   return Math.max(-90, Math.min(90, angle));
@@ -201,7 +209,10 @@ const CommonBg: React.FC = () => {
                     if (!windowSize.height || !mousePosition.y) return 0;
                     const robotBodyScreenY = (windowSize.height - 100) + robotPosition.y;
                     const headScreenY = robotBodyScreenY + 16.5;
-                    const deltaY = mousePosition.y - headScreenY;
+                    // Respect navbar area for eye tracking
+                    const navbarHeight = 120;
+                    const adjustedMouseY = Math.max(navbarHeight, mousePosition.y);
+                    const deltaY = adjustedMouseY - headScreenY;
                     // Eye movement within visor (limited range)
                     return Math.max(-1, Math.min(1, deltaY / 200));
                   })(),
@@ -272,8 +283,11 @@ const CommonBg: React.FC = () => {
                    const robotBodyScreenY = (windowSize.height - 100) + robotPosition.y;
                    const headScreenX = robotBodyScreenX + 33.5;
                    const headScreenY = robotBodyScreenY + 16.5;
+                   // Respect navbar area for direction indicator
+                   const navbarHeight = 120;
+                   const adjustedMouseY = Math.max(navbarHeight, mousePosition.y);
                    const deltaX = mousePosition.x - headScreenX;
-                   const deltaY = mousePosition.y - headScreenY;
+                   const deltaY = adjustedMouseY - headScreenY;
                    const angle = Math.atan2(deltaY, deltaX);
                    return 100 + Math.cos(angle) * 20;
                  })()}
@@ -283,8 +297,11 @@ const CommonBg: React.FC = () => {
                    const robotBodyScreenY = (windowSize.height - 100) + robotPosition.y;
                    const headScreenX = robotBodyScreenX + 33.5;
                    const headScreenY = robotBodyScreenY + 16.5;
+                   // Respect navbar area for direction indicator
+                   const navbarHeight = 120;
+                   const adjustedMouseY = Math.max(navbarHeight, mousePosition.y);
                    const deltaX = mousePosition.x - headScreenX;
-                   const deltaY = mousePosition.y - headScreenY;
+                   const deltaY = adjustedMouseY - headScreenY;
                    const angle = Math.atan2(deltaY, deltaX);
                    return 50 + Math.sin(angle) * 20;
                  })()}

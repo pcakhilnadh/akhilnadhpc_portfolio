@@ -54,7 +54,7 @@ export default function TimelinePage({ setNavbarWelcomeText }: TimelineProps) {
   return (
     <div className="h-full bg-background relative">
       <CommonBg />
-      <div className="relative z-10">
+      <div className="container mx-auto px-4 h-full overflow-y-auto relative z-10">
         <Timeline 
           experiences={timelineData.experiences} 
           education={timelineData.education} 

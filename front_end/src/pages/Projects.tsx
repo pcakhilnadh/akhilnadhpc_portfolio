@@ -19,9 +19,10 @@ export default function Projects({ setNavbarWelcomeText }: ProjectsProps) {
   }, [welcomeText, setNavbarWelcomeText]);
 
   return (
-    <div className="h-full w-full overflow-y-auto relative">
+    <div className="h-full bg-background relative">
       <CommonBg />
-      <div className="container mx-auto px-4 py-8 max-w-6xl relative z-10">
+      <div className="container mx-auto px-4 h-full overflow-y-auto relative z-10">
+        <div className="max-w-6xl mx-auto py-8">
         
         {/* Page Header */}
         <PageHeader 
@@ -60,8 +61,9 @@ export default function Projects({ setNavbarWelcomeText }: ProjectsProps) {
           </motion.div>
         )}
         
-        {/* Add some bottom padding to ensure last item is fully visible */}
-        <div className="h-8" />
+          {/* Add some bottom padding to ensure last item is fully visible */}
+          <div className="h-8" />
+        </div>
       </div>
     </div>
   );
