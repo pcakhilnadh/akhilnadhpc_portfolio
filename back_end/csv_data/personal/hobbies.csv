@@ -1,7 +1,1 @@
-_id,personal_profile_id,hobby_name,description,skill_level
-hobby_001,akhilnadhpc,Open Source Contribution,Contributing to ML/AI open source projects on GitHub,Intermediate
-hobby_002,akhilnadhpc,Competitive Programming,Participating in coding competitions on platforms like LeetCode and HackerRank,Advanced
-hobby_003,akhilnadhpc,Reading Tech Blogs,Following latest developments in AI/ML through Medium, Towards Data Science, and research papers,Advanced
-hobby_004,akhilnadhpc,Photography,Street and nature photography, particularly interested in computational photography,Intermediate
-hobby_005,akhilnadhpc,Chess,Playing chess online and analyzing games,Intermediate
-hobby_006,akhilnadhpc,Podcasts,Listening to data science and tech podcasts like Lex Fridman, Data Skeptic, and TWIML,Advanced 
+_id,personal_profile_id,hobby_name,description,skill_level 

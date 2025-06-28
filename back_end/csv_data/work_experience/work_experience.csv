@@ -1,3 +1,1 @@
 _id,username,company_name,company_location,designation,start_date,end_date,company_url,references
-work_exp_001,akhilnadhpc,Air India,Kochi India,Lead Data Scientist,2024-10-02,Present,https://www.airindia.com,
-work_exp_002,akhilnadhpc,NeST Digital,Kochi India,Senior Software Engineer,2019-12-03,2024-10-02,https://www.nestdigital.com,"ref_003,ref_004"

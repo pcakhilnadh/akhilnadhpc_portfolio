@@ -1,9 +1,1 @@
-_id,name,description
-skill_category_001,Programming Languages,Core programming languages used in data science and ML
-skill_category_002,Machine Learning Frameworks,Popular ML and deep learning frameworks
-skill_category_003,Data Processing,Data manipulation and processing tools
-skill_category_004,Cloud Platforms,Cloud computing and deployment platforms
-skill_category_005,DevOps & MLOps,DevOps tools and MLOps practices
-skill_category_006,Databases,Database technologies for data storage and retrieval
-skill_category_007,Visualization,Data visualization and reporting tools
-skill_category_008,Mathematics & Statistics,Mathematical and statistical concepts 
+_id,name,description 

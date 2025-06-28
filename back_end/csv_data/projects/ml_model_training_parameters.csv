@@ -1,13 +1,1 @@
-_id,ml_model_id,parameter_name,parameter_value,parameter_type
-train_param_024,model_009,learning_rate,0.001,hyperparameter
-train_param_025,model_009,batch_size,32,hyperparameter
-train_param_026,model_009,epochs,150,hyperparameter
-train_param_027,model_009,sequence_length,30,hyperparameter
-train_param_028,model_010,learning_rate,0.0001,hyperparameter
-train_param_029,model_010,batch_size,64,hyperparameter
-train_param_030,model_010,epochs,50,hyperparameter
-train_param_031,model_010,optimizer,Adam,hyperparameter
-train_param_032,model_011,learning_rate,0.001,hyperparameter
-train_param_033,model_011,batch_size,128,hyperparameter
-train_param_034,model_011,epochs,100,hyperparameter
-train_param_035,model_011,sequence_length,7,hyperparameter 
+_id,ml_model_id,parameter_name,parameter_value,parameter_type 

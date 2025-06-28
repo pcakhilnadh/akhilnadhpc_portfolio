@@ -1,12 +1,1 @@
-_id,name,model_type,framework,version,training_data_size,deployment_status,description
-model_001,QueueBehaviorCV,Computer Vision,OpenCV,1.0,50K video frames,production,Computer vision model for queue and passenger behavior analysis
-model_002,PassportVerificationLLM,Transformer,Transformers,1.0,10K passport images,production,LLM-based passport and visa verification system
-model_003,FoodWasteCV,Computer Vision,TensorFlow,1.0,25K food waste images,production,Computer vision system for food waste assessment
-model_004,VIPFacialRecognition,Computer Vision,OpenCV,1.0,5K VIP passenger images,production,Facial recognition system for VIP passenger identification
-model_005,GestureNavigationCV,Computer Vision,TensorFlow,1.0,100K gesture videos,production,Gesture-based navigation system for automotive applications
-model_006,DrowsinessDetectionCV,Computer Vision,OpenCV,1.0,75K driver videos,production,Real-time drowsiness detection system
-model_007,PredictiveMaintenanceML,Machine Learning,Scikit-learn,1.0,500K sensor readings,production,ML-based predictive maintenance for industrial equipment
-model_008,CollisionPredictionML,Machine Learning,XGBoost,1.0,200K collision events,development,Collision prediction system for industrial safety
-model_009,StockPriceLSTM,Long Short-Term Memory,TensorFlow,1.0,2M stock price records,production,LSTM model for stock price prediction
-model_010,ImageClassifierCNN,Convolutional Neural Network,TensorFlow,1.0,100K images,production,CNN model for image classification
-model_011,WeatherForecastLSTM,Long Short-Term Memory,TensorFlow,1.0,500K weather records,production,LSTM model for weather forecasting 
+_id,name,model_type,framework,version,training_data_size,deployment_status,description 

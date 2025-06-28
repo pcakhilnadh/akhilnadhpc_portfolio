@@ -1,4 +1,1 @@
-_id,personal_profile_id,degree,institution,field_of_study,start_date,end_date,gpa,institution_url
-edu_001,akhilnadhpc,Bachelor of Technology,National Institute of Technology Karnataka,Computer Science and Engineering,2013-08-01,2017-05-30,8.5,https://www.nitk.ac.in
-edu_002,akhilnadhpc,Master of Science,Indian Institute of Technology Bangalore,Data Science and Machine Learning,2017-08-01,2019-05-30,8.8,https://www.iisc.ac.in
-edu_003,akhilnadhpc,Post Graduate Diploma,International Institute of Information Technology Bangalore,Artificial Intelligence and Machine Learning,2019-06-01,2020-03-30,9.2,https://www.iiitb.ac.in 
+_id,personal_profile_id,degree,institution,field_of_study,start_date,end_date,gpa,institution_url 

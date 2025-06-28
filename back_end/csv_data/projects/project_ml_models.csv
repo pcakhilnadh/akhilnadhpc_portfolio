@@ -1,12 +1,1 @@
-_id,project_id,ml_model_id,model_role,model_version
-proj_model_001,project_001,model_001,primary,1.0
-proj_model_002,project_002,model_002,primary,1.0
-proj_model_003,project_003,model_003,primary,1.0
-proj_model_004,project_004,model_004,primary,1.0
-proj_model_005,project_005,model_005,primary,1.0
-proj_model_006,project_006,model_006,primary,1.0
-proj_model_007,project_007,model_007,primary,1.0
-proj_model_008,project_008,model_008,primary,1.0
-proj_model_009,project_011,model_009,primary,1.0
-proj_model_010,project_012,model_011,primary,1.0
-proj_model_011,project_014,model_010,primary,1.0 
+_id,project_id,ml_model_id,model_role,model_version 
