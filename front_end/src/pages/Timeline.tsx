@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import useTimelineData from '@/hooks/useTimelineData';
 import { Skeleton } from '@/components/ui/skeleton';
 import Timeline from '@/components/timeline/Timeline';
-import { PageHeader } from '@/components/common';
+import { PageHeader, CommonBg } from '@/components/common';
 
 interface TimelineProps {
   setNavbarWelcomeText: (text: string) => void;
@@ -20,8 +20,9 @@ export default function TimelinePage({ setNavbarWelcomeText }: TimelineProps) {
 
   if (loading) {
     return (
-      <div className="h-full flex items-center justify-center bg-background p-4">
-        <div className="container mx-auto h-full overflow-y-auto">
+      <div className="h-full flex items-center justify-center bg-background p-4 relative">
+        <CommonBg />
+        <div className="container mx-auto h-full overflow-y-auto relative z-10">
           <div className="max-w-5xl mx-auto py-8 lg:py-12">
             <Skeleton className="h-8 sm:h-12 w-40 sm:w-48 mx-auto mb-8 lg:mb-12" />
             <div className="space-y-6 lg:space-y-8">
@@ -37,8 +38,9 @@ export default function TimelinePage({ setNavbarWelcomeText }: TimelineProps) {
 
   if (error || !timelineData) {
     return (
-      <div className="h-full flex items-center justify-center bg-background p-4">
-        <div className="container mx-auto h-full overflow-y-auto">
+      <div className="h-full flex items-center justify-center bg-background p-4 relative">
+        <CommonBg />
+        <div className="container mx-auto h-full overflow-y-auto relative z-10">
           <div className="max-w-5xl mx-auto py-8 lg:py-12">
             <PageHeader 
               title="Experience Timeline"
@@ -50,11 +52,14 @@ export default function TimelinePage({ setNavbarWelcomeText }: TimelineProps) {
   }
 
   return (
-    <div className="h-full bg-background">
-      <Timeline 
-        experiences={timelineData.experiences} 
-        education={timelineData.education} 
-      />
+    <div className="h-full bg-background relative">
+      <CommonBg />
+      <div className="relative z-10">
+        <Timeline 
+          experiences={timelineData.experiences} 
+          education={timelineData.education} 
+        />
+      </div>
     </div>
   );
 } 

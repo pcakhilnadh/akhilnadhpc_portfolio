@@ -27,10 +27,7 @@ export default function Timeline({ experiences, education }: TimelineProps) {
   });
 
   return (
-    <div className="h-full flex items-center justify-center bg-background relative overflow-hidden">
-      {/* Cyberpunk Background Effects */}
-      <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-background to-primary/10" />
-      
+    <div className="h-full flex items-center justify-center relative overflow-hidden">
       <div className="container mx-auto px-4 h-full overflow-y-auto relative z-10">
         <motion.div
           initial={{ opacity: 0, y: 50 }}

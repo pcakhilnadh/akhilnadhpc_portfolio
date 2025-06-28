@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { motion } from 'framer-motion';
 import useSkillsData from '@/hooks/useSkillsData';
 import { Skeleton } from '@/components/ui/skeleton';
+import { CommonBg } from '@/components/common';
 
 interface SkillsProps {
   setNavbarWelcomeText: (text: string) => void;
@@ -19,8 +20,9 @@ export default function Skills({ setNavbarWelcomeText }: SkillsProps) {
 
   if (loading) {
     return (
-      <div className="h-full flex items-center justify-center bg-background">
-        <div className="container mx-auto px-4 h-full overflow-y-auto">
+      <div className="h-full flex items-center justify-center bg-background relative">
+        <CommonBg />
+        <div className="container mx-auto px-4 h-full overflow-y-auto relative z-10">
           <div className="max-w-4xl mx-auto py-12">
             <Skeleton className="h-12 w-48 mx-auto mb-12" />
             <div className="grid md:grid-cols-2 gap-8">
@@ -36,8 +38,9 @@ export default function Skills({ setNavbarWelcomeText }: SkillsProps) {
 
   if (error || !skillsData) {
     return (
-      <div className="h-full flex items-center justify-center bg-background">
-        <div className="container mx-auto px-4 h-full overflow-y-auto">
+      <div className="h-full flex items-center justify-center bg-background relative">
+        <CommonBg />
+        <div className="container mx-auto px-4 h-full overflow-y-auto relative z-10">
           <div className="max-w-4xl mx-auto py-12">
             <div className="text-center">
               <h2 className="text-4xl font-bold mb-4">
@@ -54,8 +57,9 @@ export default function Skills({ setNavbarWelcomeText }: SkillsProps) {
   }
 
   return (
-    <div className="h-full flex items-center justify-center bg-background">
-      <div className="container mx-auto px-4 h-full overflow-y-auto">
+    <div className="h-full flex items-center justify-center bg-background relative">
+      <CommonBg />
+      <div className="container mx-auto px-4 h-full overflow-y-auto relative z-10">
         <motion.div
           initial={{ opacity: 0, y: 50 }}
           animate={{ opacity: 1, y: 0 }}

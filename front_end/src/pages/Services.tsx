@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { ServicesHero, ServicesGrid } from '@/components/services';
+import { CommonBg } from '@/components/common';
 import { cn } from '@/lib/utils';
 
 interface ServicesProps {
@@ -44,12 +45,13 @@ export default function Services({ setNavbarWelcomeText }: ServicesProps) {
 
   return (
     <div className={cn(
-      "w-full",
+      "w-full relative",
       isMobileLandscape 
         ? "min-h-full overflow-y-auto" 
         : "h-full overflow-y-auto"
     )}>
-      <div className="min-h-full">
+      <CommonBg />
+      <div className="min-h-full relative z-10">
         {/* Hero Section */}
         <ServicesHero />
         

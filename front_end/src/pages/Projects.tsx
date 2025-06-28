@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { motion } from 'framer-motion';
 import useProjectsData from '@/hooks/useProjectsData';
 import { ProjectList } from '@/components/projects';
-import { PageHeader } from '@/components/common';
+import { PageHeader, CommonBg } from '@/components/common';
 
 interface ProjectsProps {
   setNavbarWelcomeText: (text: string) => void;
@@ -19,8 +19,9 @@ export default function Projects({ setNavbarWelcomeText }: ProjectsProps) {
   }, [welcomeText, setNavbarWelcomeText]);
 
   return (
-    <div className="h-full w-full overflow-y-auto">
-      <div className="container mx-auto px-4 py-8 max-w-6xl">
+    <div className="h-full w-full overflow-y-auto relative">
+      <CommonBg />
+      <div className="container mx-auto px-4 py-8 max-w-6xl relative z-10">
         
         {/* Page Header */}
         <PageHeader 

@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 import useAboutData from '@/hooks/useAboutData';
 import { UserProfileCard, BiographyCard, SkillsCard } from '@/components/about/index';
 import { Skeleton } from '@/components/ui/skeleton';
-import { PageHeader } from '@/components/common';
+import { PageHeader, CommonBg } from '@/components/common';
 
 interface AboutProps {
   setNavbarWelcomeText: (text: string) => void;
@@ -21,8 +21,9 @@ export default function About({ setNavbarWelcomeText }: AboutProps) {
 
   if (loading) {
     return (
-      <div className="h-full flex items-center justify-center bg-background">
-        <div className="container mx-auto px-4 h-full overflow-y-auto">
+      <div className="h-full flex items-center justify-center bg-background relative">
+        <CommonBg />
+        <div className="container mx-auto px-4 h-full overflow-y-auto relative z-10">
           <div className="max-w-6xl mx-auto py-12">
             <Skeleton className="h-12 w-48 mx-auto mb-16" />
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
@@ -41,8 +42,9 @@ export default function About({ setNavbarWelcomeText }: AboutProps) {
 
   if (error || !aboutData) {
     return (
-      <div className="h-full flex items-center justify-center bg-background">
-        <div className="container mx-auto px-4 h-full overflow-y-auto">
+      <div className="h-full flex items-center justify-center bg-background relative">
+        <CommonBg />
+        <div className="container mx-auto px-4 h-full overflow-y-auto relative z-10">
           <div className="max-w-6xl mx-auto py-12">
             <PageHeader 
               title="About Me"
@@ -54,8 +56,9 @@ export default function About({ setNavbarWelcomeText }: AboutProps) {
   }
 
   return (
-    <div className="h-full flex items-center justify-center bg-background">
-      <div className="container mx-auto px-4 h-full overflow-y-auto">
+    <div className="h-full flex items-center justify-center bg-background relative">
+      <CommonBg />
+      <div className="container mx-auto px-4 h-full overflow-y-auto relative z-10">
         <motion.div
           initial={{ opacity: 0, y: 50 }}
           animate={{ opacity: 1, y: 0 }}
