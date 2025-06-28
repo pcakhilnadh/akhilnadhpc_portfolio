@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { ServicesHero, ServicesGrid } from '@/components/services';
 import { CommonBg } from '@/components/common';
+import { useServicesData } from '@/hooks/useServicesData';
 import { cn } from '@/lib/utils';
 
 interface ServicesProps {
@@ -9,6 +10,7 @@ interface ServicesProps {
 
 export default function Services({ setNavbarWelcomeText }: ServicesProps) {
   const [isMobileLandscape, setIsMobileLandscape] = useState(false);
+  const { data } = useServicesData();
 
   useEffect(() => {
     setNavbarWelcomeText('my_services.exe');
@@ -43,6 +45,39 @@ export default function Services({ setNavbarWelcomeText }: ServicesProps) {
     };
   }, []);
 
+  // Generate dynamic content based on services data
+  const getSectionTitle = () => {
+    if (!data?.services.length) return "What I Offer";
+    
+    const categories = data.categories;
+    if (categories.includes('AI/ML')) {
+      return "AI & Technology Solutions";
+    } else if (categories.includes('Development')) {
+      return "Development Services";
+    } else {
+      return "Professional Services";
+    }
+  };
+
+  const getSectionDescription = () => {
+    if (!data?.services.length) {
+      return "From AI-powered solutions to complete digital transformations, I deliver cutting-edge services tailored to your business needs.";
+    }
+    
+    const categories = data.categories;
+    const totalServices = data.total_services;
+    
+    if (categories.includes('AI/ML') && categories.includes('Development')) {
+      return `Comprehensive ${totalServices}+ AI-powered solutions and development services to transform your business with cutting-edge technology.`;
+    } else if (categories.includes('AI/ML')) {
+      return `Advanced ${totalServices}+ AI and machine learning solutions to automate and optimize your business processes.`;
+    } else if (categories.includes('Development')) {
+      return `Full-stack ${totalServices}+ development services to build robust, scalable applications for your business needs.`;
+    } else {
+      return `Professional ${totalServices}+ services tailored to your specific business requirements and goals.`;
+    }
+  };
+
   return (
     <div className={cn(
       "w-full relative",
@@ -59,11 +94,10 @@ export default function Services({ setNavbarWelcomeText }: ServicesProps) {
         <div id="services-grid" className="container mx-auto px-4 py-16">
           <div className="mb-12 text-center">
             <h2 className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-primary via-secondary to-secondary bg-clip-text text-transparent mb-4">
-              What I Offer
+              {getSectionTitle()}
             </h2>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              From AI-powered solutions to complete digital transformations, 
-              I deliver cutting-edge services tailored to your business needs.
+              {getSectionDescription()}
             </p>
           </div>
           

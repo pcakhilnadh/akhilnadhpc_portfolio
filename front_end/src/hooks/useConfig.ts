@@ -83,7 +83,14 @@ function useConfig() {
     fetchConfig();
   }, []);
 
-  return { config, loading, error };
+  // Return the expected properties for compatibility with other hooks
+  return {
+    config,
+    loading,
+    error,
+    apiUrl: config?.api_base_url || '',
+    username: config?.username || ''
+  };
 }
 
 export default useConfig; 

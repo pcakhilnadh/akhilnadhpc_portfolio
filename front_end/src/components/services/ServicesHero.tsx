@@ -2,14 +2,32 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { Zap, ArrowDown, Sparkles } from 'lucide-react';
+import { useServicesData } from '@/hooks/useServicesData';
 
 export default function ServicesHero() {
+  const { data } = useServicesData();
+  
   const scrollToServices = () => {
     const servicesSection = document.getElementById('services-grid');
     if (servicesSection) {
       servicesSection.scrollIntoView({ behavior: 'smooth' });
     }
   };
+
+  // Extract unique features from services data for dynamic highlights
+  const getFeatureHighlights = () => {
+    if (!data?.services) return [];
+    
+    const allFeatures = data.services.flatMap(service => service.features);
+    const uniqueFeatures = [...new Set(allFeatures)];
+    
+    // Return first 5 unique features, or fallback to default if no features
+    return uniqueFeatures.slice(0, 5).length > 0 
+      ? uniqueFeatures.slice(0, 5)
+      : ["AI Solutions", "Web Development", "Data Engineering", "Cloud Services", "Consulting"];
+  };
+
+  const featureHighlights = getFeatureHighlights();
 
   return (
     <div className="relative min-h-[60vh] flex items-center justify-center overflow-hidden">
@@ -83,13 +101,7 @@ export default function ServicesHero() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.6 }}
           >
-            {[
-              "Machine Learning",
-              "NLP Solutions",
-              "Portfolio Building",
-              "Web Development",
-              "Business Consulting"
-            ].map((feature, index) => (
+            {featureHighlights.map((feature, index) => (
               <motion.div
                 key={feature}
                 className="flex items-center gap-2 px-4 py-2 bg-muted/50 border border-primary/30 rounded-full"
@@ -122,7 +134,7 @@ export default function ServicesHero() {
             </Button>
             
             <div className="text-sm text-muted-foreground font-mono text-center">
-              <span className="text-primary">9+</span> Services Available
+              <span className="text-primary">{data?.total_services || 0}+</span> Services Available
             </div>
           </motion.div>
         </motion.div>

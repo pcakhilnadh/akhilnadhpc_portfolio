@@ -8,6 +8,7 @@ from .routers.skills import router as skills_router
 from .routers.projects import router as projects_router
 from .routers.certifications import router as certifications_router
 from .routers.timeline import router as timeline_router
+from .routers.services import router as services_router
 
 
 class PortfolioAPI:
@@ -66,6 +67,7 @@ class PortfolioAPI:
         self.app.include_router(projects_router)
         self.app.include_router(certifications_router)
         self.app.include_router(timeline_router)
+        self.app.include_router(services_router)
         self.logger.info("API routes configured at /, /about, /skills, etc.")
     
     def _log_startup_info(self):

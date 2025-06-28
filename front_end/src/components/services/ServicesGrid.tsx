@@ -2,140 +2,59 @@ import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import ServiceCard from './ServiceCard';
 import EmailModal from './EmailModal';
-import { 
-  Brain, 
-  FileText, 
-  Car, 
-  FileSearch, 
-  PenTool, 
-  Globe, 
-  Lightbulb,
-  Bot,
-  MessageSquare,
-  Code,
-  Database,
-  Cloud,
-  Users,
-  Zap
-} from 'lucide-react';
-
-interface Service {
-  title: string;
-  description: string;
-  features: string[];
-  icon: any;
-  gradient: string;
-  category: 'AI/ML' | 'Development' | 'Consulting';
-}
-
-const services: Service[] = [
-  {
-    title: "AI/ML Development",
-    description: "Custom machine learning models and AI solutions tailored to your business needs.",
-    features: [
-      "Predictive Analytics",
-      "Computer Vision",
-      "Natural Language Processing",
-      "Recommendation Systems",
-      "Model Optimization",
-      "Production Deployment"
-    ],
-    icon: Brain,
-    gradient: "bg-gradient-to-br from-primary/20 to-secondary/20",
-    category: 'AI/ML'
-  },
-  {
-    title: "Full-Stack Development",
-    description: "End-to-end web and mobile applications with modern technologies.",
-    features: [
-      "React/Next.js Frontend",
-      "Node.js/Python Backend",
-      "Database Design",
-      "API Development",
-      "Cloud Deployment",
-      "Performance Optimization"
-    ],
-    icon: Code,
-    gradient: "bg-gradient-to-br from-secondary/20 to-accent-indigo/20",
-    category: 'Development'
-  },
-  {
-    title: "Data Engineering",
-    description: "Scalable data pipelines and infrastructure for big data processing.",
-    features: [
-      "ETL Pipeline Design",
-      "Data Warehousing",
-      "Real-time Processing",
-      "Data Quality Assurance",
-      "Monitoring & Alerting",
-      "Cost Optimization"
-    ],
-    icon: Database,
-    gradient: "bg-gradient-to-br from-primary/20 to-secondary/20",
-    category: 'AI/ML'
-  },
-  {
-    title: "DevOps & Cloud",
-    description: "Infrastructure automation and cloud-native solutions.",
-    features: [
-      "CI/CD Pipeline Setup",
-      "Container Orchestration",
-      "Cloud Architecture",
-      "Monitoring & Logging",
-      "Security Best Practices",
-      "Cost Management"
-    ],
-    icon: Cloud,
-    gradient: "bg-gradient-to-br from-secondary/20 to-primary/20",
-    category: 'Development'
-  },
-  {
-    title: "Technical Consulting",
-    description: "Strategic guidance for technology decisions and architecture.",
-    features: [
-      "Technology Assessment",
-      "Architecture Design",
-      "Performance Audits",
-      "Security Reviews",
-      "Team Training",
-      "Project Planning"
-    ],
-    icon: Users,
-    gradient: "bg-gradient-to-br from-accent-indigo/20 to-secondary/20",
-    category: 'Consulting'
-  },
-  {
-    title: "API Development",
-    description: "Robust and scalable APIs for seamless integration.",
-    features: [
-      "RESTful API Design",
-      "GraphQL Implementation",
-      "Authentication & Authorization",
-      "Rate Limiting",
-      "Documentation",
-      "Testing & Monitoring"
-    ],
-    icon: Zap,
-    gradient: "bg-gradient-to-br from-secondary/20 to-primary/20",
-    category: 'Development'
-  }
-];
+import { useServicesData } from '@/hooks/useServicesData';
+import { getIconComponent } from '@/lib/iconMapping';
 
 export default function ServicesGrid() {
   const [isEmailModalOpen, setIsEmailModalOpen] = useState(false);
   const [selectedService, setSelectedService] = useState<string>('');
-  const [activeFilter, setActiveFilter] = useState<'All' | 'AI/ML' | 'Development' | 'Consulting'>('All');
+  const [activeFilter, setActiveFilter] = useState<string>('All');
+  
+  const { data, loading, error } = useServicesData();
 
   const handleGetQuote = (serviceTitle: string) => {
     setSelectedService(serviceTitle);
     setIsEmailModalOpen(true);
   };
 
-  const filteredServices = activeFilter === 'All' 
-    ? services 
-    : services.filter(service => service.category === activeFilter);
+  // Show loading state
+  if (loading) {
+    return (
+      <div className="relative space-y-8">
+        <div className="flex justify-center">
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
+        </div>
+      </div>
+    );
+  }
 
-  const categories = ['All', 'AI/ML', 'Development', 'Consulting'];
+  // Show error state
+  if (error) {
+    return (
+      <div className="relative space-y-8">
+        <div className="text-center text-red-500">
+          <p>Error loading services: {error}</p>
+        </div>
+      </div>
+    );
+  }
+
+  // Show empty state
+  if (!data || !data.services.length) {
+    return (
+      <div className="relative space-y-8">
+        <div className="text-center text-muted-foreground">
+          <p>No services available at the moment.</p>
+        </div>
+      </div>
+    );
+  }
+
+  const filteredServices = activeFilter === 'All' 
+    ? data.services 
+    : data.services.filter(service => service.category === activeFilter);
+
+  const categories = ['All', ...data.categories];
 
   return (
     <div className="relative space-y-8">
@@ -170,7 +89,7 @@ export default function ServicesGrid() {
         {categories.map((category) => (
           <motion.button
             key={category}
-            onClick={() => setActiveFilter(category as any)}
+            onClick={() => setActiveFilter(category)}
             className={`
               px-6 py-3 rounded-lg border-2 transition-all duration-300 font-mono text-sm
               ${activeFilter === category
@@ -191,28 +110,32 @@ export default function ServicesGrid() {
         layout
         className="relative z-10 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8"
       >
-        {filteredServices.map((service, index) => (
-          <motion.div
-            key={service.title}
-            layout
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 0.9 }}
-            transition={{ 
-              duration: 0.3,
-              delay: index * 0.1 
-            }}
-          >
-            <ServiceCard
-              title={service.title}
-              description={service.description}
-              features={service.features}
-              icon={service.icon}
-              gradient={service.gradient}
-              onGetQuote={() => handleGetQuote(service.title)}
-            />
-          </motion.div>
-        ))}
+        {filteredServices.map((service, index) => {
+          const IconComponent = getIconComponent(service.icon_name);
+          
+          return (
+            <motion.div
+              key={service.id}
+              layout
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.9 }}
+              transition={{ 
+                duration: 0.3,
+                delay: index * 0.1 
+              }}
+            >
+              <ServiceCard
+                title={service.title}
+                description={service.description}
+                features={service.features}
+                icon={IconComponent}
+                gradient={service.gradient}
+                onGetQuote={() => handleGetQuote(service.title)}
+              />
+            </motion.div>
+          );
+        })}
       </motion.div>
 
       {/* Email Modal */}
