@@ -1,1 +1,10 @@
-_id,name,description 
+_id,name,description
+skill_category_001,Programming Languages,Programming languages used for development
+skill_category_002,Machine Learning Frameworks,Frameworks and libraries for ML and DL
+skill_category_003,Data Processing,Data manipulation and analysis tools
+skill_category_004,Cloud Platforms,Cloud and deployment platforms
+skill_category_005,DevOps & MLOps,DevOps and MLOps tools
+skill_category_006,Databases,Database technologies
+skill_category_007,Visualization,Visualization and reporting tools
+skill_category_009,Web Frameworks,Web development frameworks
+skill_category_010,Other,Other relevant skills 

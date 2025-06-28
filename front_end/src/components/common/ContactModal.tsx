@@ -95,19 +95,19 @@ export default function ContactModal({ isOpen, onClose, personalData }: ContactM
           href={profile.url} 
           target="_blank" 
           rel="noopener noreferrer"
-          className="flex items-center justify-between p-3 hover:bg-primary/5 rounded-md transition-all border border-transparent hover:border-primary/20 group-hover:pl-4"
+          className="flex items-center justify-between p-4 bg-background hover:bg-muted rounded-lg transition-all border border-border hover:border-primary group-hover:shadow-md"
         >
           <div className="flex items-center">
-            <span className="text-primary mr-3 flex-shrink-0">
+            <span className="text-primary mr-4 flex-shrink-0">
               {getIconComponent(platform)}
             </span>
             <div>
-              <div className="font-medium">{displayName}</div>
-              <div className="text-xs text-muted-foreground font-mono">{profile.handler}</div>
+              <div className="font-semibold text-foreground">{displayName}</div>
+              <div className="text-sm text-muted-foreground font-mono">{profile.handler}</div>
             </div>
           </div>
           <span className="opacity-0 group-hover:opacity-100 transition-opacity">
-            <ExternalLink className="w-4 h-4 text-muted-foreground" />
+            <ExternalLink className="w-5 h-5 text-muted-foreground" />
           </span>
         </a>
       </motion.li>
@@ -116,148 +116,79 @@ export default function ContactModal({ isOpen, onClose, personalData }: ContactM
   
   return (
     <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
-      <DialogContent className="max-w-4xl backdrop-blur-xl bg-background/90 shadow-green-500/10 border-primary/20 p-0 overflow-hidden">
-        <div className="bg-primary/5 border-b border-primary/20 p-0.5 flex items-center">
-          <div className="flex space-x-1.5 px-3 py-2">
-            <div className="w-3 h-3 rounded-full bg-destructive" onClick={onClose}></div>
-            <div className="w-3 h-3 rounded-full bg-accent"></div>
-            <div className="w-3 h-3 rounded-full bg-primary"></div>
+      <DialogContent className="max-w-4xl bg-background border border-border shadow-2xl p-0 overflow-hidden">
+        {/* Header */}
+        <div className="bg-gradient-to-r from-primary/10 to-primary/5 border-b border-border p-4">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center space-x-3">
+              <div className="flex space-x-2">
+                <div className="w-3 h-3 rounded-full bg-red-500"></div>
+                <div className="w-3 h-3 rounded-full bg-yellow-500"></div>
+                <div className="w-3 h-3 rounded-full bg-green-500"></div>
+              </div>
+              <div className="font-mono text-sm text-foreground">
+                <span className="text-muted-foreground mr-2">root@akhilnadhpc:~$</span> 
+                {typedText}
+                <span className="inline-block w-2 h-4 bg-primary animate-pulse ml-1"></span>
+              </div>
+            </div>
+            <DialogClose className="p-2 text-muted-foreground hover:text-foreground hover:bg-muted rounded-md transition-colors">
+              <X className="h-4 w-4" />
+            </DialogClose>
           </div>
-          <div className="flex-1 text-center font-mono text-xs text-primary">
-            <span className="mr-1.5 opacity-60">root@akhilnadhpc:~$</span> 
-            {typedText}
-            <span className="inline-block w-2 h-4 bg-primary animate-pulse ml-1"></span>
-          </div>
-          <DialogClose className="p-2 text-muted-foreground hover:text-foreground">
-            <X className="h-4 w-4" />
-          </DialogClose>
         </div>
+
         {/* Email Contact */}
-        <div className="p-4 border-b border-primary/10">
+        <div className="p-6 border-b border-border bg-muted/30">
           <a 
             href={`mailto:${personal_info.email}`} 
-            className="flex items-center justify-between p-2 hover:bg-primary/5 rounded-md transition-all border border-dashed border-primary/30 hover:border-primary group"
+            className="flex items-center justify-between p-4 bg-background hover:bg-muted rounded-lg transition-all border border-border hover:border-primary group shadow-sm"
           >
             <div className="flex items-center">
-              <span className="text-primary mr-3">
-                <Mail className="h-5 w-5" />
+              <span className="text-primary mr-4">
+                <Mail className="h-6 w-6" />
               </span>
               <div>
-                <div className="font-medium">Email</div>
-                <div className="text-xs font-mono text-muted-foreground">{personal_info.email}</div>
+                <div className="font-semibold text-foreground">Email</div>
+                <div className="text-sm font-mono text-muted-foreground">{personal_info.email}</div>
               </div>
             </div>
             <span className="opacity-0 group-hover:opacity-100 transition-opacity">
-              <ExternalLink className="w-4 h-4 text-muted-foreground" />
+              <ExternalLink className="w-5 h-5 text-muted-foreground" />
             </span>
           </a>
         </div>
-        <Tabs defaultValue="all" className="w-full">
-          <div className="border-b border-primary/10">
-            <div className="px-4 pt-2 pb-2">
-              <TabsList className="grid grid-cols-5 w-full">
-                <TabsTrigger value="all" className="data-[state=active]:bg-primary/10">
-                  <Terminal className="w-4 h-4 mr-2" /> All
-                </TabsTrigger>
+
+        {/* Tabs */}
+        <Tabs defaultValue="professional" className="w-full">
+          <div className="border-b border-border bg-muted/20">
+            <div className="px-6 pt-4 pb-2">
+              <TabsList className="grid grid-cols-4 w-full bg-background border border-border">
                 {Object.keys(social_profiles).length > 0 && (
-                  <TabsTrigger value="social" className="data-[state=active]:bg-primary/10">
+                  <TabsTrigger value="social" className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
                     <Zap className="w-4 h-4 mr-2" /> Social
                   </TabsTrigger>
                 )}
                 {Object.keys(professional_profiles).length > 0 && (
-                  <TabsTrigger value="professional" className="data-[state=active]:bg-primary/10">
+                  <TabsTrigger value="professional" className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
                     <BriefcaseIcon className="w-4 h-4 mr-2" /> Professional
                   </TabsTrigger>
                 )}
                 {Object.keys(coding_profiles).length > 0 && (
-                  <TabsTrigger value="coding" className="data-[state=active]:bg-primary/10">
+                  <TabsTrigger value="coding" className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
                     <Code className="w-4 h-4 mr-2" /> Coding
                   </TabsTrigger>
                 )}
                 {Object.keys(personal_profiles).length > 0 && (
-                  <TabsTrigger value="personal" className="data-[state=active]:bg-primary/10">
+                  <TabsTrigger value="personal" className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
                     <User className="w-4 h-4 mr-2" /> Personal
                   </TabsTrigger>
                 )}
               </TabsList>
             </div>
           </div>
-          <div className="p-4 max-h-[60vh] overflow-y-auto">
-            {/* All Profiles Tab */}
-            <TabsContent value="all" className="mt-0 space-y-4">
-              {/* Social Profiles */}
-              {Object.keys(social_profiles).length > 0 && (
-                <div className="mb-4">
-                  <div className="flex items-center mb-2">
-                    <div className="h-px flex-1 bg-primary/20"></div>
-                    <h3 className="font-mono text-xs uppercase text-primary mx-2 flex items-center">
-                      <Zap className="w-3.5 h-3.5 mr-1.5" /> Social Profiles
-                    </h3>
-                    <div className="h-px flex-1 bg-primary/20"></div>
-                  </div>
-                  <ul className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                    {Object.entries(social_profiles).map((entry, index) => 
-                      renderProfileLink(entry[0], entry[1], index)
-                    )}
-                  </ul>
-                </div>
-              )}
-              
-              {/* Professional Profiles */}
-              {Object.keys(professional_profiles).length > 0 && (
-                <div className="mb-6">
-                  <div className="flex items-center mb-3">
-                    <div className="h-px flex-1 bg-primary/20"></div>
-                    <h3 className="font-mono text-xs uppercase text-primary mx-2 flex items-center">
-                      <BriefcaseIcon className="w-3.5 h-3.5 mr-1.5" /> Professional Profiles
-                    </h3>
-                    <div className="h-px flex-1 bg-primary/20"></div>
-                  </div>
-                  <ul className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                    {Object.entries(professional_profiles).map((entry, index) => 
-                      renderProfileLink(entry[0], entry[1], index)
-                    )}
-                  </ul>
-                </div>
-              )}
-              
-              {/* Coding Profiles */}
-              {Object.keys(coding_profiles).length > 0 && (
-                <div className="mb-6">
-                  <div className="flex items-center mb-3">
-                    <div className="h-px flex-1 bg-primary/20"></div>
-                    <h3 className="font-mono text-xs uppercase text-primary mx-2 flex items-center">
-                      <Code className="w-3.5 h-3.5 mr-1.5" /> Coding Profiles
-                    </h3>
-                    <div className="h-px flex-1 bg-primary/20"></div>
-                  </div>
-                  <ul className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                    {Object.entries(coding_profiles).map((entry, index) => 
-                      renderProfileLink(entry[0], entry[1], index)
-                    )}
-                  </ul>
-                </div>
-              )}
-              
-              {/* Personal Profiles */}
-              {Object.keys(personal_profiles).length > 0 && (
-                <div className="mb-6">
-                  <div className="flex items-center mb-3">
-                    <div className="h-px flex-1 bg-primary/20"></div>
-                    <h3 className="font-mono text-xs uppercase text-primary mx-2 flex items-center">
-                      <User className="w-3.5 h-3.5 mr-1.5" /> Personal Profiles
-                    </h3>
-                    <div className="h-px flex-1 bg-primary/20"></div>
-                  </div>
-                  <ul className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                    {Object.entries(personal_profiles).map((entry, index) => 
-                      renderProfileLink(entry[0], entry[1], index)
-                    )}
-                  </ul>
-                </div>
-              )}
-            </TabsContent>
-            
+
+          <div className="p-6 max-h-[60vh] overflow-y-auto">
             {/* Social Profiles Tab */}
             <TabsContent value="social" className="mt-0">
               <AnimatePresence>
@@ -266,7 +197,7 @@ export default function ContactModal({ isOpen, onClose, personalData }: ContactM
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
                 >
-                  <ul className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                  <ul className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     {Object.entries(social_profiles).map((entry, index) => 
                       renderProfileLink(entry[0], entry[1], index)
                     )}
@@ -283,7 +214,7 @@ export default function ContactModal({ isOpen, onClose, personalData }: ContactM
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
                 >
-                  <ul className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                  <ul className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     {Object.entries(professional_profiles).map((entry, index) => 
                       renderProfileLink(entry[0], entry[1], index)
                     )}
@@ -300,7 +231,7 @@ export default function ContactModal({ isOpen, onClose, personalData }: ContactM
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
                 >
-                  <ul className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                  <ul className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     {Object.entries(coding_profiles).map((entry, index) => 
                       renderProfileLink(entry[0], entry[1], index)
                     )}
@@ -317,7 +248,7 @@ export default function ContactModal({ isOpen, onClose, personalData }: ContactM
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
                 >
-                  <ul className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                  <ul className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     {Object.entries(personal_profiles).map((entry, index) => 
                       renderProfileLink(entry[0], entry[1], index)
                     )}

@@ -1,5 +1,6 @@
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, computed_field
 from typing import List, Dict, Optional
+from datetime import datetime, date
 
 class Profile(BaseModel):
     """Model for a single social or professional profile link."""
@@ -29,8 +30,23 @@ class FamilyMember(BaseModel):
     relationship: str = Field(description="Relationship to the person")
     full_name: str = Field(description="Full name of the family member")
     occupation: str = Field(description="Occupation of the family member")
-    age: Optional[int] = Field(default=None, description="Age of the family member")
+    dob: Optional[str] = Field(default=None, description="Date of birth of the family member (YYYY-MM-DD)")
     profile_url: Optional[str] = Field(default=None, description="Profile URL or image of the family member")
+    
+    @computed_field
+    @property
+    def age(self) -> Optional[int]:
+        """Calculate age from date of birth."""
+        if not self.dob:
+            return None
+        
+        try:
+            birth_date = datetime.strptime(self.dob, '%Y-%m-%d').date()
+            today = date.today()
+            age = today.year - birth_date.year - ((today.month, today.day) < (birth_date.month, birth_date.day))
+            return age
+        except (ValueError, TypeError):
+            return None
 
 class UserProfile(BaseModel):
     """The complete user profile, composing all related personal information."""

@@ -42,13 +42,13 @@ class CSVDataAccess(IPersonalDataAccess):
                         platform = row['platform'].lower().strip()
                         
                         # Define profile type mappings
-                        if profile_type == "social" and platform in ['linkedin', 'twitter']:
+                        if profile_type == "social" and platform in ['linkedin', 'twitter', 'instagram']:
                             profiles.append(row)
                         elif profile_type == "professional" and platform in ['linkedin', 'portfolio website']:
                             profiles.append(row)
-                        elif profile_type == "coding" and platform in ['github', 'kaggle']:
+                        elif profile_type == "coding" and platform in ['github', 'kaggle', 'hackerrank', 'hackerearth', 'leetcode', 'stack overflow', 'cs stack exchange', 'gate overflow']:
                             profiles.append(row)
-                        elif profile_type == "personal" and platform in ['medium', 'portfolio website']:
+                        elif profile_type == "personal" and platform in ['medium', 'portfolio website', 'tripoto', 'google map reviewer profile']:
                             profiles.append(row)
             
             self.logger.info(f"Found {len(profiles)} {profile_type} profiles for {username}")

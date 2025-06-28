@@ -2,7 +2,7 @@ from abc import ABC, abstractmethod
 from typing import List, Optional
 from enum import Enum
 from datetime import datetime, date
-from pydantic import BaseModel, Field, computed_field
+from pydantic import BaseModel, Field, computed_field, field_validator
 from .experience_models import CompanyBase
 from .ml_models import MLModel
 from .skills_models import SkillBase
@@ -16,9 +16,31 @@ class ProjectType(str, Enum):
     DATA_ANALYSIS = "Data Analysis"
     RESEARCH = "Research"
     MODEL_BUILDING = "Model Building"
+    MODELING = "Modeling"
     ALGORITHM_DEVELOPMENT = "Algorithm Development"
     CONSULTATION = "Consultation"
     PROJECT = "Project"
+    
+    @classmethod
+    def _missing_(cls, value):
+        """Handle case-insensitive matching for project types."""
+        if isinstance(value, str):
+            # Try exact match first
+            try:
+                return cls(value)
+            except ValueError:
+                pass
+            
+            # Try case-insensitive match
+            value_lower = value.lower().strip()
+            for member in cls:
+                if member.value.lower() == value_lower:
+                    return member
+                
+            # Handle "Modeling" as equivalent to "Model Building"
+            if value_lower in ["modeling", "model building", "model-building"]:
+                return cls.MODEL_BUILDING
+        return None
 
 
 class ProjectStatus(str, Enum):
@@ -28,6 +50,23 @@ class ProjectStatus(str, Enum):
     IN_PROGRESS = "In Progress"
     NOT_STARTED = "Not Started"
     CANCELLED = "Cancelled"
+    
+    @classmethod
+    def _missing_(cls, value):
+        """Handle case-insensitive matching for project status."""
+        if isinstance(value, str):
+            # Try exact match first
+            try:
+                return cls(value)
+            except ValueError:
+                pass
+            
+            # Try case-insensitive match
+            value_lower = value.lower().strip()
+            for member in cls:
+                if member.value.lower() == value_lower:
+                    return member
+        return None
 
 
 class ProjectMLModel(BaseModel):
@@ -53,6 +92,38 @@ class ProjectBase(BaseModel):
     end_date: Optional[str] = None    # ISO format: YYYY-MM-DD
     role: Optional[str] = None
     company: Optional[CompanyBase] = None
+
+    @field_validator('project_type', mode='before')
+    @classmethod
+    def validate_project_type(cls, v):
+        """Validate and normalize project type."""
+        if isinstance(v, str):
+            # Try to get the enum value (case-insensitive)
+            try:
+                return ProjectType(v)
+            except ValueError:
+                # If it fails, try to find a match
+                normalized = ProjectType._missing_(v)
+                if normalized:
+                    return normalized
+                raise ValueError(f"Invalid project type: {v}. Valid types are: {[e.value for e in ProjectType]}")
+        return v
+
+    @field_validator('status', mode='before')
+    @classmethod
+    def validate_status(cls, v):
+        """Validate and normalize project status."""
+        if isinstance(v, str):
+            # Try to get the enum value (case-insensitive)
+            try:
+                return ProjectStatus(v)
+            except ValueError:
+                # If it fails, try to find a match
+                normalized = ProjectStatus._missing_(v)
+                if normalized:
+                    return normalized
+                raise ValueError(f"Invalid project status: {v}. Valid statuses are: {[e.value for e in ProjectStatus]}")
+        return v
 
     @computed_field
     @property

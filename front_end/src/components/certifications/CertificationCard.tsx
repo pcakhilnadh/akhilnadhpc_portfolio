@@ -182,7 +182,7 @@ export default function CertificationCard({ certification, index }: Certificatio
                 status.type === 'expired'
                   ? "bg-destructive/20 text-destructive border-destructive/40"
                   : status.type === 'permanent'
-                  ? "bg-accent-foreground/20 text-accent-foreground border-accent-foreground/40"
+                  ? "bg-primary/20 text-primary border-primary/40 dark:bg-primary/30 dark:text-primary dark:border-primary/50"
                   : "bg-primary/20 text-primary border-primary/40"
               )}>
                 <status.icon className="w-3 h-3 mr-1" />
@@ -226,13 +226,13 @@ export default function CertificationCard({ certification, index }: Certificatio
               <div className={cn(
                 "flex items-center space-x-2 p-3 rounded-lg border transition-all duration-300",
                 !hasValidExpiryDate(certification.expiry_date)
-                  ? "bg-gradient-to-r from-accent-foreground/10 to-accent-foreground/5 border-accent-foreground/20"
+                  ? "bg-gradient-to-r from-primary/10 to-primary/5 border-primary/20"
                   : status.type === 'expired'
                   ? "bg-gradient-to-r from-destructive/10 to-destructive/5 border-destructive/20"
                   : "bg-gradient-to-r from-accent-foreground/10 to-accent-foreground/5 border-accent-foreground/20"
               )}>
                 {!hasValidExpiryDate(certification.expiry_date) ? (
-                  <Infinity className="w-4 h-4 text-accent-foreground" />
+                  <Infinity className="w-4 h-4 text-primary" />
                 ) : (
                   <Clock className={cn(
                     "w-4 h-4",
@@ -242,7 +242,7 @@ export default function CertificationCard({ certification, index }: Certificatio
                 <div className="flex-1 min-w-0">
                   <p className="text-xs text-muted-foreground uppercase tracking-wider">Expires</p>
                   {!hasValidExpiryDate(certification.expiry_date) ? (
-                    <p className="text-sm font-mono text-accent-foreground">No Expiry</p>
+                    <p className="text-sm font-mono text-primary">No Expiry</p>
                   ) : (
                     <>
                       <p className="text-sm font-mono text-foreground">{formatDate(certification.expiry_date!)}</p>

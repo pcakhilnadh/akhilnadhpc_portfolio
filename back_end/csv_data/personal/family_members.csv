@@ -1,1 +1,3 @@
-_id,personal_profile_id,relationship,full_name,occupation,age,profile_url
+_id,personal_profile_id,relationship,full_name,occupation,dob,profile_url
+family_001,akhilnadhpc,Father,Chandran PP,Doctor,1959-11-07,https://www.instagram.com/drchandranpp
+family_002,akhilnadhpc,Mother,Preethy KS,Retired Teacher,1966-06-01,https://www.instagram.com/preethychandran

@@ -1,1 +1,6 @@
 _id,username,name,issuer,issue_date,expiry_date,credential_id,credential_url,description
+cert_001,akhilnadhpc,Machine Learning Deep Learning Model Deployment,Udemy,2023-06-15,,,https://www.udemy.com/course/machine-learning-deep-learning-model-deployment/,Completed Udemy course on ML and DL model deployment
+cert_002,akhilnadhpc,Android Machine Learning with TensorFlow lite in Java/Kotlin,Udemy,2023-03-20,,,https://www.udemy.com/course/android-machine-learning-tensorflow-lite/,Completed Udemy course on Android ML with TensorFlow Lite
+cert_003,akhilnadhpc,Blockchain Essentials,IBM Cognitive Class,2022-11-10,,,https://cognitiveclass.ai/courses/blockchain-essentials/,Completed IBM Cognitive Class on Blockchain Essentials
+cert_004,akhilnadhpc,Cyber Security Awareness,Udemy,2022-08-05,,,https://www.udemy.com/course/cyber-security-awareness/,Completed Udemy course on Cyber Security Awareness
+cert_005,akhilnadhpc,Introduction to SQL,Datacamp,2022-05-12,,,https://www.datacamp.com/courses/introduction-to-sql,Completed Datacamp course on SQL

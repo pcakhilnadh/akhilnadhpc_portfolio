@@ -1,1 +1,43 @@
-_id,name,rating,skill_category_id,description 
+_id,name,rating,skill_category_id,description
+skill_001,Python,5,skill_category_001,Primary programming language for data science and ML
+skill_002,SQL,4,skill_category_001,Database querying and data manipulation
+skill_003,HTML,3,skill_category_001,Markup language for web development
+skill_004,PHP,3,skill_category_001,Server-side scripting language
+skill_005,C#,3,skill_category_001,General-purpose programming language
+skill_006,TensorFlow,4,skill_category_002,Deep learning framework
+skill_007,PyTorch,4,skill_category_002,Deep learning framework
+skill_008,Keras,4,skill_category_002,Deep learning API
+skill_009,Ultralytics,3,skill_category_002,YOLO object detection library
+skill_010,Scikit-learn,4,skill_category_002,Traditional machine learning library
+skill_011,Pandas,5,skill_category_003,Data manipulation and analysis
+skill_012,Numpy,5,skill_category_003,Numerical computing library
+skill_013,Matplotlib,4,skill_category_007,Data visualization library
+skill_014,Seaborn,4,skill_category_007,Statistical data visualization
+skill_015,PostgreSQL,3,skill_category_006,Relational database
+skill_016,MySQL,3,skill_category_006,Relational database
+skill_017,MongoDB,3,skill_category_006,NoSQL database
+skill_018,sqlite,3,skill_category_006,Embedded database
+skill_019,psycopg2,3,skill_category_006,PostgreSQL adapter for Python
+skill_020,SQLAlchemy,3,skill_category_006,Python SQL toolkit
+skill_021,FastAPI,3,skill_category_009,Web framework for APIs
+skill_022,Django,3,skill_category_009,Web framework
+skill_023,Django REST,3,skill_category_009,REST API framework
+skill_024,Angular,3,skill_category_009,Frontend web framework
+skill_025,BeautifulSoup,3,skill_category_009,Web scraping library
+skill_026,ML Flow,3,skill_category_005,ML lifecycle management
+skill_027,AWS,3,skill_category_004,Cloud platform
+skill_028,Heroku,3,skill_category_004,Cloud platform
+skill_029,Docker,3,skill_category_005,Containerization platform
+skill_030,ROS2 Humble,2,skill_category_010,Robotic Operating System
+skill_031,ROS2 Eloquent,2,skill_category_010,Robotic Operating System
+skill_032,IBM Blockchain,2,skill_category_010,Blockchain platform
+skill_033,Smart contract,2,skill_category_010,Blockchain smart contracts
+skill_034,NFT,2,skill_category_010,Non-fungible tokens
+skill_035,GIT,3,skill_category_005,Version control system
+skill_036,SVN,2,skill_category_005,Version control system
+skill_037,OpenCV,4,skill_category_002,Computer vision library
+skill_038,Mediapipe,3,skill_category_002,Computer vision library
+skill_039,Word2Vec,3,skill_category_002,Word embedding technique
+skill_040,Gensim,3,skill_category_002,Topic modeling and document similarity
+skill_041,Spacy,3,skill_category_002,NLP library
+skill_042,NLTK,3,skill_category_002,NLP library 

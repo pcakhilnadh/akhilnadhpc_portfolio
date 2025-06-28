@@ -80,10 +80,7 @@ ${data.certifications.length > 0 ? `---
 ## CERTIFICATIONS
 
 ${data.certifications.map((cert: any) => `
-### ${cert.name}
-**${cert.issuing_organization}**  
-*Issued: ${cert.issue_date}*${cert.expiry_date ? ` | *Expires: ${cert.expiry_date}*` : ''}${cert.credential_id ? `  
-Credential ID: ${cert.credential_id}` : ''}
+- ${cert.name} - ${cert.issuing_organization} (${cert.issue_date})${cert.expiry_date ? ` - Expires: ${cert.expiry_date}` : ''}
 
 `).join('')}` : ''}
 
@@ -396,17 +393,9 @@ Credential ID: ${cert.credential_id}` : ''}
             <h2>CERTIFICATIONS</h2>
             ${resumeData?.certifications.map((cert: any) => `
                 <div class="item">
-                    <div class="item-header">
-                        <div>
-                            <h3 class="item-title">${cert.name}</h3>
-                            <p class="item-subtitle">▸ ${cert.issuing_organization}</p>
-                            ${cert.credential_id ? `<p class="item-details">🆔 ID: ${cert.credential_id}</p>` : ''}
-                        </div>
-                        <div class="item-date">
-                            <div>📅 Issued: ${cert.issue_date}</div>
-                            ${cert.expiry_date ? `<div>⏰ Expires: ${cert.expiry_date}</div>` : ''}
-                        </div>
-                    </div>
+                    <p style="font-size: 11pt; margin: 2px 0; font-weight: normal;">
+                        ▸ ${cert.name} - ${cert.issuing_organization} (${cert.issue_date})${cert.expiry_date ? ` - Expires: ${cert.expiry_date}` : ''}
+                    </p>
                 </div>
             `).join('')}
         </div>
@@ -700,20 +689,10 @@ Credential ID: ${cert.credential_id}` : ''}
               CERTIFICATIONS
             </h2>
             {resumeData.certifications.map((cert: any, index: number) => (
-              <div key={index} style={{ marginBottom: '15px' }}>
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
-                  <div>
-                    <h3 style={{ fontSize: '12pt', fontWeight: 'bold', margin: '0' }}>{cert.name}</h3>
-                    <p style={{ fontSize: '11pt', margin: '2px 0', fontWeight: '600' }}>▸ {cert.issuing_organization}</p>
-                    {cert.credential_id && (
-                      <p style={{ fontSize: '10pt', margin: '2px 0', color: '#666' }}>🆔 ID: {cert.credential_id}</p>
-                    )}
-                  </div>
-                  <div style={{ fontSize: '10pt', textAlign: 'right', color: '#666' }}>
-                    <div>📅 Issued: {cert.issue_date}</div>
-                    {cert.expiry_date && <div>⏰ Expires: {cert.expiry_date}</div>}
-                  </div>
-                </div>
+              <div key={index} style={{ marginBottom: '5px' }}>
+                <p style={{ fontSize: '11pt', margin: '2px 0', fontWeight: 'normal' }}>
+                  ▸ {cert.name} - {cert.issuing_organization} ({cert.issue_date}){cert.expiry_date ? ` - Expires: ${cert.expiry_date}` : ''}
+                </p>
               </div>
             ))}
           </div>

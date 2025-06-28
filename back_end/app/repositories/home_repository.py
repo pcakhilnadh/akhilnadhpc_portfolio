@@ -137,7 +137,16 @@ class HomeRepository(IHomeRepository):
     def _get_family_info(self, username: str) -> List[FamilyMember]:
         """Reads family info from CSV."""
         family_data = self.data_access.read_family_info(username)
-        return [FamilyMember(**member) for member in family_data]
+        processed_family_data = []
+        
+        for member in family_data:
+            # Handle empty dob field - convert empty string to None
+            if member.get('dob') == '':
+                member['dob'] = None
+            
+            processed_family_data.append(member)
+        
+        return [FamilyMember(**member) for member in processed_family_data]
 
     def _get_hobbies(self, username: str) -> List[str]:
         """Reads hobbies from CSV."""

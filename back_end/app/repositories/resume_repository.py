@@ -108,12 +108,17 @@ class ResumeRepository(IResumeRepository):
         
         for exp in work_exp_data:
             try:
+                # Handle blank end_date values as 'Present'
+                end_date = exp.get('end_date', '')
+                if not end_date or end_date.strip() == '':
+                    end_date = 'Present'
+                
                 work_exp_list.append(WorkExperience(
                     company_name=exp.get('company_name', ''),
                     company_location=exp.get('company_location', ''),
                     designation=exp.get('designation', ''),
                     start_date=exp.get('start_date', ''),
-                    end_date=exp.get('end_date', 'Present'),
+                    end_date=end_date,
                     company_url=exp.get('company_url')
                 ))
             except Exception as e:

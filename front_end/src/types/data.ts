@@ -45,8 +45,9 @@ export interface FamilyMember {
   relationship: string;
   full_name: string;
   occupation: string;
-  age: number | null;
+  dob?: string;
   profile_url: string | null;
+  age?: number; // Computed field from dob
 }
 
 export interface UserProfile {

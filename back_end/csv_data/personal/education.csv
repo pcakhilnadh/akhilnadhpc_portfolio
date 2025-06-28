@@ -1,1 +1,4 @@
-_id,personal_profile_id,degree,institution,field_of_study,start_date,end_date,gpa,institution_url 
+_id,personal_profile_id,degree,institution,field_of_study,start_date,end_date,gpa,institution_url
+edu_001,akhilnadhpc,M.Tech,National Institute of Technology Jalandhar,Computer Science and Information Security,2017-01-01,2019-12-31,7.5,https://www.nitj.ac.in/
+edu_002,akhilnadhpc,B.Tech,College of Engineering Chengannur,Computer Science and Engineering,2011-01-01,2015-12-31,72,https://www.ceconline.edu/
+edu_003,akhilnadhpc,12th,Don bosco HSS Irinjalakuda,Computer Science,2009-01-01,2011-12-31,92,https://www.donboscoirinjalakuda.com/ 

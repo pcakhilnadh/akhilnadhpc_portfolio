@@ -10,6 +10,12 @@ class WorkExperienceRepository:
     def __init__(self, data_access: IPersonalDataAccess = None):
         self.data_access = data_access or CSVDataAccess()
     
+    def _normalize_end_date(self, end_date: str) -> Optional[str]:
+        """Normalize end_date to handle blank values and 'Present' as None (current employment)."""
+        if not end_date or end_date.strip() == '' or end_date.strip().lower() == 'present':
+            return None
+        return end_date.strip()
+    
     def get_company_by_id(self, username: str, company_id: str) -> Optional[Company]:
         """Get company information by ID."""
         try:
@@ -38,7 +44,7 @@ class WorkExperienceRepository:
                             designation=row['designation'],
                             company_url=row.get('company_url'),
                             start_date=row['start_date'],
-                            end_date=row.get('end_date') if row.get('end_date') != 'Present' else None,
+                            end_date=self._normalize_end_date(row.get('end_date', '')),
                             references=company_refs if company_refs else None
                         )
             
@@ -79,7 +85,7 @@ class WorkExperienceRepository:
                                 company=row['company_name'],
                                 company_url=row.get('company_url'),
                                 start_date=row['start_date'],
-                                end_date=row.get('end_date') if row.get('end_date') != 'Present' else None,
+                                end_date=self._normalize_end_date(row.get('end_date', '')),
                                 references=company_refs if company_refs else None
                             )
                         )
