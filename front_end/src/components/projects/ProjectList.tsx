@@ -397,7 +397,6 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, index }) => {
   // Handle project card click to navigate to project details
   const handleProjectClick = () => {
     if (!project.id) {
-      console.error('❌ Project ID is missing!', project);
       return;
     }
     

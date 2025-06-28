@@ -37,10 +37,6 @@ interface ProjectDetailsHeaderProps {
 }
 
 export default function ProjectDetailsHeader({ project }: ProjectDetailsHeaderProps) {
-  // Debug logging to check data structure
-  console.log('🔍 ProjectDetailsHeader - project data:', project);
-  console.log('🔍 Company data:', project.company);
-  
   const formatDate = (dateString: string) => {
     return new Date(dateString).toLocaleDateString('en-US', {
       year: 'numeric',

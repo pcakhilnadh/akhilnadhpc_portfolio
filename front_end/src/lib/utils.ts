@@ -29,7 +29,7 @@ export function formatDate(dateStr: string): string {
       return `${getMonthName(date.getMonth())} ${date.getFullYear()}`;
     }
   } catch (e) {
-    console.error("Error parsing date:", e);
+    // Date parsing failed, will return original string
   }
   
   // Return the original string if no formatting applied

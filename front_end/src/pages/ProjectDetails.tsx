@@ -120,7 +120,6 @@ export default function ProjectDetails({ setNavbarWelcomeText }: ProjectDetailsP
         const data: ProjectDetailsData = await response.json();
         setProjectData(data);
       } catch (err) {
-        console.error('Error fetching project details:', err);
         setError(err instanceof Error ? err.message : 'Failed to load project details');
       } finally {
         setLoading(false);

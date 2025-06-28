@@ -55,7 +55,6 @@ function useConfig() {
         };
         
         const configPath = getConfigPath();
-        console.log('Fetching config from:', configPath);
         const configResponse = await fetch(configPath);
         
         if (!configResponse.ok) {
@@ -71,14 +70,10 @@ function useConfig() {
           api_base_url: getApiBaseUrl()
         };
         
-        
-        console.log('Loaded config:', finalConfig);
-        
         // Cache the config for subsequent calls
         configCache = finalConfig;
         setConfig(finalConfig);
       } catch (err) {
-        console.error('Config loading error:', err);
         setError(err instanceof Error ? err.message : 'Failed to fetch config');
       } finally {
         setLoading(false);
