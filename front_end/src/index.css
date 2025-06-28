@@ -1061,3 +1061,372 @@ button[style*="--hover-text-color"]:hover svg {
     transparent 100%
   );
 }
+
+/* ===== CYBERPUNK STYLES ===== */
+
+/* Cyberpunk Card Base */
+.cyberpunk-card {
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.cyberpunk-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    135deg,
+    hsl(var(--primary) / 0.03) 0%,
+    transparent 50%,
+    hsl(var(--secondary) / 0.03) 100%
+  );
+  pointer-events: none;
+  z-index: 0;
+}
+
+.cyberpunk-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 
+    0 8px 25px hsl(var(--primary) / 0.15),
+    0 4px 12px hsl(var(--secondary) / 0.1);
+}
+
+.cyberpunk-card:hover::before {
+  background: linear-gradient(
+    135deg,
+    hsl(var(--primary) / 0.08) 0%,
+    hsl(var(--accent) / 0.05) 50%,
+    hsl(var(--secondary) / 0.08) 100%
+  );
+}
+
+/* Dark theme cyberpunk card adjustments */
+.dark .cyberpunk-card::before {
+  background: linear-gradient(
+    135deg,
+    hsl(var(--primary) / 0.05) 0%,
+    transparent 50%,
+    hsl(var(--secondary) / 0.05) 100%
+  );
+}
+
+.dark .cyberpunk-card:hover::before {
+  background: linear-gradient(
+    135deg,
+    hsl(var(--primary) / 0.12) 0%,
+    hsl(var(--accent) / 0.08) 50%,
+    hsl(var(--secondary) / 0.12) 100%
+  );
+}
+
+/* Cyberpunk Buttons */
+.cyberpunk-button {
+  position: relative;
+  overflow: hidden;
+  backdrop-filter: blur(10px);
+  transition: all 0.3s ease;
+  border-width: 1px;
+}
+
+.cyberpunk-button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    hsl(var(--primary) / 0.3) 50%,
+    transparent 100%
+  );
+  transition: left 0.5s ease;
+  z-index: 0;
+}
+
+.cyberpunk-button:hover::before {
+  left: 100%;
+}
+
+.cyberpunk-button-primary {
+  background: hsl(var(--primary) / 0.1);
+  border-color: hsl(var(--primary) / 0.4);
+  color: hsl(var(--primary));
+  box-shadow: 0 0 20px hsl(var(--primary) / 0.2);
+}
+
+.cyberpunk-button-primary:hover {
+  background: hsl(var(--primary) / 0.2);
+  border-color: hsl(var(--primary));
+  box-shadow: 0 0 30px hsl(var(--primary) / 0.4);
+  text-shadow: 0 0 8px hsl(var(--primary) / 0.8);
+}
+
+.cyberpunk-button-secondary {
+  background: hsl(var(--secondary) / 0.1);
+  border-color: hsl(var(--secondary) / 0.4);
+  color: hsl(var(--secondary));
+  box-shadow: 0 0 20px hsl(var(--secondary) / 0.2);
+}
+
+.cyberpunk-button-secondary:hover {
+  background: hsl(var(--secondary) / 0.2);
+  border-color: hsl(var(--secondary));
+  box-shadow: 0 0 30px hsl(var(--secondary) / 0.4);
+  text-shadow: 0 0 8px hsl(var(--secondary) / 0.8);
+}
+
+.cyberpunk-button-accent {
+  background: hsl(var(--accent) / 0.1);
+  border-color: hsl(var(--accent) / 0.4);
+  color: hsl(var(--accent));
+  box-shadow: 0 0 20px hsl(var(--accent) / 0.2);
+}
+
+.cyberpunk-button-accent:hover {
+  background: hsl(var(--accent) / 0.2);
+  border-color: hsl(var(--accent));
+  box-shadow: 0 0 30px hsl(var(--accent) / 0.4);
+  text-shadow: 0 0 8px hsl(var(--accent) / 0.8);
+}
+
+/* Dark theme button adjustments */
+.dark .cyberpunk-button-primary {
+  background: hsl(var(--primary) / 0.15);
+  box-shadow: 0 0 25px hsl(var(--primary) / 0.3);
+}
+
+.dark .cyberpunk-button-primary:hover {
+  background: hsl(var(--primary) / 0.25);
+  box-shadow: 0 0 40px hsl(var(--primary) / 0.5);
+}
+
+.dark .cyberpunk-button-secondary {
+  background: hsl(var(--secondary) / 0.15);
+  box-shadow: 0 0 25px hsl(var(--secondary) / 0.3);
+}
+
+.dark .cyberpunk-button-secondary:hover {
+  background: hsl(var(--secondary) / 0.25);
+  box-shadow: 0 0 40px hsl(var(--secondary) / 0.5);
+}
+
+.dark .cyberpunk-button-accent {
+  background: hsl(var(--accent) / 0.15);
+  box-shadow: 0 0 25px hsl(var(--accent) / 0.3);
+}
+
+.dark .cyberpunk-button-accent:hover {
+  background: hsl(var(--accent) / 0.25);
+  box-shadow: 0 0 40px hsl(var(--accent) / 0.5);
+}
+
+/* Cyberpunk Badge */
+.cyberpunk-badge {
+  position: relative;
+  backdrop-filter: blur(8px);
+  text-shadow: 0 0 4px currentColor;
+  transition: all 0.3s ease;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+.cyberpunk-badge::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    45deg,
+    transparent 30%,
+    currentColor 50%,
+    transparent 70%
+  );
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: -1;
+}
+
+.cyberpunk-badge:hover::before {
+  opacity: 0.1;
+}
+
+.cyberpunk-badge:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 15px currentColor;
+}
+
+/* Dark theme badge adjustments */
+.dark .cyberpunk-badge {
+  text-shadow: 0 0 6px currentColor;
+}
+
+.dark .cyberpunk-badge:hover {
+  box-shadow: 0 0 20px currentColor;
+}
+
+/* Cyberpunk Info Card */
+.cyberpunk-info-card {
+  position: relative;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  background: hsl(var(--card) / 0.8);
+  border: 1px solid hsl(var(--border) / 0.5);
+  backdrop-filter: blur(10px);
+  transition: all 0.3s ease;
+  overflow: hidden;
+}
+
+.cyberpunk-info-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    hsl(var(--primary) / 0.6) 50%,
+    transparent 100%
+  );
+  transform: scaleX(0);
+  transition: transform 0.3s ease;
+}
+
+.cyberpunk-info-card:hover::before {
+  transform: scaleX(1);
+}
+
+.cyberpunk-info-card:hover {
+  border-color: hsl(var(--primary) / 0.3);
+  box-shadow: 0 4px 15px hsl(var(--primary) / 0.1);
+}
+
+/* Dark theme info card adjustments */
+.dark .cyberpunk-info-card {
+  background: hsl(var(--card) / 0.9);
+  border-color: hsl(var(--border) / 0.3);
+}
+
+.dark .cyberpunk-info-card:hover {
+  border-color: hsl(var(--primary) / 0.5);
+  box-shadow: 0 4px 20px hsl(var(--primary) / 0.2);
+}
+
+/* Cyberpunk Animations */
+@keyframes cyberpunk-pulse {
+  0%, 100% {
+    box-shadow: 0 0 5px currentColor;
+  }
+  50% {
+    box-shadow: 0 0 20px currentColor, 0 0 30px currentColor;
+  }
+}
+
+@keyframes cyberpunk-flicker {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.8;
+  }
+  75% {
+    opacity: 0.9;
+  }
+}
+
+@keyframes cyberpunk-scan {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(400%);
+  }
+}
+
+@keyframes cyberpunk-glow {
+  0%, 100% {
+    text-shadow: 
+      0 0 5px currentColor,
+      0 0 10px currentColor,
+      0 0 15px currentColor;
+  }
+  50% {
+    text-shadow: 
+      0 0 2px currentColor,
+      0 0 5px currentColor,
+      0 0 8px currentColor;
+  }
+}
+
+/* Cyberpunk Utility Classes */
+.cyberpunk-pulse {
+  animation: cyberpunk-pulse 2s ease-in-out infinite;
+}
+
+.cyberpunk-flicker {
+  animation: cyberpunk-flicker 3s ease-in-out infinite;
+}
+
+.cyberpunk-glow-text {
+  animation: cyberpunk-glow 2s ease-in-out infinite;
+}
+
+/* Responsive adjustments for cyberpunk styles */
+@media (max-width: 768px) {
+  .cyberpunk-card:hover {
+    transform: none;
+    box-shadow: 
+      0 4px 15px hsl(var(--primary) / 0.1),
+      0 2px 8px hsl(var(--secondary) / 0.05);
+  }
+  
+  .cyberpunk-button:hover {
+    box-shadow: 0 0 15px currentColor;
+  }
+  
+  .cyberpunk-badge:hover {
+    transform: scale(1.02);
+    box-shadow: 0 0 10px currentColor;
+  }
+}
+
+/* High contrast mode adjustments */
+@media (prefers-contrast: high) {
+  .cyberpunk-card, .cyberpunk-button, .cyberpunk-badge, .cyberpunk-info-card {
+    border-width: 2px;
+  }
+  
+  .cyberpunk-button:hover {
+    text-shadow: none;
+  }
+  
+  .cyberpunk-badge {
+    text-shadow: none;
+  }
+}
+
+/* Reduced motion adjustments */
+@media (prefers-reduced-motion: reduce) {
+  .cyberpunk-card:hover {
+    transform: none;
+  }
+  
+  .cyberpunk-button::before {
+    transition: none;
+  }
+  
+  .cyberpunk-pulse,
+  .cyberpunk-flicker,
+  .cyberpunk-glow-text {
+    animation: none;
+  }
+}

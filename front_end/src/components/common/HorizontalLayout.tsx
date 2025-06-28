@@ -19,7 +19,29 @@ export default function HorizontalLayout({ children }: HorizontalLayoutProps) {
   const [touchEnd, setTouchEnd] = useState<number | null>(null);
 
   const routes = ['/', '/about', '/timeline', '/projects', '/certifications', '/services'];
-  const currentIndex = routes.indexOf(location.pathname);
+  
+  // Get the current route index, accounting for sub-routes
+  const getCurrentRouteIndex = () => {
+    const pathname = location.pathname;
+    
+    // Handle exact matches first
+    const exactIndex = routes.indexOf(pathname);
+    if (exactIndex !== -1) {
+      return exactIndex;
+    }
+    
+    // Handle sub-routes by finding the base route
+    for (let i = 0; i < routes.length; i++) {
+      if (pathname.startsWith(routes[i]) && routes[i] !== '/') {
+        return i;
+      }
+    }
+    
+    // If pathname is a sub-route of root, return 0
+    return 0;
+  };
+  
+  const currentIndex = getCurrentRouteIndex();
 
   // Check if device is mobile and orientation
   useEffect(() => {

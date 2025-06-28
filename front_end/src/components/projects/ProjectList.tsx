@@ -1,5 +1,6 @@
 import React, { useState, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useNavigate } from 'react-router-dom';
 import { 
   ExternalLink, 
   Github, 
@@ -380,6 +381,7 @@ interface ProjectCardProps {
 
 const ProjectCard: React.FC<ProjectCardProps> = ({ project, index }) => {
   const { config } = useConfig();
+  const navigate = useNavigate();
 
   // Format dates for better display - compact format with day
   const formatDate = (dateString: string) => {
@@ -392,37 +394,14 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, index }) => {
     });
   };
 
-  // Handle project card click to fetch project details
-  const handleProjectClick = async () => {
-    if (!config) {
-      console.log('Config not loaded yet');
+  // Handle project card click to navigate to project details
+  const handleProjectClick = () => {
+    if (!project.id) {
+      console.error('❌ Project ID is missing!', project);
       return;
     }
-
-    try {
-      console.log(`🚀 Making API request to: POST ${config.api_base_url}/projects/${project.id}`);
-      console.log(`📝 Request payload:`, { username: config.username });
-      
-      const response = await fetch(`${config.api_base_url}/projects/${project.id}`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ username: config.username }),
-      });
-      
-      console.log(`📡 API Response Status: ${response.status} ${response.statusText}`);
-      
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-      
-      const data = await response.json();
-      console.log(`✅ Project details for "${project.title}":`, data);
-      
-    } catch (err) {
-      console.error(`❌ Error fetching project details for "${project.title}":`, err);
-    }
+    
+    navigate(`/projects/${project.id}`);
   };
 
   const startDate = formatDate(project.start_date || '');
