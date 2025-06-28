@@ -57,7 +57,7 @@ export default function ServicesHero() {
         >
           {/* Main title with glow effect */}
           <motion.h1
-            className="text-5xl md:text-7xl font-bold bg-gradient-to-r from-primary via-accent-foreground to-secondary-foreground bg-clip-text text-transparent"
+            className="text-5xl md:text-7xl font-bold bg-gradient-to-r from-primary via-secondary to-secondary bg-clip-text text-transparent"
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.8, delay: 0.2 }}
@@ -73,7 +73,7 @@ export default function ServicesHero() {
             transition={{ duration: 0.8, delay: 0.4 }}
           >
             Cutting-edge <span className="text-primary font-semibold">AI solutions</span> and 
-            <span className="text-accent-foreground font-semibold"> digital services</span> to transform your business
+            <span className="text-secondary font-semibold"> digital services</span> to transform your business
           </motion.p>
 
           {/* Feature highlights */}
@@ -114,7 +114,7 @@ export default function ServicesHero() {
             <Button
               onClick={scrollToServices}
               size="lg"
-              className="group bg-gradient-to-r from-primary to-accent-foreground hover:from-primary/90 hover:to-accent-foreground/90 border border-primary/30 shadow-lg hover:shadow-primary/25 px-8 py-4"
+              className="group bg-gradient-to-r from-primary to-secondary hover:from-primary/90 hover:to-secondary/90 border border-primary/30 shadow-lg hover:shadow-primary/25 px-8 py-4"
             >
               <Zap className="w-5 h-5 mr-2 group-hover:rotate-12 transition-transform" />
               Explore Services

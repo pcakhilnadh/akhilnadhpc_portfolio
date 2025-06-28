@@ -44,13 +44,12 @@ class ProjectsRepository(IProjectsRepository):
                 reader = csv.DictReader(file)
                 for row in reader:
                     if row['username'] == username and row['_id'] == project_id:
-                        # Extract ID from _id field (e.g., "project_001" -> 1)
-                        project_id_int = int(row.get('_id', '0').replace('project_', '') or 1)
+                        # Use the full string ID from CSV
                         project_id_str = row.get('_id', '')
                         
-                        # Resolve company information if it's a work project
+                        # Resolve company information if company ID is present
                         company_info = None
-                        if row.get('project_type') == 'work' and row.get('company'):
+                        if row.get('company'):
                             full_company = self.work_exp_repository.get_company_by_id(username, row['company'])
                             if full_company:
                                 # Create base company object with only name and location
@@ -69,7 +68,7 @@ class ProjectsRepository(IProjectsRepository):
                         achievements = self.achievements_repository.get_achievements_by_project_id(project_id_str)
                         
                         return Project(
-                            id=project_id_int,
+                            id=project_id_str,
                             title=row['title'],
                             short_description=row.get('short_description'),
                             long_description=row.get('long_description'),
@@ -110,12 +109,12 @@ class ProjectsRepository(IProjectsRepository):
                 reader = csv.DictReader(file)
                 for row in reader:
                     if row['username'] == username:
-                        # Extract ID from _id field (e.g., "project_001" -> 1)
-                        project_id = int(row.get('_id', '0').replace('project_', '') or len(projects) + 1)
+                        # Use the full string ID from CSV
+                        project_id = row.get('_id', '')
                         
-                        # Resolve company information if it's a work project
+                        # Resolve company information if company ID is present
                         company_info = None
-                        if row.get('project_type') == 'work' and row.get('company'):
+                        if row.get('company'):
                             full_company = self.work_exp_repository.get_company_by_id(username, row['company'])
                             if full_company:
                                 # Create base company object with only name and location
@@ -161,13 +160,13 @@ class ProjectsRepository(IProjectsRepository):
                 reader = csv.DictReader(file)
                 for row in reader:
                     if row['username'] == username:
-                        # Extract ID from _id field (e.g., "project_001" -> 1)
-                        project_id = int(row.get('_id', '0').replace('project_', '') or len(projects) + 1)
-                        project_id_str = row.get('_id', '')
+                        # Use the full string ID from CSV
+                        project_id = row.get('_id', '')
+                        project_id_str = project_id
                         
-                        # Resolve company information if it's a work project
+                        # Resolve company information if company ID is present
                         company_info = None
-                        if row.get('project_type') == 'work' and row.get('company'):
+                        if row.get('company'):
                             full_company = self.work_exp_repository.get_company_by_id(username, row['company'])
                             if full_company:
                                 # Create base company object with only name and location

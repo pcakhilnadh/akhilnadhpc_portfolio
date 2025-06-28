@@ -49,8 +49,8 @@ export default function Timeline({ experiences, education }: TimelineProps) {
             <div 
               className="hidden lg:block absolute left-1/2 transform -translate-x-1/2 h-full w-1 rounded-full"
               style={{
-                background: 'linear-gradient(to bottom, transparent, #34d399, #22d3ee, #34d399, transparent)',
-                boxShadow: '0 0 20px rgba(52, 211, 153, 0.5), 0 0 40px rgba(34, 211, 238, 0.3)'
+                background: `linear-gradient(to bottom, transparent, var(--color-primary), var(--color-secondary), var(--color-accent-indigo), var(--color-soft), var(--color-primary), transparent)`,
+                boxShadow: `var(--glow-primary), var(--glow-secondary)`
               }}
             />
             

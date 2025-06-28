@@ -53,9 +53,9 @@ export default function PageHeader({
         >
           {/* First part with primary color */}
           <span 
-            className="cyberpunk-text-primary inline-block mr-2 lg:mr-4"
+            className="enhanced-text-primary inline-block mr-2 lg:mr-4"
             style={{
-              background: 'linear-gradient(45deg, hsl(var(--primary)), hsl(var(--primary) / 0.9), hsl(var(--primary)))',
+              background: `linear-gradient(45deg, var(--color-primary), color-mix(in srgb, var(--color-primary) 90%, transparent), var(--color-primary))`,
               backgroundSize: '300% 300%',
               backgroundClip: 'text',
               WebkitBackgroundClip: 'text',
@@ -68,10 +68,10 @@ export default function PageHeader({
           
           {/* Second part with different color scheme */}
           <span 
-            className="cyberpunk-text-accent inline-block"
+            className="enhanced-text-secondary inline-block"
             style={{
-              color: 'hsl(var(--foreground))',
-              textShadow: '0 0 20px hsl(var(--primary) / 0.4)'
+              color: 'var(--color-text)',
+              textShadow: `0 0 20px color-mix(in srgb, var(--color-secondary) 40%, transparent)`
             }}
           >
             {secondPart}
@@ -102,7 +102,7 @@ export default function PageHeader({
             <div 
               className="w-32 h-1 mx-auto bg-gradient-to-r from-primary via-primary/80 to-primary"
               style={{
-                boxShadow: '0 0 20px hsl(var(--primary) / 0.6), 0 0 40px hsl(var(--primary) / 0.3)',
+                boxShadow: `var(--glow-primary)`,
                 backgroundSize: '200% 200%',
                 animation: 'gradient-pulse 3s ease infinite',
                 borderRadius: '2px'

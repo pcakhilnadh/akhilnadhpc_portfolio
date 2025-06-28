@@ -29,28 +29,28 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ project, isOpen, onClose })
                     onClick={onClose}
                     className="w-3 h-3 bg-destructive rounded-full hover:bg-destructive/80 transition-colors duration-200"
                   />
-                  <div className="w-3 h-3 bg-yellow-500 rounded-full opacity-50" />
+                  <div className="w-3 h-3 bg-accent rounded-full opacity-50" />
                   <div className="w-3 h-3 bg-primary rounded-full opacity-50" />
                 </div>
                 
                 {/* Project Title */}
                 <div className="flex items-center space-x-3 min-w-0 flex-1 mx-4">
                   <span className="text-primary font-mono font-bold text-lg truncate">{project.title}</span>
-                  {project.deployment && (
+                  {project.project_type && (
                     <Badge
                       className={`font-mono text-xs px-2 py-1 border flex-shrink-0 ${
-                        project.deployment === 'production'
-                          ? 'bg-purple-500/20 text-purple-300 border-purple-500/40'
-                          : project.deployment === 'development'
-                          ? 'bg-pink-500/20 text-pink-300 border-pink-500/40'
-                          : project.deployment === 'poc'
-                          ? 'bg-orange-500/20 text-orange-300 border-orange-500/40'
-                          : project.deployment === 'mvp'
-                          ? 'bg-blue-500/20 text-blue-300 border-blue-500/40'
+                        project.project_type === 'production'
+                          ? 'bg-tertiary/20 text-tertiary border-tertiary/40'
+                          : project.project_type === 'development'
+                          ? 'bg-secondary/20 text-secondary border-secondary/40'
+                          : project.project_type === 'poc'
+                          ? 'bg-accent/20 text-accent border-accent/40'
+                          : project.project_type === 'mvp'
+                          ? 'bg-secondary/20 text-secondary border-secondary/40'
                           : 'bg-muted/20 text-muted-foreground border-muted/40'
                       }`}
                     >
-                      {project.deployment.toUpperCase()}
+                      {project.project_type.toUpperCase()}
                     </Badge>
                   )}
                 </div>
@@ -74,7 +74,7 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ project, isOpen, onClose })
                       rel="noopener noreferrer"
                       className="p-2 bg-accent/20 border border-accent/40 rounded hover:bg-accent/30 hover:border-accent transition-all duration-300"
                     >
-                      <Github className="h-4 w-4 text-accent-foreground" />
+                      <Github className="h-4 w-4 text-secondary" />
                     </a>
                   )}
                 </div>
@@ -105,7 +105,7 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ project, isOpen, onClose })
                     ) : (
                       <TabsTrigger 
                         value="details" 
-                        className="data-[state=active]:bg-accent/20 data-[state=active]:text-accent-foreground text-muted-foreground font-mono text-sm px-4 py-2 rounded-none h-full flex-1 flex items-center justify-center space-x-2"
+                        className="data-[state=active]:bg-secondary/20 data-[state=active]:text-secondary text-muted-foreground font-mono text-sm px-4 py-2 rounded-none h-full flex-1 flex items-center justify-center space-x-2"
                       >
                         <Settings className="h-4 w-4" />
                         <span>Details</span>
@@ -131,7 +131,7 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ project, isOpen, onClose })
                           <div className="flex-1 min-w-0">
                             <h3 className="text-primary font-mono font-semibold text-sm mb-2">Description</h3>
                             <p className="text-muted-foreground font-mono text-xs leading-relaxed">
-                              {project.description}
+                              {project.short_description}
                             </p>
                           </div>
                         </div>
@@ -147,9 +147,9 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ project, isOpen, onClose })
                           className="bg-accent/5 border border-accent/20 rounded-lg p-4"
                         >
                           <div className="flex items-start space-x-3">
-                            <Building2 className="h-4 w-4 text-accent-foreground mt-0.5 flex-shrink-0" />
+                            <Building2 className="h-4 w-4 text-secondary mt-0.5 flex-shrink-0" />
                             <div className="flex-1 min-w-0">
-                              <h3 className="text-accent-foreground font-mono font-semibold text-sm mb-2">Company</h3>
+                              <h3 className="text-secondary font-mono font-semibold text-sm mb-2">Company</h3>
                               <div className="space-y-1">
                                 {project.company && (
                                   <div className="text-muted-foreground font-mono text-xs">
@@ -258,9 +258,9 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ project, isOpen, onClose })
                               className="bg-accent/5 border border-accent/20 rounded-lg p-4"
                             >
                               <div className="flex items-start space-x-3">
-                                <GitMerge className="h-4 w-4 text-accent-foreground mt-0.5 flex-shrink-0" />
+                                <GitMerge className="h-4 w-4 text-secondary mt-0.5 flex-shrink-0" />
                                 <div className="flex-1 min-w-0">
-                                  <h3 className="text-accent-foreground font-mono font-semibold text-sm mb-2">CI/CD</h3>
+                                  <h3 className="text-secondary font-mono font-semibold text-sm mb-2">CI/CD</h3>
                                   <div className="text-muted-foreground font-mono text-xs">
                                     <span className="text-foreground">{project.cicd_pipeline}</span>
                                   </div>
@@ -352,8 +352,8 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ project, isOpen, onClose })
                                   whileHover={{ scale: 1.02 }}
                                   whileTap={{ scale: 0.98 }}
                                 >
-                                  <ExternalLink className="h-4 w-4 text-accent-foreground" />
-                                  <span className="text-accent-foreground font-mono text-xs">Live Demo</span>
+                                  <ExternalLink className="h-4 w-4 text-secondary" />
+                                  <span className="text-secondary font-mono text-xs">Live Demo</span>
                                 </motion.a>
                               )}
                             </div>
@@ -370,32 +370,32 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ project, isOpen, onClose })
                           className="bg-accent/5 border border-accent/20 rounded-lg p-4"
                         >
                           <div className="flex items-start space-x-3">
-                            <Brain className="h-4 w-4 text-accent-foreground mt-0.5 flex-shrink-0" />
+                            <Brain className="h-4 w-4 text-secondary mt-0.5 flex-shrink-0" />
                             <div className="flex-1 min-w-0">
-                              <h3 className="text-accent-foreground font-mono font-semibold text-sm mb-3">ML Model</h3>
+                              <h3 className="text-secondary font-mono font-semibold text-sm mb-3">ML Model</h3>
                               
                               {/* Model Basic Info */}
                               <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-4">
                                 <div className="space-y-2">
                                   <div className="text-muted-foreground font-mono text-xs">
-                                    <span className="text-accent-foreground">Model:</span> <span className="text-foreground">{project.ml_models.name}</span>
+                                    <span className="text-secondary">Model:</span> <span className="text-foreground">{project.ml_models.name}</span>
                                   </div>
                                   <div className="text-muted-foreground font-mono text-xs">
-                                    <span className="text-accent-foreground">Type:</span> <span className="text-foreground">{project.ml_models.model_type}</span>
+                                    <span className="text-secondary">Type:</span> <span className="text-foreground">{project.ml_models.model_type}</span>
                                   </div>
                                   <div className="text-muted-foreground font-mono text-xs">
-                                    <span className="text-accent-foreground">Framework:</span> <span className="text-foreground">{project.ml_models.framework}</span>
+                                    <span className="text-secondary">Framework:</span> <span className="text-foreground">{project.ml_models.framework}</span>
                                   </div>
                                 </div>
                                 <div className="space-y-2">
                                   <div className="text-muted-foreground font-mono text-xs">
-                                    <span className="text-accent-foreground">Accuracy:</span> <span className="text-foreground">{(project.ml_models.accuracy * 100).toFixed(1)}%</span>
+                                    <span className="text-secondary">Accuracy:</span> <span className="text-foreground">{(project.ml_models.accuracy * 100).toFixed(1)}%</span>
                                   </div>
                                   <div className="text-muted-foreground font-mono text-xs">
-                                    <span className="text-accent-foreground">Data Size:</span> <span className="text-foreground">{project.ml_models.training_data_size}</span>
+                                    <span className="text-secondary">Data Size:</span> <span className="text-foreground">{project.ml_models.training_data_size}</span>
                                   </div>
                                   <div className="text-muted-foreground font-mono text-xs">
-                                    <span className="text-accent-foreground">Status:</span> <span className="text-foreground">{project.ml_models.deployment_status}</span>
+                                    <span className="text-secondary">Status:</span> <span className="text-foreground">{project.ml_models.deployment_status}</span>
                                   </div>
                                 </div>
                               </div>
@@ -404,8 +404,8 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ project, isOpen, onClose })
                               {project.ml_models.use_cases && project.ml_models.use_cases.length > 0 && (
                                 <div className="mb-4">
                                   <div className="flex items-center space-x-2 mb-2">
-                                    <Target className="h-3 w-3 text-accent-foreground" />
-                                    <h4 className="text-accent-foreground font-mono font-semibold text-xs">Use Cases</h4>
+                                    <Target className="h-3 w-3 text-secondary" />
+                                    <h4 className="text-secondary font-mono font-semibold text-xs">Use Cases</h4>
                                   </div>
                                   <div className="space-y-2">
                                     {project.ml_models.use_cases.map((useCase, index) => (
@@ -432,8 +432,8 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ project, isOpen, onClose })
                               {project.ml_models.training_parameters && project.ml_models.training_parameters.length > 0 && (
                                 <div>
                                   <div className="flex items-center space-x-2 mb-2">
-                                    <Settings className="h-3 w-3 text-accent-foreground" />
-                                    <h4 className="text-accent-foreground font-mono font-semibold text-xs">Parameters</h4>
+                                    <Settings className="h-3 w-3 text-secondary" />
+                                    <h4 className="text-secondary font-mono font-semibold text-xs">Parameters</h4>
                                   </div>
                                   <div className="grid grid-cols-1 lg:grid-cols-2 gap-2">
                                     {project.ml_models.training_parameters.map((param, index) => (

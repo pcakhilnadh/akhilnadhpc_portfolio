@@ -119,9 +119,9 @@ export default function ContactModal({ isOpen, onClose, personalData }: ContactM
       <DialogContent className="max-w-4xl backdrop-blur-xl bg-background/90 shadow-green-500/10 border-primary/20 p-0 overflow-hidden">
         <div className="bg-primary/5 border-b border-primary/20 p-0.5 flex items-center">
           <div className="flex space-x-1.5 px-3 py-2">
-            <div className="w-3 h-3 rounded-full bg-red-500" onClick={onClose}></div>
-            <div className="w-3 h-3 rounded-full bg-yellow-500"></div>
-            <div className="w-3 h-3 rounded-full bg-green-500"></div>
+            <div className="w-3 h-3 rounded-full bg-destructive" onClick={onClose}></div>
+            <div className="w-3 h-3 rounded-full bg-accent"></div>
+            <div className="w-3 h-3 rounded-full bg-primary"></div>
           </div>
           <div className="flex-1 text-center font-mono text-xs text-primary">
             <span className="mr-1.5 opacity-60">root@akhilnadhpc:~$</span> 

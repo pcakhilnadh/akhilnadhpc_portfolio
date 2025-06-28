@@ -28,7 +28,7 @@ export default function ProjectModal({ project, isOpen, onClose }: ProjectModalP
   
   const { 
     title, 
-    description, 
+    short_description, 
     project_type,
     github_url,
     live_url,
@@ -119,7 +119,7 @@ export default function ProjectModal({ project, isOpen, onClose }: ProjectModalP
         {/* Description */}
         <div className="mb-6">
           <h4 className="text-lg font-medium mb-3">Description</h4>
-          <p className="text-muted-foreground leading-relaxed">{description}</p>
+          <p className="text-muted-foreground leading-relaxed">{short_description}</p>
         </div>
 
         {/* Role */}
@@ -138,7 +138,7 @@ export default function ProjectModal({ project, isOpen, onClose }: ProjectModalP
             <h4 className="text-lg font-medium mb-3">Technologies Used</h4>
             <div className="flex flex-wrap gap-2">
               {skills.map((skill) => (
-                <Badge key={skill.id} className="bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300">
+                <Badge key={skill.id} className="bg-primary/20 text-primary border border-primary/40">
                   {skill.name}
                 </Badge>
               ))}

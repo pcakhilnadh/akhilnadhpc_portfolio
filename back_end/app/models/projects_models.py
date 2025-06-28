@@ -41,7 +41,7 @@ class ProjectMLModel(BaseModel):
 
 class ProjectBase(BaseModel):
     """Base model for project information - minimal data for list view."""
-    id: int
+    id: str
     title: str
     short_description: Optional[str] = None
     project_type: ProjectType

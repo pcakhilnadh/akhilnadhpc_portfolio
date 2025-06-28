@@ -127,12 +127,14 @@ export interface ProjectAchievement {
 }
 
 export interface Project {
-  id: number;
+  id: string;
   title: string;
-  description: string;
+  short_description: string;
   project_type: string;
+  status: string;
   github_url?: string;
   live_url?: string;
+  notion_url?: string;
   duration?: string;
   start_date?: string;
   end_date?: string;

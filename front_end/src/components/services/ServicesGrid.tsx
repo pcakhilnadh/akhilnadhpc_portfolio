@@ -11,7 +11,12 @@ import {
   Globe, 
   Lightbulb,
   Bot,
-  MessageSquare
+  MessageSquare,
+  Code,
+  Database,
+  Cloud,
+  Users,
+  Zap
 } from 'lucide-react';
 
 interface Service {
@@ -25,121 +30,94 @@ interface Service {
 
 const services: Service[] = [
   {
-    title: "Machine Learning Consultancy",
-    description: "Transform your business with cutting-edge AI solutions. From strategy to implementation, I'll guide your ML journey.",
+    title: "AI/ML Development",
+    description: "Custom machine learning models and AI solutions tailored to your business needs.",
     features: [
-      "Custom ML model development",
-      "Data strategy & architecture",
-      "Performance optimization",
-      "Model deployment & monitoring"
+      "Predictive Analytics",
+      "Computer Vision",
+      "Natural Language Processing",
+      "Recommendation Systems",
+      "Model Optimization",
+      "Production Deployment"
     ],
     icon: Brain,
-    gradient: "bg-gradient-to-br from-primary/20 to-accent-foreground/20",
-    category: "AI/ML"
+    gradient: "bg-gradient-to-br from-primary/20 to-secondary/20",
+    category: 'AI/ML'
   },
   {
-    title: "Natural Language Processing",
-    description: "Unlock insights from text data with advanced NLP solutions for classification, sentiment analysis, and more.",
+    title: "Full-Stack Development",
+    description: "End-to-end web and mobile applications with modern technologies.",
     features: [
-      "Text classification & sentiment analysis",
-      "Named entity recognition",
-      "Chatbot development",
-      "Language translation services"
+      "React/Next.js Frontend",
+      "Node.js/Python Backend",
+      "Database Design",
+      "API Development",
+      "Cloud Deployment",
+      "Performance Optimization"
     ],
-    icon: MessageSquare,
-    gradient: "bg-gradient-to-br from-accent-foreground/20 to-secondary-foreground/20",
-    category: "AI/ML"
+    icon: Code,
+    gradient: "bg-gradient-to-br from-secondary/20 to-accent-indigo/20",
+    category: 'Development'
   },
   {
-    title: "Document Data Extraction",
-    description: "Automate document processing with AI-powered extraction for invoices, forms, and structured documents.",
+    title: "Data Engineering",
+    description: "Scalable data pipelines and infrastructure for big data processing.",
     features: [
-      "OCR & text extraction",
-      "Structured data parsing",
-      "Invoice & form processing",
-      "Custom template creation"
+      "ETL Pipeline Design",
+      "Data Warehousing",
+      "Real-time Processing",
+      "Data Quality Assurance",
+      "Monitoring & Alerting",
+      "Cost Optimization"
     ],
-    icon: FileSearch,
-    gradient: "bg-gradient-to-br from-primary/20 to-accent-foreground/20",
-    category: "AI/ML"
+    icon: Database,
+    gradient: "bg-gradient-to-br from-primary/20 to-secondary/20",
+    category: 'AI/ML'
   },
   {
-    title: "Traffic Vehicle Identification",
-    description: "Advanced computer vision solutions for traffic monitoring, vehicle detection, and smart city applications.",
+    title: "DevOps & Cloud",
+    description: "Infrastructure automation and cloud-native solutions.",
     features: [
-      "Real-time vehicle detection",
-      "License plate recognition",
-      "Traffic flow analysis",
-      "Custom vision models"
+      "CI/CD Pipeline Setup",
+      "Container Orchestration",
+      "Cloud Architecture",
+      "Monitoring & Logging",
+      "Security Best Practices",
+      "Cost Management"
     ],
-    icon: Car,
-    gradient: "bg-gradient-to-br from-secondary-foreground/20 to-primary/20",
-    category: "AI/ML"
+    icon: Cloud,
+    gradient: "bg-gradient-to-br from-secondary/20 to-primary/20",
+    category: 'Development'
   },
   {
-    title: "Resume Rewriting",
-    description: "Professional resume optimization to help you stand out in competitive job markets with ATS-friendly formats.",
+    title: "Technical Consulting",
+    description: "Strategic guidance for technology decisions and architecture.",
     features: [
-      "ATS optimization",
-      "Industry-specific formatting",
-      "Keyword optimization",
-      "Cover letter writing"
+      "Technology Assessment",
+      "Architecture Design",
+      "Performance Audits",
+      "Security Reviews",
+      "Team Training",
+      "Project Planning"
     ],
-    icon: FileText,
-    gradient: "bg-gradient-to-br from-accent-foreground/20 to-primary/20",
-    category: "Consulting"
+    icon: Users,
+    gradient: "bg-gradient-to-br from-accent-indigo/20 to-secondary/20",
+    category: 'Consulting'
   },
   {
-    title: "Portfolio Building",
-    description: "Create stunning, responsive portfolios that showcase your skills and attract clients or employers.",
+    title: "API Development",
+    description: "Robust and scalable APIs for seamless integration.",
     features: [
-      "Custom design & development",
-      "Responsive layouts",
-      "SEO optimization",
-      "Content strategy"
+      "RESTful API Design",
+      "GraphQL Implementation",
+      "Authentication & Authorization",
+      "Rate Limiting",
+      "Documentation",
+      "Testing & Monitoring"
     ],
-    icon: PenTool,
-    gradient: "bg-gradient-to-br from-primary/20 to-secondary-foreground/20",
-    category: "Development"
-  },
-  {
-    title: "Website Development",
-    description: "Full-stack web development services for modern, scalable applications that drive business growth.",
-    features: [
-      "React/Next.js development",
-      "Backend API development",
-      "Database design",
-      "Cloud deployment"
-    ],
-    icon: Globe,
-    gradient: "bg-gradient-to-br from-secondary-foreground/20 to-accent-foreground/20",
-    category: "Development"
-  },
-  {
-    title: "Business Problem Solving",
-    description: "Strategic consultation to identify, analyze, and solve complex business challenges with data-driven approaches.",
-    features: [
-      "Process optimization",
-      "Data analysis & insights",
-      "Strategic planning",
-      "Custom solution development"
-    ],
-    icon: Lightbulb,
-    gradient: "bg-gradient-to-br from-accent-foreground/20 to-primary/20",
-    category: "Consulting"
-  },
-  {
-    title: "AI Solutions & Automation",
-    description: "End-to-end AI implementation for business automation, efficiency improvement, and competitive advantage.",
-    features: [
-      "Process automation",
-      "Predictive analytics",
-      "AI chatbots",
-      "Custom AI integrations"
-    ],
-    icon: Bot,
-    gradient: "bg-gradient-to-br from-primary/20 to-accent-foreground/20",
-    category: "AI/ML"
+    icon: Zap,
+    gradient: "bg-gradient-to-br from-secondary/20 to-primary/20",
+    category: 'Development'
   }
 ];
 

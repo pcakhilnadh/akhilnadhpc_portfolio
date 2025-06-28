@@ -73,6 +73,7 @@ export default function About({ setNavbarWelcomeText }: AboutProps) {
                 personalInfo={aboutData.personal_info}
                 familyInfo={aboutData.family_info}
                 hobbies={aboutData.hobbies}
+                variant="dark"
               />
             </div>
             

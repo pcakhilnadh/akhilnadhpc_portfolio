@@ -22,7 +22,10 @@ const Footer: React.FC = () => {
               variant="ghost"
               size="icon"
               onClick={toggleTheme}
-              className="text-muted-foreground hover:text-primary transition-colors h-8 w-8"
+              className="text-muted-foreground hover:bg-accent transition-colors h-8 w-8"
+              style={{
+                '--hover-text-color': 'var(--color-bg)'
+              } as React.CSSProperties}
               aria-label="Toggle theme"
             >
               {theme === 'dark' ? <Sun className="h-3 w-3" /> : <Moon className="h-3 w-3" />}
@@ -42,7 +45,7 @@ const Footer: React.FC = () => {
                 href="https://akhilnadhpc.in/" 
                 target="_blank" 
                 rel="noopener noreferrer"
-                className="text-green-500 hover:text-green-400 transition-colors duration-200 font-semibold"
+                className="text-primary hover:text-primary/80 transition-colors duration-200 font-semibold"
               >
                 Akhil Nadh PC
               </a>
@@ -66,7 +69,7 @@ const Footer: React.FC = () => {
                 href="https://akhilnadhpc.in/" 
                 target="_blank" 
                 rel="noopener noreferrer"
-                className="text-green-500 hover:text-green-400 transition-colors duration-200 font-semibold"
+                className="text-primary hover:text-primary/80 transition-colors duration-200 font-semibold"
               >
                 Akhil Nadh PC
               </a>
@@ -80,7 +83,10 @@ const Footer: React.FC = () => {
               variant="ghost"
               size="icon"
               onClick={toggleTheme}
-              className="text-muted-foreground hover:text-primary transition-colors h-9 w-9"
+              className="text-muted-foreground hover:bg-accent transition-colors h-9 w-9"
+              style={{
+                '--hover-text-color': 'var(--color-bg)'
+              } as React.CSSProperties}
               aria-label="Toggle theme"
             >
               {theme === 'dark' ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}

@@ -15,12 +15,12 @@ export default function SkillsRadarChart({ skills }: SkillsRadarChartProps) {
   return (
     <ResponsiveContainer width="100%" height="100%">
       <RadarChart cx="50%" cy="50%" outerRadius="80%" data={skills}>
-        <PolarGrid strokeDasharray="3 3" stroke="hsl(var(--muted-foreground))" />
+        <PolarGrid strokeDasharray="3 3" stroke="color-mix(in srgb, var(--color-text) 60%, transparent)" />
         <PolarAngleAxis 
           dataKey="name" 
           tick={{ 
             fontSize: 11, 
-            fill: 'hsl(var(--foreground))',
+            fill: 'var(--color-text)',
             fontWeight: 500
           }} 
         />
@@ -28,33 +28,33 @@ export default function SkillsRadarChart({ skills }: SkillsRadarChartProps) {
           angle={30} 
           domain={[0, 5]} 
           tick={{ 
-            fill: 'hsl(var(--muted-foreground))',
+            fill: 'color-mix(in srgb, var(--color-text) 60%, transparent)',
             fontSize: 10
           }} 
         />
         <Radar
           name="Skills"
           dataKey="value"
-          stroke="hsl(var(--primary))"
-          fill="hsl(var(--primary))"
+          stroke="var(--color-primary)"
+          fill="var(--color-primary)"
           fillOpacity={0.3}
           strokeWidth={2}
         />
         <Tooltip 
           formatter={(value: number) => [`${value.toFixed(1)}/5`, 'Skill Level']}
           contentStyle={{
-            backgroundColor: 'hsl(var(--background))',
-            border: '1px solid hsl(var(--border))',
+            backgroundColor: 'var(--color-bg)',
+            border: '1px solid color-mix(in srgb, var(--color-text) 20%, transparent)',
             borderRadius: '0.5rem',
-            color: 'hsl(var(--foreground))',
-            boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)'
+            color: 'var(--color-text)',
+            boxShadow: '0 4px 6px -1px color-mix(in srgb, var(--color-text) 10%, transparent)'
           }}
           labelStyle={{
-            color: 'hsl(var(--foreground))',
+            color: 'var(--color-text)',
             fontWeight: 600
           }}
           itemStyle={{
-            color: 'hsl(var(--primary))'
+            color: 'var(--color-primary)'
           }}
         />
       </RadarChart>

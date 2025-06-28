@@ -53,19 +53,19 @@ export default function Hero({ personalData }: HeroProps) {
       return cn(
         baseClasses,
         "bg-primary text-primary-foreground",
-        "hover:bg-green-600 hover:shadow-green-500/25",
+        "hover:bg-primary/80 hover:shadow-primary/25",
         "hover:scale-105 hover:shadow-xl",
         "active:scale-95",
-        "border-green-500/30 hover:border-green-400/50"
+        "border-primary/30 hover:border-primary/50"
       );
     } else {
       return cn(
         baseClasses,
-        "bg-green-600 text-white",
-        "hover:bg-green-700 hover:shadow-green-600/20",
+        "bg-primary text-background",
+        "hover:bg-primary/80 hover:shadow-primary/20",
         "hover:scale-105 hover:shadow-xl",
         "active:scale-95",
-        "border-green-600/30 hover:border-green-500/50"
+        "border-primary/30 hover:border-primary/50"
       );
     }
   };
@@ -215,12 +215,65 @@ export default function Hero({ personalData }: HeroProps) {
               transition={{ delay: 0.3, duration: 0.5 }}
               className="relative"
             >
+              {/* Animated glow effect */}
+              <motion.div
+                animate={{
+                  scale: [1, 1.05, 1],
+                  opacity: [0.3, 0.6, 0.3],
+                }}
+                transition={{
+                  duration: 3,
+                  repeat: Infinity,
+                  ease: "easeInOut"
+                }}
+                className={cn(
+                  "absolute inset-0 rounded-full blur-xl",
+                  isMobileLandscape 
+                    ? "w-24 h-24 sm:w-32 sm:h-32" 
+                    : "w-48 h-48 sm:w-64 sm:h-64 md:w-72 md:h-72 lg:w-80 lg:h-80 xl:w-96 xl:h-96"
+                )}
+                style={{
+                  background: `radial-gradient(circle, color-mix(in srgb, var(--color-primary) 60%, black) 0%, transparent 70%)`,
+                  filter: 'blur(20px)',
+                }}
+              />
+              
+              {/* Secondary glow ring */}
+              <motion.div
+                animate={{
+                  rotate: [0, 360],
+                }}
+                transition={{
+                  duration: 20,
+                  repeat: Infinity,
+                  ease: "linear"
+                }}
+                className={cn(
+                  "absolute inset-0 rounded-full border-2 border-primary/40",
+                  isMobileLandscape 
+                    ? "w-24 h-24 sm:w-32 sm:h-32" 
+                    : "w-48 h-48 sm:w-64 sm:h-64 md:w-72 md:h-72 lg:w-80 lg:h-80 xl:w-96 xl:h-96"
+                )}
+                style={{
+                  boxShadow: '0 0 30px color-mix(in srgb, var(--color-primary) 40%, black), inset 0 0 30px color-mix(in srgb, var(--color-primary) 20%, black)',
+                }}
+              />
+
               <div className={cn(
-                "rounded-full overflow-hidden border-primary/30 shadow-xl shadow-primary/20 flex items-center justify-center bg-muted",
+                "relative rounded-full overflow-hidden border-4 border-primary/50 shadow-2xl flex items-center justify-center",
                 isMobileLandscape 
-                  ? "w-24 h-24 sm:w-32 sm:h-32 border-2" 
-                  : "w-48 h-48 sm:w-64 sm:h-64 md:w-72 md:h-72 lg:w-80 lg:h-80 xl:w-96 xl:h-96 border-4 sm:border-6 lg:border-8"
-              )}>
+                  ? "w-24 h-24 sm:w-32 sm:h-32" 
+                  : "w-48 h-48 sm:w-64 sm:h-64 md:w-72 md:h-72 lg:w-80 lg:h-80 xl:w-96 xl:h-96"
+              )}
+              style={{
+                background: 'linear-gradient(135deg, color-mix(in srgb, var(--color-primary) 80%, black) 0%, var(--color-primary) 50%, color-mix(in srgb, var(--color-primary) 80%, black) 100%)',
+                boxShadow: `
+                  0 0 40px color-mix(in srgb, var(--color-primary) 30%, black),
+                  0 0 80px color-mix(in srgb, var(--color-primary) 20%, black),
+                  0 0 120px color-mix(in srgb, var(--color-primary) 10%, black),
+                  inset 0 0 20px rgba(255, 255, 255, 0.05)
+                `,
+              }}>
                 {personal_info.profile_image ? (
                   <img 
                     src={personal_info.profile_image} 
@@ -235,15 +288,41 @@ export default function Hero({ personalData }: HeroProps) {
                   />
                 ) : null}
                 <div className={cn(
-                  "w-full h-full flex items-center justify-center font-bold text-primary",
+                  "w-full h-full flex items-center justify-center font-bold text-white",
                   personal_info.profile_image ? 'hidden' : '',
                   isMobileLandscape 
                     ? "text-lg" 
                     : "text-3xl sm:text-4xl md:text-5xl lg:text-6xl"
-                )}>
+                )}
+                style={{
+                  textShadow: '0 0 20px color-mix(in srgb, var(--color-primary) 40%, black), 0 0 40px color-mix(in srgb, var(--color-primary) 20%, black)',
+                }}>
                   {personal_info.full_name.split(' ').map(n => n[0]).join('')}
                 </div>
               </div>
+              
+              {/* Floating particles around the image */}
+              {[...Array(6)].map((_, i) => (
+                <motion.div
+                  key={i}
+                  className="absolute w-2 h-2 rounded-full"
+                  style={{
+                    left: `${50 + Math.cos(i * 60 * Math.PI / 180) * 60}%`,
+                    top: `${50 + Math.sin(i * 60 * Math.PI / 180) * 60}%`,
+                    background: 'color-mix(in srgb, var(--color-primary) 60%, black)',
+                  }}
+                  animate={{
+                    scale: [0.5, 1, 0.5],
+                    opacity: [0.3, 1, 0.3],
+                  }}
+                  transition={{
+                    duration: 2,
+                    repeat: Infinity,
+                    delay: i * 0.3,
+                    ease: "easeInOut"
+                  }}
+                />
+              ))}
             </motion.div>
           </div>
         </div>

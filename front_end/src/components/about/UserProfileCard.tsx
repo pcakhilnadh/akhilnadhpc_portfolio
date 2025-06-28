@@ -23,6 +23,7 @@ interface UserProfileCardProps {
   personalInfo: PersonalInfo;
   familyInfo?: FamilyMember[];
   hobbies?: string[];
+  variant?: 'default' | 'dark';
 }
 
 // Function to calculate age from date of birth
@@ -43,7 +44,7 @@ const calculateAge = (dob: string): string => {
   }
 };
 
-export default function UserProfileCard({ personalInfo, familyInfo, hobbies }: UserProfileCardProps) {
+export default function UserProfileCard({ personalInfo, familyInfo, hobbies, variant = 'default' }: UserProfileCardProps) {
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -51,9 +52,18 @@ export default function UserProfileCard({ personalInfo, familyInfo, hobbies }: U
       transition={{ duration: 0.6 }}
       className="h-full"
     >
-      <Card className="overflow-hidden border-0 shadow-xl bg-gradient-to-br from-green-50 via-green-50/80 to-green-100/60 dark:from-green-950/30 dark:via-green-900/20 dark:to-green-800/10">
+      <Card className={
+        variant === 'dark'
+          ? 'overflow-hidden shadow-lg'
+          : 'overflow-hidden border-0 shadow-xl bg-gradient-to-br from-muted/30 via-muted/50 to-muted/70'
+      }
+      style={
+        variant === 'dark'
+          ? { background: 'color-mix(in srgb, var(--color-primary) 50%, black)' }
+          : undefined
+      }>
         {/* Hero Section with Gradient Background */}
-        <div className="relative h-40 bg-gradient-to-br from-primary/90 via-primary/70 to-primary/50 overflow-hidden">
+        <div className="relative h-40 bg-primary overflow-hidden">
           {/* Animated background pattern */}
           <div className="absolute inset-0 opacity-10">
             <div className="absolute inset-0" style={{
@@ -85,8 +95,8 @@ export default function UserProfileCard({ personalInfo, familyInfo, hobbies }: U
                   {personalInfo.full_name.split(' ').map(n => n[0]).join('')}
                 </div>
               </div>
-              <div className="absolute -bottom-1 -right-1 w-7 h-7 bg-green-500 rounded-full border-2 border-background flex items-center justify-center shadow-lg">
-                <div className="w-2.5 h-2.5 bg-white rounded-full"></div>
+              <div className="absolute -bottom-1 -right-1 w-7 h-7 bg-primary rounded-full border-2 border-background flex items-center justify-center shadow-lg">
+                <div className="w-2.5 h-2.5 bg-background rounded-full"></div>
               </div>
             </div>
           </div>

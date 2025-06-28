@@ -81,7 +81,7 @@ export default function ServiceCard({
                 "bg-gradient-to-br from-muted/80 to-card/80",
                 "shadow-lg backdrop-blur-sm",
                 isHovered 
-                  ? "border-primary/60 bg-gradient-to-br from-primary/20 to-accent-foreground/20 shadow-primary/25" 
+                  ? "border-primary/60 bg-gradient-to-br from-primary/20 to-secondary/20 shadow-primary/25" 
                   : "border-muted/50 shadow-black/20"
               )}
               whileHover={{ 
@@ -144,8 +144,8 @@ export default function ServiceCard({
             onClick={onGetQuote}
             className={cn(
               "w-full group transition-all duration-300",
-              "bg-gradient-to-r from-primary to-accent-foreground",
-              "hover:from-primary/90 hover:to-accent-foreground/90",
+              "bg-gradient-to-r from-primary to-secondary",
+              "hover:from-primary/90 hover:to-secondary/90",
               "border border-primary/30 hover:border-primary/60",
               "shadow-lg hover:shadow-primary/25"
             )}

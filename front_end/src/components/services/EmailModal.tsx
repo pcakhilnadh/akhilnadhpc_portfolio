@@ -120,7 +120,7 @@ Best regards,`;
                 <div className="flex gap-3">
                   <Button
                     onClick={() => window.open(mailtoLink)}
-                    className="flex-1 bg-gradient-to-r from-primary to-accent-foreground hover:from-primary/90 hover:to-accent-foreground/90 border border-primary/30"
+                    className="flex-1 bg-gradient-to-r from-primary to-secondary hover:from-primary/90 hover:to-secondary/90 border border-primary/30"
                   >
                     <Mail className="w-4 h-4 mr-2" />
                     Open Email App

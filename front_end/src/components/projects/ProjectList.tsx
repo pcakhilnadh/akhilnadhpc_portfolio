@@ -7,21 +7,18 @@ import {
   Code, 
   Building2, 
   Clock, 
-  Trophy, 
-  Brain, 
-  Globe, 
   Filter,
   Search,
   Calendar,
   X,
   ChevronDown,
-  ChevronUp,
   Zap,
   SlidersHorizontal,
   Play
 } from 'lucide-react';
 import { Project } from '@/types/data';
 import { Badge } from '@/components/ui/badge';
+import useConfig from '@/hooks/useConfig';
 
 interface ProjectListProps {
   projects: Project[];
@@ -41,7 +38,6 @@ const ProjectList: React.FC<ProjectListProps> = ({ projects }) => {
     year: '',
     search: ''
   });
-  const [expandedRows, setExpandedRows] = useState<Set<number>>(new Set());
   const [showAdvancedFilters, setShowAdvancedFilters] = useState(false);
 
   // Extract unique companies, technologies, and years
@@ -101,7 +97,7 @@ const ProjectList: React.FC<ProjectListProps> = ({ projects }) => {
         const searchTerm = filters.search.toLowerCase();
         const searchFields = [
           project.title,
-          project.description,
+          project.short_description,
           project.role,
           project.company?.name,
           ...(project.skills?.map(s => s.name) || [])
@@ -132,34 +128,22 @@ const ProjectList: React.FC<ProjectListProps> = ({ projects }) => {
     setShowAdvancedFilters(false);
   };
 
-  const toggleRowExpansion = (projectId: number) => {
-    setExpandedRows(prev => {
-      const newSet = new Set(prev);
-      if (newSet.has(projectId)) {
-        newSet.delete(projectId);
-      } else {
-        newSet.add(projectId);
-      }
-      return newSet;
-    });
-  };
-
   const hasActiveFilters = Object.values(filters).some(value => value !== '');
   const hasAdvancedFilters = filters.company || filters.technology || filters.year;
 
   return (
     <div className="w-full space-y-6">
       {/* Integrated Search & Filter Bar - Sticky */}
-        <motion.div 
+      <motion.div 
         initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
+        animate={{ opacity: 1, y: 0 }}
         className="sticky top-0 z-10 relative"
-        >
+      >
         {/* Subtle glow effect */}
-        <div className="absolute inset-0 bg-gradient-to-r from-primary/10 via-accent/5 to-primary/10 rounded-lg blur-lg" />
+        <div className="absolute inset-0 bg-primary/8 rounded-lg blur-lg" />
         
         {/* Main Search Bar */}
-        <div className="relative bg-gradient-to-r from-card/80 via-muted/80 to-card/80 border border-primary/30 rounded-lg backdrop-blur-sm">
+        <div className="relative bg-card/95 border border-primary/30 rounded-lg" style={{ backdropFilter: 'blur(8px)' }}>
           <div className="flex items-center p-4">
             {/* Search Input */}
             <div className="flex-1 relative">
@@ -172,8 +156,8 @@ const ProjectList: React.FC<ProjectListProps> = ({ projects }) => {
                 className="w-full pl-11 pr-4 py-3 bg-transparent text-foreground placeholder-muted-foreground focus:outline-none text-lg focus:placeholder-primary/60 transition-colors"
               />
               {filters.search && (
-                <div className="absolute inset-0 bg-gradient-to-r from-primary/5 to-accent/5 rounded-md pointer-events-none" />
-                  )}
+                <div className="absolute inset-0 bg-primary/5 rounded-md pointer-events-none" />
+              )}
             </div>
                   
             {/* Filter Toggle & Results */}
@@ -188,8 +172,8 @@ const ProjectList: React.FC<ProjectListProps> = ({ projects }) => {
                   showAdvancedFilters || hasAdvancedFilters
                     ? 'bg-primary/20 text-primary border border-primary/50 shadow-lg shadow-primary/20'
                     : 'text-muted-foreground hover:text-primary hover:bg-primary/10 border border-transparent hover:border-primary/30'
-                      }`}
-                    >
+                }`}
+              >
                 <SlidersHorizontal className="h-4 w-4" />
                 <span className="text-sm font-medium">Filters</span>
                 {hasAdvancedFilters && (
@@ -219,18 +203,23 @@ const ProjectList: React.FC<ProjectListProps> = ({ projects }) => {
                 transition={{ duration: 0.3 }}
                 className="overflow-hidden border-t border-primary/20"
               >
-                <div className="p-4 bg-gradient-to-r from-primary/5 via-transparent to-primary/5">
+                <div className="p-4 bg-primary/3">
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                     {/* Company Filter */}
                     <div className="relative group">
-                      <div className="absolute inset-0 bg-gradient-to-r from-primary/5 to-accent/5 rounded-md opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                      <div className="absolute inset-0 bg-primary/5 rounded-md opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                       <div className="relative">
                         <Building2 className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-primary" />
                         <select
                           value={filters.company}
                           onChange={(e) => handleFilterChange('company', e.target.value)}
-                          className="w-full pl-10 pr-8 py-3 bg-card/60 border border-primary/30 rounded-md text-foreground focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20 appearance-none backdrop-blur-sm"
-                  >
+                          className="w-full pl-10 pr-8 py-3 bg-card border border-primary/30 rounded-md text-foreground focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20"
+                          style={{ 
+                            appearance: 'none',
+                            WebkitAppearance: 'none',
+                            MozAppearance: 'none'
+                          }}
+                        >
                           <option value="">All Companies</option>
                           {filterOptions.companies.map(company => (
                             <option key={company} value={company}>{company}</option>
@@ -242,42 +231,52 @@ const ProjectList: React.FC<ProjectListProps> = ({ projects }) => {
                     
                     {/* Technology Filter */}
                     <div className="relative group">
-                      <div className="absolute inset-0 bg-gradient-to-r from-accent/5 to-primary/5 rounded-md opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                      <div className="absolute inset-0 bg-secondary/5 rounded-md opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                       <div className="relative">
-                        <Code className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-accent-foreground" />
+                        <Code className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-secondary" />
                         <select
                           value={filters.technology}
                           onChange={(e) => handleFilterChange('technology', e.target.value)}
-                          className="w-full pl-10 pr-8 py-3 bg-card/60 border border-primary/30 rounded-md text-foreground focus:border-accent-foreground focus:outline-none focus:ring-2 focus:ring-accent-foreground/20 appearance-none backdrop-blur-sm"
+                          className="w-full pl-10 pr-8 py-3 bg-card border border-primary/30 rounded-md text-foreground focus:border-secondary focus:outline-none focus:ring-2 focus:ring-secondary/20"
+                          style={{ 
+                            appearance: 'none',
+                            WebkitAppearance: 'none',
+                            MozAppearance: 'none'
+                          }}
                         >
                           <option value="">All Technologies</option>
                           {filterOptions.technologies.map(tech => (
                             <option key={tech} value={tech}>{tech}</option>
                           ))}
                         </select>
-                        <ChevronDown className="absolute right-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-accent-foreground pointer-events-none" />
-              </div>
-            </div>
+                        <ChevronDown className="absolute right-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-secondary pointer-events-none" />
+                      </div>
+                    </div>
             
                     {/* Year Filter */}
                     <div className="relative group">
-                      <div className="absolute inset-0 bg-gradient-to-r from-primary/5 to-secondary/5 rounded-md opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                      <div className="absolute inset-0 bg-secondary/5 rounded-md opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                       <div className="relative">
                         <Calendar className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-secondary-foreground" />
                         <select
                           value={filters.year}
                           onChange={(e) => handleFilterChange('year', e.target.value)}
-                          className="w-full pl-10 pr-8 py-3 bg-card/60 border border-primary/30 rounded-md text-foreground focus:border-secondary-foreground focus:outline-none focus:ring-2 focus:ring-secondary-foreground/20 appearance-none backdrop-blur-sm"
+                          className="w-full pl-10 pr-8 py-3 bg-card border border-primary/30 rounded-md text-foreground focus:border-secondary focus:outline-none focus:ring-2 focus:ring-secondary/20"
+                          style={{ 
+                            appearance: 'none',
+                            WebkitAppearance: 'none',
+                            MozAppearance: 'none'
+                          }}
                         >
                           <option value="">All Years</option>
                           {filterOptions.years.map(year => (
                             <option key={year} value={year}>{year}</option>
-                ))}
+                          ))}
                         </select>
                         <ChevronDown className="absolute right-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-secondary-foreground pointer-events-none" />
-            </div>
-          </div>
-        </div>
+                      </div>
+                    </div>
+                  </div>
 
                   {/* Active Filters */}
                   {hasAdvancedFilters && (
@@ -288,7 +287,7 @@ const ProjectList: React.FC<ProjectListProps> = ({ projects }) => {
                         </Badge>
                       )}
                       {filters.technology && (
-                        <Badge className="bg-accent/20 text-accent-foreground border-accent/40">
+                        <Badge className="bg-secondary/20 text-secondary border-secondary/40">
                           Tech: {filters.technology}
                         </Badge>
                       )}
@@ -299,11 +298,11 @@ const ProjectList: React.FC<ProjectListProps> = ({ projects }) => {
                       )}
                     </div>
                   )}
-          </div>
-        </motion.div>
+                </div>
+              </motion.div>
             )}
           </AnimatePresence>
-      </div>
+        </div>
       </motion.div>
 
       {/* Projects Content */}
@@ -316,8 +315,8 @@ const ProjectList: React.FC<ProjectListProps> = ({ projects }) => {
             className="text-center py-16"
           >
             <div className="relative max-w-md mx-auto">
-              <div className="absolute inset-0 bg-gradient-to-r from-primary/10 to-accent/10 rounded-lg blur-lg" />
-              <div className="relative bg-card/70 border border-primary/30 rounded-lg p-8 backdrop-blur-sm">
+              <div className="absolute inset-0 bg-primary/8 rounded-lg blur-lg" />
+              <div className="relative bg-card/95 border border-primary/30 rounded-lg p-8" style={{ backdropFilter: 'blur(8px)' }}>
                 <div className="text-4xl mb-4">🔍</div>
                 <p className="text-foreground text-lg mb-2 font-medium">No projects found</p>
                 <p className="text-muted-foreground text-sm mb-4">
@@ -335,525 +334,323 @@ const ProjectList: React.FC<ProjectListProps> = ({ projects }) => {
             </div>
           </motion.div>
         ) : (
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: -20 }}
-          className="space-y-4"
-        >
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+          >
             {filteredProjects.map((project, index) => (
-            <ProjectCard 
-              key={project.id} 
-              project={project} 
-              index={index}
-                isExpanded={expandedRows.has(project.id)}
-                onToggleExpand={() => toggleRowExpansion(project.id)}
-            />
-          ))}
-        </motion.div>
+              <ProjectCard 
+                key={project.id} 
+                project={project} 
+                index={index}
+              />
+            ))}
+          </motion.div>
         )}
       </AnimatePresence>
     </div>
   );
 };
 
-// Enhanced Project Card Component
+// Simplified Project Card Component
 interface ProjectCardProps {
   project: Project;
   index: number;
-  isExpanded: boolean;
-  onToggleExpand: () => void;
 }
 
-const ProjectCard: React.FC<ProjectCardProps> = ({ project, index, isExpanded, onToggleExpand }) => {
-  const projectYear = project.start_date?.split('-')[0] || project.start_date?.split('/')[2] || project.start_date?.substring(0, 4);
-  
-  // Check if project is ongoing (no end_date or empty end_date)
-  const isOngoing = !project.end_date || project.end_date.trim() === '';
+const ProjectCard: React.FC<ProjectCardProps> = ({ project, index }) => {
+  const { config } = useConfig();
+
+  // Format dates for better display - compact format with day
+  const formatDate = (dateString: string) => {
+    if (!dateString) return '';
+    const date = new Date(dateString);
+    return date.toLocaleDateString('en-US', { 
+      month: 'short', 
+      day: 'numeric',
+      year: '2-digit' 
+    });
+  };
+
+  // Handle project card click to fetch project details
+  const handleProjectClick = async () => {
+    if (!config) {
+      console.log('Config not loaded yet');
+      return;
+    }
+
+    try {
+      console.log(`🚀 Making API request to: POST ${config.api_base_url}/projects/${project.id}`);
+      console.log(`📝 Request payload:`, { username: config.username });
+      
+      const response = await fetch(`${config.api_base_url}/projects/${project.id}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ username: config.username }),
+      });
+      
+      console.log(`📡 API Response Status: ${response.status} ${response.statusText}`);
+      
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      
+      const data = await response.json();
+      console.log(`✅ Project details for "${project.title}":`, data);
+      
+    } catch (err) {
+      console.error(`❌ Error fetching project details for "${project.title}":`, err);
+    }
+  };
+
+  const startDate = formatDate(project.start_date || '');
+  const endDate = formatDate(project.end_date || '');
+
+  // Check if project is currently in progress
+  const isOngoing = project.status?.toLowerCase().includes('in progress') || 
+                    project.status?.toLowerCase().includes('ongoing');
 
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.3, delay: index * 0.05 }}
-      className="group relative"
+      transition={{ duration: 0.4, delay: index * 0.1 }}
+      className="group relative h-full"
     >
-      {/* Enhanced glow effect - Special orange/yellow glow for ongoing projects */}
-      <div className={`absolute inset-0 rounded-lg transition-all duration-500 ${
-        isOngoing
-          ? isExpanded 
-            ? 'bg-gradient-to-r from-orange-400/30 via-yellow-400/20 to-orange-400/30 blur-lg' 
-            : 'bg-gradient-to-r from-orange-400/20 via-yellow-400/10 to-orange-400/20 blur-lg opacity-0 group-hover:opacity-100'
-          : isExpanded 
-            ? 'bg-gradient-to-r from-primary/20 via-accent/10 to-primary/20 blur-lg' 
-            : 'bg-gradient-to-r from-primary/10 via-accent/5 to-primary/10 blur-lg opacity-0 group-hover:opacity-100'
-      }`} />
+
       
-      {/* Main Card - Special styling for ongoing projects */}
-      <div className={`relative border rounded-lg backdrop-blur-sm transition-all duration-300 ${
-        isOngoing
-          ? isExpanded 
-            ? 'border-orange-400/60 bg-card/30 shadow-2xl shadow-orange-400/20' 
-            : 'border-orange-400/30 bg-transparent hover:border-orange-400/50 hover:bg-orange-50/5'
-          : isExpanded 
-            ? 'border-primary/60 bg-card/30 shadow-2xl shadow-primary/20' 
-            : 'border-primary/20 bg-transparent hover:border-primary/40 hover:bg-card/20'
-      }`}>
+      {/* Main Card Container */}
+      <div 
+        className={`relative h-full border-2 rounded-xl transition-all duration-300 overflow-hidden cursor-pointer ${
+          isOngoing 
+            ? 'bg-transparent border-primary/60 glossy-card glossy-in-progress'
+            : 'bg-transparent border-gray-300 dark:border-gray-700 glossy-card'
+        }`}
+        onClick={handleProjectClick}
+        onMouseEnter={(e) => {
+          e.currentTarget.style.backgroundColor = 'rgba(30, 201, 107, 0.15)'; // Much more subtle green
+          e.currentTarget.style.borderColor = 'var(--color-primary)';
+          e.currentTarget.style.transform = 'translateY(-2px)';
+          e.currentTarget.style.boxShadow = '0 8px 25px rgba(0,0,0,0.15)';
+          // Temporarily disable glossy animation during hover for in-progress projects
+          if (isOngoing) {
+            e.currentTarget.style.animation = 'none';
+          }
+        }}
+        onMouseLeave={(e) => {
+          e.currentTarget.style.backgroundColor = 'transparent';
+          e.currentTarget.style.borderColor = isOngoing ? 'var(--color-primary)' : '';
+          e.currentTarget.style.transform = 'translateY(0)';
+          e.currentTarget.style.boxShadow = '';
+          // Re-enable glossy animation for in-progress projects
+          if (isOngoing) {
+            e.currentTarget.style.animation = '';
+          }
+        }}
+      >
         
-        {/* Card Header */}
-        <div 
-          className="p-6 cursor-pointer"
-          onClick={onToggleExpand}
-        >
-          {/* Top Row */}
-          <div className="flex items-start justify-between mb-4">
-            <div className="flex-1 min-w-0">
-              {/* Title and Year with Ongoing Badge */}
-              <div className="flex items-center space-x-3 mb-2">
-                <h3 className="text-xl font-semibold text-foreground line-clamp-1">
+
+
+        {/* Card Content */}
+        <div className="relative p-6 h-full flex flex-col">
+          
+          {/* Header Section */}
+          <div className="mb-6 relative z-10">
+            
+            {/* Project Title */}
+            <h3 className="text-xl font-bold mb-4 leading-tight group-hover:enhanced-text-primary transition-all duration-300">
+              <span className="bg-gradient-to-r from-primary via-secondary to-primary bg-clip-text text-transparent group-hover:from-primary group-hover:via-highlight group-hover:to-primary transition-all duration-500">
                 {project.title}
-              </h3>
-                <div className="flex items-center space-x-2">
-                  {isOngoing && (
-                    <Badge className="bg-gradient-to-r from-orange-400 to-yellow-400 text-orange-900 border-orange-300 text-xs font-semibold px-2 py-1 animate-pulse">
-                      <Play className="h-3 w-3 mr-1" />
-                      Ongoing
-                    </Badge>
-                  )}
-                  <div className="flex items-center space-x-1">
-                    <Zap className={`h-4 w-4 ${isOngoing ? 'text-orange-400' : 'text-primary'}`} />
-                    <span className={`text-sm font-medium ${isOngoing ? 'text-orange-400' : 'text-primary'}`}>{projectYear || '—'}</span>
-                  </div>
+              </span>
+              <span className="text-xs text-muted-foreground/70 group-hover:text-primary/80 transition-all duration-300 ml-2">
+                (click for details)
+              </span>
+            </h3>
+            
+            {/* Company & Role Row */}
+            <div className="flex flex-wrap items-center gap-4 mb-4">
+              <div className="flex items-center group/company">
+                <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-secondary/20 to-accent-indigo/20 border border-secondary/40 flex items-center justify-center mr-3 group-hover/company:shadow-lg group-hover/company:shadow-secondary/20 transition-all duration-300">
+                  <Building2 className="h-4 w-4 text-secondary group-hover/company:text-accent-indigo transition-colors duration-300" />
                 </div>
+                <span className="text-sm font-semibold text-secondary group-hover:text-accent-indigo transition-colors duration-300">
+                  {project.company?.name || 'Personal'}
+                </span>
               </div>
               
-              {/* Company and Role */}
-              <div className="flex items-center space-x-6 mb-3">
-                <div className="flex items-center text-foreground">
-                  <Building2 className={`h-4 w-4 mr-2 ${isOngoing ? 'text-orange-400' : 'text-primary'}`} />
-                  <span>{project.company?.name || 'Personal'}</span>
+              {project.role && (
+                <div className="flex items-center group/role">
+                  <div className="w-6 h-6 rounded-md bg-gradient-to-br from-primary/20 to-highlight/20 border border-primary/40 flex items-center justify-center mr-2 group-hover/role:shadow-md group-hover/role:shadow-primary/20 transition-all duration-300">
+                    <Users className="h-3 w-3 text-primary group-hover/role:text-highlight transition-colors duration-300" />
                   </div>
-                {project.role && (
-                  <div className="flex items-center text-accent-foreground">
-                    <Users className="h-4 w-4 mr-2 text-accent-foreground" />
-                    <span>{project.role}</span>
-                  </div>
-                )}
-                {project.duration && (
-                  <div className="flex items-center text-secondary-foreground">
-                    <Clock className={`h-4 w-4 mr-2 ${isOngoing ? 'text-orange-400' : 'text-secondary-foreground'}`} />
-                    <span className={`text-sm ${isOngoing ? 'text-orange-400 font-medium' : 'text-secondary-foreground'}`}>{project.duration}</span>
-                  </div>
-                )}
-              </div>
+                  <span className="text-sm font-medium text-primary/90 group-hover:text-highlight transition-colors duration-300">
+                    {project.role}
+                  </span>
                 </div>
-
-            {/* Action Buttons */}
-            <div className="flex items-center space-x-2 ml-4">
-                {project.github_url && (
-                  <a
-                    href={project.github_url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    onClick={(e) => e.stopPropagation()}
-                  className={`p-2 rounded transition-all duration-200 border border-transparent hover:border-primary/30 ${
-                    isOngoing 
-                      ? 'text-orange-400 hover:text-orange-400 hover:bg-orange-400/20' 
-                      : 'text-primary hover:text-primary hover:bg-primary/20'
-                  }`}
-                  >
-                  <Github className="h-4 w-4" />
-                  </a>
-                )}
-                {project.live_url && (
-                  <a
-                    href={project.live_url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    onClick={(e) => e.stopPropagation()}
-                  className="p-2 text-accent-foreground hover:text-accent-foreground hover:bg-accent/20 rounded transition-all duration-200 border border-transparent hover:border-accent/30"
-                >
-                  <ExternalLink className="h-4 w-4" />
-                </a>
               )}
-              <button
-                onClick={(e) => {
-                  e.stopPropagation();
-                  onToggleExpand();
-                }}
-                className={`p-2 rounded transition-all duration-200 border border-transparent hover:border-secondary/30 ${
-                  isOngoing 
-                    ? 'text-orange-400 hover:text-orange-400 hover:bg-orange-400/20' 
-                    : 'text-secondary-foreground hover:text-secondary-foreground hover:bg-secondary/20'
-                }`}
-                  >
-                {isExpanded ? (
-                  <ChevronUp className="h-4 w-4" />
-                ) : (
-                  <ChevronDown className="h-4 w-4" />
-                )}
-              </button>
             </div>
+            
+            {/* Status & Duration Row */}
+            <div className="flex items-center justify-between mb-4">
+                             {/* Status Badge */}
+               {project.status && (
+                 <Badge className={`text-xs font-bold px-3 py-1.5 border-2 transition-all duration-300 shadow-md ${
+                   project.status.toLowerCase().includes('in progress') || project.status.toLowerCase().includes('ongoing')
+                     ? 'bg-secondary text-secondary-foreground border-secondary hover:bg-secondary/90 hover:shadow-lg hover:shadow-secondary/20'
+                     : project.status.toLowerCase().includes('completed')
+                     ? 'bg-primary text-primary-foreground border-primary hover:bg-primary/90 hover:shadow-lg hover:shadow-primary/20'
+                     : project.status.toLowerCase().includes('paused')
+                     ? 'bg-accent-indigo text-white dark:text-accent-indigo-foreground border-accent-indigo hover:bg-accent-indigo/90 hover:shadow-lg hover:shadow-accent-indigo/20'
+                     : 'bg-muted text-muted-foreground border-muted hover:bg-muted/80'
+                 }`}>
+                                     {project.status.toLowerCase().includes('in progress') || project.status.toLowerCase().includes('ongoing') ? (
+                     <>
+                       <div className="w-2 h-2 bg-secondary-foreground rounded-full mr-2" />
+                       {project.status}
+                     </>
+                   ) : (
+                     project.status
+                   )}
+                </Badge>
+              )}
+
+              {/* Duration */}
+              {project.duration && (
+                <div className="flex items-center group/duration">
+                  <div className="w-5 h-5 rounded-md bg-gradient-to-br from-muted/20 to-soft/20 border border-muted/40 flex items-center justify-center mr-2 group-hover/duration:shadow-sm transition-all duration-300">
+                    <Clock className="h-3 w-3 text-muted-foreground group-hover/duration:text-soft transition-colors duration-300" />
+                  </div>
+                  <span className="text-xs font-semibold text-muted-foreground group-hover:text-soft transition-colors duration-300">
+                    {project.duration}
+                  </span>
+                </div>
+              )}
+            </div>
+            
+                         {/* Enhanced Timeline */}
+             <div className="flex items-center justify-center space-x-3 py-2">
+               {/* Start Date */}
+               <div className="flex items-center space-x-2">
+                 <div className="w-4 h-4 rounded-full bg-secondary/20 border border-secondary/40 flex items-center justify-center group-hover:bg-secondary/30 group-hover:border-secondary/60 transition-all duration-300 flex-shrink-0">
+                   <svg className="w-2 h-2 text-secondary" fill="currentColor" viewBox="0 0 20 20">
+                     <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clipRule="evenodd" />
+                   </svg>
+                 </div>
+                 <span className="text-xs font-mono font-medium text-muted-foreground group-hover:text-secondary transition-colors duration-300 whitespace-nowrap">
+                   {startDate}
+                 </span>
+               </div>
+               
+               {/* Flow Arrow */}
+               <div className="flex items-center space-x-1 flex-shrink-0">
+                 <div className="w-5 h-0.5 bg-gradient-to-r from-secondary/40 to-primary/40 rounded-full" />
+                 <svg className="w-3 h-3 text-muted-foreground group-hover:text-primary transition-colors duration-300" fill="currentColor" viewBox="0 0 20 20">
+                   <path fillRule="evenodd" d="M10.293 15.707a1 1 0 010-1.414L14.586 10l-4.293-4.293a1 1 0 111.414-1.414l5 5a1 1 0 010 1.414l-5 5a1 1 0 01-1.414 0z" clipRule="evenodd" />
+                 </svg>
+                 <div className="w-5 h-0.5 bg-gradient-to-r from-primary/40 to-highlight/40 rounded-full" />
+               </div>
+               
+               {/* End Date */}
+               <div className="flex items-center space-x-2">
+                 <span className="text-xs font-mono font-medium text-muted-foreground group-hover:text-primary transition-colors duration-300 whitespace-nowrap">
+                   {endDate || 'Present'}
+                 </span>
+                 <div className={`w-4 h-4 rounded-full border flex items-center justify-center transition-all duration-300 flex-shrink-0 ${
+                   endDate 
+                     ? 'bg-primary/20 border-primary/40 group-hover:bg-primary/30 group-hover:border-primary/60' 
+                     : 'bg-highlight/20 border-highlight/40 group-hover:bg-highlight/30 group-hover:border-highlight/60'
+                 }`}>
+                   {endDate ? (
+                     <svg className="w-2 h-2 text-primary" fill="currentColor" viewBox="0 0 20 20">
+                       <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                     </svg>
+                   ) : (
+                     <svg className="w-2 h-2 text-highlight" fill="currentColor" viewBox="0 0 20 20">
+                       <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clipRule="evenodd" />
+                     </svg>
+                   )}
+                 </div>
+               </div>
+             </div>
           </div>
 
           {/* Description */}
-          <p className="text-muted-foreground text-sm mb-4 line-clamp-2 leading-relaxed">
-            {project.description}
-          </p>
-
-          {/* Tech Stack */}
-          {project.skills && project.skills.length > 0 && (
-            <div className="flex flex-wrap gap-2">
-              {project.skills.slice(0, isExpanded ? project.skills.length : 6).map((skill, skillIndex) => (
-            <motion.div
-                  key={skill.id}
-                  initial={{ opacity: 0, scale: 0.8 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  transition={{ delay: skillIndex * 0.02 }}
-            >
-                  <Badge className={`text-xs hover:transition-colors ${
-                    isOngoing 
-                      ? 'bg-orange-400/20 text-orange-400 border-orange-400/40 hover:bg-orange-400/30' 
-                      : 'bg-primary/20 text-primary border-primary/40 hover:bg-primary/30'
-                  }`}>
-                    {skill.name}
-                  </Badge>
-            </motion.div>
-              ))}
-              {!isExpanded && project.skills.length > 6 && (
-                <Badge className="bg-accent/30 text-accent-foreground border-accent/50 text-xs animate-pulse">
-                  +{project.skills.length - 6} more
-                </Badge>
-              )}
+          <div className="mb-6 flex-1 relative z-10">
+            <p className="text-muted-foreground/90 text-sm leading-relaxed line-clamp-3 group-hover:text-foreground/80 transition-colors duration-300">
+              {project.short_description}
+            </p>
           </div>
-          )}
-        </div>
 
-        {/* Expanded Content */}
-        <AnimatePresence>
-          {isExpanded && (
-            <motion.div
-              initial={{ height: 0, opacity: 0 }}
-              animate={{ height: 'auto', opacity: 1 }}
-              exit={{ height: 0, opacity: 0 }}
-              transition={{ duration: 0.4 }}
-              className="overflow-hidden"
-            >
-              <div className={`border-t ${
-                isOngoing 
-                  ? 'border-orange-400/30 bg-gradient-to-r from-orange-400/5 via-transparent to-orange-400/5' 
-                  : 'border-primary/30 bg-gradient-to-r from-primary/5 via-transparent to-primary/5'
-              }`}>
-                <ProjectExpandedContent project={project} isOngoing={isOngoing} />
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
-      </div>
-    </motion.div>
-  );
-};
-
-// Completely Redesigned Expanded Content Component
-const ProjectExpandedContent: React.FC<{ project: Project; isOngoing: boolean }> = ({ project, isOngoing }) => {
-  const [isAiModelExpanded, setIsAiModelExpanded] = useState(false);
-
-  return (
-    <div className="p-6 space-y-6">
-                
-      {/* Project Overview Card - Full Width */}
-      <motion.div
-        initial={{ opacity: 0, y: 10 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.1 }}
-        className="relative"
-      >
-        <div className={`absolute inset-0 rounded-xl blur-sm ${
-          isOngoing 
-            ? 'bg-gradient-to-r from-orange-400/10 to-yellow-400/10' 
-            : 'bg-gradient-to-r from-primary/10 to-accent/10'
-        }`} />
-        <div className={`relative bg-card/60 border rounded-xl p-5 backdrop-blur-sm ${
-          isOngoing 
-            ? 'border-orange-400/30' 
-            : 'border-primary/30'
-        }`}>
-          <div className="flex items-center space-x-3 mb-5">
-            <div className={`w-8 h-8 rounded-lg flex items-center justify-center ${
-              isOngoing 
-                ? 'bg-gradient-to-br from-orange-400 to-yellow-400' 
-                : 'bg-gradient-to-br from-primary to-accent-foreground'
-            }`}>
-              <Code className="h-4 w-4 text-white" />
-            </div>
-            <h3 className="text-lg font-semibold text-foreground">Project Overview</h3>
-            {isOngoing && (
-              <Badge className="bg-gradient-to-r from-orange-400 to-yellow-400 text-orange-900 border-orange-300 text-xs font-semibold px-2 py-1 ml-2">
-                <Play className="h-3 w-3 mr-1" />
-                In Progress
+          {/* Project Type Badge */}
+          {project.project_type && (
+            <div className="mb-6 relative z-10">
+                             <Badge className={`font-bold text-xs px-4 py-2 border-2 shadow-lg transition-all duration-300 hover:scale-105 ${
+                 project.project_type === 'production'
+                   ? 'bg-accent-indigo text-accent-indigo-foreground border-accent-indigo hover:bg-accent-indigo/90 hover:shadow-accent-indigo/20'
+                   : project.project_type === 'development'
+                   ? 'bg-secondary text-secondary-foreground border-secondary hover:bg-secondary/90 hover:shadow-secondary/20'
+                   : project.project_type === 'poc'
+                   ? 'bg-highlight text-background border-highlight hover:bg-highlight/90 hover:shadow-highlight/20'
+                   : project.project_type === 'mvp'
+                   ? 'bg-soft text-foreground border-soft hover:bg-soft/90 hover:shadow-soft/20'
+                   : 'bg-primary text-primary-foreground border-primary hover:bg-primary/90 hover:shadow-primary/20'
+               }`}>
+                <span className="relative">
+                  {project.project_type.toUpperCase()}
+                  <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -skew-x-12 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500" />
+                </span>
               </Badge>
-            )}
-          </div>
-          
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                  {/* Timeline */}
-            <div className="space-y-3">
-                    <div className="flex items-center space-x-2">
-                      <Clock className={`h-4 w-4 ${isOngoing ? 'text-orange-400' : 'text-primary'}`} />
-                <span className={`font-medium text-sm ${isOngoing ? 'text-orange-400' : 'text-primary'}`}>Timeline</span>
-              </div>
-              <div className="space-y-2 pl-6">
-                <div className="flex items-center justify-between text-sm">
-                  <span className="text-muted-foreground">Started</span>
-                  <span className="text-foreground font-mono">{project.start_date}</span>
-                </div>
-                {project.end_date && (
-                  <div className="flex items-center justify-between text-sm">
-                    <span className="text-muted-foreground">Completed</span>
-                    <span className="text-foreground font-mono">{project.end_date}</span>
-                    </div>
-                )}
-                {!project.end_date && (
-                  <div className="flex items-center justify-between text-sm">
-                    <span className="text-muted-foreground">Status</span>
-                    <span className="text-orange-400 font-medium">In Progress</span>
-                  </div>
-                )}
-                      {project.duration && (
-                  <div className="flex items-center justify-between text-sm">
-                    <span className="text-muted-foreground">Duration</span>
-                    <span className={`font-medium ${isOngoing ? 'text-orange-400' : 'text-primary'}`}>{project.duration}</span>
-                  </div>
-                      )}
-                    </div>
-                  </div>
+            </div>
+          )}
 
-                  {/* Infrastructure */}
-                  {(project.hosting_platform || project.cicd_pipeline) && (
-              <div className="space-y-3">
-                <div className="flex items-center space-x-2">
-                  <Building2 className="h-4 w-4 text-accent-foreground" />
-                  <span className="text-accent-foreground font-medium text-sm">Infrastructure</span>
-                </div>
-                <div className="space-y-2 pl-6">
-                        {project.hosting_platform && (
-                    <div className="flex items-center justify-between text-sm">
-                      <span className="text-muted-foreground">Hosting</span>
-                      <span className="text-foreground">{project.hosting_platform}</span>
-                    </div>
-                        )}
-                        {project.cicd_pipeline && (
-                    <div className="flex items-center justify-between text-sm">
-                      <span className="text-muted-foreground">CI/CD</span>
-                      <span className="text-foreground">{project.cicd_pipeline}</span>
-                    </div>
-                  )}
-                </div>
-              </div>
-            )}
-
-            {/* Key Achievements */}
-            {project.achievements && project.achievements.length > 0 && (
-              <div className="space-y-3">
-                <div className="flex items-center space-x-2">
-                  <Trophy className="h-4 w-4 text-secondary-foreground" />
-                  <span className="text-secondary-foreground font-medium text-sm">Key Achievements</span>
-                </div>
-                <div className="pl-6 space-y-1">
-                  {project.achievements.slice(0, 3).map((achievement, index) => (
-                    <motion.div
-                      key={achievement.id}
-                      initial={{ opacity: 0, x: -10 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      transition={{ delay: 0.2 + index * 0.05 }}
-                      className="flex items-start space-x-2"
-                    >
-                      <div className="flex-shrink-0 mt-1">
-                        <div className="w-1.5 h-1.5 bg-secondary-foreground rounded-full" />
-                      </div>
-                      <span className="text-secondary-foreground text-xs">
-                        {achievement.achievement_title}
-                      </span>
-                    </motion.div>
-                  ))}
-                  {project.achievements.length > 3 && (
-                    <div className="text-secondary-foreground/60 text-xs pl-4">
-                      +{project.achievements.length - 3} more below
-                    </div>
-                        )}
-                      </div>
-                    </div>
-                  )}
-                </div>
-
-          {/* Technology Stack */}
+          {/* Enhanced Tech Stack */}
           {project.skills && project.skills.length > 0 && (
-            <div className="mt-5 pt-4 border-t border-primary/20">
-                    <div className="flex items-center space-x-2 mb-3">
-                <Code className="h-4 w-4 text-muted-foreground" />
-                <span className="text-muted-foreground font-medium text-sm">Technology Stack</span>
-                    </div>
-                    <div className="flex flex-wrap gap-2">
-                {project.skills.map((skill, index) => (
+            <div className="mt-auto relative z-10">
+              <div className="flex items-center space-x-2 mb-3">
+                <div className="w-5 h-5 rounded-md bg-gradient-to-br from-primary/30 to-secondary/30 border border-primary/50 flex items-center justify-center group-hover:shadow-md group-hover:shadow-primary/20 transition-all duration-300">
+                  <Code className="h-3 w-3 text-primary group-hover:text-secondary transition-colors duration-300" />
+                </div>
+                <span className="text-xs font-semibold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
+                  Tech Stack
+                </span>
+              </div>
+              <div className="flex flex-wrap gap-2">
+                {project.skills.slice(0, 4).map((skill, skillIndex) => (
                   <motion.div
-                          key={skill.id}
+                    key={skill.id}
                     initial={{ opacity: 0, scale: 0.8 }}
                     animate={{ opacity: 1, scale: 1 }}
-                    transition={{ delay: 0.3 + index * 0.02 }}
-                    className="bg-muted/20 border border-muted/40 text-muted-foreground px-2 py-1 rounded text-xs font-medium hover:bg-muted/30 transition-colors"
-                        >
-                          {skill.name}
+                    transition={{ delay: skillIndex * 0.05 }}
+                    className="group/skill"
+                  >
+                    <Badge className="text-xs font-semibold px-3 py-1.5 bg-gradient-to-r from-muted/20 via-soft/10 to-muted/20 text-muted-foreground border border-muted/40 hover:from-primary/20 hover:via-secondary/10 hover:to-accent-indigo/20 hover:text-primary hover:border-primary/50 transition-all duration-300 hover:shadow-md hover:shadow-primary/10 hover:scale-105">
+                      <span className="relative">
+                        {skill.name}
+                        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-primary/30 to-transparent -skew-x-12 transform scale-x-0 group-hover/skill:scale-x-100 transition-transform duration-300" />
+                      </span>
+                    </Badge>
                   </motion.div>
-                      ))}
-                    </div>
-                  </div>
+                ))}
+                {project.skills.length > 4 && (
+                  <Badge className="text-xs font-semibold px-3 py-1.5 bg-gradient-to-r from-secondary/20 to-accent-indigo/20 text-secondary border border-secondary/40 shadow-md hover:shadow-lg hover:shadow-secondary/20 hover:scale-105 transition-all duration-300">
+                    <span className="flex items-center space-x-1">
+                      <span>+{project.skills.length - 4}</span>
+                      <span className="text-accent-indigo">more</span>
+                    </span>
+                  </Badge>
                 )}
-        </div>
-      </motion.div>
-
-
-             {/* ML Model Card - Collapsible */}
-       {!project.company && project.ml_models && (
-         <motion.div
-           initial={{ opacity: 0, y: 10 }}
-           animate={{ opacity: 1, y: 0 }}
-           transition={{ delay: 0.3 }}
-           className="relative"
-         >
-           <div className="absolute inset-0 bg-gradient-to-r from-accent/10 to-primary/10 rounded-xl blur-sm" />
-           <div className="relative bg-card/60 border border-accent/30 rounded-xl backdrop-blur-sm">
-             
-             {/* Clickable Header */}
-             <div 
-               className="p-5 cursor-pointer hover:bg-accent/5 transition-colors rounded-t-xl"
-               onClick={() => setIsAiModelExpanded(!isAiModelExpanded)}
-             >
-               <div className="flex items-center justify-between">
-                 <div className="flex items-center space-x-3">
-                   <div className="w-8 h-8 bg-gradient-to-br from-accent to-primary rounded-lg flex items-center justify-center">
-                     <Brain className="h-4 w-4 text-accent-foreground" />
-                   </div>
-                   <h3 className="text-lg font-semibold text-foreground">AI Model Details</h3>
-                 </div>
-                 <motion.div
-                   animate={{ rotate: isAiModelExpanded ? 180 : 0 }}
-                   transition={{ duration: 0.2 }}
-                   className="text-accent-foreground hover:text-accent-foreground"
-                 >
-                   <ChevronDown className="h-5 w-5" />
-                 </motion.div>
-               </div>
-             </div>
-
-             {/* Expandable Content */}
-             <AnimatePresence>
-               {isAiModelExpanded && (
-                 <motion.div
-                   initial={{ height: 0, opacity: 0 }}
-                   animate={{ height: 'auto', opacity: 1 }}
-                   exit={{ height: 0, opacity: 0 }}
-                   transition={{ duration: 0.3 }}
-                   className="overflow-hidden"
-                 >
-                   <div className="px-5 pb-5 border-t border-accent/20">
-                     {/* Overview Subheading */}
-                     <h4 className="text-accent-foreground font-medium text-sm mb-4 mt-4 flex items-center">
-                       <Code className="h-3 w-3 mr-2" />
-                       Overview
-                     </h4>
-
-                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
-                       {/* Model Info */}
-                       <div className="bg-accent/5 border border-accent/20 rounded-lg p-3">
-                         <div className="space-y-2 text-sm">
-                  <div>
-                             <span className="text-muted-foreground block">Model</span>
-                             <span className="text-foreground font-medium">{project.ml_models.name}</span>
-                    </div>
-                           <div>
-                             <span className="text-muted-foreground block">Type</span>
-                             <span className="text-foreground font-medium">{project.ml_models.model_type}</span>
-                          </div>
-                           <div>
-                             <span className="text-muted-foreground block">Framework</span>
-                             <span className="text-foreground font-medium">{project.ml_models.framework}</span>
-                        </div>
-                    </div>
-                  </div>
-
-                       {/* Performance */}
-                       <div className="bg-accent/5 border border-accent/20 rounded-lg p-3">
-                         <div className="space-y-2">
-                  <div>
-                             <div className="flex items-center justify-between mb-2">
-                               <span className="text-muted-foreground text-sm">Accuracy</span>
-                               <span className="text-primary font-bold text-lg">{(project.ml_models.accuracy * 100).toFixed(1)}%</span>
-                             </div>
-                             <div className="w-full bg-muted rounded-full h-2">
-                               <motion.div
-                                 initial={{ width: 0 }}
-                                 animate={{ width: `${project.ml_models.accuracy * 100}%` }}
-                                 transition={{ delay: 0.5, duration: 1 }}
-                                 className="bg-gradient-to-r from-primary to-accent-foreground h-2 rounded-full"
-                               />
-                             </div>
-                           </div>
-                           <div className="text-sm">
-                             <span className="text-muted-foreground block">Status</span>
-                             <span className="text-foreground font-medium">{project.ml_models.deployment_status}</span>
-                           </div>
-                         </div>
-                    </div>
-                    
-                       {/* Data */}
-                       <div className="bg-accent/5 border border-accent/20 rounded-lg p-3">
-                         <div className="text-sm">
-                           <span className="text-muted-foreground block">Training Data Size</span>
-                           <span className="text-foreground font-medium">{project.ml_models.training_data_size}</span>
-                      </div>
-                      </div>
-                    </div>
-
-                    {/* Use Cases */}
-                    {project.ml_models.use_cases && project.ml_models.use_cases.length > 0 && (
-                       <div>
-                         <h4 className="text-accent-foreground font-medium text-sm mb-3 flex items-center">
-                           <Globe className="h-3 w-3 mr-2" />
-                           Use Cases
-                         </h4>
-                        <div className="space-y-2">
-                           {project.ml_models.use_cases.map((useCase, index) => (
-                             <motion.div
-                               key={useCase.id}
-                               initial={{ opacity: 0, x: -10 }}
-                               animate={{ opacity: 1, x: 0 }}
-                               transition={{ delay: 0.4 + index * 0.05 }}
-                               className="flex items-start space-x-3 py-2"
-                             >
-                               <div className="flex-shrink-0 mt-1">
-                                 <div className="w-2 h-2 bg-accent-foreground rounded-full" />
-                               </div>
-                               <div className="flex-1 min-w-0">
-                                 <span className="text-foreground font-medium text-sm block mb-1">
-                                {useCase.use_case_name}
-                                 </span>
-                                 <p className="text-muted-foreground text-xs line-clamp-2">
-                                {useCase.business_impact}
-                                 </p>
-                              </div>
-                             </motion.div>
-                          ))}
-                        </div>
-                      </div>
-                    )}
               </div>
-            </motion.div>
+            </div>
           )}
-        </AnimatePresence>
+        </div>
+
+
       </div>
     </motion.div>
-       )}
-    </div>
   );
 };
 

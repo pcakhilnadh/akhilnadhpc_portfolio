@@ -16,39 +16,60 @@ export default {
         sm: "calc(var(--radius) - 4px)",
       },
       colors: {
-        background: "hsl(var(--background))",
-        foreground: "hsl(var(--foreground))",
-        card: {
-          DEFAULT: "hsl(var(--card))",
-          foreground: "hsl(var(--card-foreground))",
-        },
-        popover: {
-          DEFAULT: "hsl(var(--popover))",
-          foreground: "hsl(var(--popover-foreground))",
-        },
+        // Core palette colors
+        bg: "var(--color-bg)",
+        text: "var(--color-text)",
         primary: {
-          DEFAULT: "hsl(var(--primary))",
-          foreground: "hsl(var(--primary-foreground))",
-        },
-        secondary: {
-          DEFAULT: "hsl(var(--secondary))",
-          foreground: "hsl(var(--secondary-foreground))",
-        },
-        muted: {
-          DEFAULT: "hsl(var(--muted))",
-          foreground: "hsl(var(--muted-foreground))",
+          DEFAULT: "var(--color-primary)",
+          foreground: "var(--color-bg)",
         },
         accent: {
-          DEFAULT: "hsl(var(--accent))",
-          foreground: "hsl(var(--accent-foreground))",
+          DEFAULT: "var(--color-secondary)",
+          foreground: "var(--color-bg)",
+        },
+        secondary: {
+          DEFAULT: "var(--color-secondary)",
+          foreground: "var(--color-bg)",
+        },
+        tertiary: {
+          DEFAULT: "var(--color-accent-indigo)",
+          foreground: "var(--color-bg)",
+        },
+        "accent-indigo": {
+          DEFAULT: "var(--color-accent-indigo)",
+          foreground: "var(--color-bg)",
+        },
+        highlight: {
+          DEFAULT: "var(--color-highlight)",
+          foreground: "var(--color-bg)",
+        },
+        soft: {
+          DEFAULT: "var(--color-soft)",
+          foreground: "var(--color-text)",
+        },
+        muted: {
+          DEFAULT: "var(--color-muted)",
+          foreground: "var(--color-text)",
+        },
+        
+        // shadcn/ui compatibility mappings
+        background: "var(--color-bg)",
+        foreground: "var(--color-text)",
+        card: {
+          DEFAULT: "var(--color-bg)",
+          foreground: "var(--color-text)",
+        },
+        popover: {
+          DEFAULT: "var(--color-bg)",
+          foreground: "var(--color-text)",
         },
         destructive: {
-          DEFAULT: "hsl(var(--destructive))",
-          foreground: "hsl(var(--destructive-foreground))",
+          DEFAULT: "#ef4444",
+          foreground: "var(--color-bg)",
         },
-        border: "hsl(var(--border))",
-        input: "hsl(var(--input))",
-        ring: "hsl(var(--ring))",
+        border: "color-mix(in srgb, var(--color-text) 20%, transparent)",
+        input: "color-mix(in srgb, var(--color-text) 20%, transparent)",
+        ring: "var(--color-primary)",
       },
       keyframes: {
         "accordion-down": {

@@ -5,60 +5,109 @@
 @tailwind utilities;
 
 @layer base {
+  /* === Base Colors (Light Theme) === */
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
-    --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
-    --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
-    --primary: 142 76% 36%;
-    --primary-foreground: 355.7 100% 97.3%;
-    --secondary: 210 40% 98%;
-    --secondary-foreground: 222.2 84% 4.9%;
-    --muted: 210 40% 98%;
-    --muted-foreground: 215.4 16.3% 46.9%;
-    --accent: 210 40% 98%;
-    --accent-foreground: 222.2 84% 4.9%;
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 142 76% 36%;
+    --color-bg: #ffffff;
+    --color-text: #1e1e1e;
+    --color-primary: #1ec96b;        /* Emerald Green */
+    --color-secondary: #38bdf8;      /* Cyber Blue */
+    --color-accent-indigo: #4f46e5;  /* Deep Indigo adjusted for light */
+    --color-highlight: #eab308;      /* Golden Yellow */
+    --color-soft: #dcd6f7;           /* Softer lavender */
+    --color-muted: #f3f4f6;          /* Light gray for backgrounds */
+
+    /* Semantic color mappings for shadcn/ui components */
+    --background: var(--color-bg);
+    --foreground: var(--color-text);
+    --card: var(--color-bg);
+    --card-foreground: var(--color-text);
+    --popover: var(--color-bg);
+    --popover-foreground: var(--color-text);
+    --primary: var(--color-primary);
+    --primary-foreground: var(--color-bg);
+    --secondary: var(--color-secondary);
+    --secondary-foreground: var(--color-bg);
+    --muted: var(--color-muted);
+    --muted-foreground: color-mix(in srgb, var(--color-text) 60%, transparent);
+    --accent: var(--color-secondary);
+    --accent-foreground: var(--color-bg);
+    --destructive: #ef4444;
+    --destructive-foreground: var(--color-bg);
+    --border: color-mix(in srgb, var(--color-text) 20%, transparent);
+    --input: color-mix(in srgb, var(--color-text) 20%, transparent);
+    --ring: var(--color-primary);
     --radius: 0.5rem;
-    --chart-1: 12 76% 61%;
-    --chart-2: 173 58% 39%;
-    --chart-3: 197 37% 24%;
-    --chart-4: 43 74% 66%;
-    --chart-5: 27 87% 67%;
+
+    /* Chart colors using new palette */
+    --chart-1: var(--color-primary);
+    --chart-2: var(--color-secondary);
+    --chart-3: var(--color-accent-indigo);
+    --chart-4: var(--color-highlight);
+    --chart-5: var(--color-soft);
+    
+    /* Gradient definitions using new palette */
+    --gradient-primary: linear-gradient(135deg, var(--color-primary) 0%, color-mix(in srgb, var(--color-primary) 80%, var(--color-secondary) 20%) 100%);
+    --gradient-highlight: linear-gradient(135deg, var(--color-highlight) 0%, color-mix(in srgb, var(--color-highlight) 80%, var(--color-primary) 20%) 100%);
+    --gradient-secondary: linear-gradient(135deg, var(--color-secondary) 0%, color-mix(in srgb, var(--color-secondary) 80%, var(--color-accent-indigo) 20%) 100%);
+    --gradient-indigo: linear-gradient(135deg, var(--color-accent-indigo) 0%, color-mix(in srgb, var(--color-accent-indigo) 80%, var(--color-soft) 20%) 100%);
+    --gradient-soft: linear-gradient(135deg, var(--color-soft) 0%, color-mix(in srgb, var(--color-soft) 80%, var(--color-primary) 20%) 100%);
+    
+    /* Glow effects using new palette */
+    --glow-primary: 0 0 20px color-mix(in srgb, var(--color-primary) 60%, transparent);
+    --glow-highlight: 0 0 20px color-mix(in srgb, var(--color-highlight) 60%, transparent);
+    --glow-secondary: 0 0 20px color-mix(in srgb, var(--color-secondary) 60%, transparent);
+    --glow-indigo: 0 0 20px color-mix(in srgb, var(--color-accent-indigo) 60%, transparent);
+    --glow-soft: 0 0 20px color-mix(in srgb, var(--color-soft) 60%, transparent);
   }
 
+  /* === Dark Theme Overrides === */
   .dark {
-    --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
-    --card: 222.2 84% 4.9%;
-    --card-foreground: 210 40% 98%;
-    --popover: 222.2 84% 4.9%;
-    --popover-foreground: 210 40% 98%;
-    --primary: 142 70% 45%;
-    --primary-foreground: 222.2 84% 4.9%;
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
-    --accent: 217.2 32.6% 17.5%;
-    --accent-foreground: 210 40% 98%;
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 142 70% 45%;
-    --chart-1: 220 70% 50%;
-    --chart-2: 160 60% 45%;
-    --chart-3: 30 80% 55%;
-    --chart-4: 280 65% 60%;
-    --chart-5: 340 75% 55%;
+    --color-bg: #0f0f0f;
+    --color-text: #f3f4f6;
+    --color-primary: #1ec96b;        /* Same Emerald */
+    --color-secondary: #38bdf8;      /* Cyber Blue */
+    --color-accent-indigo: #6366f1;  /* Deep Indigo */
+    --color-highlight: #eab308;      /* Same Golden Yellow */
+    --color-soft: #bdb2ff;           /* Lavender Mist */
+    --color-muted: #1f2937;          /* Neutral Gray for backgrounds */
+
+    /* Semantic color mappings for shadcn/ui components - Dark Theme */
+    --background: var(--color-bg);
+    --foreground: var(--color-text);
+    --card: var(--color-bg);
+    --card-foreground: var(--color-text);
+    --popover: var(--color-bg);
+    --popover-foreground: var(--color-text);
+    --primary: var(--color-primary);
+    --primary-foreground: var(--color-bg);
+    --secondary: var(--color-secondary);
+    --secondary-foreground: var(--color-bg);
+    --muted: var(--color-muted);
+    --muted-foreground: color-mix(in srgb, var(--color-text) 60%, transparent);
+    --accent: var(--color-secondary);
+    --accent-foreground: var(--color-bg);
+    --destructive: #ef4444;
+    --destructive-foreground: var(--color-bg);
+    --border: color-mix(in srgb, var(--color-text) 15%, transparent);
+    --input: color-mix(in srgb, var(--color-text) 15%, transparent);
+    --ring: var(--color-primary);
+    
+    /* Chart colors using dark palette */
+    --chart-1: var(--color-primary);
+    --chart-2: var(--color-secondary);
+    --chart-3: var(--color-accent-indigo);
+    --chart-4: var(--color-highlight);
+    --chart-5: var(--color-soft);
+    
+    /* Enhanced glow effects for dark theme */
+    --glow-primary: 0 0 30px color-mix(in srgb, var(--color-primary) 70%, transparent);
+    --glow-highlight: 0 0 30px color-mix(in srgb, var(--color-highlight) 70%, transparent);
+    --glow-secondary: 0 0 30px color-mix(in srgb, var(--color-secondary) 70%, transparent);
+    --glow-indigo: 0 0 30px color-mix(in srgb, var(--color-accent-indigo) 70%, transparent);
+    --glow-soft: 0 0 30px color-mix(in srgb, var(--color-soft) 70%, transparent);
   }
+
+
 }
 
 @layer base {
@@ -81,12 +130,12 @@
 }
 
 ::-webkit-scrollbar-thumb {
-  background: hsl(var(--muted-foreground) / 0.3);
+  background: color-mix(in srgb, var(--color-text) 30%, transparent);
   border-radius: 3px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: hsl(var(--muted-foreground) / 0.5);
+  background: color-mix(in srgb, var(--color-text) 50%, transparent);
 }
 
 /* Hide scrollbar for mobile devices */
@@ -98,21 +147,22 @@
 
 /* Custom styles */
 .glass {
-  background: rgba(255, 255, 255, 0.05);
+  background: color-mix(in srgb, var(--color-bg) 5%, transparent);
   backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid color-mix(in srgb, var(--color-text) 10%, transparent);
 }
 
 .matrix-bg {
   background: 
-    radial-gradient(circle at 20% 80%, rgba(120, 119, 198, 0.1) 0%, transparent 50%),
-    radial-gradient(circle at 80% 20%, rgba(255, 119, 198, 0.1) 0%, transparent 50%),
-    radial-gradient(circle at 40% 40%, rgba(120, 255, 198, 0.1) 0%, transparent 50%);
+    radial-gradient(circle at 20% 80%, color-mix(in srgb, var(--color-accent-indigo) 10%, transparent) 0%, transparent 50%),
+    radial-gradient(circle at 80% 20%, color-mix(in srgb, var(--color-highlight) 10%, transparent) 0%, transparent 50%),
+    radial-gradient(circle at 40% 40%, color-mix(in srgb, var(--color-primary) 10%, transparent) 0%, transparent 50%),
+    radial-gradient(circle at 60% 60%, color-mix(in srgb, var(--color-soft) 8%, transparent) 0%, transparent 50%);
 }
 
 .terminal-text {
   font-family: 'Courier New', monospace;
-  color: #00ff41;
+  color: var(--color-primary);
 }
 
 /* Mobile-specific styles */
@@ -234,15 +284,16 @@
 }
 
 ::-webkit-scrollbar-track {
-  @apply bg-muted;
+  background: var(--color-muted);
 }
 
 ::-webkit-scrollbar-thumb {
-  @apply bg-primary/50 rounded-full;
+  background: color-mix(in srgb, var(--color-primary) 50%, transparent);
+  border-radius: 9999px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  @apply bg-primary;
+  background: var(--color-primary);
 }
 
 /* Hide scrollbar for horizontal scrolling */
@@ -293,12 +344,12 @@
 }
 
 .timeline-dot {
-  box-shadow: 0 0 20px hsl(var(--primary) / 0.6), 0 0 40px hsl(var(--primary) / 0.3);
+  box-shadow: var(--glow-primary);
 }
 
 .timeline-item:hover .timeline-dot {
   transform: scale(1.1);
-  box-shadow: 0 0 30px hsl(var(--primary) / 0.8), 0 0 60px hsl(var(--primary) / 0.4);
+  box-shadow: var(--glow-primary);
 }
 
 /* Add responsive adjustments for timeline on mobile */
@@ -325,17 +376,17 @@
 
 /* Glow effects */
 .glow {
-  box-shadow: 0 0 20px rgba(34, 197, 94, 0.3);
+  box-shadow: var(--glow-primary);
 }
 
 .glow:hover {
-  box-shadow: 0 0 30px rgba(34, 197, 94, 0.5);
+  box-shadow: var(--glow-primary);
 }
 
 /* Typing animation */
 .typing-animation {
   overflow: hidden;
-  border-right: 2px solid hsl(var(--primary));
+  border-right: 2px solid var(--color-primary);
   white-space: nowrap;
   animation: typing 3.5s steps(40, end), blink-caret 0.75s step-end infinite;
 }
@@ -347,7 +398,7 @@
 
 @keyframes blink-caret {
   from, to { border-color: transparent; }
-  50% { border-color: hsl(var(--primary)); }
+  50% { border-color: var(--color-primary); }
 }
 
 /* Cyberpunk timeline animations */
@@ -418,34 +469,76 @@
   }
 }
 
-/* Cyberpunk Text Effects */
-.cyberpunk-text-primary {
+/* Enhanced Text Effects */
+.enhanced-text-primary {
   position: relative;
-  filter: drop-shadow(0 0 15px hsl(var(--primary) / 0.6));
+  filter: drop-shadow(0 0 15px color-mix(in srgb, var(--color-primary) 60%, transparent));
 }
 
-.cyberpunk-text-accent {
+.enhanced-text-accent {
   position: relative;
-  filter: drop-shadow(0 0 10px hsl(var(--primary) / 0.3));
+  filter: drop-shadow(0 0 10px color-mix(in srgb, var(--color-highlight) 60%, transparent));
   font-weight: 600;
 }
 
-/* Enhanced hover effects for cyberpunk theme */
-.cyberpunk-text-primary:hover {
-  filter: drop-shadow(0 0 25px hsl(var(--primary) / 0.8)) drop-shadow(0 0 50px hsl(var(--primary) / 0.4));
+.enhanced-text-secondary {
+  position: relative;
+  filter: drop-shadow(0 0 12px color-mix(in srgb, var(--color-secondary) 60%, transparent));
+  font-weight: 600;
 }
 
-.cyberpunk-text-accent:hover {
-  filter: drop-shadow(0 0 20px hsl(var(--primary) / 0.5)) drop-shadow(0 0 40px hsl(var(--primary) / 0.3));
+.enhanced-text-indigo {
+  position: relative;
+  filter: drop-shadow(0 0 12px color-mix(in srgb, var(--color-accent-indigo) 60%, transparent));
+  font-weight: 600;
 }
 
-/* Dark theme enhancements for cyberpunk effects */
-.dark .cyberpunk-text-primary {
-  filter: drop-shadow(0 0 20px hsl(var(--primary) / 0.8)) drop-shadow(0 0 40px hsl(var(--primary) / 0.4));
+.enhanced-text-soft {
+  position: relative;
+  filter: drop-shadow(0 0 10px color-mix(in srgb, var(--color-soft) 60%, transparent));
+  font-weight: 600;
 }
 
-.dark .cyberpunk-text-accent {
-  filter: drop-shadow(0 0 15px hsl(var(--primary) / 0.5)) drop-shadow(0 0 30px hsl(var(--primary) / 0.3));
+/* Enhanced hover effects */
+.enhanced-text-primary:hover {
+  filter: drop-shadow(0 0 25px color-mix(in srgb, var(--color-primary) 80%, transparent)) drop-shadow(0 0 50px color-mix(in srgb, var(--color-primary) 40%, transparent));
+}
+
+.enhanced-text-accent:hover {
+  filter: drop-shadow(0 0 20px color-mix(in srgb, var(--color-highlight) 70%, transparent)) drop-shadow(0 0 40px color-mix(in srgb, var(--color-highlight) 30%, transparent));
+}
+
+.enhanced-text-secondary:hover {
+  filter: drop-shadow(0 0 20px color-mix(in srgb, var(--color-secondary) 70%, transparent)) drop-shadow(0 0 40px color-mix(in srgb, var(--color-secondary) 30%, transparent));
+}
+
+.enhanced-text-indigo:hover {
+  filter: drop-shadow(0 0 20px color-mix(in srgb, var(--color-accent-indigo) 70%, transparent)) drop-shadow(0 0 40px color-mix(in srgb, var(--color-accent-indigo) 30%, transparent));
+}
+
+.enhanced-text-soft:hover {
+  filter: drop-shadow(0 0 20px color-mix(in srgb, var(--color-soft) 70%, transparent)) drop-shadow(0 0 40px color-mix(in srgb, var(--color-soft) 30%, transparent));
+}
+
+/* Dark theme enhancements */
+.dark .enhanced-text-primary {
+  filter: drop-shadow(0 0 20px color-mix(in srgb, var(--color-primary) 80%, transparent)) drop-shadow(0 0 40px color-mix(in srgb, var(--color-primary) 40%, transparent));
+}
+
+.dark .enhanced-text-accent {
+  filter: drop-shadow(0 0 15px color-mix(in srgb, var(--color-highlight) 70%, transparent)) drop-shadow(0 0 30px color-mix(in srgb, var(--color-highlight) 30%, transparent));
+}
+
+.dark .enhanced-text-secondary {
+  filter: drop-shadow(0 0 18px color-mix(in srgb, var(--color-secondary) 80%, transparent)) drop-shadow(0 0 35px color-mix(in srgb, var(--color-secondary) 40%, transparent));
+}
+
+.dark .enhanced-text-indigo {
+  filter: drop-shadow(0 0 18px color-mix(in srgb, var(--color-accent-indigo) 80%, transparent)) drop-shadow(0 0 35px color-mix(in srgb, var(--color-accent-indigo) 40%, transparent));
+}
+
+.dark .enhanced-text-soft {
+  filter: drop-shadow(0 0 15px color-mix(in srgb, var(--color-soft) 70%, transparent)) drop-shadow(0 0 30px color-mix(in srgb, var(--color-soft) 30%, transparent));
 }
 
 /* Certification specific animations */
@@ -551,14 +644,14 @@
 
 /* Glass morphism effect */
 .glass-morphism {
-  background: rgba(255, 255, 255, 0.1);
+  background: color-mix(in srgb, var(--color-bg) 10%, transparent);
   backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  border: 1px solid color-mix(in srgb, var(--color-text) 20%, transparent);
 }
 
 .dark .glass-morphism {
-  background: rgba(0, 0, 0, 0.2);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: color-mix(in srgb, var(--color-bg) 20%, transparent);
+  border: 1px solid color-mix(in srgb, var(--color-text) 10%, transparent);
 }
 
 /* Responsive adjustments for certifications */
@@ -577,4 +670,394 @@
     animation: none;
     transform: scale(1.1);
   }
+}
+
+@layer components {
+  /* Enhanced Utility Classes */
+  .enhanced-text-glow {
+    text-shadow: 0 0 10px currentColor;
+  }
+  
+  .enhanced-border-glow {
+    box-shadow: 0 0 10px currentColor, inset 0 0 10px currentColor;
+  }
+  
+  /* Gradient Backgrounds using New Palette */
+  .bg-gradient-primary {
+    background: var(--gradient-primary);
+  }
+  
+  .bg-gradient-highlight {
+    background: var(--gradient-highlight);
+  }
+  
+  .bg-gradient-secondary {
+    background: var(--gradient-secondary);
+  }
+  
+  .bg-gradient-indigo {
+    background: var(--gradient-indigo);
+  }
+  
+  .bg-gradient-soft {
+    background: var(--gradient-soft);
+  }
+  
+  /* Glow Effects using New Palette */
+  .glow-primary {
+    box-shadow: var(--glow-primary);
+  }
+  
+  .glow-highlight {
+    box-shadow: var(--glow-highlight);
+  }
+  
+  .glow-secondary {
+    box-shadow: var(--glow-secondary);
+  }
+  
+  .glow-indigo {
+    box-shadow: var(--glow-indigo);
+  }
+  
+  .glow-soft {
+    box-shadow: var(--glow-soft);
+  }
+  
+  /* Enhanced Button Styles */
+  .enhanced-button {
+    @apply relative overflow-hidden border-2 font-bold transition-all duration-300;
+    background: linear-gradient(45deg, transparent 30%, color-mix(in srgb, var(--color-text) 10%, transparent) 50%, transparent 70%);
+    background-size: 200% 100%;
+    animation: enhanced-shine 3s infinite;
+  }
+  
+  .enhanced-button:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--glow-primary);
+  }
+  
+  /* Enhanced Card Styles */
+  .enhanced-card {
+    @apply relative overflow-hidden border-2 bg-gradient-to-br;
+    background: var(--color-bg);
+    border-color: var(--color-primary);
+  }
+  
+  .enhanced-card::before {
+    content: '';
+    @apply absolute inset-0 opacity-0 transition-opacity duration-300;
+    background: linear-gradient(45deg, transparent 30%, color-mix(in srgb, var(--color-text) 5%, transparent) 50%, transparent 70%);
+    background-size: 200% 200%;
+  }
+  
+  .enhanced-card:hover::before {
+    opacity: 1;
+    animation: enhanced-scan 2s infinite;
+  }
+}
+
+@keyframes enhanced-shine {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+@keyframes enhanced-scan {
+  0% { background-position: 0% 0%; }
+  50% { background-position: 100% 100%; }
+  100% { background-position: 0% 0%; }
+}
+
+@keyframes enhanced-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+@keyframes enhanced-flicker {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.8; }
+  75% { opacity: 0.9; }
+}
+
+/* Theme toggle button hover effect */
+button[style*="--hover-text-color"]:hover {
+  color: var(--hover-text-color) !important;
+}
+
+/* Theme toggle button hover effect for ghost variant */
+button[style*="--hover-text-color"]:hover svg {
+  color: var(--hover-text-color) !important;
+}
+
+/* Enhanced Project Card Hover Effects */
+.project-card-enhanced-shadow {
+  box-shadow: 
+    0 10px 25px -5px color-mix(in srgb, var(--color-primary) 30%, transparent),
+    0 8px 10px -6px color-mix(in srgb, var(--color-primary) 20%, transparent),
+    0 0 0 1px color-mix(in srgb, var(--color-primary) 10%, transparent);
+}
+
+.project-card-super-glow {
+  box-shadow: 
+    0 0 50px color-mix(in srgb, var(--color-primary) 25%, transparent),
+    0 0 100px color-mix(in srgb, var(--color-primary) 15%, transparent),
+    0 20px 40px -10px color-mix(in srgb, var(--color-primary) 20%, transparent);
+}
+
+/* Glossy Effect for Ongoing Projects */
+@keyframes glossy-shimmer {
+  0% {
+    transform: translateX(-100%) skewX(-12deg);
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(200%) skewX(-12deg);
+    opacity: 0;
+  }
+}
+
+.glossy-ongoing {
+  position: relative;
+  overflow: hidden;
+}
+
+.glossy-ongoing::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    45deg,
+    transparent 30%,
+    color-mix(in srgb, var(--color-primary) 25%, transparent) 50%,
+    transparent 70%
+  );
+  animation: glossy-shimmer 3s ease-in-out infinite;
+  pointer-events: none;
+}
+
+.glossy-glass-reflection {
+  background: linear-gradient(
+    135deg,
+    color-mix(in srgb, white 25%, transparent) 0%,
+    color-mix(in srgb, white 12%, transparent) 50%,
+    transparent 100%
+  );
+}
+
+/* Dark theme enhanced shadows */
+.dark .project-card-enhanced-shadow {
+  box-shadow: 
+    0 15px 35px -5px color-mix(in srgb, var(--color-primary) 40%, transparent),
+    0 12px 15px -6px color-mix(in srgb, var(--color-primary) 30%, transparent),
+    0 0 0 1px color-mix(in srgb, var(--color-primary) 20%, transparent);
+}
+
+.dark .project-card-super-glow {
+  box-shadow: 
+    0 0 60px color-mix(in srgb, var(--color-primary) 35%, transparent),
+    0 0 120px color-mix(in srgb, var(--color-primary) 25%, transparent),
+    0 25px 50px -10px color-mix(in srgb, var(--color-primary) 30%, transparent);
+}
+
+/* Enhanced visibility for dark theme */
+.dark .glossy-glass-reflection {
+  background: linear-gradient(
+    135deg,
+    color-mix(in srgb, white 20%, transparent) 0%,
+    color-mix(in srgb, white 8%, transparent) 50%,
+    transparent 100%
+  );
+}
+
+/* Glossy Card Effect */
+.glossy-card {
+  position: relative;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 
+    0 8px 32px rgba(0, 0, 0, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.4);
+}
+
+.glossy-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 50%;
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.3) 0%,
+    rgba(255, 255, 255, 0.1) 50%,
+    transparent 100%
+  );
+  border-radius: inherit;
+  pointer-events: none;
+}
+
+.glossy-card::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.4) 50%,
+    transparent 100%
+  );
+  transform: skewX(-25deg);
+  transition: left 0.6s ease;
+  pointer-events: none;
+}
+
+.glossy-card:hover::after {
+  left: 100%;
+}
+
+/* Dark theme adjustments for glossy cards */
+.dark .glossy-card {
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 
+    0 8px 32px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+.dark .glossy-card::before {
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.2) 0%,
+    rgba(255, 255, 255, 0.05) 50%,
+    transparent 100%
+  );
+}
+
+.dark .glossy-card::after {
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.2) 50%,
+    transparent 100%
+  );
+}
+
+/* Glossy Animation for In-Progress Projects */
+@keyframes glossy-pulse {
+  0%, 100% {
+    background: linear-gradient(
+      135deg,
+      rgba(30, 201, 107, 0.1) 0%,
+      rgba(30, 201, 107, 0.05) 50%,
+      transparent 100%
+    );
+    box-shadow: 
+      0 8px 32px rgba(30, 201, 107, 0.1),
+      inset 0 1px 0 rgba(255, 255, 255, 0.3);
+  }
+  50% {
+    background: linear-gradient(
+      135deg,
+      rgba(30, 201, 107, 0.2) 0%,
+      rgba(30, 201, 107, 0.1) 50%,
+      rgba(30, 201, 107, 0.05) 100%
+    );
+    box-shadow: 
+      0 12px 40px rgba(30, 201, 107, 0.2),
+      inset 0 1px 0 rgba(255, 255, 255, 0.4);
+  }
+}
+
+@keyframes glossy-shimmer {
+  0% {
+    transform: translateX(-100%) skewX(-15deg);
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(300%) skewX(-15deg);
+    opacity: 0;
+  }
+}
+
+.glossy-in-progress {
+  animation: glossy-pulse 3s ease-in-out infinite;
+  position: relative;
+  overflow: hidden;
+}
+
+.glossy-in-progress::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(30, 201, 107, 0.3) 30%,
+    rgba(255, 255, 255, 0.4) 50%,
+    rgba(30, 201, 107, 0.3) 70%,
+    transparent 100%
+  );
+  transform: translateX(-100%) skewX(-15deg);
+  animation: glossy-shimmer 4s ease-in-out infinite;
+  pointer-events: none;
+  border-radius: inherit;
+}
+
+/* Dark theme adjustments for in-progress animation */
+.dark .glossy-in-progress {
+  animation: glossy-pulse 3s ease-in-out infinite;
+}
+
+@keyframes dark-glossy-pulse {
+  0%, 100% {
+    background: linear-gradient(
+      135deg,
+      rgba(30, 201, 107, 0.15) 0%,
+      rgba(30, 201, 107, 0.08) 50%,
+      transparent 100%
+    );
+    box-shadow: 
+      0 8px 32px rgba(30, 201, 107, 0.15),
+      inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  }
+  50% {
+    background: linear-gradient(
+      135deg,
+      rgba(30, 201, 107, 0.25) 0%,
+      rgba(30, 201, 107, 0.15) 50%,
+      rgba(30, 201, 107, 0.08) 100%
+    );
+    box-shadow: 
+      0 12px 40px rgba(30, 201, 107, 0.25),
+      inset 0 1px 0 rgba(255, 255, 255, 0.3);
+  }
+}
+
+.dark .glossy-in-progress {
+  animation: dark-glossy-pulse 3s ease-in-out infinite;
+}
+
+.dark .glossy-in-progress::before {
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(30, 201, 107, 0.2) 30%,
+    rgba(255, 255, 255, 0.2) 50%,
+    rgba(30, 201, 107, 0.2) 70%,
+    transparent 100%
+  );
 }
