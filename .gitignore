@@ -218,6 +218,8 @@ dist
 # Gatsby files
 .cache/
 public
+# Specifically allow the frontend public directory for SEO files
+!front_end/public
 
 # Storybook build outputs
 .out

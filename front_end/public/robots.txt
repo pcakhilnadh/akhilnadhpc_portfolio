@@ -1,0 +1,6 @@
+# Allow all search engines to crawl the entire site.
+User-agent: *
+Allow: /
+
+# Provide a link to the sitemap for crawlers to find all pages.
+Sitemap: https://akhilnadh.netlify.app/sitemap.xml 
