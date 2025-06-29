@@ -1,9 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { Hero } from '@/components/home/index';
 import { UserProfile } from '@/types/data';
 import { cn } from '@/lib/utils';
 import { FileText, ExternalLink } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { useNavigate } from 'react-router-dom';
+import { PageMeta } from '@/components/common';
 
 interface HomeProps {
   personalData: UserProfile;
@@ -13,6 +15,7 @@ interface HomeProps {
 
 export default function Home({ personalData, welcomeText, setNavbarWelcomeText }: HomeProps) {
   const [isMobileLandscape, setIsMobileLandscape] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (welcomeText) {
@@ -54,35 +57,41 @@ export default function Home({ personalData, welcomeText, setNavbarWelcomeText }
   };
 
   return (
-    <div className={cn(
-      "w-full relative",
-      isMobileLandscape 
-        ? "min-h-full overflow-y-auto" 
-        : "h-full"
-    )}>
-      <Hero personalData={personalData} />
-      
-      {/* Floating Resume Button */}
-      <div className="fixed bottom-20 right-6 z-50">
-        <Button
-          onClick={handleViewResume}
-          variant="outline"
-          className={cn(
-            "bg-background text-foreground border-2 border-foreground",
-            "hover:bg-foreground hover:text-background",
-            "px-4 py-2 rounded-md",
-            "transition-all duration-200",
-            "shadow-sm hover:shadow-md"
-          )}
-          size="default"
-        >
-          <div className="flex items-center gap-2">
-            <FileText className="h-4 w-4" />
-            <span>View Resume</span>
-            <ExternalLink className="h-3 w-3" />
-          </div>
-        </Button>
+    <>
+      <PageMeta
+        title="Akhil Nadh PC - Lead Data Scientist | Portfolio"
+        description="Welcome to the portfolio of Akhil Nadh PC, a Lead Data Scientist specializing in AI/ML solutions, cloud technologies, and end-to-end project delivery."
+      />
+      <div className={cn(
+        "w-full relative",
+        isMobileLandscape 
+          ? "min-h-full overflow-y-auto" 
+          : "h-full"
+      )}>
+        <Hero personalData={personalData} />
+        
+        {/* Floating Resume Button */}
+        <div className="fixed bottom-20 right-6 z-50">
+          <Button
+            onClick={handleViewResume}
+            variant="outline"
+            className={cn(
+              "bg-background text-foreground border-2 border-foreground",
+              "hover:bg-foreground hover:text-background",
+              "px-4 py-2 rounded-md",
+              "transition-all duration-200",
+              "shadow-sm hover:shadow-md"
+            )}
+            size="default"
+          >
+            <div className="flex items-center gap-2">
+              <FileText className="h-4 w-4" />
+              <span>View Resume</span>
+              <ExternalLink className="h-3 w-3" />
+            </div>
+          </Button>
+        </div>
       </div>
-    </div>
+    </>
   );
 } 

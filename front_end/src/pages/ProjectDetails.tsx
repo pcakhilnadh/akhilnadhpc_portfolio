@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { ArrowLeft, Loader2, AlertCircle, FileText, Code, Cloud, GitBranch, Monitor, Layers } from 'lucide-react';
-import { CommonBg, PageHeader } from '@/components/common';
+import { CommonBg, PageHeader, PageMeta } from '@/components/common';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -77,6 +77,7 @@ export default function ProjectDetails({ setNavbarWelcomeText }: ProjectDetailsP
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [isScrolled, setIsScrolled] = useState(false);
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     setNavbarWelcomeText('project_details.exe');
@@ -195,10 +196,23 @@ export default function ProjectDetails({ setNavbarWelcomeText }: ProjectDetailsP
     );
   }
 
+  if (projectData) {
+    setNavbarWelcomeText(`project: ${projectData.project.title}`);
+  }
+
   return (
-    <div className="h-full bg-background relative">
-      <CommonBg />
-      <div className="container mx-auto px-4 h-full overflow-y-auto relative z-10">
+    <>
+      {projectData && (
+        <PageMeta
+          title={`${projectData.project.title} - Project Details | Akhil Nadh PC`}
+          description={`Detailed view of the project: ${projectData.project.short_description}. See the technologies used, outcomes, and achievements.`}
+          keywords={projectData.project.skills?.map(s => s.name).join(', ') || 'data science, machine learning'}
+        />
+      )}
+      <div 
+        ref={scrollContainerRef}
+        className="p-4 sm:p-6 h-full overflow-y-auto relative"
+      >
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -530,12 +544,10 @@ export default function ProjectDetails({ setNavbarWelcomeText }: ProjectDetailsP
             <ProjectMetrics project={projectData.project} />
           </motion.div>
 
-
-
           {/* Bottom spacing */}
           <div className="h-16" />
         </motion.div>
       </div>
-    </div>
+    </>
   );
 } 

@@ -126,10 +126,10 @@ export default function UserProfileCard({ personalInfo, familyInfo, hobbies, var
             >
               {/* Professional Details */}
               <div className="bg-card rounded-lg p-4 border border-border/50 hover:border-primary/20 transition-colors">
-                <h4 className="font-semibold text-foreground mb-3 text-base flex items-center">
+                <h3 className="font-semibold text-foreground mb-3 text-base flex items-center">
                   <Briefcase className="h-4 w-4 mr-2 text-primary" />
                   Professional Details
-                </h4>
+                </h3>
                 <div className="space-y-3">
                   <div className="grid grid-cols-1 gap-1">
                     <span className="text-xs text-muted-foreground uppercase tracking-wide flex items-center">
@@ -164,10 +164,10 @@ export default function UserProfileCard({ personalInfo, familyInfo, hobbies, var
               
               {/* Personal Information */}
               <div className="bg-card rounded-lg p-4 border border-border/50 hover:border-primary/20 transition-colors">
-                <h4 className="font-semibold text-foreground mb-3 text-base flex items-center">
+                <h3 className="font-semibold text-foreground mb-3 text-base flex items-center">
                   <Calendar className="h-4 w-4 mr-2 text-primary" />
                   Personal Information
-                </h4>
+                </h3>
                 <div className="space-y-3">
                   <div className="grid grid-cols-1 gap-1">
                     <span className="text-xs text-muted-foreground uppercase tracking-wide flex items-center">
@@ -195,10 +195,10 @@ export default function UserProfileCard({ personalInfo, familyInfo, hobbies, var
 
               {/* Family Information */}
               <div className="bg-card rounded-lg p-4 border border-border/50 hover:border-primary/20 transition-colors">
-                <h4 className="font-semibold text-foreground mb-3 text-base flex items-center">
+                <h3 className="font-semibold text-foreground mb-3 text-base flex items-center">
                   <Users className="h-4 w-4 mr-2 text-primary" />
                   Family Members
-                </h4>
+                </h3>
                 <div className="space-y-2">
                   {familyInfo && familyInfo.length > 0 ? (
                     familyInfo.map((member, index) => {
@@ -262,10 +262,10 @@ export default function UserProfileCard({ personalInfo, familyInfo, hobbies, var
 
               {/* Hobbies & Interests */}
               <div className="bg-card rounded-lg p-4 border border-border/50 hover:border-primary/20 transition-colors">
-                <h4 className="font-semibold text-foreground mb-3 text-base flex items-center">
+                <h3 className="font-semibold text-foreground mb-3 text-base flex items-center">
                   <Heart className="h-4 w-4 mr-2 text-primary" />
                   Hobbies & Interests
-                </h4>
+                </h3>
                 <div className="flex flex-wrap gap-2">
                   {hobbies && hobbies.length > 0 ? (
                     hobbies.map((hobby, index) => (

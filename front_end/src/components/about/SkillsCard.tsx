@@ -107,7 +107,7 @@ export default function SkillsCard() {
     >
       <Card>
         <CardHeader>
-          <CardTitle className="text-xl font-bold">Skills Overview</CardTitle>
+          <h2 className="text-xl font-bold tracking-tight">Skills Overview</h2>
           <p className="text-sm text-muted-foreground">
             Average rating by skill category ({skillsData.skills.length} total skills)
           </p>

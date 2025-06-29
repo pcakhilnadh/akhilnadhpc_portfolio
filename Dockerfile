@@ -11,6 +11,9 @@ COPY front_end/package*.json ./
 # Install dependencies (including devDependencies for build)
 RUN npm install
 
+# Copy public directory for static assets like robots.txt and sitemap.xml
+COPY front_end/public ./public/
+
 # Copy frontend source code
 COPY front_end/ ./
 

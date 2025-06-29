@@ -1,5 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
+import { cn } from '../../lib/utils';
 
 interface PageHeaderProps {
   title: string;
@@ -16,80 +17,37 @@ export default function PageHeader({
   showUnderline = true, 
   className = "" 
 }: PageHeaderProps) {
-  // Split title into words to apply two-color effect
   const splitTitle = (title: string) => {
     const words = title.split(' ');
-    if (words.length === 1) {
-      // Single word - split in half
-      const word = words[0];
-      const mid = Math.ceil(word.length / 2);
-      return [word.slice(0, mid), word.slice(mid)];
-    } else if (words.length === 2) {
-      // Two words - one color each
-      return words;
-    } else {
-      // Multiple words - first word vs rest
-      return [words[0], words.slice(1).join(' ')];
+    if (words.length > 1) {
+      return {
+        firstPart: words.slice(0, words.length - 1).join(' '),
+        lastPart: words[words.length - 1]
+      };
     }
+    return { firstPart: title, lastPart: '' };
   };
 
-  const [firstPart, secondPart] = splitTitle(title);
+  const { firstPart, lastPart } = splitTitle(title);
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
+    <motion.div 
+      initial={{ opacity: 0, y: -20 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.6, delay: 0.2 }}
-      className={`text-center mb-16 lg:mb-20 ${className}`}
+      transition={{ duration: 0.6 }}
+      className={cn("text-center mb-8 sm:mb-12", className)}
     >
+      <h1 className="text-3xl sm:text-4xl font-bold tracking-tight text-foreground mb-2">
+        {firstPart} <span className="text-primary">{lastPart}</span>
+      </h1>
+      {subtitle && (
+        <p className="text-base sm:text-lg text-muted-foreground font-mono">
+          {subtitle}
+        </p>
+      )}
+
       {/* Cyberpunk Background Effects */}
       <div className="relative">
-        {/* Main Title with Two-Color Cyberpunk Effect */}
-        <motion.h1 
-          className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-6 relative"
-          initial={{ opacity: 0, scale: 0.9 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.8, delay: 0.3 }}
-        >
-          {/* First part with primary color */}
-          <span 
-            className="enhanced-text-primary inline-block mr-2 lg:mr-4"
-            style={{
-              background: `linear-gradient(45deg, var(--color-primary), color-mix(in srgb, var(--color-primary) 90%, transparent), var(--color-primary))`,
-              backgroundSize: '300% 300%',
-              backgroundClip: 'text',
-              WebkitBackgroundClip: 'text',
-              color: 'transparent',
-              animation: 'gradient-shift-primary 4s ease infinite'
-            }}
-          >
-            {firstPart}
-          </span>
-          
-          {/* Second part with different color scheme */}
-          <span 
-            className="enhanced-text-secondary inline-block"
-            style={{
-              color: 'var(--color-text)',
-              textShadow: `0 0 20px color-mix(in srgb, var(--color-secondary) 40%, transparent)`
-            }}
-          >
-            {secondPart}
-          </span>
-        </motion.h1>
-
-        {/* Subtitle */}
-        {subtitle && (
-          <motion.h2
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.4 }}
-            className="text-xl sm:text-2xl lg:text-3xl font-semibold text-primary/90 mb-4"
-          >
-            {subtitle}
-          </motion.h2>
-        )}
-
         {/* Animated Cyberpunk Underline */}
         {showUnderline && (
           <motion.div

@@ -42,7 +42,7 @@ export default function BiographyCard({ longDescriptiveSummary }: BiographyCardP
     >
       <Card>
         <CardHeader>
-          <CardTitle className="text-xl font-bold">Profile Summary</CardTitle>
+          <h2 className="text-xl font-bold tracking-tight">Profile Summary</h2>
         </CardHeader>
         <CardContent>
           <div className="space-y-4">

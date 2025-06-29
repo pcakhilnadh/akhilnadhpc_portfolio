@@ -3,6 +3,7 @@ import useTimelineData from '@/hooks/useTimelineData';
 import { Skeleton } from '@/components/ui/skeleton';
 import Timeline from '@/components/timeline/Timeline';
 import { PageHeader, CommonBg } from '@/components/common';
+import { PageMeta } from '@/components/common';
 
 interface TimelineProps {
   setNavbarWelcomeText: (text: string) => void;
@@ -52,14 +53,21 @@ export default function TimelinePage({ setNavbarWelcomeText }: TimelineProps) {
   }
 
   return (
-    <div className="h-full bg-background relative">
-      <CommonBg />
-      <div className="container mx-auto px-4 h-full overflow-y-auto relative z-10">
-        <Timeline 
-          experiences={timelineData.experiences} 
-          education={timelineData.education} 
-        />
+    <>
+      <PageMeta
+        title="Career Timeline - Akhil Nadh PC"
+        description="Explore the career timeline of Akhil Nadh PC, detailing his work experience, education, and professional growth as a Lead Data Scientist."
+        keywords="career timeline, work experience, professional journey, Akhil Nadh PC"
+      />
+      <div className="h-full bg-background relative">
+        <CommonBg />
+        <div className="container mx-auto px-4 h-full overflow-y-auto relative z-10">
+          <Timeline 
+            experiences={timelineData.experiences} 
+            education={timelineData.education} 
+          />
+        </div>
       </div>
-    </div>
+    </>
   );
 } 
