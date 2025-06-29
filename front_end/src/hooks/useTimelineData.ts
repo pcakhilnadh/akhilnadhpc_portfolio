@@ -24,7 +24,10 @@ function useTimelineData() {
         setLoading(true);
         setError(null);
 
-        const response = await fetch(`${config.api_base_url}/timeline`, {
+        const apiUrl = `${config.api_base_url}/timeline`;
+        console.log(`Requesting: ${apiUrl} for username: ${config.username}`);
+
+        const response = await fetch(apiUrl, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

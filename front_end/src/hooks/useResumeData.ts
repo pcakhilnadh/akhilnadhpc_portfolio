@@ -26,6 +26,7 @@ function useResumeData() {
         setError(null);
 
         const apiUrl = `${config.api_base_url}/resume`;
+        console.log(`Requesting: ${apiUrl} (username not sent for this GET request)`);
 
         const response = await fetch(apiUrl, {
             method: 'GET',

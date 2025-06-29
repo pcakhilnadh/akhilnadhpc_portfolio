@@ -25,12 +25,17 @@ export function useServicesData() {
   const { apiUrl, username } = useConfig();
 
   useEffect(() => {
+    if (!apiUrl || !username) return; // Wait for config to be loaded
+
     const fetchServicesData = async () => {
       try {
         setLoading(true);
         setError(null);
 
-        const response = await fetch(`${apiUrl}/services`, {
+        const fullApiUrl = `${apiUrl}/services`;
+        console.log(`Requesting: ${fullApiUrl} for username: ${username}`);
+
+        const response = await fetch(fullApiUrl, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',

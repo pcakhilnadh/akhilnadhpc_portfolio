@@ -24,7 +24,10 @@ function useAboutData() {
         setLoading(true);
         setError(null);
 
-        const response = await fetch(`${config.api_base_url}/about`, {
+        const apiUrl = `${config.api_base_url}/about`;
+        console.log(`Requesting: ${apiUrl} for username: ${config.username}`);
+
+        const response = await fetch(apiUrl, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

@@ -11,15 +11,7 @@ function usePersonalData() {
   const { config, loading: configLoading, error: configError } = useConfig();
 
   useEffect(() => {
-    if (configLoading || !config) {
-      return;
-    }
-    
-    if (configError) {
-      setError(configError);
-      setLoading(false);
-      return;
-    }
+    if (!config) return;
 
     const fetchData = async () => {
       try {
@@ -27,6 +19,7 @@ function usePersonalData() {
         setError(null);
 
         const apiUrl = `${config.api_base_url}/`;
+        console.log(`Requesting: ${apiUrl} for username: ${config.username}`);
 
         const response = await fetch(apiUrl, {
             method: 'POST',
@@ -56,7 +49,7 @@ function usePersonalData() {
     };
 
     fetchData();
-  }, [config, configLoading, configError]);
+  }, [config]);
 
   return { personalData, welcomeText, loading: loading || configLoading, error: error || configError };
 }

@@ -32,25 +32,33 @@ function useConfig() {
         
         // Dynamically determine API base URL
         const getApiBaseUrl = () => {
-          // Check if we're in development
+          // Check if we're in development (Vite dev server or local development)
           if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
-            return 'http://localhost:8000/api';
+            // Check if we're running on Vite dev server (typically 5173) or other dev port
+            if (window.location.port && window.location.port !== '8080') {
+              // Development: frontend dev server connecting to separate backend
+              return 'http://localhost:8080/api';
+            } else {
+              // Local Docker deployment: nginx serving both frontend and proxying API
+              return '/api';
+            }
           }
           
-          // In production, use the same host as the frontend
-          const protocol = window.location.protocol;
-          const host = window.location.host;
-          return `${protocol}//${host}/api`;
+          // In production, use relative path (nginx handles proxying)
+          return '/api';
         };
 
         // Dynamically determine config file path
         const getConfigPath = () => {
-          // Check if we're in development
+          // Check if we're in development (Vite dev server) vs. production/Docker
           if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
-            return '/src/config.yml';
+            // Check port to differentiate Vite dev server from Docker
+            if (window.location.port && window.location.port !== '8080') {
+              // Development on Vite dev server
+              return '/src/config.yml';
+            }
           }
-          
-          // In production, use the static path
+          // Production or local Docker deployment
           return '/static/src/config.yml';
         };
         
