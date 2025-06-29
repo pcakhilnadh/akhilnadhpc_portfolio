@@ -217,15 +217,9 @@ export default function TimelineItem({ item, index, isLast }: TimelineItemProps)
                         </div>
                         
                         <div className="grid gap-2 lg:gap-3">
-                          {(item as Experience).references!.slice(0, 2).map((ref, index) => (
-                            <motion.div 
-                              key={ref.id}
-                              initial={{ opacity: 0, x: -20 }}
-                              whileInView={{ opacity: 1, x: 0 }}
-                              transition={{ delay: index * 0.1 }}
-                              className="group relative"
-                            >
-                              <div className="relative p-3 lg:p-4 rounded-lg bg-gradient-to-r from-card/80 to-card/60 border border-primary/20 backdrop-blur-sm overflow-hidden">
+                          {(item as Experience).references!.slice(0, 2).map((ref, index) => {
+                            const contactCard = (
+                              <div className="relative p-3 lg:p-4 rounded-lg bg-gradient-to-r from-card/80 to-card/60 border border-primary/20 backdrop-blur-sm overflow-hidden group-hover:border-primary/40 transition-colors">
                                 {/* Glowing corner accent */}
                                 <div className="absolute top-0 right-0 w-3 h-3">
                                   <div className="w-full h-0.5 bg-primary" />
@@ -246,21 +240,39 @@ export default function TimelineItem({ item, index, isLast }: TimelineItemProps)
                                   </div>
                                   
                                   {ref.linkedin_url && (
-                                    <motion.a
-                                      href={ref.linkedin_url}
-                                      target="_blank"
-                                      rel="noopener noreferrer"
-                                      whileHover={{ scale: 1.1 }}
-                                      whileTap={{ scale: 0.95 }}
-                                      className="ml-2 lg:ml-3 p-1.5 lg:p-2 rounded-full bg-primary/10 text-primary hover:bg-primary/20 hover:text-primary transition-colors duration-200 flex-shrink-0"
+                                    <div
+                                      className="ml-2 lg:ml-3 p-1.5 lg:p-2 rounded-full bg-primary/10 text-primary group-hover:bg-primary/20 transition-colors duration-200 flex-shrink-0"
                                     >
                                       <ExternalLink className="h-3 w-3" />
-                                    </motion.a>
+                                    </div>
                                   )}
                                 </div>
                               </div>
-                            </motion.div>
-                          ))}
+                            );
+
+                            return (
+                              <motion.div 
+                                key={ref.id}
+                                initial={{ opacity: 0, x: -20 }}
+                                whileInView={{ opacity: 1, x: 0 }}
+                                transition={{ delay: index * 0.1 }}
+                                className="group relative"
+                              >
+                                {ref.linkedin_url ? (
+                                  <a
+                                    href={ref.linkedin_url}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="block"
+                                  >
+                                    {contactCard}
+                                  </a>
+                                ) : (
+                                  contactCard
+                                )}
+                              </motion.div>
+                            )
+                          })}
                         </div>
                       </div>
                     )}

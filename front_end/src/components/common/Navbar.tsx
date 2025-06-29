@@ -118,7 +118,7 @@ export default function Navbar({ personalData, welcomeText, setWelcomeText }: Na
       {/* Mobile Menu */}
       <div
         className={cn(
-          "md:hidden absolute w-full bg-background/95 backdrop-blur-md border-b border-border transition-all duration-300 overflow-hidden",
+          "md:hidden absolute w-full bg-background backdrop-blur-md border-b border-border transition-all duration-300 overflow-hidden",
           isMobileMenuOpen ? "max-h-80 opacity-100" : "max-h-0 opacity-0"
         )}
       >
