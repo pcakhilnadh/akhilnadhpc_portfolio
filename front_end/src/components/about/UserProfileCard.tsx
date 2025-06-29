@@ -201,8 +201,8 @@ export default function UserProfileCard({ personalInfo, familyInfo, hobbies, var
                 </h4>
                 <div className="space-y-2">
                   {familyInfo && familyInfo.length > 0 ? (
-                    familyInfo.map((member, index) => (
-                      <div key={index} className="bg-muted/30 rounded-lg p-3 border border-border/30 hover:border-primary/20 transition-all duration-200 hover:shadow-sm">
+                    familyInfo.map((member, index) => {
+                      const content = (
                         <div className="flex items-start justify-between">
                           <div className="flex items-start space-x-3 min-w-0 flex-1">
                             <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
@@ -210,21 +210,9 @@ export default function UserProfileCard({ personalInfo, familyInfo, hobbies, var
                             </div>
                             <div className="min-w-0 flex-1">
                               <div className="mb-1">
-                                <div className="flex items-center space-x-2">
-                                  {member.profile_url ? (
-                                    <a 
-                                      href={member.profile_url} 
-                                      target="_blank" 
-                                      rel="noopener noreferrer"
-                                      className="text-sm font-semibold text-foreground hover:text-primary transition-colors flex items-center space-x-1"
-                                      title="View Profile"
-                                    >
-                                      <span className="truncate">{member.full_name}</span>
-                                      <Link className="h-3 w-3 text-primary flex-shrink-0" />
-                                    </a>
-                                  ) : (
-                                    <h5 className="text-sm font-semibold text-foreground truncate">{member.full_name}</h5>
-                                  )}
+                                <div className="flex items-center justify-between">
+                                  <h5 className="text-sm font-semibold text-foreground group-hover:text-primary transition-colors truncate">{member.full_name}</h5>
+                                  {member.profile_url && <Link className="h-3 w-3 text-primary flex-shrink-0" />}
                                 </div>
                               </div>
                               <div className="flex items-center space-x-2 text-xs text-muted-foreground mb-1">
@@ -240,8 +228,29 @@ export default function UserProfileCard({ personalInfo, familyInfo, hobbies, var
                             </div>
                           </div>
                         </div>
-                      </div>
-                    ))
+                      );
+
+                      if (member.profile_url) {
+                        return (
+                          <a
+                            key={index}
+                            href={member.profile_url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="group block bg-muted/30 rounded-lg p-3 border border-border/30 hover:border-primary/20 transition-all duration-200 hover:shadow-sm"
+                            title="View Profile"
+                          >
+                            {content}
+                          </a>
+                        );
+                      }
+
+                      return (
+                        <div key={index} className="bg-muted/30 rounded-lg p-3 border border-border/30">
+                          {content}
+                        </div>
+                      );
+                    })
                   ) : (
                     <div className="text-center py-6">
                       <Users className="h-8 w-8 text-muted-foreground mx-auto mb-2" />

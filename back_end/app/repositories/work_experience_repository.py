@@ -30,7 +30,7 @@ class WorkExperienceRepository:
                 for row in reader:
                     if row['username'] == username and row['_id'] == company_id:
                         # Get references for this company
-                        ref_ids = row.get('references', '').split(',') if row.get('references') else []
+                        ref_ids = row.get('references', '').split(';') if row.get('references') else []
                         ref_ids = [ref_id.strip() for ref_id in ref_ids if ref_id.strip()]
                         
                         # Get company references
@@ -72,7 +72,7 @@ class WorkExperienceRepository:
                 for row in reader:
                     if row['username'] == username:
                         # Get references for this work experience
-                        ref_ids = row.get('references', '').split(',') if row.get('references') else []
+                        ref_ids = row.get('references', '').split(';') if row.get('references') else []
                         ref_ids = [ref_id.strip() for ref_id in ref_ids if ref_id.strip()]
                         
                         # Filter references for this company
