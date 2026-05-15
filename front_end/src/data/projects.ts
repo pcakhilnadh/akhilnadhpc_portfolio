@@ -255,6 +255,25 @@ export const projects: Project[] = [
     cicd_pipeline: "Docker GitHub Actions",
     monitoring_tracking: undefined,
   },
+  {
+    _id: "project_010",
+    username: "akhilnadhpc",
+    title: "My Wedding site - Akhil Weds Sethu",
+    short_description: "Personal wedding website built with AI assistance",
+    long_description: "Development of a personal wedding website using Claude and Agentic Code.",
+    project_type: "Personal Project",
+    status: "Completed",
+    github_url: "https://github.com/pcakhilnadh/SethuWedsAkhil",
+    live_url: "http://sethu-weds-akhil.vercel.app/",
+    notion_url: undefined,
+    start_date: "2026-01-01",
+    end_date: "2026-03-31",
+    role: "Sole Developer",
+    company: "Personal",
+    hosting_platform: "Vercel",
+    cicd_pipeline: undefined,
+    monitoring_tracking: undefined,
+  },
 ];
 
 // Project Skills (junction table)
