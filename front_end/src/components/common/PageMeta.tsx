@@ -8,7 +8,7 @@ interface PageMetaProps {
 }
 
 const PageMeta: React.FC<PageMetaProps> = ({ title, description, keywords }) => {
-  const defaultKeywords = "Akhil Nadh PC, Lead Data Scientist, Data Scientist, Machine Learning, AI, Python, Portfolio, Data Science";
+  const defaultKeywords = "Akhil Nadh PC, Expert Data Scientist, Machine Learning Engineer, Lead Data Scientist, Data Scientist, Machine Learning, AI, Python, Portfolio, Data Science";
   const finalKeywords = keywords ? `${keywords}, ${defaultKeywords}` : defaultKeywords;
 
   return (

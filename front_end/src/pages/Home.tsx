@@ -59,8 +59,8 @@ export default function Home({ personalData, welcomeText, setNavbarWelcomeText }
   return (
     <>
       <PageMeta
-        title="Akhil Nadh PC - Lead Data Scientist | Portfolio"
-        description="Welcome to the portfolio of Akhil Nadh PC, a Lead Data Scientist specializing in AI/ML solutions, cloud technologies, and end-to-end project delivery."
+        title="Akhil Nadh PC - Expert Data Scientist & Machine Learning Engineer | Portfolio"
+        description="Welcome to the portfolio of Akhil Nadh PC, an Expert Data Scientist and Machine Learning Engineer specializing in AI/ML solutions, cloud technologies, and end-to-end project delivery."
       />
       <div className={cn(
         "w-full relative",

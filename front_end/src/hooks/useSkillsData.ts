@@ -1,60 +1,57 @@
-import { useState, useEffect } from 'react';
-import { SkillsDomainData, SkillsResponse } from '@/types/data';
-import useConfig from './useConfig';
+import { useEffect, useState } from 'react';
+import { SkillsDomainData, Skill as SkillType, SkillCategory as SkillCategoryType } from '@/types/data';
+import { skills, skillCategories, getSkillCategory } from '@/data';
 
-function useSkillsData() {
+interface SkillsDataReturn {
+  skillsData: SkillsDomainData | null;
+  welcomeText: string;
+  loading: boolean;
+  error: string | null;
+}
+
+function useSkillsData(): SkillsDataReturn {
   const [skillsData, setSkillsData] = useState<SkillsDomainData | null>(null);
-  const [welcomeText, setWelcomeText] = useState<string>('');
+  const [welcomeText] = useState<string>('Explore my technical skills and expertise');
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  
-  const { config, loading: configLoading, error: configError } = useConfig();
 
   useEffect(() => {
-    if (configLoading || !config) return;
-    
-    if (configError) {
-      setError(configError);
+    try {
+      // Transform skills data into SkillsDomainData format
+      const transformedSkills: SkillType[] = skills.map((skill) => {
+        const category = getSkillCategory(skill.skill_category_id);
+        return {
+          id: skill._id,
+          name: skill.name,
+          rating: skill.rating,
+          description: skill.description,
+          category: category
+            ? {
+                id: category._id,
+                name: category.name,
+                description: category.description,
+              }
+            : {
+                id: 'unknown',
+                name: 'Unknown',
+                description: '',
+              },
+        };
+      });
+
+      setSkillsData({
+        skills: transformedSkills,
+        welcome_text: welcomeText,
+      });
+      setError(null);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Failed to load skills data');
+    } finally {
       setLoading(false);
-      return;
     }
+  }, [welcomeText]);
 
-    const fetchData = async () => {
-      try {
-        setLoading(true);
-        setError(null);
-
-        const apiUrl = `${config.api_base_url}/skills`;
-        console.log(`Requesting: ${apiUrl} for username: ${config.username}`);
-
-        const response = await fetch(apiUrl, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ username: config.username }),
-        });
-        
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        
-        const data: SkillsResponse = await response.json();
-        
-        setSkillsData(data);
-        setWelcomeText(data.welcome_text);
-
-      } catch (err) {
-        setError(err instanceof Error ? err.message : 'Failed to fetch skills data');
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchData();
-  }, [config, configLoading, configError]);
-
-  return { skillsData, welcomeText, loading: loading || configLoading, error: error || configError };
+  return { skillsData, welcomeText, loading, error };
 }
 
 export default useSkillsData; 

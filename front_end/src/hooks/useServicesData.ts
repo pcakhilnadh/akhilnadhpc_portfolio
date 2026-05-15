@@ -1,5 +1,5 @@
-import { useState, useEffect } from 'react';
-import useConfig from './useConfig';
+import { useEffect, useState } from 'react';
+import { services, getAllCategories } from '@/data';
 
 export interface Service {
   id: number;
@@ -18,47 +18,36 @@ export interface ServicesData {
   total_services: number;
 }
 
-export function useServicesData() {
+interface ServicesDataReturn {
+  data: ServicesData | null;
+  loading: boolean;
+  error: string | null;
+}
+
+export function useServicesData(): ServicesDataReturn {
   const [data, setData] = useState<ServicesData | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const { apiUrl, username } = useConfig();
 
   useEffect(() => {
-    if (!apiUrl || !username) return; // Wait for config to be loaded
+    try {
+      const categories = getAllCategories();
+      
+      const servicesData: ServicesData = {
+        services: services as Service[],
+        categories,
+        total_services: services.length,
+      };
 
-    const fetchServicesData = async () => {
-      try {
-        setLoading(true);
-        setError(null);
-
-        const fullApiUrl = `${apiUrl}/services`;
-        console.log(`Requesting: ${fullApiUrl} for username: ${username}`);
-
-        const response = await fetch(fullApiUrl, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ username }),
-        });
-
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
-
-        const servicesData: ServicesData = await response.json();
-        setData(servicesData);
-      } catch (err) {
-        console.error('Error fetching services data:', err);
-        setError(err instanceof Error ? err.message : 'Failed to fetch services data');
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchServicesData();
-  }, [apiUrl, username]);
+      setData(servicesData);
+      setError(null);
+    } catch (err) {
+      console.error('Error loading services data:', err);
+      setError(err instanceof Error ? err.message : 'Failed to load services data');
+    } finally {
+      setLoading(false);
+    }
+  }, []);
 
   return { data, loading, error };
 } 

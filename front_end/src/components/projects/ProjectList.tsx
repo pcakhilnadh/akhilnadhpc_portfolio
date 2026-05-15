@@ -19,7 +19,7 @@ import {
 } from 'lucide-react';
 import { Project } from '@/types/data';
 import { Badge } from '@/components/ui/badge';
-import useConfig from '@/hooks/useConfig';
+
 
 interface ProjectListProps {
   projects: Project[];
@@ -380,7 +380,7 @@ interface ProjectCardProps {
 }
 
 const ProjectCard: React.FC<ProjectCardProps> = ({ project, index }) => {
-  const { config } = useConfig();
+
   const navigate = useNavigate();
 
   // Format dates for better display - compact format with day

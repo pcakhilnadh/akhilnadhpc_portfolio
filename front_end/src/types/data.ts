@@ -205,8 +205,7 @@ export interface Education {
 }
 
 export interface TimelineDomainData {
-  experiences: Experience[];
-  education: Education[];
+  experience: Experience[];
   welcome_text: string;
 }
 
@@ -214,8 +213,8 @@ export interface AboutDomainData {
   personal_info: PersonalInfo;
   family_info?: FamilyMember[];
   hobbies?: string[];
-  skills: SkillCategory[];
-  welcome_text: string;
+  skills_by_category?: Record<string, Skill[]>;
+  welcome_text?: string;
 }
 
 // Corrected response type to match the backend's AboutDomainData

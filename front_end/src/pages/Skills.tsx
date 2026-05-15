@@ -62,9 +62,9 @@ export default function SkillsPage({ setNavbarWelcomeText }: SkillsProps) {
   return (
     <>
       <PageMeta
-        title="Technical Skills - Akhil Nadh PC | Lead Data Scientist"
+        title="Technical Skills - Akhil Nadh PC | Expert Data Scientist & Machine Learning Engineer"
         description="Explore the technical skills of Akhil Nadh PC, including programming languages, machine learning frameworks, cloud platforms, and data analysis tools."
-        keywords="technical skills, data science skills, python, tensorflow, pytorch, AWS, GCP, SQL"
+        keywords="technical skills, data science skills, machine learning engineer, expert data scientist, python, tensorflow, pytorch, AWS, GCP, SQL"
       />
       <div className="p-4 sm:p-6 h-full overflow-y-auto">
         <PageHeader 
