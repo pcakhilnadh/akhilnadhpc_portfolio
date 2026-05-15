@@ -243,14 +243,14 @@ export const projects: Project[] = [
     long_description:
       "A comprehensive portfolio website featuring dynamic content loading from CSV data; modern UI/UX with dark/light mode; responsive design; Docker containerization; and clean architecture principles. Built with React TypeScript Vite Tailwind CSS frontend and FastAPI Python backend",
     project_type: "Project",
-    status: "In Progress",
+    status: "Completed",
     github_url: "https://github.com/pcakhilnadh/akhilnadhpc_portfolio",
     live_url: "https://akhilnadhpc.in/",
     notion_url: "https://github.com/pcakhilnadh/akhilnadhpc_portfolio/blob/main/README.md",
     start_date: "2025-06-15",
     end_date: undefined,
     role: "Full Stack Developer",
-    company: "work_exp_002",
+    company: "Personal",
     hosting_platform: "Google Cloud Run",
     cicd_pipeline: "Docker GitHub Actions",
     monitoring_tracking: undefined,
@@ -261,14 +261,14 @@ export const projects: Project[] = [
     title: "My Wedding site - Akhil Weds Sethu",
     short_description: "Personal wedding website built with AI assistance",
     long_description: "Development of a personal wedding website using Claude and Agentic Code.",
-    project_type: "Personal Project",
+    project_type: "Project",
     status: "Completed",
     github_url: "https://github.com/pcakhilnadh/SethuWedsAkhil",
     live_url: "http://sethu-weds-akhil.vercel.app/",
     notion_url: undefined,
     start_date: "2026-01-01",
     end_date: "2026-03-31",
-    role: "Sole Developer",
+    role: "Developer",
     company: "Personal",
     hosting_platform: "Vercel",
     cicd_pipeline: undefined,
@@ -348,7 +348,7 @@ export const calculateProjectDuration = (startDate: string, endDate?: string): s
   const start = new Date(startDate);
   const end = endDate ? new Date(endDate) : new Date();
   const months = Math.round((end.getTime() - start.getTime()) / (1000 * 60 * 60 * 24 * 30));
-  
+
   if (months === 0) {
     return "< 1 month";
   }
@@ -358,14 +358,14 @@ export const calculateProjectDuration = (startDate: string, endDate?: string): s
   if (months < 12) {
     return `${months} months`;
   }
-  
+
   const years = Math.floor(months / 12);
   const remainingMonths = months % 12;
-  
+
   if (remainingMonths === 0) {
     return `${years} year${years !== 1 ? "s" : ""}`;
   }
-  
+
   return `${years} year${years !== 1 ? "s" : ""} ${remainingMonths} month${remainingMonths !== 1 ? "s" : ""}`;
 };
 
