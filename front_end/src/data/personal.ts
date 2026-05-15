@@ -74,11 +74,11 @@ export const personalProfile: PersonalProfile = {
   work_start_date: "2019-12-03",
   tagline: "Lead Data Scientist at Air India",
   designation: "Lead Data Scientist",
-  short_summary: "Experienced ML engineer specializing in GenAI and Machine Learning Solutions.",
+  short_summary: "Experienced ML engineer. \nSpecialized in GenAI and Machine Learning Solutions.",
   long_descriptive_summary:
     "A passionate machine learning engineer having 4+ years of experience in computer vision and artificial intelligence. I've worked in the automotive division solving challenging problems and building solutions related to gesture navigation; drowsiness detection; vehicle collision warning; radar camera fusion etc. Seeking a challenging position where my knowledge; talent; hard work; dedication and sincerity can create a significat value.",
   profile_image: "https://d2ajlz7o3p8ddv.cloudfront.net/media/user_profile/profile-img.jpg",
-  marital_status: "Single",
+  marital_status: "Married",
   address_street: "Pullolikkal House",
   address_city: "Thrissur",
   address_state: "Kerala",
@@ -143,6 +143,15 @@ export const familyMembers: FamilyMember[] = [
     occupation: "Retired Teacher",
     dob: "1966-06-01",
     profile_url: "https://www.instagram.com/preethychandran",
+  },
+  {
+    _id: "family_003",
+    personal_profile_id: "akhilnadhpc",
+    relationship: "Wife",
+    full_name: "Sethulakshmi R",
+    occupation: "Senior Design Engineer",
+    dob: "",
+    profile_url: null,
   },
 ];
 

@@ -17,6 +17,45 @@ function usePersonalData(): PersonalDataReturn {
 
   useEffect(() => {
     try {
+      // Categorize social profiles into appropriate buckets
+      const categorizedProfiles = socialProfiles.reduce(
+        (acc, profile) => {
+          const platform = profile.platform.toLowerCase();
+          const profileData = {
+            url: profile.profile_url,
+            handler: profile.username,
+          };
+          const key = platform.replace(/\s+/g, '_');
+
+          if (['linkedin'].includes(platform)) {
+            acc.professional_profiles[key] = profileData;
+          } else if (
+            ['github', 'hackerrank', 'hackerearth', 'leetcode', 'stack overflow', 'cs stack exchange', 'gate overflow'].includes(
+              platform
+            )
+          ) {
+            acc.coding_profiles[key] = profileData;
+          } else if (['twitter', 'instagram', 'medium'].includes(platform)) {
+            acc.social_profiles[key] = profileData;
+          } else {
+            // Default to personal for others like Tripoto, Portfolio Website, etc.
+            acc.personal_profiles[key] = profileData;
+          }
+          return acc;
+        },
+        {
+          social_profiles: {},
+          professional_profiles: {},
+          coding_profiles: {},
+          personal_profiles: {},
+        } as {
+          social_profiles: Record<string, { url: string; handler: string }>;
+          professional_profiles: Record<string, { url: string; handler: string }>;
+          coding_profiles: Record<string, { url: string; handler: string }>;
+          personal_profiles: Record<string, { url: string; handler: string }>;
+        }
+      );
+
       // Transform personal profile data into UserProfile format
       const userData: UserProfile = {
         personal_info: {
@@ -34,19 +73,7 @@ function usePersonalData(): PersonalDataReturn {
           resume_summary: personalProfile.resume_summary,
           phone_num: personalProfile.phone_num,
         },
-        social_profiles: socialProfiles.reduce(
-          (acc, profile) => {
-            acc[profile.platform.toLowerCase().replace(/\s+/g, '_')] = {
-              url: profile.profile_url,
-              handler: profile.username,
-            };
-            return acc;
-          },
-          {} as Record<string, { url: string; handler: string }>
-        ),
-        professional_profiles: {},
-        coding_profiles: {},
-        personal_profiles: {},
+        ...categorizedProfiles,
         family_info: familyMembers.map((member) => ({
           relationship: member.relationship,
           full_name: member.full_name,
