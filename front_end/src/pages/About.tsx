@@ -58,8 +58,8 @@ export default function About({ setNavbarWelcomeText }: AboutProps) {
   return (
     <>
       <PageMeta
-        title="About Akhil Nadh PC | Lead Data Scientist"
-        description="Learn more about Akhil Nadh PC, a Lead Data Scientist. Discover his background, skills, professional journey, and personal interests."
+        title="About Akhil Nadh PC | Expert Data Scientist & Machine Learning Engineer"
+        description="Learn more about Akhil Nadh PC, an Expert Data Scientist and Machine Learning Engineer. Discover his background, skills, professional journey, and personal interests."
         keywords="About Akhil Nadh PC, biography, skills, data science career"
       />
       <div className="h-full flex items-center justify-center bg-background relative">

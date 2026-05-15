@@ -56,9 +56,9 @@ export default function Certifications({ setNavbarWelcomeText }: CertificationsP
   return (
     <>
       <PageMeta
-        title="Professional Certifications - Akhil Nadh PC"
-        description="View the list of professional certifications earned by Akhil Nadh PC in fields like data science, machine learning, and cloud computing."
-        keywords="certifications, data science certification, machine learning certification, Akhil Nadh PC"
+        title="Professional Certifications - Akhil Nadh PC | Expert Data Scientist & Machine Learning Engineer"
+        description="View the list of professional certifications earned by Akhil Nadh PC, an Expert Data Scientist and Machine Learning Engineer, in fields like data science, machine learning, and cloud computing."
+        keywords="certifications, data science certification, machine learning certification, expert data scientist, machine learning engineer, Akhil Nadh PC"
       />
       <div className="h-full flex items-center justify-center bg-background relative overflow-hidden">
         <CommonBg />

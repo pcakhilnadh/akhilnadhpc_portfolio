@@ -55,9 +55,9 @@ export default function TimelinePage({ setNavbarWelcomeText }: TimelineProps) {
   return (
     <>
       <PageMeta
-        title="Career Timeline - Akhil Nadh PC"
-        description="Explore the career timeline of Akhil Nadh PC, detailing his work experience, education, and professional growth as a Lead Data Scientist."
-        keywords="career timeline, work experience, professional journey, Akhil Nadh PC"
+        title="Career Timeline - Akhil Nadh PC | Expert Data Scientist & Machine Learning Engineer"
+        description="Explore the career timeline of Akhil Nadh PC, detailing his work experience, education, and professional growth as an Expert Data Scientist and Machine Learning Engineer."
+        keywords="career timeline, work experience, professional journey, expert data scientist, machine learning engineer, Akhil Nadh PC"
       />
       <div className="h-full bg-background relative">
         <CommonBg />

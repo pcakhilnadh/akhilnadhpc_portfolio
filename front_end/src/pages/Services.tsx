@@ -63,9 +63,9 @@ export default function Services({ setNavbarWelcomeText }: ServicesProps) {
   return (
     <>
       <PageMeta
-        title="Services - AI/ML, Development, Consulting | Akhil Nadh PC"
-        description="Discover the professional services offered by Akhil Nadh PC, including AI/ML model development, end-to-end software development, and expert consulting."
-        keywords="AI services, machine learning consulting, software development, data science consulting, Akhil Nadh PC"
+        title="Services - AI/ML, Development, Consulting | Expert Data Scientist & Machine Learning Engineer"
+        description="Discover the professional services offered by Akhil Nadh PC, an Expert Data Scientist and Machine Learning Engineer, including AI/ML model development, end-to-end software development, and expert consulting."
+        keywords="AI services, machine learning consulting, software development, data science consulting, expert data scientist, machine learning engineer, Akhil Nadh PC"
       />
       <div 
         className={cn(

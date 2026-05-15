@@ -22,9 +22,9 @@ export default function Projects({ setNavbarWelcomeText }: ProjectsProps) {
   return (
     <>
       <PageMeta
-        title="Data Science Projects - Akhil Nadh PC"
-        description="Browse a collection of data science and machine learning projects by Akhil Nadh PC, showcasing skills in model development, data analysis, and more."
-        keywords="data science projects, machine learning projects, AI projects, Akhil Nadh PC portfolio"
+        title="Data Science Projects - Akhil Nadh PC | Expert Data Scientist & Machine Learning Engineer"
+        description="Browse a collection of data science and machine learning projects by Akhil Nadh PC, an Expert Data Scientist and Machine Learning Engineer, showcasing skills in model development, data analysis, and more."
+        keywords="data science projects, machine learning projects, AI projects, expert data scientist, machine learning engineer, Akhil Nadh PC portfolio"
       />
       <div className="h-full bg-background relative">
         <CommonBg />

@@ -286,9 +286,9 @@ export default function ProjectDetails({ setNavbarWelcomeText }: ProjectDetailsP
     <>
       {projectData && (
         <PageMeta
-          title={`${projectData.project.title} - Project Details | Akhil Nadh PC`}
-          description={`Detailed view of the project: ${projectData.project.short_description}. See the technologies used, outcomes, and achievements.`}
-          keywords={projectData.project.skills?.map(s => s.name).join(', ') || 'data science, machine learning'}
+          title={`${projectData.project.title} - Project Details | Expert Data Scientist & Machine Learning Engineer`}
+          description={`Detailed view of the project: ${projectData.project.short_description}. See the technologies used, outcomes, and achievements by an Expert Data Scientist.`}
+          keywords={(projectData.project.skills?.map(s => s.name).join(', ') || 'data science, machine learning') + ', expert data scientist, machine learning engineer'}
         />
       )}
       <div 
