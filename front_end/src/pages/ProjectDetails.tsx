@@ -7,8 +7,20 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { cn } from '@/lib/utils';
-import useConfig from '@/hooks/useConfig';
 import { ProjectDetailsHeader, ProjectMetrics } from '@/components/projects/details';
+import {
+  getProjectById,
+  projectSkills,
+  getSkillById,
+  getWorkExperienceById,
+  projectAchievements,
+  mlModels,
+  projectMLModels,
+  mlModelEvaluationMetrics,
+  mlModelUseCases,
+  mlModelTrainingParameters,
+  calculateProjectDuration,
+} from '@/data';
 
 interface ProjectDetailsProps {
   setNavbarWelcomeText: (text: string) => void;
@@ -71,7 +83,6 @@ interface ProjectDetailsData {
 export default function ProjectDetails({ setNavbarWelcomeText }: ProjectDetailsProps) {
   const { projectId } = useParams<{ projectId: string }>();
   const navigate = useNavigate();
-  const { config } = useConfig();
   
   const [projectData, setProjectData] = useState<ProjectDetailsData | null>(null);
   const [loading, setLoading] = useState(true);
@@ -94,41 +105,112 @@ export default function ProjectDetails({ setNavbarWelcomeText }: ProjectDetailsP
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  // Load project details from local static data
   useEffect(() => {
-    const fetchProjectDetails = async () => {
-      if (!config || !projectId) {
-        setError('Configuration not loaded or project ID missing');
+    if (!projectId) {
+      setError('Project ID missing');
+      setLoading(false);
+      return;
+    }
+
+    try {
+      setLoading(true);
+      setError(null);
+
+      const project = getProjectById(projectId);
+      if (!project) {
+        setError('Project not found');
         setLoading(false);
         return;
       }
 
-      try {
-        setLoading(true);
-        setError(null);
+      // Resolve skills for this project
+      const skillIds = projectSkills
+        .filter((ps) => ps.project_id === project._id)
+        .map((ps) => ps.skill_id);
+      const resolvedSkills = skillIds
+        .map((id) => getSkillById(id))
+        .filter((s) => s !== undefined)
+        .map((s) => ({ id: s!._id, name: s!.name, rating: s!.rating }));
 
-        const response = await fetch(`${config.api_base_url}/projects/${projectId}`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ username: config.username }),
-        });
+      // Resolve company
+      const company = getWorkExperienceById(project.company);
 
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
+      // Resolve achievements
+      const achievements = projectAchievements
+        .filter((a) => a.project_id === project._id)
+        .map((a) => ({ id: a._id, achievement_title: a.achievement_title }));
 
-        const data: ProjectDetailsData = await response.json();
-        setProjectData(data);
-      } catch (err) {
-        setError(err instanceof Error ? err.message : 'Failed to load project details');
-      } finally {
-        setLoading(false);
-      }
-    };
+      // Resolve ML models
+      const projMLModelLinks = projectMLModels.filter((pm) => pm.project_id === project._id);
+      const resolvedMLModels = projMLModelLinks
+        .map((link) => {
+          const model = mlModels.find((m) => m._id === link.ml_model_id);
+          if (!model) return null;
+          const evalMetrics = mlModelEvaluationMetrics
+            .filter((em) => em.ml_model_id === model._id)
+            .map((em) => ({
+              id: em._id,
+              metric_name: em.metric_name,
+              metric_value: typeof em.metric_value === 'number' ? em.metric_value : parseFloat(String(em.metric_value)) || 0,
+              metric_type: em.metric_type,
+            }));
+          const useCases = mlModelUseCases
+            .filter((uc) => uc.ml_model_id === model._id);
+          const trainingParams = mlModelTrainingParameters
+            .filter((tp) => tp.ml_model_id === model._id);
+          return {
+            id: model._id,
+            name: model.name,
+            model_type: model.model_type,
+            framework: model.framework,
+            version: model.version,
+            training_data_size: model.training_data_size,
+            deployment_status: model.deployment_status,
+            description: model.description,
+            evaluation_metrics: evalMetrics.length > 0 ? evalMetrics : undefined,
+            use_cases: useCases.length > 0 ? useCases : undefined,
+            training_parameters: trainingParams.length > 0 ? trainingParams : undefined,
+          };
+        })
+        .filter((m) => m !== null) as any[];
 
-    fetchProjectDetails();
-  }, [config, projectId]);
+      const data: ProjectDetailsData = {
+        success: true,
+        message: 'Project details loaded successfully',
+        project: {
+          id: project._id,
+          title: project.title,
+          short_description: project.short_description,
+          long_description: project.long_description,
+          project_type: project.project_type,
+          status: project.status,
+          github_url: project.github_url,
+          live_url: project.live_url,
+          notion_url: project.notion_url,
+          start_date: project.start_date,
+          end_date: project.end_date,
+          role: project.role,
+          company: company
+            ? { name: company.company_name, location: company.company_location }
+            : undefined,
+          ml_models: resolvedMLModels.length > 0 ? resolvedMLModels : undefined,
+          skills: resolvedSkills.length > 0 ? resolvedSkills : undefined,
+          achievements: achievements.length > 0 ? achievements : undefined,
+          hosting_platform: project.hosting_platform,
+          cicd_pipeline: project.cicd_pipeline,
+          monitoring_tracking: project.monitoring_tracking,
+          duration: calculateProjectDuration(project.start_date, project.end_date),
+        },
+      };
+
+      setProjectData(data);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Failed to load project details');
+    } finally {
+      setLoading(false);
+    }
+  }, [projectId]);
 
   const handleGoBack = () => {
     navigate('/projects');

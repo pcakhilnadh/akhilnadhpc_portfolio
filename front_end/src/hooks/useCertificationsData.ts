@@ -1,60 +1,58 @@
-import { useState, useEffect } from 'react';
-import { CertificationsDomainData, CertificationsResponse } from '@/types/data';
-import useConfig from './useConfig';
+import { useEffect, useState } from 'react';
+import { CertificationsDomainData, Certification as CertificationType } from '@/types/data';
+import { certifications, certificationSkills, getSkillById } from '@/data';
 
-function useCertificationsData() {
+interface CertificationsDataReturn {
+  certificationsData: CertificationsDomainData | null;
+  welcomeText: string;
+  loading: boolean;
+  error: string | null;
+}
+
+function useCertificationsData(): CertificationsDataReturn {
   const [certificationsData, setCertificationsData] = useState<CertificationsDomainData | null>(null);
-  const [welcomeText, setWelcomeText] = useState<string>('');
+  const [welcomeText] = useState<string>('Professional certifications and credentials');
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  
-  const { config, loading: configLoading, error: configError } = useConfig();
 
   useEffect(() => {
-    if (configLoading || !config) return;
-    
-    if (configError) {
-      setError(configError);
+    try {
+      // Transform certifications data into CertificationsDomainData format
+      const transformedCertifications: CertificationType[] = certifications.map((cert) => {
+        const skillIds = certificationSkills
+          .filter((cs) => cs.certification_id === cert._id)
+          .map((cs) => cs.skill_id);
+
+        const skillNames = skillIds
+          .map((skillId) => getSkillById(skillId))
+          .filter((skill) => skill !== undefined)
+          .map((skill) => skill!.name);
+
+        return {
+          id: parseInt(cert._id.split('_')[1], 10) || 0,
+          name: cert.name,
+          issuer: cert.issuer,
+          issue_date: cert.issue_date,
+          expiry_date: cert.expiry_date || undefined,
+          credential_id: cert.credential_id || undefined,
+          credential_url: cert.credential_url || undefined,
+          skills: skillNames,
+        };
+      });
+
+      setCertificationsData({
+        certifications: transformedCertifications,
+        welcome_text: welcomeText,
+      });
+      setError(null);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Failed to load certifications data');
+    } finally {
       setLoading(false);
-      return;
     }
+  }, [welcomeText]);
 
-    const fetchData = async () => {
-      try {
-        setLoading(true);
-        setError(null);
-
-        const apiUrl = `${config.api_base_url}/certifications`;
-        console.log(`Requesting: ${apiUrl} for username: ${config.username}`);
-
-        const response = await fetch(apiUrl, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ username: config.username }),
-        });
-        
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        
-        const data: CertificationsResponse = await response.json();
-        
-        setCertificationsData(data);
-        setWelcomeText(data.welcome_text);
-
-      } catch (err) {
-        setError(err instanceof Error ? err.message : 'Failed to fetch certifications data');
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchData();
-  }, [config, configLoading, configError]);
-
-  return { certificationsData, welcomeText, loading: loading || configLoading, error: error || configError };
+  return { certificationsData, welcomeText, loading, error };
 }
 
 export default useCertificationsData; 

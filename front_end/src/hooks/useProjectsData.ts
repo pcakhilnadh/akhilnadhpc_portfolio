@@ -1,60 +1,72 @@
-import { useState, useEffect } from 'react';
-import { ProjectsDomainData, ProjectsResponse } from '@/types/data';
-import useConfig from './useConfig';
+import { useEffect, useState } from 'react';
+import { ProjectsDomainData, Project as ProjectType } from '@/types/data';
+import { projects, projectSkills, getSkillById, getWorkExperienceById } from '@/data';
 
-function useProjectsData() {
+interface ProjectsDataReturn {
+  projectsData: ProjectsDomainData | null;
+  welcomeText: string;
+  loading: boolean;
+  error: string | null;
+}
+
+function useProjectsData(): ProjectsDataReturn {
   const [projectsData, setProjectsData] = useState<ProjectsDomainData | null>(null);
-  const [welcomeText, setWelcomeText] = useState<string>('');
+  const [welcomeText] = useState<string>('Browse my portfolio projects');
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  
-  const { config, loading: configLoading, error: configError } = useConfig();
 
   useEffect(() => {
-    if (configLoading || !config) return;
-    
-    if (configError) {
-      setError(configError);
+    try {
+      // Transform projects data into ProjectsDomainData format
+      const transformedProjects: ProjectType[] = projects.map((project) => {
+        const projectSkillIds = projectSkills
+          .filter((ps) => ps.project_id === project._id)
+          .map((ps) => ps.skill_id);
+
+        const skillObjects = projectSkillIds
+          .map((skillId) => getSkillById(skillId))
+          .filter((skill) => skill !== undefined) as any[];
+
+        const company = getWorkExperienceById(project.company);
+
+        return {
+          id: project._id,
+          title: project.title,
+          short_description: project.short_description,
+          project_type: project.project_type,
+          status: project.status,
+          github_url: project.github_url,
+          live_url: project.live_url,
+          notion_url: project.notion_url,
+          start_date: project.start_date,
+          end_date: project.end_date,
+          role: project.role,
+          company: company
+            ? {
+                name: company.company_name,
+                location: company.company_location,
+              }
+            : undefined,
+          skills: skillObjects,
+          hosting_platform: project.hosting_platform,
+          cicd_pipeline: project.cicd_pipeline,
+          monitoring_tracking: project.monitoring_tracking,
+        };
+      });
+
+      setProjectsData({
+        projects: transformedProjects,
+        welcome_text: welcomeText,
+      });
+      setError(null);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Failed to load projects data');
+    } finally {
       setLoading(false);
-      return;
     }
+  }, [welcomeText]);
 
-    const fetchData = async () => {
-      try {
-        setLoading(true);
-        setError(null);
-
-        const apiUrl = `${config.api_base_url}/projects`;
-        console.log(`Requesting: ${apiUrl} for username: ${config.username}`);
-
-        const response = await fetch(apiUrl, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ username: config.username }),
-        });
-        
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        
-        const data: ProjectsResponse = await response.json();
-        
-        setProjectsData(data);
-        setWelcomeText(data.welcome_text);
-
-      } catch (err) {
-        setError(err instanceof Error ? err.message : 'Failed to fetch projects data');
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchData();
-  }, [config, configLoading, configError]);
-
-  return { projectsData, welcomeText, loading: loading || configLoading, error: error || configError };
+  return { projectsData, welcomeText, loading, error };
 }
 
 export default useProjectsData; 
