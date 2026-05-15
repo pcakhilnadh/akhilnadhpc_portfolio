@@ -75,8 +75,15 @@ export const personalProfile: PersonalProfile = {
   tagline: "Lead Data Scientist at Air India",
   designation: "Lead Data Scientist",
   short_summary: "Experienced ML engineer. \nSpecialized in GenAI and Machine Learning Solutions.",
-  long_descriptive_summary:
-    "A passionate machine learning engineer having 4+ years of experience in computer vision and artificial intelligence. I've worked in the automotive division solving challenging problems and building solutions related to gesture navigation; drowsiness detection; vehicle collision warning; radar camera fusion etc. Seeking a challenging position where my knowledge; talent; hard work; dedication and sincerity can create a significat value.",
+  long_descriptive_summary: `A highly driven and passionate Machine Learning Engineer with a strong inclination towards applying AI to real-world problems, particularly in the domains of Computer Vision and Natural Language Processing.
+
+With over 6.5 years of experience spanning the aviation, automotive, and industrial sectors, I have successfully built and deployed AI-powered solutions that contribute to operational efficiency, automation, and better decision making. My expertise lies in translating complex business requirements into impactful, scalable solutions while addressing performance, efficiency, and scalability challenges.
+
+Currently working as a Lead Data Scientist at AIR INDIA, I am actively involved in developing and deploying computer vision and LLM-based systems. Key projects include queue and passenger behavior analysis, LLM-powered passport and visa verification, AI-based food waste assessment & volumetric prediction, and facial recognition systems for VIP passenger identification. I also work on LLaMA fine-tuning with LoRA for building domain-specific language  and vision models.
+
+Prior to this, my professional journey includes impactful contributions in the automotive and oil industries, where I developed solutions in gesture navigation, drowsiness detection, collision prediction, and predictive maintenance.
+
+My technical expertise lies in Python, Deep Learning, TensorFlow, PyTorch, OpenCV, and deploying models at scale.`,
   profile_image: "https://d2ajlz7o3p8ddv.cloudfront.net/media/user_profile/profile-img.jpg",
   marital_status: "Married",
   address_street: "Pullolikkal House",
