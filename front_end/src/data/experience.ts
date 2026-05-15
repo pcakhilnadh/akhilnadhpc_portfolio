@@ -83,6 +83,28 @@ export const companyReferences: CompanyReference[] = [
     linkedin_url: "https://www.linkedin.com/in/mohammed-riyaz-srambikkal/",
     relationship: "Manager",
   },
+  {
+    _id: "ref_003",
+    username: "akhilnadhpc",
+    company_id: "work_exp_002",
+    reference_name: "Jishad AV",
+    designation: "Lead Data Scientist",
+    email: undefined,
+    phone: undefined,
+    linkedin_url: "https://www.linkedin.com/in/jishadav",
+    relationship: "Manger",
+  },
+  {
+    _id: "ref_004",
+    username: "akhilnadhpc",
+    company_id: "work_exp_002",
+    reference_name: "Vijay Krishna Menon",
+    designation: "AI/ML Architect",
+    email: undefined,
+    phone: undefined,
+    linkedin_url: "https://www.linkedin.com/in/drvkm/",
+    relationship: "Solution Architect",
+  },
 ];
 
 // Work Experience Projects (junction table - currently empty in CSV)
@@ -109,15 +131,15 @@ export const calculateExperienceDuration = (startDate: string, endDate?: string)
   const end = endDate ? new Date(endDate) : new Date();
   const years = end.getFullYear() - start.getFullYear();
   const months = end.getMonth() - start.getMonth();
-  
+
   if (months < 0) {
     return `${years - 1} year${years - 1 !== 1 ? "s" : ""}`;
   }
-  
+
   if (years === 0) {
     return `${months} month${months !== 1 ? "s" : ""}`;
   }
-  
+
   return `${years} year${years !== 1 ? "s" : ""} ${months} month${months !== 1 ? "s" : ""}`;
 };
 
