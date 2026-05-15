@@ -15,6 +15,8 @@ import ProjectDetails from '@/pages/ProjectDetails'
 import Certifications from '@/pages/Certifications'
 import Services from '@/pages/Services'
 import Resume from '@/pages/Resume'
+import NotFound from '@/pages/NotFound'
+import ServerError from '@/pages/ServerError'
 import { UserProfile } from '@/types/data'
 import { cn } from '@/lib/utils'
 
@@ -94,17 +96,7 @@ function AppContent() {
 
   // Error state
   if (error || !personalData) {
-    return (
-      <div className="min-h-screen bg-background text-foreground flex items-center justify-center px-4">
-        <div className="flex flex-col items-center gap-4 text-center max-w-md">
-          <p className="text-destructive text-lg">Failed to load portfolio data</p>
-          <p className="text-muted-foreground text-sm">{error || 'No data available'}</p>
-          <Button onClick={() => window.location.reload()}>
-            Retry
-          </Button>
-        </div>
-      </div>
-    )
+    return <ServerError error={error || 'No data available'} fullScreen={true} />
   }
 
   return (
@@ -133,7 +125,7 @@ function AppContent() {
                 <Route path="/projects/:projectId" element={<ProjectDetails setNavbarWelcomeText={setNavbarWelcomeText} />} />
                 <Route path="/services" element={<Services setNavbarWelcomeText={setNavbarWelcomeText} />} />
                 <Route path="/certifications" element={<Certifications setNavbarWelcomeText={setNavbarWelcomeText} />} />
-                <Route path="*" element={<Navigate to="/" replace />} />
+                <Route path="*" element={<NotFound setNavbarWelcomeText={setNavbarWelcomeText} />} />
               </Routes>
             </HorizontalLayout>
           </main>
