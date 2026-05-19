@@ -1,363 +1,549 @@
 /**
  * Projects Data
- * Contains projects and their relationships to skills, achievements, and ML models
+ * Industry-grade project structure for AI/ML projects
  */
 
 export interface Project {
   _id: string;
   username: string;
+
+  // Basic Information
   title: string;
+  slug?: string;
   short_description: string;
-  long_description: string;
-  project_type: string;
-  status: string;
-  github_url?: string;
-  live_url?: string;
-  notion_url?: string;
+  long_description?: string;
+
+  project_type: "POC" | "Project" | "Personal";
+
+  domain?: string[];
+  industry?: string[];
+  skills?: string[];
+
+  status:
+  | "Ideation"
+  | "Research"
+  | "Development"
+  | "Completed";
+
+  // Timeline
   start_date: string;
   end_date?: string;
+  duration?: string;
+
+  // Ownership
   role: string;
-  company: string;
-  hosting_platform?: string;
-  cicd_pipeline?: string;
-  monitoring_tracking?: string;
+  company?: string;
+  team_size?: number;
+
+  // Recruiter Facing Metrics
+  highlights?: ProjectHighlight[];
+
+  // Business Context
+  problem_statement?: string;
+  business_impact?: string[];
+
+  // Architecture
+  architecture_overview?: string;
+  workflow_steps?: string[];
+  architecture_image?: string;
+
+  // Dataset Information
+  datasets?: Dataset[];
+
+  // Models
+  models?: MLModel[];
+
+  // Deployment
+  deployment?: DeploymentConfig;
+
+  // Operations / MLOps
+  operations?: OperationsConfig;
+
+  // Technologies
+  technologies?: string[];
+  frameworks?: string[];
+  libraries?: string[];
+  cloud_services?: string[];
+
+  // Visualization
+  dashboard_tools?: string[];
+
+  // Media
+  thumbnail_url?: string;
+  images?: string[];
+  videos?: string[];
+
+  // External Links
+  github_url?: string;
+  live_url?: string;
+  documentation_url?: string;
+  research_paper_url?: string;
+
+  // Search & Filters
+  tags?: string[];
+
 }
 
-export interface ProjectSkill {
-  _id: string;
-  project_id: string;
-  skill_id: string;
+export interface ProjectHighlight {
+  label: string;
+  value: string;
+  category?:
+  | "Performance"
+  | "Accuracy"
+  | "Scale"
+  | "Business"
+  | "Cost"
+  | "Efficiency";
 }
 
-export interface ProjectAchievement {
-  _id: string;
-  project_id: string;
-  achievement_title: string;
-  achievement_description: string;
+export interface Dataset {
+  name: string;
+  type?: "Public" | "Private" | "Custom";
+  description?: string;
+  source?: string;
+  size?: string;
 }
 
 export interface MLModel {
-  _id: string;
-  name: string;
-  model_type: string;
-  framework: string;
-  version: string;
-  training_data_size: string;
-  deployment_status: string;
-  description: string;
+  component_name: string;
+  model_name: string;
+  model_type:
+  | "Classification"
+  | "Detection"
+  | "Segmentation"
+  | "Regression"
+  | "Generation"
+  | "Embedding"
+  | "LLM"
+  | "RAG"
+  | "Forecasting"
+  | "Recommendation"
+  | "Depth Estimation"
+  | "OCR";
+  purpose?: string;
+  framework?: string;
+  training_type?:
+  | "Pretrained"
+  | "Fine-tuned"
+  | "Custom Trained"
+  | "Transfer Learning";
+  dataset_used?: string[];
+  metrics?: {
+    accuracy?: number;
+    precision?: number;
+    recall?: number;
+    f1_score?: number;
+    latency?: string;
+    custom_metrics?: Record<string, string | number>;
+  };
+  optimization?: string[];
+  inference_location?: "Edge" | "Cloud" | "Hybrid";
+  training_config?: TrainingConfig;
 }
 
-export interface ProjectMLModel {
-  _id: string;
-  project_id: string;
-  ml_model_id: string;
-  model_role: string;
-  model_version: string;
+export interface TrainingConfig {
+  platform?: string;
+  gpu?: string[];
+  epochs?: number;
+  batch_size?: number;
+  optimizer?: string;
+  learning_rate?: number;
+  scheduler?: string;
+  loss_functions?: string[];
+  augmentations?: string[];
+  quantization?: string[];
+  fine_tuning_method?: string;
+  max_tokens?: number;
+  context_window?: number;
+  embedding_dimension?: number;
+  experiment_tracking?: string[];
+  notes?: string;
 }
 
-export interface MLModelEvaluationMetric {
-  _id: string;
-  ml_model_id: string;
-  metric_name: string;
-  metric_value: string | number;
-  metric_type: string;
+export interface DeploymentConfig {
+  deployment_type?: "Cloud" | "Edge" | "Hybrid";
+  edge_device?: string;
+  cloud_provider?: string;
+  hosting_platform?: string;
+  runtime?: string[];
+  api_framework?: string;
+  ci_cd_tools?: string[];
+  scalability?: string[];
+  inference_latency?: string;
 }
 
-export interface MLModelTrainingParameter {
-  _id: string;
-  ml_model_id: string;
-  parameter_name: string;
-  parameter_value: string | number;
-  parameter_type: string;
+export interface OperationsConfig {
+  monitoring?: string[];
+  logging?: string[];
+  alerting?: string[];
+  retraining_strategy?: string;
+  experiment_tracking?: string[];
+  data_versioning?: string[];
 }
 
-export interface MLModelUseCase {
-  _id: string;
-  ml_model_id: string;
-  use_case_name: string;
-  business_impact: string;
-}
+// Inflight Meal Consumption Analytics Project
+export const inflightMealConsumptionAnalytics: Project = {
+  _id: "project_011",
+  username: "akhilnadhpc",
+  title: "End-to-End Inflight Meal Consumption Analytics",
+  slug: "end-to-end-inflight-meal-consumption-analytics",
+  short_description:
+    "AI-powered computer vision platform for automated inflight food waste analytics using edge AI and Azure cloud infrastructure.",
+  long_description:
+    "Designed and developed an end-to-end inflight meal consumption analytics platform for automated food waste analysis in airline catering operations. The solution leveraged edge AI using NVIDIA Jetson Orin Nano for real-time tray detection and cloud-based AI pipelines for food classification, depth estimation, and regional consumption analytics. The system automated manual auditing workflows and enabled data-driven catering optimization.",
+  project_type: "Project",
+  domain: [
+    "Computer Vision",
+    "Edge AI",
+    "MLOps",
+    "Cloud AI",
+    "Deep Learning",
+  ],
+  industry: [
+    "Aviation",
+    "Airline Catering",
+    "Sustainability Analytics",
+  ],
+  skills: [
+    "Computer Vision",
+    "Deep Learning",
+    "Object Detection",
+    "Image Classification",
+    "Depth Estimation",
+    "Edge Deployment",
+    "Model Optimization",
+    "MLOps",
+    "Cloud Deployment",
+    "Real-Time Inference",
+  ],
+  status: "Completed",
+  start_date: "2024-01-01",
+  end_date: "2024-08-31",
+  duration: "8 Months",
+  role: "Data Scientist",
+  company: "work_exp_002",
+  team_size: 6,
+  highlights: [
+    {
+      label: "Food Classification Accuracy",
+      value: "92%",
+      category: "Accuracy",
+    },
+    {
+      label: "Edge Inference Latency",
+      value: "<50 ms",
+      category: "Performance",
+    },
+    {
+      label: "Manual Auditing Reduction",
+      value: "80%",
+      category: "Business",
+    },
+    {
+      label: "Tray Processing Capacity",
+      value: "50K+ trays/day",
+      category: "Scale",
+    },
+  ],
+  problem_statement:
+    "Airline catering teams lacked visibility into meal consumption patterns and inflight food wastage. Existing manual auditing processes were inconsistent, expensive, and non-scalable across multiple regions. The project aimed to automate tray analysis and generate actionable waste analytics using computer vision and cloud AI.",
+  business_impact: [
+    "Enabled automated inflight food waste analytics",
+    "Reduced catering overproduction through consumption insights",
+    "Improved sustainability and waste reporting",
+    "Automated manual meal auditing workflows",
+    "Provided region-wise food consumption trends for operational optimization",
+  ],
+  architecture_overview:
+    "Built a hybrid edge-cloud AI pipeline where conveyor belt tray images were processed on NVIDIA Jetson Orin Nano using YOLOv8 for tray detection and OpenCV for plate validation. Validated images were uploaded to Azure Blob Storage for cloud-based food classification and volumetric estimation pipelines, followed by analytics dashboard generation using Power BI.",
+  workflow_steps: [
+    "Industrial camera mounted above conveyor belt captures tray movement",
+    "YOLOv8 Nano running on Jetson Orin Nano detects trays in real time",
+    "OpenCV validates fully visible tray boundaries",
+    "Validated tray images uploaded to Azure Blob Storage",
+    "Cloud pipeline performs food classification using EfficientNet",
+    "Depth estimation model predicts remaining food volume",
+    "Waste analytics aggregated region-wise and stored in cloud databases",
+    "Power BI dashboards visualize operational insights",
+  ],
+  architecture_image: "/assets/projects/inflight-meal-analytics/architecture.png",
+  datasets: [
+    {
+      name: "FoodNet",
+      type: "Public",
+      description:
+        "Public food image dataset used for food classification model training",
+      source: "FoodNet",
+    },
+    {
+      name: "Airline Tray Dataset",
+      type: "Custom",
+      description:
+        "Custom annotated tray images collected from inflight catering operations",
+      size: "50K+ annotated tray images",
+    },
+  ],
+  models: [
+    {
+      component_name: "Tray Detection",
+      model_name: "YOLOv8 Nano",
+      model_type: "Detection",
+      purpose: "Real-time tray and plate detection on conveyor belt images",
+      framework: "PyTorch",
+      training_type: "Fine-tuned",
+      dataset_used: ["Airline Tray Dataset"],
+      metrics: {
+        accuracy: 0.94,
+        precision: 0.91,
+        recall: 0.9,
+        latency: "<30 ms",
+        custom_metrics: {
+          mAP50: 0.94,
+        },
+      },
+      optimization: ["TensorRT Optimization", "FP16 Quantization", "ONNX Conversion"],
+      inference_location: "Edge",
+      training_config: {
+        platform: "Azure ML",
+        gpu: ["NVIDIA A100"],
+        epochs: 100,
+        batch_size: 32,
+        optimizer: "AdamW",
+        learning_rate: 0.001,
+        augmentations: [
+          "Rotation",
+          "Motion Blur",
+          "Brightness Variation",
+          "Occlusion",
+        ],
+        experiment_tracking: ["MLflow"],
+        notes: "Model optimized for low-latency edge inference on Jetson Orin Nano",
+      },
+    },
+    {
+      component_name: "Food Classification",
+      model_name: "EfficientNet-B3",
+      model_type: "Classification",
+      purpose: "Classify food categories from tray images",
+      framework: "PyTorch",
+      training_type: "Transfer Learning",
+      dataset_used: ["FoodNet"],
+      metrics: {
+        accuracy: 0.92,
+        latency: "<100 ms",
+      },
+      optimization: ["Mixed Precision Inference"],
+      inference_location: "Cloud",
+      training_config: {
+        platform: "Azure ML",
+        gpu: ["NVIDIA V100"],
+        epochs: 50,
+        batch_size: 64,
+        optimizer: "Adam",
+        learning_rate: 0.0005,
+        scheduler: "Cosine Annealing",
+        augmentations: [
+          "Random Crop",
+          "Color Jitter",
+          "Illumination Correction",
+        ],
+        experiment_tracking: ["MLflow"],
+      },
+    },
+    {
+      component_name: "Food Volume Estimation",
+      model_name: "MiDaS",
+      model_type: "Depth Estimation",
+      purpose:
+        "Estimate remaining food volume using monocular depth estimation",
+      framework: "PyTorch",
+      training_type: "Fine-tuned",
+      metrics: {
+        latency: "<150 ms",
+      },
+      optimization: ["FP16 Inference"],
+      inference_location: "Cloud",
+      training_config: {
+        platform: "Azure ML",
+        gpu: ["NVIDIA A100"],
+        epochs: 80,
+        batch_size: 16,
+        optimizer: "AdamW",
+        learning_rate: 0.0001,
+        loss_functions: ["RMSE Loss", "Scale Invariant Depth Loss"],
+      },
+    },
+  ],
+  deployment: {
+    deployment_type: "Hybrid",
+    edge_device: "NVIDIA Jetson Orin Nano",
+    cloud_provider: "Microsoft Azure",
+    hosting_platform: "Azure Kubernetes Service",
+    runtime: ["TensorRT", "DeepStream SDK", "Docker", "CUDA"],
+    api_framework: "FastAPI",
+    ci_cd_tools: ["Azure DevOps"],
+    scalability: [
+      "Event-Driven Architecture",
+      "Cloud Horizontal Scaling",
+      "Asynchronous Inference Pipeline",
+    ],
+    inference_latency: "<500 ms end-to-end pipeline latency",
+  },
+  operations: {
+    monitoring: [
+      "Azure ML Monitoring",
+      "Prediction Drift Monitoring",
+      "Inference Latency Monitoring",
+      "Model Accuracy Tracking",
+    ],
+    logging: ["Azure Application Insights", "Centralized Cloud Logging"],
+    alerting: [
+      "Inference Failure Alerts",
+      "Data Drift Alerts",
+      "Pipeline Health Alerts",
+    ],
+    retraining_strategy:
+      "Monthly retraining using newly collected tray images and human-reviewed low-confidence predictions",
+    experiment_tracking: ["MLflow"],
+    data_versioning: ["DVC"],
+  },
+  technologies: [
+    "Python",
+    "Azure",
+    "Docker",
+    "TensorRT",
+    "CUDA",
+    "FastAPI",
+  ],
+  frameworks: [
+    "PyTorch",
+    "YOLOv8",
+    "EfficientNet",
+    "MiDaS",
+  ],
+  libraries: [
+    "OpenCV",
+    "NumPy",
+    "Pandas",
+  ],
+  cloud_services: [
+    "Azure Blob Storage",
+    "Azure Functions",
+    "Azure ML",
+    "Azure Kubernetes Service",
+    "Azure SQL Database",
+  ],
+  dashboard_tools: [
+    "Power BI",
+  ],
+  thumbnail_url: "/assets/projects/inflight-meal-analytics/thumbnail.png",
+  images: [
+    "/assets/projects/inflight-meal-analytics/architecture.png",
+    "/assets/projects/inflight-meal-analytics/dashboard.png",
+    "/assets/projects/inflight-meal-analytics/detection-output.png",
+  ],
+  tags: [
+    "Computer Vision",
+    "Edge AI",
+    "Deep Learning",
+    "Azure",
+    "MLOps",
+    "Food Analytics",
+    "Real-Time Inference",
+    "Object Detection",
+  ],
+};
 
 // Projects
-export const projects: Project[] = [
-  {
-    _id: "project_001",
-    username: "akhilnadhpc",
-    title: "Sensor Fusion For Virtual Turn Assist",
-    short_description: "ML-based POC for real-time car detection and collision probability using radar and camera fusion",
-    long_description:
-      "Led a team of 5; contributed to ROS2 node design; custom message formats; real-time performance; ML prediction code using Pytorch",
-    project_type: "POC",
-    status: "Completed",
-    github_url: undefined,
-    live_url: undefined,
-    notion_url: undefined,
-    start_date: "2023-01-01",
-    end_date: undefined,
-    role: "Technical Lead",
-    company: "work_exp_001",
-    hosting_platform: undefined,
-    cicd_pipeline: undefined,
-    monitoring_tracking: undefined,
-  },
-  {
-    _id: "project_002",
-    username: "akhilnadhpc",
-    title: "Radar Solution For Virtual Turn Assist",
-    short_description: "Radar-based real-time automobile detection and collision estimation",
-    long_description:
-      "Developed code for concurrent sensor data reading; OBD async speed parsing; TCP comms between Unity and Python; codebase design and tuning",
-    project_type: "POC",
-    status: "Completed",
-    github_url: undefined,
-    live_url: undefined,
-    notion_url: undefined,
-    start_date: "2023-01-01",
-    end_date: undefined,
-    role: "Developer",
-    company: "work_exp_001",
-    hosting_platform: undefined,
-    cicd_pipeline: undefined,
-    monitoring_tracking: undefined,
-  },
-  {
-    _id: "project_003",
-    username: "akhilnadhpc",
-    title: "Gesture and Drowsiness Detection To Assist Driver",
-    short_description: "ML model for gesture and drowsiness detection in vehicles",
-    long_description: "Integrated head pose recognition; OpenCV UI; gesture model; LSTM-based sequential model",
-    project_type: "POC",
-    status: "Completed",
-    github_url: undefined,
-    live_url: undefined,
-    notion_url: undefined,
-    start_date: "2022-01-01",
-    end_date: "2023-12-31",
-    role: "Developer",
-    company: "work_exp_001",
-    hosting_platform: undefined,
-    cicd_pipeline: undefined,
-    monitoring_tracking: undefined,
-  },
-  {
-    _id: "project_004",
-    username: "akhilnadhpc",
-    title: "Issue Prediction Tool",
-    short_description: "NLP-based tool for predicting system/component damage",
-    long_description: "Custom ML models for text input; context evaluation; system prediction",
-    project_type: "POC",
-    status: "Completed",
-    github_url: undefined,
-    live_url: undefined,
-    notion_url: undefined,
-    start_date: "2021-01-01",
-    end_date: "2022-12-31",
-    role: "Developer",
-    company: "work_exp_001",
-    hosting_platform: undefined,
-    cicd_pipeline: undefined,
-    monitoring_tracking: undefined,
-  },
-  {
-    _id: "project_005",
-    username: "akhilnadhpc",
-    title: "PDF Data Digitization Tool",
-    short_description: "AI tool for parsing and digitizing PDF documents",
-    long_description: "NLP search engine; PDF-to-text; NER; vector space model; MongoDB storage",
-    project_type: "POC",
-    status: "Completed",
-    github_url: undefined,
-    live_url: undefined,
-    notion_url: undefined,
-    start_date: "2020-01-01",
-    end_date: "2021-12-31",
-    role: "Developer",
-    company: "work_exp_001",
-    hosting_platform: undefined,
-    cicd_pipeline: undefined,
-    monitoring_tracking: undefined,
-  },
-  {
-    _id: "project_006",
-    username: "akhilnadhpc",
-    title: "AR Navigation",
-    short_description: "Android app for AR-based navigation",
-    long_description: "ML models for road boundary/flood detection; precise navigation",
-    project_type: "POC",
-    status: "Completed",
-    github_url: undefined,
-    live_url: undefined,
-    notion_url: undefined,
-    start_date: "2019-01-01",
-    end_date: "2020-12-31",
-    role: "Developer",
-    company: "work_exp_001",
-    hosting_platform: undefined,
-    cicd_pipeline: undefined,
-    monitoring_tracking: undefined,
-  },
-  {
-    _id: "project_007",
-    username: "akhilnadhpc",
-    title: "HMI Surface Projection and HVPA",
-    short_description: "Camera-based HMI for menu projection and holographic assistant",
-    long_description: "Hand detection; menu projection; Unity-based holographic assistant",
-    project_type: "POC",
-    status: "Completed",
-    github_url: undefined,
-    live_url: undefined,
-    notion_url: undefined,
-    start_date: "2019-01-01",
-    end_date: "2020-12-31",
-    role: "Developer",
-    company: "work_exp_001",
-    hosting_platform: undefined,
-    cicd_pipeline: undefined,
-    monitoring_tracking: undefined,
-  },
-  {
-    _id: "project_008",
-    username: "akhilnadhpc",
-    title: "Mid Air Haptics in Unity & Hand Tracking",
-    short_description: "Hand tracking and haptics in Unity",
-    long_description: "Hand tracking and mid-air haptics in Unity",
-    project_type: "POC",
-    status: "Completed",
-    github_url: undefined,
-    live_url: undefined,
-    notion_url: undefined,
-    start_date: "2019-01-01",
-    end_date: "2020-12-31",
-    role: "Developer",
-    company: "work_exp_001",
-    hosting_platform: undefined,
-    cicd_pipeline: undefined,
-    monitoring_tracking: undefined,
-  },
-  {
-    _id: "project_009",
-    username: "akhilnadhpc",
-    title: "Portfolio WebApp",
-    short_description:
-      "Modern full-stack personal portfolio application with React frontend and FastAPI backend",
-    long_description:
-      "A comprehensive portfolio website featuring dynamic content loading from CSV data; modern UI/UX with dark/light mode; responsive design; Docker containerization; and clean architecture principles. Built with React TypeScript Vite Tailwind CSS frontend and FastAPI Python backend",
-    project_type: "Project",
-    status: "Completed",
-    github_url: "https://github.com/pcakhilnadh/akhilnadhpc_portfolio",
-    live_url: "https://akhilnadhpc.in/",
-    notion_url: "https://github.com/pcakhilnadh/akhilnadhpc_portfolio/blob/main/README.md",
-    start_date: "2025-06-15",
-    end_date: undefined,
-    role: "Full Stack Developer",
-    company: "Personal",
-    hosting_platform: "Google Cloud Run",
-    cicd_pipeline: "Docker GitHub Actions",
-    monitoring_tracking: undefined,
-  },
-  {
-    _id: "project_010",
-    username: "akhilnadhpc",
-    title: "My Wedding site - Akhil Weds Sethu",
-    short_description: "Personal wedding website built with AI assistance",
-    long_description: "Development of a personal wedding website using Claude and Agentic Code.",
-    project_type: "Project",
-    status: "Completed",
-    github_url: "https://github.com/pcakhilnadh/SethuWedsAkhil",
-    live_url: "http://sethu-weds-akhil.vercel.app/",
-    notion_url: undefined,
-    start_date: "2026-01-01",
-    end_date: "2026-03-31",
-    role: "Developer",
-    company: "Personal",
-    hosting_platform: "Vercel",
-    cicd_pipeline: undefined,
-    monitoring_tracking: undefined,
-  },
-];
+export const projects: Project[] = [inflightMealConsumptionAnalytics];
 
-// Project Skills (junction table)
-export const projectSkills: ProjectSkill[] = [
-  { _id: "proj_skill_001", project_id: "project_001", skill_id: "skill_037" },
-  { _id: "proj_skill_002", project_id: "project_001", skill_id: "skill_007" },
-  { _id: "proj_skill_003", project_id: "project_001", skill_id: "skill_006" },
-  { _id: "proj_skill_004", project_id: "project_001", skill_id: "skill_030" },
-  { _id: "proj_skill_005", project_id: "project_002", skill_id: "skill_037" },
-  { _id: "proj_skill_006", project_id: "project_002", skill_id: "skill_009" },
-  { _id: "proj_skill_007", project_id: "project_002", skill_id: "skill_012" },
-  { _id: "proj_skill_008", project_id: "project_003", skill_id: "skill_037" },
-  { _id: "proj_skill_009", project_id: "project_003", skill_id: "skill_041" },
-  { _id: "proj_skill_010", project_id: "project_003", skill_id: "skill_007" },
-  { _id: "proj_skill_011", project_id: "project_003", skill_id: "skill_006" },
-  { _id: "proj_skill_012", project_id: "project_003", skill_id: "skill_011" },
-  { _id: "proj_skill_013", project_id: "project_004", skill_id: "skill_041" },
-  { _id: "proj_skill_014", project_id: "project_004", skill_id: "skill_042" },
-  { _id: "proj_skill_015", project_id: "project_004", skill_id: "skill_002" },
-  { _id: "proj_skill_016", project_id: "project_005", skill_id: "skill_041" },
-  { _id: "proj_skill_017", project_id: "project_005", skill_id: "skill_042" },
-  { _id: "proj_skill_018", project_id: "project_005", skill_id: "skill_011" },
-  { _id: "proj_skill_019", project_id: "project_005", skill_id: "skill_017" },
-  { _id: "proj_skill_020", project_id: "project_006", skill_id: "skill_037" },
-  { _id: "proj_skill_021", project_id: "project_006", skill_id: "skill_006" },
-  { _id: "proj_skill_022", project_id: "project_007", skill_id: "skill_037" },
-  { _id: "proj_skill_023", project_id: "project_007", skill_id: "skill_025" },
-  { _id: "proj_skill_024", project_id: "project_008", skill_id: "skill_037" },
-  { _id: "proj_skill_025", project_id: "project_008", skill_id: "skill_038" },
-];
+// Helper Functions
 
-// Project Achievements (junction table - currently empty in CSV)
-export const projectAchievements: ProjectAchievement[] = [];
-
-// ML Models (currently empty in CSV)
-export const mlModels: MLModel[] = [];
-
-// Project ML Models (junction table - currently empty in CSV)
-export const projectMLModels: ProjectMLModel[] = [];
-
-// ML Model Evaluation Metrics (currently empty in CSV)
-export const mlModelEvaluationMetrics: MLModelEvaluationMetric[] = [];
-
-// ML Model Training Parameters (currently empty in CSV)
-export const mlModelTrainingParameters: MLModelTrainingParameter[] = [];
-
-// ML Model Use Cases (currently empty in CSV)
-export const mlModelUseCases: MLModelUseCase[] = [];
-
-// Helper function to get project by ID
+// Get project by ID
 export const getProjectById = (projectId: string): Project | undefined => {
   return projects.find((proj) => proj._id === projectId);
 };
 
-// Helper function to get skills for a project
-export const getSkillsForProject = (projectId: string): string[] => {
-  return projectSkills.filter((ps) => ps.project_id === projectId).map((ps) => ps.skill_id);
+// Get project by slug
+export const getProjectBySlug = (slug: string): Project | undefined => {
+  return projects.find((proj) => proj.slug === slug);
 };
 
-// Helper function to get projects by username
+// Get projects by username
 export const getProjectsByUsername = (username: string): Project[] => {
   return projects.filter((proj) => proj.username === username);
 };
 
-// Helper function to get projects by status
-export const getProjectsByStatus = (status: string): Project[] => {
+// Get projects by status
+export const getProjectsByStatus = (status: Project["status"]): Project[] => {
   return projects.filter((proj) => proj.status === status);
 };
 
-// Helper function to calculate project duration
-export const calculateProjectDuration = (startDate: string, endDate?: string): string => {
+// Get projects by domain
+export const getProjectsByDomain = (domain: string): Project[] => {
+  return projects.filter((proj) => proj.domain?.includes(domain));
+};
+
+// Get projects by industry
+export const getProjectsByIndustry = (industry: string): Project[] => {
+  return projects.filter((proj) => proj.industry?.includes(industry));
+};
+
+// Get projects by tag
+export const getProjectsByTag = (tag: string): Project[] => {
+  return projects.filter((proj) => proj.tags?.includes(tag));
+};
+
+// Get unique domains from all projects
+export const getAllDomains = (): string[] => {
+  const domains = new Set<string>();
+  projects.forEach((proj) => {
+    proj.domain?.forEach((d) => domains.add(d));
+  });
+  return Array.from(domains).sort();
+};
+
+// Get unique industries from all projects
+export const getAllIndustries = (): string[] => {
+  const industries = new Set<string>();
+  projects.forEach((proj) => {
+    proj.industry?.forEach((i) => industries.add(i));
+  });
+  return Array.from(industries).sort();
+};
+
+// Get unique technologies from all projects
+export const getAllTechnologies = (): string[] => {
+  const techs = new Set<string>();
+  projects.forEach((proj) => {
+    proj.technologies?.forEach((t) => techs.add(t));
+    proj.frameworks?.forEach((f) => techs.add(f));
+    proj.libraries?.forEach((l) => techs.add(l));
+  });
+  return Array.from(techs).sort();
+};
+
+// Get unique tags from all projects
+export const getAllTags = (): string[] => {
+  const tags = new Set<string>();
+  projects.forEach((proj) => {
+    proj.tags?.forEach((t) => tags.add(t));
+  });
+  return Array.from(tags).sort();
+};
+
+// Calculate project duration in months
+export const calculateProjectDuration = (startDate: string, endDate?: string): number => {
   const start = new Date(startDate);
   const end = endDate ? new Date(endDate) : new Date();
-  const months = Math.round((end.getTime() - start.getTime()) / (1000 * 60 * 60 * 24 * 30));
+  return Math.round((end.getTime() - start.getTime()) / (1000 * 60 * 60 * 24 * 30));
+};
 
-  if (months === 0) {
-    return "< 1 month";
-  }
-  if (months === 1) {
-    return "1 month";
-  }
-  if (months < 12) {
-    return `${months} months`;
-  }
+// Format duration string
+export const formatDurationString = (months: number): string => {
+  if (months === 0) return "< 1 month";
+  if (months === 1) return "1 month";
+  if (months < 12) return `${months} months`;
 
   const years = Math.floor(months / 12);
   const remainingMonths = months % 12;
@@ -369,7 +555,31 @@ export const calculateProjectDuration = (startDate: string, endDate?: string): s
   return `${years} year${years !== 1 ? "s" : ""} ${remainingMonths} month${remainingMonths !== 1 ? "s" : ""}`;
 };
 
-// Helper function to check if project is current
+// Check if project is current
 export const isCurrentProject = (proj: Project): boolean => {
   return !proj.end_date;
+};
+
+// Get all project highlights
+export const getProjectHighlights = (projectId: string): ProjectHighlight[] => {
+  const project = getProjectById(projectId);
+  return project?.highlights || [];
+};
+
+// Get all models for a project
+export const getProjectModels = (projectId: string): MLModel[] => {
+  const project = getProjectById(projectId);
+  return project?.models || [];
+};
+
+// Get all datasets for a project
+export const getProjectDatasets = (projectId: string): Dataset[] => {
+  const project = getProjectById(projectId);
+  return project?.datasets || [];
+};
+
+// Get all skills for a project
+export const getProjectSkills = (projectId: string): string[] => {
+  const project = getProjectById(projectId);
+  return project?.skills || [];
 };

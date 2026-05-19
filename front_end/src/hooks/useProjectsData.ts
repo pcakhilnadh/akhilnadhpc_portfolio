@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { ProjectsDomainData, Project as ProjectType } from '@/types/data';
-import { projects, projectSkills, getSkillById, getWorkExperienceById } from '@/data';
+import { projects, getWorkExperienceById } from '@/data';
 
 interface ProjectsDataReturn {
   projectsData: ProjectsDomainData | null;
@@ -17,17 +17,16 @@ function useProjectsData(): ProjectsDataReturn {
 
   useEffect(() => {
     try {
-      // Transform projects data into ProjectsDomainData format
       const transformedProjects: ProjectType[] = projects.map((project) => {
-        const projectSkillIds = projectSkills
-          .filter((ps) => ps.project_id === project._id)
-          .map((ps) => ps.skill_id);
+        const company = getWorkExperienceById(project.company || '');
 
-        const skillObjects = projectSkillIds
-          .map((skillId) => getSkillById(skillId))
-          .filter((skill) => skill !== undefined) as any[];
-
-        const company = getWorkExperienceById(project.company);
+        const skillObjects = (project.skills || []).map((name) => ({
+          id: name,
+          name,
+          rating: 5,
+          description: '',
+          category: { id: '', name: '', description: '' },
+        }));
 
         return {
           id: project._id,
@@ -37,7 +36,7 @@ function useProjectsData(): ProjectsDataReturn {
           status: project.status,
           github_url: project.github_url,
           live_url: project.live_url,
-          notion_url: project.notion_url,
+          notion_url: undefined,
           start_date: project.start_date,
           end_date: project.end_date,
           role: project.role,
@@ -48,9 +47,9 @@ function useProjectsData(): ProjectsDataReturn {
               }
             : undefined,
           skills: skillObjects,
-          hosting_platform: project.hosting_platform,
-          cicd_pipeline: project.cicd_pipeline,
-          monitoring_tracking: project.monitoring_tracking,
+          hosting_platform: project.deployment?.hosting_platform,
+          cicd_pipeline: project.deployment?.ci_cd_tools?.join(', '),
+          monitoring_tracking: project.operations?.monitoring?.join(', '),
         };
       });
 
@@ -69,4 +68,4 @@ function useProjectsData(): ProjectsDataReturn {
   return { projectsData, welcomeText, loading, error };
 }
 
-export default useProjectsData; 
+export default useProjectsData;
