@@ -92,7 +92,7 @@ My technical expertise lies in Python, Deep Learning, TensorFlow, PyTorch, OpenC
   address_country: "India",
   address_postal_code: "680121",
   resume_summary:
-    "A passionate machine learning engineer having 4+ years of experience in computer vision and artificial intelligence. I've worked in the automotive division solving challenging problems and building solutions related to gesture navigation; drowsiness detection; vehicle collision warning; radar camera fusion etc. Seeking a challenging position where my knowledge; talent; hard work; dedication and sincerity can create a significat value.",
+    "A passionate machine learning engineer having 5+ years of experience in machine learning, artificial intelligence and Gen AI. I've worked in the airline, automotive division solving challenging problems and building solutions related to advanced invoice reconciliation using LLM, ChatBot for finance team, failed component prediction using textual data, drowsiness detection, vehicle collision warning; radar camera fusion etc. Seeking a challenging position where my knowledge; talent; hard work; dedication and sincerity can create a significat value.",
   phone_num: "9633311164",
 };
 

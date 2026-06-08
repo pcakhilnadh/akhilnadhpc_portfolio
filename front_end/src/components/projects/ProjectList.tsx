@@ -15,10 +15,12 @@ import {
   ChevronDown,
   Zap,
   SlidersHorizontal,
-  Play
+  Play,
+  ArrowRight
 } from 'lucide-react';
 import { Project } from '@/types/data';
 import { Badge } from '@/components/ui/badge';
+import { calculateProjectDuration, formatDurationString } from '@/data/projects';
 
 
 interface ProjectListProps {
@@ -373,6 +375,43 @@ const ProjectList: React.FC<ProjectListProps> = ({ projects }) => {
   );
 };
 
+
+// Project Timeline Component
+interface ProjectTimelineProps {
+  startDate: string;
+  endDate?: string;
+  duration?: string;
+}
+
+const ProjectTimeline: React.FC<ProjectTimelineProps> = ({ 
+  startDate, 
+  endDate, 
+  duration
+}) => {
+  // Calculate duration in months if not provided
+  const calculateDuration = () => {
+    if (duration) return duration;
+    if (!startDate) return '';
+    
+    const months = calculateProjectDuration(startDate, endDate);
+    return formatDurationString(months);
+  };
+
+  const displayDuration = calculateDuration();
+
+  return (
+    <div className="mb-4">
+      {/* Full Width Duration Bar */}
+      <div className="flex items-center gap-3 w-full px-4 py-3 bg-gradient-to-r from-primary/10 via-secondary/10 to-highlight/10 border border-primary/30 rounded-lg">
+        <Clock className="h-5 w-5 text-secondary flex-shrink-0" />
+        <span className="text-sm font-semibold text-secondary">
+          {displayDuration}
+        </span>
+      </div>
+    </div>
+  );
+};
+
 // Simplified Project Card Component
 interface ProjectCardProps {
   project: Project;
@@ -454,8 +493,34 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, index }) => {
         {/* Card Content */}
         <div className="relative p-6 h-full flex flex-col">
           
+          {/* Status Badge - Top Right Corner */}
+          {project.status && (
+            <div className="absolute top-4 right-4 z-20">
+              <div className={`flex items-center justify-center px-3 py-1.5 rounded-lg border transition-all duration-300 shadow-sm backdrop-blur-sm ${
+                project.status.toLowerCase().includes('in progress') || project.status.toLowerCase().includes('ongoing')
+                  ? 'bg-secondary/40 text-secondary border-secondary/60 hover:bg-secondary/50'
+                  : project.status.toLowerCase().includes('completed')
+                  ? 'bg-primary/40 text-primary border-primary/60 hover:bg-primary/50'
+                  : project.status.toLowerCase().includes('paused')
+                  ? 'bg-accent-indigo/40 text-accent-indigo border-accent-indigo/60 hover:bg-accent-indigo/50'
+                  : project.status.toLowerCase().includes('development')
+                  ? 'bg-secondary/40 text-secondary border-secondary/60 hover:bg-secondary/50'
+                  : project.status.toLowerCase().includes('research')
+                  ? 'bg-highlight/40 text-highlight border-highlight/60 hover:bg-highlight/50'
+                  : 'bg-muted/40 text-muted-foreground border-muted/60 hover:bg-muted/50'
+              }`}>
+                {(project.status.toLowerCase().includes('in progress') || project.status.toLowerCase().includes('ongoing')) && (
+                  <div className="w-1.5 h-1.5 bg-current rounded-full mr-2" />
+                )}
+                <span className="text-xs font-semibold">
+                  {project.status}
+                </span>
+              </div>
+            </div>
+          )}
+          
           {/* Header Section */}
-          <div className="mb-6 relative z-10">
+          <div className="mb-6 relative z-10 pr-28">
             
             {/* Project Title */}
             <h3 className="text-xl font-bold mb-4 leading-tight group-hover:enhanced-text-primary transition-all duration-300">
@@ -475,7 +540,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, index }) => {
                 </span>
               </div>
               
-              {project.role && (
+              {/* {project.role && (
                 <div className="flex items-center group/role">
                   <div className="w-6 h-6 rounded-md bg-gradient-to-br from-primary/20 to-highlight/20 border border-primary/40 flex items-center justify-center mr-2 group-hover/role:shadow-md group-hover/role:shadow-primary/20 transition-all duration-300">
                     <Users className="h-3 w-3 text-primary group-hover/role:text-highlight transition-colors duration-300" />
@@ -484,66 +549,15 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, index }) => {
                     {project.role}
                   </span>
                 </div>
-              )}
+              )} */}
             </div>
             
-            {/* Compact 3-Column Layout: Status, Project Type, Duration */}
-            <div className="grid grid-cols-3 gap-3 mb-4">
-              {/* Status */}
-              {project.status && (
-                <div className="flex flex-col items-center">
-                  <div className={`flex items-center justify-center w-full px-2 py-1 rounded-md border transition-all duration-300 shadow-sm backdrop-blur-sm ${
-                    project.status.toLowerCase().includes('in progress') || project.status.toLowerCase().includes('ongoing')
-                      ? 'bg-secondary/40 text-secondary border-secondary/60 hover:bg-secondary/50'
-                      : project.status.toLowerCase().includes('completed')
-                      ? 'bg-primary/40 text-primary border-primary/60 hover:bg-primary/50'
-                      : project.status.toLowerCase().includes('paused')
-                      ? 'bg-accent-indigo/40 text-accent-indigo border-accent-indigo/60 hover:bg-accent-indigo/50'
-                      : 'bg-muted/40 text-muted-foreground border-muted/60 hover:bg-muted/50'
-                  }`}>
-                    {project.status.toLowerCase().includes('in progress') || project.status.toLowerCase().includes('ongoing') && (
-                      <div className="w-1.5 h-1.5 bg-current rounded-full mr-1" />
-                    )}
-                    <span className="text-xs font-semibold">
-                      {project.status}
-                    </span>
-                  </div>
-                </div>
-              )}
-
-              {/* Project Type */}
-              {project.project_type && (
-                <div className="flex flex-col items-center">
-                  <div className={`flex items-center justify-center w-full px-2 py-1 rounded-md border transition-all duration-300 shadow-sm backdrop-blur-sm ${
-                    project.project_type === 'production'
-                      ? 'bg-accent-indigo/40 text-accent-indigo border-accent-indigo/60 hover:bg-accent-indigo/50'
-                      : project.project_type === 'development'
-                      ? 'bg-secondary/40 text-secondary border-secondary/60 hover:bg-secondary/50'
-                      : project.project_type === 'poc'
-                      ? 'bg-highlight/40 text-highlight border-highlight/60 hover:bg-highlight/50'
-                      : project.project_type === 'mvp'
-                      ? 'bg-soft/40 text-soft border-soft/60 hover:bg-soft/50'
-                      : 'bg-primary/40 text-primary border-primary/60 hover:bg-primary/50'
-                  }`}>
-                    <span className="text-xs font-semibold">
-                      {project.project_type.toUpperCase()}
-                    </span>
-                  </div>
-                </div>
-              )}
-
-              {/* Duration */}
-              {project.duration && (
-                <div className="flex flex-col items-center">
-                  <div className="flex items-center justify-center w-full px-2 py-1 bg-muted/40 border border-muted/60 rounded-md hover:bg-muted/50 transition-all duration-300 backdrop-blur-sm">
-                    <Clock className="h-3 w-3 text-muted-foreground mr-1" />
-                    <span className="text-xs font-semibold text-muted-foreground">
-                      {project.duration}
-                    </span>
-                  </div>
-                </div>
-              )}
-            </div>
+            {/* Timeline Section - Enhanced Layout */}
+            <ProjectTimeline 
+              startDate={project.start_date} 
+              endDate={project.end_date}
+              duration={project.duration}
+            />
           </div>
 
           {/* Description */}
