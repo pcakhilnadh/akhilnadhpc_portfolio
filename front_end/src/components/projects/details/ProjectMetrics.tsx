@@ -1,286 +1,203 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { 
-  Brain, 
-  BarChart3, 
-  Target, 
-  TrendingUp,
-  Activity,
-  Zap,
-  Database,
-  Server,
-  Trophy,
-  Gauge
+import {
+  Brain, Cpu, Server, Zap, Settings, ChevronRight, Gauge,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { MLModel } from '@/data';
 
 interface ProjectMetricsProps {
-  project: {
-    ml_models?: Array<{
-      id: string;
-      name: string;
-      model_type: string;
-      framework: string;
-      version: string;
-      training_data_size: string;
-      deployment_status: string;
-      description?: string;
-      evaluation_metrics?: Array<{
-        id: string;
-        metric_name: string;
-        metric_value: number;
-        metric_type: string;
-      }>;
-    }>;
-    achievements?: Array<{
-      id: string;
-      achievement_title: string;
-    }>;
-  };
+  models: MLModel[];
 }
 
-export default function ProjectMetrics({ project }: ProjectMetricsProps) {
-  if (!project.ml_models?.length && !project.achievements?.length) {
-    return null;
-  }
+const TRAINING_TYPE_COLOR: Record<string, string> = {
+  'Fine-tuned':       'bg-primary/10 text-primary border-primary/25',
+  'Transfer Learning':'bg-secondary/10 text-secondary border-secondary/25',
+  'Custom Trained':   'bg-accent-indigo/10 text-accent-indigo border-accent-indigo/25',
+  'Pretrained':       'bg-muted/20 text-muted-foreground border-muted/30',
+};
 
-  const getMetricIcon = (metricName: string) => {
-    const name = metricName.toLowerCase();
-    if (name.includes('accuracy')) return Target;
-    if (name.includes('precision')) return BarChart3;
-    if (name.includes('recall')) return TrendingUp;
-    if (name.includes('f1')) return Activity;
-    return Gauge;
-  };
+const INFERENCE_COLOR: Record<string, string> = {
+  Edge:   'bg-highlight/10 text-highlight border-highlight/25',
+  Cloud:  'bg-primary/10 text-primary border-primary/25',
+  Hybrid: 'bg-secondary/10 text-secondary border-secondary/25',
+};
 
-  const getMetricColor = (value: number, metricName: string) => {
-    // Convert to percentage if it's a decimal
-    const percentage = value <= 1 ? value * 100 : value;
-    
-    if (percentage >= 90) return 'text-primary border-primary/40 bg-primary/10';
-    if (percentage >= 80) return 'text-secondary border-secondary/40 bg-secondary/10';
-    if (percentage >= 70) return 'text-accent-indigo border-accent-indigo/40 bg-accent-indigo/10';
-    return 'text-highlight border-highlight/40 bg-highlight/10';
-  };
+const METRIC_STYLES = {
+  accuracy:  { label: 'Accuracy',  color: 'text-primary bg-primary/10 border-primary/20'               },
+  precision: { label: 'Precision', color: 'text-secondary bg-secondary/10 border-secondary/20'         },
+  recall:    { label: 'Recall',    color: 'text-accent-indigo bg-accent-indigo/10 border-accent-indigo/20' },
+  f1_score:  { label: 'F1 Score',  color: 'text-highlight bg-highlight/10 border-highlight/20'          },
+} as const;
 
-  const formatMetricValue = (value: number, metricName: string) => {
-    // Convert to percentage if it's a decimal
-    if (value <= 1) {
-      return `${(value * 100).toFixed(1)}%`;
-    }
-    return value.toFixed(3);
-  };
+function fmtVal(v: number): string {
+  return v <= 1 ? `${(v * 100).toFixed(1)}%` : v.toFixed(3);
+}
+
+export default function ProjectMetrics({ models }: ProjectMetricsProps) {
+  if (!models.length) return null;
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.6, delay: 0.2 }}
-      className="mb-8"
-    >
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        {/* ML Models Metrics */}
-        {project.ml_models?.map((model, modelIndex) => (
+    <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+      {models.map((model, idx) => {
+        const metrics = model.metrics || {};
+        const numericKeys = (['accuracy', 'precision', 'recall', 'f1_score'] as const).filter((k) => metrics[k] != null);
+        const customEntries = Object.entries(metrics.custom_metrics || {});
+
+        return (
           <motion.div
-            key={model.id}
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.5, delay: 0.1 + modelIndex * 0.1 }}
-            className="relative group"
+            key={`${model.component_name}-${idx}`}
+            initial={{ opacity: 0, y: 12 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: idx * 0.1, duration: 0.4 }}
+            className="rounded-xl border border-border/40 bg-card/50 hover:border-primary/28 hover:bg-card/70 transition-all duration-300 overflow-hidden"
           >
-            {/* Enhanced Glow effect */}
-            <div className="absolute inset-0 bg-gradient-to-r from-primary/10 via-secondary/5 to-accent-indigo/10 rounded-xl blur-lg opacity-60 group-hover:opacity-100 group-hover:from-primary/20 group-hover:via-secondary/10 group-hover:to-accent-indigo/20 transition-all duration-500" />
-            
-            <Card className="relative bg-card/80 border border-primary/30 backdrop-blur-md cyberpunk-card group-hover:bg-card/95 group-hover:border-primary/50 group-hover:backdrop-blur-xl transition-all duration-500">
-              <CardHeader className="pb-4 group-hover:bg-background/10 transition-all duration-500">
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center space-x-3">
-                    <div className="w-10 h-10 bg-gradient-to-br from-primary/20 to-secondary/20 border border-primary/40 rounded-lg flex items-center justify-center group-hover:bg-gradient-to-br group-hover:from-primary/40 group-hover:to-secondary/40 group-hover:border-primary/60 group-hover:shadow-lg group-hover:shadow-primary/25 transition-all duration-500">
-                      <Brain className="w-5 h-5 text-primary group-hover:text-primary/90 group-hover:scale-110 transition-all duration-500" />
-                    </div>
-                    <div>
-                      <CardTitle className="text-lg text-foreground group-hover:text-foreground/95 group-hover:drop-shadow-sm transition-all duration-500">{model.name}</CardTitle>
-                      <p className="text-sm text-muted-foreground group-hover:text-foreground/70 transition-all duration-500">{model.model_type}</p>
-                    </div>
-                  </div>
-                  <Badge className="cyberpunk-badge bg-primary/20 text-primary border-primary/40 group-hover:bg-primary/30 group-hover:border-primary/60 group-hover:shadow-lg transition-all duration-500">
-                    v{model.version}
+            {/* Header */}
+            <div className="flex items-start justify-between gap-3 p-5 pb-4 border-b border-border/25">
+              <div className="flex items-start gap-3 min-w-0">
+                <div className="w-9 h-9 rounded-lg bg-primary/10 border border-primary/20 flex items-center justify-center flex-shrink-0">
+                  <Brain className="w-4 h-4 text-primary" />
+                </div>
+                <div className="min-w-0">
+                  <p className="text-xs text-muted-foreground/55 mb-0.5">{model.component_name}</p>
+                  <p className="text-sm font-bold text-foreground leading-tight">{model.model_name}</p>
+                </div>
+              </div>
+              <div className="flex flex-col gap-1 flex-shrink-0">
+                <Badge className={cn('text-xs font-medium border', TRAINING_TYPE_COLOR[model.training_type || ''] || 'bg-muted/20 text-muted-foreground border-muted/30')}>
+                  {model.training_type || 'Pretrained'}
+                </Badge>
+                {model.inference_location && (
+                  <Badge className={cn('text-xs font-medium border', INFERENCE_COLOR[model.inference_location] || 'bg-muted/20 text-muted-foreground border-muted/30')}>
+                    {model.inference_location}
                   </Badge>
-                </div>
-              </CardHeader>
-
-              <CardContent className="group-hover:bg-background/5 transition-all duration-500">
-                {/* Model Info */}
-                <div className="grid grid-cols-2 gap-4 mb-6">
-                  <div className="cyberpunk-info-card hover:bg-background/20 transition-all duration-300">
-                    <div className="flex items-center space-x-2 mb-1">
-                      <Server className="w-3 h-3 text-secondary group-hover:scale-110 transition-all duration-300" />
-                      <span className="text-xs text-muted-foreground uppercase tracking-wide group-hover:text-foreground/80 transition-all duration-300">Framework</span>
-                    </div>
-                    <p className="font-semibold text-foreground text-sm group-hover:text-foreground/95 group-hover:drop-shadow-sm transition-all duration-300">{model.framework}</p>
-                  </div>
-                  <div className="cyberpunk-info-card hover:bg-background/20 transition-all duration-300">
-                    <div className="flex items-center space-x-2 mb-1">
-                      <Database className="w-3 h-3 text-accent-indigo group-hover:scale-110 transition-all duration-300" />
-                      <span className="text-xs text-muted-foreground uppercase tracking-wide group-hover:text-foreground/80 transition-all duration-300">Data Size</span>
-                    </div>
-                    <p className="font-semibold text-foreground text-sm group-hover:text-foreground/95 group-hover:drop-shadow-sm transition-all duration-300">{model.training_data_size}</p>
-                  </div>
-                </div>
-
-                {/* Metrics Grid */}
-                {model.evaluation_metrics && model.evaluation_metrics.length > 0 && (
-                  <div>
-                    <h4 className="flex items-center space-x-2 text-sm font-semibold text-foreground mb-4 group-hover:text-foreground/95 transition-all duration-500">
-                      <BarChart3 className="w-4 h-4 text-primary group-hover:scale-110 transition-all duration-500" />
-                      <span>Performance Metrics</span>
-                    </h4>
-                    <div className="grid grid-cols-2 gap-3">
-                      {model.evaluation_metrics.map((metric, metricIndex) => {
-                        const MetricIcon = getMetricIcon(metric.metric_name);
-                        const colorClass = getMetricColor(metric.metric_value, metric.metric_name);
-                        
-                        return (
-                          <motion.div
-                            key={metric.id}
-                            initial={{ opacity: 0, scale: 0.9 }}
-                            animate={{ opacity: 1, scale: 1 }}
-                            transition={{ duration: 0.4, delay: 0.2 + metricIndex * 0.1 }}
-                            className={cn(
-                              "relative p-4 rounded-lg border backdrop-blur-sm group/metric cursor-pointer transition-all duration-300 hover:scale-110 hover:shadow-xl hover:backdrop-blur-lg",
-                              colorClass
-                            )}
-                          >
-                            {/* Enhanced Animated background */}
-                            <div className="absolute inset-0 bg-gradient-to-br from-current/5 to-current/15 rounded-lg opacity-0 group-hover/metric:opacity-100 transition-all duration-300" />
-                            
-                            <div className="relative">
-                              <div className="flex items-center justify-between mb-2">
-                                <MetricIcon className="w-4 h-4 group-hover/metric:scale-125 transition-all duration-300" />
-                                <motion.div
-                                  initial={{ scale: 0 }}
-                                  animate={{ scale: 1 }}
-                                  transition={{ duration: 0.5, delay: 0.3 + metricIndex * 0.1 }}
-                                  className="text-lg font-bold font-mono group-hover/metric:text-xl group-hover/metric:drop-shadow-sm transition-all duration-300"
-                                >
-                                  {formatMetricValue(metric.metric_value, metric.metric_name)}
-                                </motion.div>
-                              </div>
-                              <p className="text-xs font-medium capitalize group-hover/metric:text-sm group-hover/metric:font-semibold transition-all duration-300">{metric.metric_name}</p>
-                              
-                              {/* Enhanced Progress bar */}
-                              <div className="mt-2 bg-current/20 rounded-full h-1 overflow-hidden group-hover/metric:h-1.5 transition-all duration-300">
-                                <motion.div
-                                  initial={{ width: 0 }}
-                                  animate={{ width: `${metric.metric_value <= 1 ? metric.metric_value * 100 : Math.min(metric.metric_value, 100)}%` }}
-                                  transition={{ duration: 1, delay: 0.5 + metricIndex * 0.1 }}
-                                  className="h-full bg-current rounded-full group-hover/metric:shadow-sm transition-all duration-300"
-                                />
-                              </div>
-                            </div>
-                          </motion.div>
-                        );
-                      })}
-                    </div>
-                  </div>
                 )}
-
-                {/* Deployment Status */}
-                <div className="mt-4 pt-4 border-t border-primary/20 group-hover:border-primary/40 transition-all duration-500">
-                  <div className="flex items-center space-x-2">
-                    <Zap className="w-4 h-4 text-secondary group-hover:scale-110 transition-all duration-500" />
-                    <span className="text-sm text-muted-foreground group-hover:text-foreground/80 transition-all duration-500">Status:</span>
-                    <Badge className={cn(
-                      "cyberpunk-badge text-xs group-hover:scale-105 transition-all duration-500",
-                      model.deployment_status.toLowerCase() === 'production' 
-                        ? 'bg-primary/20 text-primary border-primary/40 group-hover:bg-primary/30 group-hover:border-primary/60 group-hover:shadow-lg'
-                        : 'bg-secondary/20 text-secondary border-secondary/40 group-hover:bg-secondary/30 group-hover:border-secondary/60 group-hover:shadow-lg'
-                    )}>
-                      {model.deployment_status}
-                    </Badge>
-                  </div>
-                </div>
-              </CardContent>
-
-              {/* Enhanced Corner decorations */}
-              <div className="absolute top-0 left-0 w-6 h-6 group-hover:w-8 group-hover:h-8 transition-all duration-500">
-                <div className="w-full h-0.5 bg-primary shadow-sm shadow-primary/50 group-hover:h-1 group-hover:shadow-lg group-hover:shadow-primary/70 transition-all duration-500" />
-                <div className="w-0.5 h-full bg-primary shadow-sm shadow-primary/50 group-hover:w-1 group-hover:shadow-lg group-hover:shadow-primary/70 transition-all duration-500" />
               </div>
-              <div className="absolute top-0 right-0 w-6 h-6 group-hover:w-8 group-hover:h-8 transition-all duration-500">
-                <div className="w-full h-0.5 bg-secondary shadow-sm shadow-secondary/50 group-hover:h-1 group-hover:shadow-lg group-hover:shadow-secondary/70 transition-all duration-500" />
-                <div className="w-0.5 h-full ml-auto bg-secondary shadow-sm shadow-secondary/50 group-hover:w-1 group-hover:shadow-lg group-hover:shadow-secondary/70 transition-all duration-500" />
+            </div>
+
+            <div className="p-5 space-y-4">
+              {/* Type + Framework chips */}
+              <div className="flex flex-wrap gap-2">
+                <span className="inline-flex items-center gap-1.5 text-xs bg-secondary/8 text-secondary/80 border border-secondary/20 rounded-md px-2 py-1">
+                  <Cpu className="w-3 h-3" />
+                  {model.model_type}
+                </span>
+                {model.framework && (
+                  <span className="inline-flex items-center gap-1.5 text-xs bg-accent-indigo/8 text-accent-indigo/80 border border-accent-indigo/20 rounded-md px-2 py-1">
+                    <Server className="w-3 h-3" />
+                    {model.framework}
+                  </span>
+                )}
               </div>
-              
-              {/* Hover highlight overlay */}
-              <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-secondary/5 opacity-0 group-hover:opacity-100 transition-all duration-500 pointer-events-none" />
-            </Card>
-          </motion.div>
-        ))}
 
-        {/* Achievements */}
-        {project.achievements && project.achievements.length > 0 && (
-          <motion.div
-            initial={{ opacity: 0, x: 20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.5, delay: 0.3 }}
-            className="relative group"
-          >
-            {/* Enhanced Glow effect */}
-            <div className="absolute inset-0 bg-gradient-to-r from-accent-indigo/10 via-highlight/5 to-soft/10 rounded-xl blur-lg opacity-60 group-hover:opacity-100 group-hover:from-accent-indigo/20 group-hover:via-highlight/10 group-hover:to-soft/20 transition-all duration-500" />
-            
-            <Card className="relative bg-card/80 border border-accent-indigo/30 backdrop-blur-md cyberpunk-card h-full group-hover:bg-card/95 group-hover:border-accent-indigo/50 group-hover:backdrop-blur-xl transition-all duration-500">
-              <CardHeader className="pb-4 group-hover:bg-background/10 transition-all duration-500">
-                <div className="flex items-center space-x-3">
-                  <div className="w-10 h-10 bg-gradient-to-br from-accent-indigo/20 to-highlight/20 border border-accent-indigo/40 rounded-lg flex items-center justify-center group-hover:bg-gradient-to-br group-hover:from-accent-indigo/40 group-hover:to-highlight/40 group-hover:border-accent-indigo/60 group-hover:shadow-lg group-hover:shadow-accent-indigo/25 transition-all duration-500">
-                    <Trophy className="w-5 h-5 text-accent-indigo group-hover:text-accent-indigo/90 group-hover:scale-110 transition-all duration-500" />
-                  </div>
-                  <div>
-                    <CardTitle className="text-lg text-foreground group-hover:text-foreground/95 group-hover:drop-shadow-sm transition-all duration-500">Key Achievements</CardTitle>
-                    <p className="text-sm text-muted-foreground group-hover:text-foreground/70 transition-all duration-500">Project milestones & impacts</p>
-                  </div>
-                </div>
-              </CardHeader>
+              {/* Purpose */}
+              {model.purpose && (
+                <p className="text-xs text-muted-foreground leading-relaxed border-l-2 border-primary/20 pl-3">
+                  {model.purpose}
+                </p>
+              )}
 
-              <CardContent className="group-hover:bg-background/5 transition-all duration-500">
-                <div className="space-y-3">
-                  {project.achievements.map((achievement, index) => (
-                    <motion.div
-                      key={achievement.id}
-                      initial={{ opacity: 0, x: -10 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      transition={{ duration: 0.4, delay: 0.4 + index * 0.1 }}
-                      className="flex items-center space-x-3 p-3 rounded-lg bg-gradient-to-r from-accent-indigo/10 to-highlight/10 border border-accent-indigo/20 group/achievement hover:border-accent-indigo/50 hover:bg-gradient-to-r hover:from-accent-indigo/20 hover:to-highlight/20 hover:backdrop-blur-lg hover:scale-105 transition-all duration-300"
-                    >
-                      <div className="w-8 h-8 bg-gradient-to-br from-accent-indigo/20 to-highlight/20 border border-accent-indigo/40 rounded-full flex items-center justify-center group-hover/achievement:shadow-xl group-hover/achievement:shadow-accent-indigo/30 group-hover/achievement:scale-110 transition-all duration-300">
-                        <Trophy className="w-4 h-4 text-accent-indigo group-hover/achievement:scale-125 transition-all duration-300" />
+              {/* Numeric metrics */}
+              {numericKeys.length > 0 && (
+                <div className="grid grid-cols-2 gap-2">
+                  {numericKeys.map((key) => {
+                    const val = metrics[key]!;
+                    const { label, color } = METRIC_STYLES[key];
+                    const pct = val <= 1 ? val * 100 : Math.min(val, 100);
+                    return (
+                      <div key={key} className={cn('rounded-lg border p-3', color)}>
+                        <div className="flex items-center justify-between mb-1.5">
+                          <span className="text-xs opacity-65">{label}</span>
+                          <span className="text-sm font-bold font-mono tabular-nums">{fmtVal(val)}</span>
+                        </div>
+                        <div className="h-1 bg-current/15 rounded-full overflow-hidden">
+                          <motion.div
+                            initial={{ width: 0 }}
+                            whileInView={{ width: `${pct}%` }}
+                            viewport={{ once: true }}
+                            transition={{ duration: 0.9, ease: 'easeOut', delay: 0.2 + idx * 0.1 }}
+                            className="h-full bg-current rounded-full"
+                          />
+                        </div>
                       </div>
-                      <p className="font-medium text-foreground group-hover/achievement:text-accent-indigo group-hover/achievement:font-semibold group-hover/achievement:drop-shadow-sm transition-all duration-300">
-                        {achievement.achievement_title}
-                      </p>
-                    </motion.div>
+                    );
+                  })}
+                </div>
+              )}
+
+              {/* Latency */}
+              {metrics.latency && (
+                <div className="flex items-center gap-2 text-xs">
+                  <Gauge className="w-3.5 h-3.5 text-highlight/65" />
+                  <span className="text-muted-foreground/55">Latency:</span>
+                  <span className="font-semibold text-highlight">{metrics.latency}</span>
+                </div>
+              )}
+
+              {/* Custom metrics */}
+              {customEntries.length > 0 && (
+                <div className="flex flex-wrap gap-1.5">
+                  {customEntries.map(([k, v]) => (
+                    <span key={k} className="text-xs bg-soft/8 text-soft/80 border border-soft/20 rounded px-2 py-0.5">
+                      {k}: <span className="font-semibold">
+                        {typeof v === 'number' && v <= 1 ? `${(v * 100).toFixed(1)}%` : v}
+                      </span>
+                    </span>
                   ))}
                 </div>
-              </CardContent>
+              )}
 
-              {/* Enhanced Corner decorations */}
-              <div className="absolute top-0 left-0 w-6 h-6 group-hover:w-8 group-hover:h-8 transition-all duration-500">
-                <div className="w-full h-0.5 bg-accent-indigo shadow-sm shadow-accent-indigo/50 group-hover:h-1 group-hover:shadow-lg group-hover:shadow-accent-indigo/70 transition-all duration-500" />
-                <div className="w-0.5 h-full bg-accent-indigo shadow-sm shadow-accent-indigo/50 group-hover:w-1 group-hover:shadow-lg group-hover:shadow-accent-indigo/70 transition-all duration-500" />
-              </div>
-              <div className="absolute top-0 right-0 w-6 h-6 group-hover:w-8 group-hover:h-8 transition-all duration-500">
-                <div className="w-full h-0.5 bg-highlight shadow-sm shadow-highlight/50 group-hover:h-1 group-hover:shadow-lg group-hover:shadow-highlight/70 transition-all duration-500" />
-                <div className="w-0.5 h-full ml-auto bg-highlight shadow-sm shadow-highlight/50 group-hover:w-1 group-hover:shadow-lg group-hover:shadow-highlight/70 transition-all duration-500" />
-              </div>
-              
-              {/* Hover highlight overlay */}
-              <div className="absolute inset-0 bg-gradient-to-br from-accent-indigo/5 via-transparent to-highlight/5 opacity-0 group-hover:opacity-100 transition-all duration-500 pointer-events-none" />
-            </Card>
+              {/* Optimizations */}
+              {model.optimization && model.optimization.length > 0 && (
+                <div>
+                  <p className="text-xs text-muted-foreground/50 uppercase tracking-wider mb-2 flex items-center gap-1.5">
+                    <Zap className="w-3 h-3" />Optimizations
+                  </p>
+                  <div className="flex flex-wrap gap-1.5">
+                    {model.optimization.map((opt) => (
+                      <span key={opt} className="text-xs bg-highlight/8 text-highlight/80 border border-highlight/20 rounded px-2 py-0.5">
+                        {opt}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* Training config */}
+              {model.training_config && (
+                <div className="border-t border-border/25 pt-3">
+                  <p className="text-xs text-muted-foreground/50 uppercase tracking-wider mb-2.5 flex items-center gap-1.5">
+                    <Settings className="w-3 h-3" />Training Config
+                  </p>
+                  <div className="grid grid-cols-2 gap-x-4 gap-y-1.5">
+                    {([
+                      ['Platform',     model.training_config.platform],
+                      ['GPU',          model.training_config.gpu?.[0]],
+                      ['Epochs',       model.training_config.epochs?.toString()],
+                      ['Batch Size',   model.training_config.batch_size?.toString()],
+                      ['Optimizer',    model.training_config.optimizer],
+                      ['Learning Rate',model.training_config.learning_rate?.toString()],
+                    ] as [string, string | undefined][]).filter(([, v]) => v).map(([label, value]) => (
+                      <div key={label} className="flex items-center gap-1.5 text-xs text-muted-foreground">
+                        <ChevronRight className="w-3 h-3 text-primary/35 flex-shrink-0" />
+                        <span className="opacity-55">{label}:</span>
+                        <span className="font-medium text-foreground/75">{value}</span>
+                      </div>
+                    ))}
+                  </div>
+                  {model.training_config.notes && (
+                    <p className="mt-2 text-xs text-muted-foreground/55 italic border-l-2 border-secondary/20 pl-2">
+                      {model.training_config.notes}
+                    </p>
+                  )}
+                </div>
+              )}
+            </div>
           </motion.div>
-        )}
-      </div>
-    </motion.div>
+        );
+      })}
+    </div>
   );
-} 
+}

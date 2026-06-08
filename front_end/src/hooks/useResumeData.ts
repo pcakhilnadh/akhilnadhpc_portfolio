@@ -5,10 +5,8 @@ import {
   education,
   workExperience,
   projects,
-  projectSkills,
   skills,
   certifications,
-  getSkillById,
 } from '@/data';
 
 interface ResumeDataReturn {
@@ -41,20 +39,16 @@ function useResumeData(): ResumeDataReturn {
         company_location: exp.company_location,
         designation: exp.designation,
         start_date: exp.start_date,
-        end_date: exp.end_date || undefined,
+        end_date: exp.end_date || '',
         company_url: exp.company_url || undefined,
       }));
 
       // Transform projects data
       const projectsData = projects.map((proj) => {
-        const projSkillIds = projectSkills
-          .filter((ps) => ps.project_id === proj._id)
-          .map((ps) => ps.skill_id);
-
         return {
           title: proj.title,
           short_description: proj.short_description,
-          long_description: proj.long_description,
+          long_description: proj.long_description || '',
           project_type: proj.project_type,
           status: proj.status,
           start_date: proj.start_date,
@@ -63,10 +57,10 @@ function useResumeData(): ResumeDataReturn {
           company: proj.company || undefined,
           github_url: proj.github_url || undefined,
           live_url: proj.live_url || undefined,
-          hosting_platform: proj.hosting_platform || undefined,
-          cicd_pipeline: proj.cicd_pipeline || undefined,
-          monitoring_tracking: proj.monitoring_tracking || undefined,
-          skills: projSkillIds.map((id) => getSkillById(id)?.name || '').filter((name) => name),
+          hosting_platform: proj.deployment?.hosting_platform || undefined,
+          cicd_pipeline: proj.deployment?.ci_cd_tools?.join(', ') || undefined,
+          monitoring_tracking: proj.operations?.monitoring?.join(', ') || undefined,
+          skills: proj.skills || [],
         };
       });
 
