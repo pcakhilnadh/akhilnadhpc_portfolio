@@ -89,7 +89,80 @@ docker run -d -p 8080:8080 --name my-portfolio portfolio-static
 **3. Access the Application:**
 Open your browser to [`http://localhost:8080`](http://localhost:8080)
 
-## 💻 Local Development
+## � Vercel Deployment (Recommended for Production)
+
+Vercel is the optimal platform for deploying this static portfolio application. It provides:
+- ✅ Zero-configuration deployment
+- ✅ Automatic HTTPS and CDN
+- ✅ Preview deployments for pull requests
+- ✅ Analytics and monitoring
+- ✅ Custom domain support
+- ✅ Environment variables support
+
+### Prerequisites
+- GitHub account (Vercel integrates with GitHub)
+- Vercel account (sign up at [vercel.com](https://vercel.com))
+
+### Deployment Steps
+
+**1. Push your project to GitHub**
+```bash
+git push origin main
+```
+
+**2. Import project to Vercel**
+- Visit [https://vercel.com/new](https://vercel.com/new)
+- Select "Import Git Repository"
+- Choose your repository
+- Click "Import"
+
+**3. Configure Build Settings**
+Vercel will automatically detect this as a monorepo and may need manual configuration:
+- **Root Directory**: Leave blank (root)
+- **Build Command**: `cd front_end && npm install && npm run build`
+- **Output Directory**: `front_end/dist`
+- **Install Command**: Leave blank (Vercel handles it)
+
+**4. Deploy**
+- Click "Deploy"
+- Wait for the deployment to complete
+- Access your portfolio at the generated URL (e.g., `your-project.vercel.app`)
+
+### Vercel Configuration File
+
+The project includes a `vercel.json` file that contains:
+- Build and output directory configuration
+- Rewrite rules for client-side routing (SPA support)
+- Security headers
+- Static asset caching
+- Redirects for static files
+
+If you need to modify deployment settings, edit `vercel.json` and push the changes to trigger a redeployment.
+
+### Custom Domain
+
+To use a custom domain:
+1. In Vercel dashboard, go to your project settings
+2. Navigate to "Domains"
+3. Add your custom domain
+4. Update your domain's DNS records to point to Vercel
+5. Wait for DNS propagation (typically a few minutes)
+
+### Environment Variables
+
+If you need environment-specific configuration in the future:
+1. Go to project settings → Environment Variables
+2. Add your variables
+3. They'll be available at build time and runtime
+
+### Automatic Deployments
+
+By default, Vercel deploys automatically when you:
+- Push to the main branch (production)
+- Create pull requests (preview deployments)
+- Push to other branches (preview deployments)
+
+## �💻 Local Development
 
 If you want to run the application locally for development:
 
