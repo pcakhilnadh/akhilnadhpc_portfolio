@@ -13,6 +13,8 @@ import Timeline from '@/pages/Timeline'
 import Projects from '@/pages/Projects'
 import ProjectDetails from '@/pages/ProjectDetails'
 import Certifications from '@/pages/Certifications'
+import Blogs from '@/pages/Blogs'
+import BlogDetails from '@/pages/BlogDetails'
 import Services from '@/pages/Services'
 import Resume from '@/pages/Resume'
 import NotFound from '@/pages/NotFound'
@@ -123,6 +125,8 @@ function AppContent() {
                 <Route path="/timeline" element={<Timeline setNavbarWelcomeText={setNavbarWelcomeText} />} />
                 <Route path="/projects" element={<Projects setNavbarWelcomeText={setNavbarWelcomeText} />} />
                 <Route path="/projects/:projectId" element={<ProjectDetails setNavbarWelcomeText={setNavbarWelcomeText} />} />
+                <Route path="/blogs" element={<Blogs setNavbarWelcomeText={setNavbarWelcomeText} />} />
+                <Route path="/blogs/:blogId" element={<BlogDetails setNavbarWelcomeText={setNavbarWelcomeText} />} />
                 <Route path="/services" element={<Services setNavbarWelcomeText={setNavbarWelcomeText} />} />
                 <Route path="/certifications" element={<Certifications setNavbarWelcomeText={setNavbarWelcomeText} />} />
                 <Route path="*" element={<NotFound setNavbarWelcomeText={setNavbarWelcomeText} />} />

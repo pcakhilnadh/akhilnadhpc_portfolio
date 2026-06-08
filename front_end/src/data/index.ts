@@ -10,6 +10,7 @@ import { certifications, certificationSkills } from "./certifications";
 import { workExperience, companyReferences, workExperienceProjects } from "./experience";
 import { projects } from "./projects";
 import { services } from "./services";
+import { blogs } from "./blogs";
 
 // Personal Data Exports
 export {
@@ -101,6 +102,18 @@ export {
   type Service,
 } from "./services";
 
+// Blogs Data Exports
+export {
+  blogs,
+  blogsWelcomeText,
+  getBlogById,
+  getBlogsByTag,
+  getAllBlogTags,
+  searchBlogs,
+  type BlogPost,
+  type BlogTag,
+} from "./blogs";
+
 // Composite Data Types
 export interface AllData {
   personal: {
@@ -128,6 +141,9 @@ export interface AllData {
   };
   services: {
     services: typeof services;
+  };
+  blogs: {
+    blogs: typeof blogs;
   };
 }
 
@@ -158,5 +174,8 @@ export const allData: AllData = {
   },
   services: {
     services,
+  },
+  blogs: {
+    blogs,
   },
 };
