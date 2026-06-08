@@ -1,7 +1,6 @@
 {
   "buildCommand": "cd front_end && npm install && npm run build",
   "outputDirectory": "front_end/dist",
-  "public": "front_end/public",
   "rewrites": [
     {
       "source": "/(.*)",
