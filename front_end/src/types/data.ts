@@ -227,4 +227,28 @@ export interface AboutResponse extends AboutDomainData {
 export interface SkillsResponse extends SkillsDomainData {}
 export interface ProjectsResponse extends ProjectsDomainData {}
 export interface CertificationsResponse extends CertificationsDomainData {}
-export interface TimelineResponse extends TimelineDomainData {} 
+export interface TimelineResponse extends TimelineDomainData {}
+
+// Blog Types
+export type BlogTag = 'Tech' | 'Personal' | 'InterviewEx';
+
+export interface BlogPost {
+  id: string;
+  title: string;
+  slug?: string;
+  author: string;
+  content: string; // HTML content
+  excerpt?: string;
+  tags: BlogTag[];
+  created_date: string;
+  updated_date?: string;
+  featured_image?: string;
+  read_time?: number; // in minutes
+}
+
+export interface BlogsDomainData {
+  blogs: BlogPost[];
+  welcome_text: string;
+}
+
+export interface BlogsResponse extends BlogsDomainData {} 

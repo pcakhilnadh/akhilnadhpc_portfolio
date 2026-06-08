@@ -34,17 +34,26 @@ function useResumeData(): ResumeDataReturn {
       }));
 
       // Transform work experience data
-      const experienceData = workExperience.map((exp) => ({
-        company_name: exp.company_name,
-        company_location: exp.company_location,
-        designation: exp.designation,
-        start_date: exp.start_date,
-        end_date: exp.end_date || '',
-        company_url: exp.company_url || undefined,
-      }));
+      const experienceData = workExperience
+        .map((exp) => ({
+          company_name: exp.company_name,
+          company_location: exp.company_location,
+          designation: exp.designation,
+          start_date: exp.start_date,
+          end_date: exp.end_date ? exp.end_date : 'Present',
+          company_url: exp.company_url || undefined,
+        }))
+        .sort((a, b) => new Date(b.start_date).getTime() - new Date(a.start_date).getTime());
 
       // Transform projects data
       const projectsData = projects.map((proj) => {
+        // Resolve company ID to company name
+        let companyName = undefined;
+        if (proj.company) {
+          const matchedExp = workExperience.find(exp => exp._id === proj.company);
+          companyName = matchedExp?.company_name || proj.company;
+        }
+        
         return {
           title: proj.title,
           short_description: proj.short_description,
@@ -54,7 +63,7 @@ function useResumeData(): ResumeDataReturn {
           start_date: proj.start_date,
           end_date: proj.end_date || undefined,
           role: proj.role,
-          company: proj.company || undefined,
+          company: companyName || undefined,
           github_url: proj.github_url || undefined,
           live_url: proj.live_url || undefined,
           hosting_platform: proj.deployment?.hosting_platform || undefined,
