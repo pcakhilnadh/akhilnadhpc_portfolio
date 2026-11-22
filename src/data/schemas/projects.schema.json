@@ -1,0 +1,244 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Projects",
+  "description": "Case studies. Only the top-level fields below are checked; nested blocks (models, deployment, operations, ...) are free-form so you can shape them per project.",
+  "type": "object",
+  "properties": {
+    "$schema": {
+      "type": "string"
+    },
+    "projects": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string",
+            "description": "Project title."
+          },
+          "slug": {
+            "type": "string",
+            "description": "URL-safe id, unique. Used for the project's future page.",
+            "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$"
+          },
+          "shortDescription": {
+            "type": "string",
+            "description": "One sentence."
+          },
+          "longDescription": {
+            "type": "string",
+            "description": "A paragraph."
+          },
+          "projectType": {
+            "enum": [
+              "POC",
+              "Project",
+              "Personal"
+            ],
+            "description": "Kind of project."
+          },
+          "domain": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Technical domains."
+          },
+          "industry": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Industries."
+          },
+          "skills": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Skill names (see skills.json)."
+          },
+          "status": {
+            "enum": [
+              "Ideation",
+              "Research",
+              "Development",
+              "Completed"
+            ],
+            "description": "Where it stands."
+          },
+          "startDate": {
+            "type": "string",
+            "description": "Start (YYYY-MM-DD).",
+            "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+          },
+          "endDate": {
+            "type": "string",
+            "description": "End. Omit if ongoing.",
+            "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+          },
+          "duration": {
+            "type": "string",
+            "description": "Human-readable, e.g. 8 Months."
+          },
+          "role": {
+            "type": "string",
+            "description": "Your role."
+          },
+          "company": {
+            "type": "string",
+            "description": "Employer name. Must match a company in experience.json."
+          },
+          "teamSize": {
+            "type": "number",
+            "description": "People on the team.",
+            "minimum": 1
+          },
+          "highlights": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "label": {
+                  "type": "string",
+                  "description": "Metric name."
+                },
+                "value": {
+                  "type": "string",
+                  "description": "Metric value."
+                },
+                "category": {
+                  "type": "string",
+                  "description": "Accuracy, Performance, Scale, Business, Cost..."
+                }
+              },
+              "required": [
+                "label",
+                "value"
+              ],
+              "additionalProperties": false
+            },
+            "description": "Headline numbers."
+          },
+          "problemStatement": {
+            "type": "string",
+            "description": "The problem."
+          },
+          "businessImpact": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Outcomes."
+          },
+          "architectureOverview": {
+            "type": "string",
+            "description": "How it works."
+          },
+          "workflowSteps": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Pipeline steps in order."
+          },
+          "architectureImage": {
+            "type": "string",
+            "description": "Path to a diagram image."
+          },
+          "datasets": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": true
+            },
+            "description": "Datasets used."
+          },
+          "models": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": true
+            },
+            "description": "Models used."
+          },
+          "deployment": {
+            "type": "object",
+            "additionalProperties": true
+          },
+          "operations": {
+            "type": "object",
+            "additionalProperties": true
+          },
+          "technologies": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Technologies."
+          },
+          "frameworks": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Frameworks."
+          },
+          "libraries": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Libraries."
+          },
+          "cloudServices": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Cloud services."
+          },
+          "dashboardTools": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Dashboard / BI tools."
+          },
+          "thumbnailUrl": {
+            "type": "string",
+            "description": "Path to a thumbnail image."
+          },
+          "images": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Paths to images."
+          },
+          "tags": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Free-form tags."
+          }
+        },
+        "required": [
+          "title",
+          "slug",
+          "shortDescription",
+          "projectType",
+          "status",
+          "startDate",
+          "role"
+        ],
+        "additionalProperties": false
+      }
+    }
+  },
+  "required": [
+    "projects"
+  ],
+  "additionalProperties": false
+}

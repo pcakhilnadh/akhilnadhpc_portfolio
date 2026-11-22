@@ -1,0 +1,305 @@
+{
+  "$schema": "./schemas/projects.schema.json",
+  "projects": [
+    {
+      "title": "End-to-End Inflight Meal Consumption Analytics",
+      "slug": "end-to-end-inflight-meal-consumption-analytics",
+      "shortDescription": "AI-powered computer vision platform for automated inflight food waste analytics using edge AI and Azure cloud infrastructure.",
+      "longDescription": "Designed and developed an end-to-end inflight meal consumption analytics platform for automated food waste analysis in airline catering operations. The solution leveraged edge AI using NVIDIA Jetson Orin Nano for real-time tray detection and cloud-based AI pipelines for food classification, depth estimation, and regional consumption analytics. The system automated manual auditing workflows and enabled data-driven catering optimization.",
+      "projectType": "Project",
+      "domain": [
+        "Computer Vision",
+        "Edge AI",
+        "MLOps",
+        "Cloud AI",
+        "Deep Learning"
+      ],
+      "industry": [
+        "Aviation",
+        "Airline Catering",
+        "Sustainability Analytics"
+      ],
+      "skills": [
+        "Computer Vision",
+        "Deep Learning",
+        "Object Detection",
+        "Image Classification",
+        "Depth Estimation",
+        "Edge Deployment",
+        "Model Optimization",
+        "MLOps",
+        "Cloud Deployment",
+        "Real-Time Inference"
+      ],
+      "status": "Completed",
+      "startDate": "2024-01-01",
+      "endDate": "2024-08-31",
+      "duration": "8 Months",
+      "role": "Data Scientist",
+      "teamSize": 6,
+      "highlights": [
+        {
+          "label": "Food Classification Accuracy",
+          "value": "92%",
+          "category": "Accuracy"
+        },
+        {
+          "label": "Edge Inference Latency",
+          "value": "<50 ms",
+          "category": "Performance"
+        },
+        {
+          "label": "Manual Auditing Reduction",
+          "value": "80%",
+          "category": "Business"
+        },
+        {
+          "label": "Tray Processing Capacity",
+          "value": "50K+ trays/day",
+          "category": "Scale"
+        }
+      ],
+      "problemStatement": "Airline catering teams lacked visibility into meal consumption patterns and inflight food wastage. Existing manual auditing processes were inconsistent, expensive, and non-scalable across multiple regions. The project aimed to automate tray analysis and generate actionable waste analytics using computer vision and cloud AI.",
+      "businessImpact": [
+        "Enabled automated inflight food waste analytics",
+        "Reduced catering overproduction through consumption insights",
+        "Improved sustainability and waste reporting",
+        "Automated manual meal auditing workflows",
+        "Provided region-wise food consumption trends for operational optimization"
+      ],
+      "architectureOverview": "Built a hybrid edge-cloud AI pipeline where conveyor belt tray images were processed on NVIDIA Jetson Orin Nano using YOLOv8 for tray detection and OpenCV for plate validation. Validated images were uploaded to Azure Blob Storage for cloud-based food classification and volumetric estimation pipelines, followed by analytics dashboard generation using Power BI.",
+      "workflowSteps": [
+        "Industrial camera mounted above conveyor belt captures tray movement",
+        "YOLOv8 Nano running on Jetson Orin Nano detects trays in real time",
+        "OpenCV validates fully visible tray boundaries",
+        "Validated tray images uploaded to Azure Blob Storage",
+        "Cloud pipeline performs food classification using EfficientNet",
+        "Depth estimation model predicts remaining food volume",
+        "Waste analytics aggregated region-wise and stored in cloud databases",
+        "Power BI dashboards visualize operational insights"
+      ],
+      "architectureImage": "/assets/projects/inflight-meal-analytics/architecture.png",
+      "datasets": [
+        {
+          "name": "FoodNet",
+          "type": "Public",
+          "description": "Public food image dataset used for food classification model training",
+          "source": "FoodNet"
+        },
+        {
+          "name": "Airline Tray Dataset",
+          "type": "Custom",
+          "description": "Custom annotated tray images collected from inflight catering operations",
+          "size": "50K+ annotated tray images"
+        }
+      ],
+      "models": [
+        {
+          "componentName": "Tray Detection",
+          "modelName": "YOLOv8 Nano",
+          "modelType": "Detection",
+          "purpose": "Real-time tray and plate detection on conveyor belt images",
+          "framework": "PyTorch",
+          "trainingType": "Fine-tuned",
+          "datasetUsed": [
+            "Airline Tray Dataset"
+          ],
+          "metrics": {
+            "accuracy": 0.94,
+            "precision": 0.91,
+            "recall": 0.9,
+            "latency": "<30 ms",
+            "customMetrics": {
+              "mAP50": 0.94
+            }
+          },
+          "optimization": [
+            "TensorRT Optimization",
+            "FP16 Quantization",
+            "ONNX Conversion"
+          ],
+          "inferenceLocation": "Edge",
+          "trainingConfig": {
+            "platform": "Azure ML",
+            "gpu": [
+              "NVIDIA A100"
+            ],
+            "epochs": 100,
+            "batchSize": 32,
+            "optimizer": "AdamW",
+            "learningRate": 0.001,
+            "augmentations": [
+              "Rotation",
+              "Motion Blur",
+              "Brightness Variation",
+              "Occlusion"
+            ],
+            "experimentTracking": [
+              "MLflow"
+            ],
+            "notes": "Model optimized for low-latency edge inference on Jetson Orin Nano"
+          }
+        },
+        {
+          "componentName": "Food Classification",
+          "modelName": "EfficientNet-B3",
+          "modelType": "Classification",
+          "purpose": "Classify food categories from tray images",
+          "framework": "PyTorch",
+          "trainingType": "Transfer Learning",
+          "datasetUsed": [
+            "FoodNet"
+          ],
+          "metrics": {
+            "accuracy": 0.92,
+            "latency": "<100 ms"
+          },
+          "optimization": [
+            "Mixed Precision Inference"
+          ],
+          "inferenceLocation": "Cloud",
+          "trainingConfig": {
+            "platform": "Azure ML",
+            "gpu": [
+              "NVIDIA V100"
+            ],
+            "epochs": 50,
+            "batchSize": 64,
+            "optimizer": "Adam",
+            "learningRate": 0.0005,
+            "scheduler": "Cosine Annealing",
+            "augmentations": [
+              "Random Crop",
+              "Color Jitter",
+              "Illumination Correction"
+            ],
+            "experimentTracking": [
+              "MLflow"
+            ]
+          }
+        },
+        {
+          "componentName": "Food Volume Estimation",
+          "modelName": "MiDaS",
+          "modelType": "Depth Estimation",
+          "purpose": "Estimate remaining food volume using monocular depth estimation",
+          "framework": "PyTorch",
+          "trainingType": "Fine-tuned",
+          "metrics": {
+            "latency": "<150 ms"
+          },
+          "optimization": [
+            "FP16 Inference"
+          ],
+          "inferenceLocation": "Cloud",
+          "trainingConfig": {
+            "platform": "Azure ML",
+            "gpu": [
+              "NVIDIA A100"
+            ],
+            "epochs": 80,
+            "batchSize": 16,
+            "optimizer": "AdamW",
+            "learningRate": 0.0001,
+            "lossFunctions": [
+              "RMSE Loss",
+              "Scale Invariant Depth Loss"
+            ]
+          }
+        }
+      ],
+      "deployment": {
+        "deploymentType": "Hybrid",
+        "edgeDevice": "NVIDIA Jetson Orin Nano",
+        "cloudProvider": "Microsoft Azure",
+        "hostingPlatform": "Azure Kubernetes Service",
+        "runtime": [
+          "TensorRT",
+          "DeepStream SDK",
+          "Docker",
+          "CUDA"
+        ],
+        "apiFramework": "FastAPI",
+        "ciCdTools": [
+          "Azure DevOps"
+        ],
+        "scalability": [
+          "Event-Driven Architecture",
+          "Cloud Horizontal Scaling",
+          "Asynchronous Inference Pipeline"
+        ],
+        "inferenceLatency": "<500 ms end-to-end pipeline latency"
+      },
+      "operations": {
+        "monitoring": [
+          "Azure ML Monitoring",
+          "Prediction Drift Monitoring",
+          "Inference Latency Monitoring",
+          "Model Accuracy Tracking"
+        ],
+        "logging": [
+          "Azure Application Insights",
+          "Centralized Cloud Logging"
+        ],
+        "alerting": [
+          "Inference Failure Alerts",
+          "Data Drift Alerts",
+          "Pipeline Health Alerts"
+        ],
+        "retrainingStrategy": "Monthly retraining using newly collected tray images and human-reviewed low-confidence predictions",
+        "experimentTracking": [
+          "MLflow"
+        ],
+        "dataVersioning": [
+          "DVC"
+        ]
+      },
+      "technologies": [
+        "Python",
+        "Azure",
+        "Docker",
+        "TensorRT",
+        "CUDA",
+        "FastAPI"
+      ],
+      "frameworks": [
+        "PyTorch",
+        "YOLOv8",
+        "EfficientNet",
+        "MiDaS"
+      ],
+      "libraries": [
+        "OpenCV",
+        "NumPy",
+        "Pandas"
+      ],
+      "cloudServices": [
+        "Azure Blob Storage",
+        "Azure Functions",
+        "Azure ML",
+        "Azure Kubernetes Service",
+        "Azure SQL Database"
+      ],
+      "dashboardTools": [
+        "Power BI"
+      ],
+      "thumbnailUrl": "/assets/projects/inflight-meal-analytics/thumbnail.png",
+      "images": [
+        "/assets/projects/inflight-meal-analytics/architecture.png",
+        "/assets/projects/inflight-meal-analytics/dashboard.png",
+        "/assets/projects/inflight-meal-analytics/detection-output.png"
+      ],
+      "tags": [
+        "Computer Vision",
+        "Edge AI",
+        "Deep Learning",
+        "Azure",
+        "MLOps",
+        "Food Analytics",
+        "Real-Time Inference",
+        "Object Detection"
+      ],
+      "company": "Air India"
+    }
+  ]
+}

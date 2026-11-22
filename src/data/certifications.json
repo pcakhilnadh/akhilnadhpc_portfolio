@@ -1,0 +1,62 @@
+{
+  "$schema": "./schemas/certifications.schema.json",
+  "certifications": [
+    {
+      "name": "Machine Learning Deep Learning Model Deployment",
+      "issuer": "Udemy",
+      "issued": "2023-06-15",
+      "url": "https://www.udemy.com/course/machine-learning-deep-learning-model-deployment/",
+      "description": "Completed Udemy course on ML and DL model deployment",
+      "skills": [
+        "TensorFlow",
+        "PyTorch",
+        "OpenCV"
+      ]
+    },
+    {
+      "name": "Android Machine Learning with TensorFlow lite in Java/Kotlin",
+      "issuer": "Udemy",
+      "issued": "2023-03-20",
+      "url": "https://www.udemy.com/course/android-machine-learning-tensorflow-lite/",
+      "description": "Completed Udemy course on Android ML with TensorFlow Lite",
+      "skills": [
+        "TensorFlow",
+        "PyTorch",
+        "Ultralytics"
+      ]
+    },
+    {
+      "name": "Blockchain Essentials",
+      "issuer": "IBM Cognitive Class",
+      "issued": "2022-11-10",
+      "url": "https://cognitiveclass.ai/courses/blockchain-essentials/",
+      "description": "Completed IBM Cognitive Class on Blockchain Essentials",
+      "skills": [
+        "IBM Blockchain",
+        "Smart contract",
+        "NFT"
+      ]
+    },
+    {
+      "name": "Cyber Security Awareness",
+      "issuer": "Udemy",
+      "issued": "2022-08-05",
+      "url": "https://www.udemy.com/course/cyber-security-awareness/",
+      "description": "Completed Udemy course on Cyber Security Awareness",
+      "skills": [
+        "Spacy",
+        "NLTK"
+      ]
+    },
+    {
+      "name": "Introduction to SQL",
+      "issuer": "Datacamp",
+      "issued": "2022-05-12",
+      "url": "https://www.datacamp.com/courses/introduction-to-sql",
+      "description": "Completed Datacamp course on SQL",
+      "skills": [
+        "SQL"
+      ]
+    }
+  ]
+}

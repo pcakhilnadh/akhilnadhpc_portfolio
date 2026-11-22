@@ -1,0 +1,60 @@
+/* ==========================================================
+   Footer (deliberately tiny: one line, fixed height)
+   ========================================================== */
+.site-footer {
+  height: var(--footer-h);
+  padding-bottom: env(safe-area-inset-bottom);
+  border-top: 1px solid var(--line);
+  background: var(--bg);
+  font: 500 11px/1 var(--font-mono);
+  letter-spacing: 0.08em;
+  color: var(--ink-mute);
+}
+.site-footer__inner {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+.site-footer p {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.site-footer a {
+  flex: none;
+  padding: 8px 0;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  border-bottom: 1px solid transparent;
+}
+.site-footer__year {
+  display: none;
+}
+@media (min-width: 420px) {
+  .site-footer__year {
+    display: inline;
+  }
+}
+@media (max-width: 419px) {
+  .site-footer {
+    font-size: 10px;
+    letter-spacing: 0.03em;
+  }
+  .site-footer__inner {
+    gap: 10px;
+  }
+}
+@media (max-width: 329px) {
+  /* foldable cover screens: let the name wrap instead of truncating */
+  .site-footer p {
+    white-space: normal;
+    line-height: 1.25;
+  }
+}
+.site-footer a:hover {
+  color: var(--ink);
+  border-bottom-color: var(--ink);
+}

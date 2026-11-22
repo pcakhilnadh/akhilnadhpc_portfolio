@@ -1,0 +1,162 @@
+/* Chat UI overlay. It covers the avatar stage (so it shares the stage's
+   coordinate space and the page's --hx / --hy / --hr head variables) but
+   ignores pointer events, so the avatar underneath stays draggable; only the
+   button, the message and its ✕ are interactive. */
+.chat-layer {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  pointer-events: none;
+}
+
+/* ---------- "Say hi" button: bottom-left, aligned with the page edge ---------- */
+.chat-dock {
+  position: absolute;
+  /* clears the info block, which overlaps the stage by --home-overlap when stacked */
+  inset: auto 0 calc(var(--home-overlap, 0px) + clamp(12px, 2.4svh, 28px)) 0;
+}
+.chat-dock .chat-btn {
+  pointer-events: auto;
+  min-height: 48px;
+  animation: chat-in 420ms var(--ease-out) both;
+}
+.chat-dock .chat-btn:disabled {
+  cursor: progress;
+  opacity: 0.8;
+}
+@keyframes chat-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+}
+.chat-btn__long {
+  display: none;
+}
+@media (min-width: 480px) {
+  .chat-btn__long {
+    display: inline;
+  }
+}
+
+/* ---------- Message from the avatar ----------
+   Always sits in the clear band above the avatar's hat and below the header,
+   so it never lands on the text or the button at any screen size.
+   Stacked layouts: centred over the head. Wide layouts: to the upper-left of
+   the head, so it stays left of the text column.                            */
+.bubble-anchor {
+  position: absolute;
+  left: var(--hx);
+  top: max(
+    calc(var(--header-h) + env(safe-area-inset-top) + 8px),
+    calc(var(--hy) - var(--hr) * 0.78 - 122px)
+  );
+  width: 0;
+  height: 0;
+}
+.bubble {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: max-content;
+  max-width: min(300px, calc(100vw - 2 * var(--gutter)));
+  padding: 14px 44px 14px 16px;
+  background: var(--c-9);
+  color: var(--c-0);
+  border: var(--stroke) solid var(--c-0);
+  box-shadow: 6px 6px 0 var(--c-5);
+  font: 500 15px/1.45 var(--font-body);
+  transform: translateX(-50%);
+  transform-origin: 50% 100%;
+  pointer-events: auto;
+  animation: bubble-in 260ms var(--ease-out) both;
+}
+.bubble::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: -20px;
+  margin-left: -9px;
+  border: 9px solid transparent;
+  border-top: 11px solid var(--c-9);
+}
+.bubble p {
+  margin: 0;
+}
+@keyframes bubble-in {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -8px) scale(0.94);
+  }
+}
+
+/* ✕: a 40px hit area tucked into the top-right corner */
+.bubble__close {
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  width: 40px;
+  height: 40px;
+  display: grid;
+  place-items: center;
+  color: var(--c-0);
+  font: 400 26px/1 var(--font-body);
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+.bubble__close:hover {
+  background: var(--c-8);
+}
+.bubble__close:focus-visible {
+  outline: 2px dashed var(--c-0);
+  outline-offset: -4px;
+}
+
+/* Small phones: the message stays until it is closed, so it must not hide the
+   face. Tighter type and padding keep it to about three short lines. */
+@media (max-width: 419px) {
+  .bubble {
+    padding: 10px 38px 10px 12px;
+    font-size: 14px;
+    line-height: 1.35;
+  }
+  .bubble__close {
+    top: 0;
+    right: 0;
+    width: 36px;
+    height: 36px;
+    font-size: 24px;
+  }
+}
+
+@media (min-width: 1024px), (min-width: 640px) and (min-aspect-ratio: 6/5) {
+  .bubble-anchor {
+    left: calc(var(--hx) + var(--hr) * 0.5);
+  }
+  .bubble {
+    left: auto;
+    right: 0;
+    transform: none;
+    transform-origin: 100% 100%;
+    max-width: min(300px, calc(var(--hx) + var(--hr) * 0.5 - var(--gutter)));
+    animation-name: bubble-in-wide;
+  }
+  .bubble::after {
+    left: auto;
+    right: 36px;
+    margin-left: 0;
+  }
+}
+@keyframes bubble-in-wide {
+  from {
+    opacity: 0;
+    transform: translateY(-8px) scale(0.94);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .chat-dock .chat-btn,
+  .bubble {
+    animation: none;
+  }
+}

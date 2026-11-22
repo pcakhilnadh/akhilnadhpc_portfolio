@@ -1,0 +1,63 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Education",
+  "description": "Degrees, newest or oldest first as you prefer.",
+  "type": "object",
+  "properties": {
+    "$schema": {
+      "type": "string"
+    },
+    "education": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "degree": {
+            "type": "string",
+            "description": "e.g. M.Tech."
+          },
+          "field": {
+            "type": "string",
+            "description": "Field of study."
+          },
+          "institution": {
+            "type": "string",
+            "description": "School / university."
+          },
+          "url": {
+            "type": "string",
+            "description": "Institution website.",
+            "format": "uri"
+          },
+          "startYear": {
+            "type": "number",
+            "description": "Year started.",
+            "minimum": 1950,
+            "maximum": 2100
+          },
+          "endYear": {
+            "type": "number",
+            "description": "Year finished.",
+            "minimum": 1950,
+            "maximum": 2100
+          },
+          "grade": {
+            "type": "string",
+            "description": "As you want it shown, e.g. 7.5 CGPA or 92%."
+          }
+        },
+        "required": [
+          "degree",
+          "institution",
+          "startYear",
+          "endYear"
+        ],
+        "additionalProperties": false
+      }
+    }
+  },
+  "required": [
+    "education"
+  ],
+  "additionalProperties": false
+}

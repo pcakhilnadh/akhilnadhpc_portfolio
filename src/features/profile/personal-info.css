@@ -1,0 +1,87 @@
+/* ==========================================================
+   PersonalInfo: role / location tags, name and the short summary.
+   Type and spacing scale with screen height; the summary drops out on very
+   short screens so the rest always fits.
+   ========================================================== */
+.info {
+  max-width: 640px;
+}
+.info__tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 10px;
+  margin-bottom: clamp(10px, 2svh, 18px);
+}
+.info__name {
+  display: grid;
+  gap: 8px;
+}
+.info__first {
+  font-size: clamp(30px, min(12vw, 7.4svh), 88px);
+  white-space: nowrap;
+}
+.info__last {
+  font-size: clamp(14px, min(5.2vw, 3.4svh), 34px);
+  color: var(--bg);
+  -webkit-text-stroke: 1.2px var(--ink);
+  letter-spacing: 0.01em;
+}
+.info__summary {
+  max-width: 46ch;
+  margin-top: clamp(10px, 2svh, 18px);
+  color: var(--ink-soft);
+  font-size: clamp(14px, min(1.4vw + 10px, 2.1svh), 19px);
+}
+
+/* ---------- Stacked + short: drop the summary first ---------- */
+@media (max-width: 639px), (max-width: 1023px) and (max-aspect-ratio: 119/100) {
+  @media (max-height: 590px) {
+    .info__summary {
+      display: none;
+    }
+  }
+}
+
+/* ---------- Wide: info column on the right ---------- */
+@media (min-width: 1024px), (min-width: 640px) and (min-aspect-ratio: 6/5) {
+  .info {
+    width: var(--info-w, min(560px, 50%)); /* set by .home__info */
+    pointer-events: none;
+  }
+  .info__tags {
+    margin-bottom: clamp(14px, 2.6svh, 24px);
+  }
+  .info__first {
+    font-size: clamp(44px, min(6.6vw, 11svh), 112px);
+    white-space: normal;
+  }
+  .info__last {
+    font-size: clamp(18px, min(2.6vw, 4.4svh), 40px);
+  }
+  .info__summary {
+    margin-top: clamp(14px, 2.6svh, 24px);
+  }
+}
+
+/* ---------- Landscape phones / short windows: compact ---------- */
+@media (min-width: 640px) and (min-aspect-ratio: 6/5) and (max-height: 600px) {
+  .info__tags {
+    margin-bottom: 12px;
+  }
+  .info__first {
+    font-size: clamp(30px, 10vh, 64px);
+    white-space: nowrap;
+  }
+  .info__last {
+    font-size: clamp(14px, 4.4vh, 26px);
+  }
+  .info__summary {
+    margin-top: 12px;
+    font-size: 14px;
+  }
+}
+@media (min-width: 640px) and (min-aspect-ratio: 6/5) and (max-height: 440px) {
+  .info__summary {
+    display: none;
+  }
+}

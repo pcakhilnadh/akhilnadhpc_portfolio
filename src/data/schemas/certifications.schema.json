@@ -1,0 +1,67 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Certifications",
+  "description": "Courses and certificates.",
+  "type": "object",
+  "properties": {
+    "$schema": {
+      "type": "string"
+    },
+    "certifications": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Certificate title."
+          },
+          "issuer": {
+            "type": "string",
+            "description": "Who issued it."
+          },
+          "issued": {
+            "type": "string",
+            "description": "Issue date (YYYY-MM-DD).",
+            "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+          },
+          "expires": {
+            "type": "string",
+            "description": "Expiry date, if it expires.",
+            "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+          },
+          "credentialId": {
+            "type": "string",
+            "description": "Credential ID."
+          },
+          "url": {
+            "type": "string",
+            "description": "Link to verify or view it.",
+            "format": "uri"
+          },
+          "description": {
+            "type": "string",
+            "description": "One line."
+          },
+          "skills": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Skill names from skills.json that this certificate covers."
+          }
+        },
+        "required": [
+          "name",
+          "issuer",
+          "issued"
+        ],
+        "additionalProperties": false
+      }
+    }
+  },
+  "required": [
+    "certifications"
+  ],
+  "additionalProperties": false
+}

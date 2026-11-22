@@ -1,0 +1,24 @@
+/* The avatar layer fills the stage. The Home page sets:
+   --hx / --hy  head centre (px from the page's top-left = stage top-left)
+   --hr         head radius (px)                                          */
+
+.avatar-layer {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at var(--hx) var(--hy), #1c1c1c 0, #0a0a0a calc(var(--hr) * 3.2)),
+    var(--bg);
+}
+
+/* 3D canvas: only exists while the avatar is open; fades in once loaded. */
+.stage-canvas {
+  position: absolute !important;
+  inset: 0;
+  opacity: 0;
+  transition: opacity 700ms ease;
+}
+.avatar-layer[data-ready="true"] .stage-canvas {
+  opacity: 1;
+}

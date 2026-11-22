@@ -1,0 +1,45 @@
+/* ==========================================================
+   Monochrome NeoPOP — design tokens
+   Ink on black. Solid fills, hard edges, extruded "plunk" depth.
+   ========================================================== */
+:root {
+  color-scheme: dark;
+
+  /* Greys, darkest → lightest */
+  --c-0: #0a0a0a;
+  --c-1: #121212;
+  --c-2: #1b1b1b;
+  --c-3: #2a2a2a;
+  --c-4: #4d4d4d;
+  --c-5: #7a7a7a;
+  --c-6: #a3a3a3;
+  --c-7: #cfcfcf;
+  --c-8: #f2f2f2;
+  --c-9: #ffffff;
+
+  --bg: var(--c-0);
+  --surface: var(--c-1);
+  --surface-2: var(--c-2);
+  --line: var(--c-3);
+  --ink: var(--c-8);
+  --ink-soft: var(--c-6);
+  --ink-mute: var(--c-5);
+
+  /* Extrusion faces for light-on-dark and dark-on-light elements */
+  --edge-light-r: #a6a6a6;
+  --edge-light-b: #5e5e5e;
+  --edge-dark-r: #3a3a3a;
+  --edge-dark-b: #242424;
+
+  --font-display: "Archivo Black", "Arial Black", system-ui, sans-serif;
+  --font-body: "Space Grotesk", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, "Cascadia Code", Consolas, monospace;
+
+  --gutter: clamp(16px, 4vw, 40px);
+  --container: 1240px;
+  --header-h: 68px;
+  --footer-h: calc(36px + env(safe-area-inset-bottom));
+  --stroke: 2px;
+
+  --ease-out: cubic-bezier(0.2, 0.8, 0.2, 1);
+}

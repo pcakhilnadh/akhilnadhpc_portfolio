@@ -1,0 +1,86 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Experience",
+  "description": "Jobs, newest last or first as you prefer. Leave out `end` for your current job.",
+  "type": "object",
+  "properties": {
+    "$schema": {
+      "type": "string"
+    },
+    "experience": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "company": {
+            "type": "string",
+            "description": "Employer."
+          },
+          "location": {
+            "type": "string",
+            "description": "City."
+          },
+          "role": {
+            "type": "string",
+            "description": "Job title there."
+          },
+          "start": {
+            "type": "string",
+            "description": "Start date (YYYY-MM-DD).",
+            "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+          },
+          "end": {
+            "type": "string",
+            "description": "End date. Omit if you still work there.",
+            "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+          },
+          "url": {
+            "type": "string",
+            "description": "Company website.",
+            "format": "uri"
+          },
+          "references": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "description": "Reference's name."
+                },
+                "role": {
+                  "type": "string",
+                  "description": "Their role."
+                },
+                "linkedin": {
+                  "type": "string",
+                  "description": "Their LinkedIn.",
+                  "format": "uri"
+                },
+                "relationship": {
+                  "type": "string",
+                  "description": "e.g. Manager."
+                }
+              },
+              "required": [
+                "name"
+              ],
+              "additionalProperties": false
+            },
+            "description": "People who can vouch for this job."
+          }
+        },
+        "required": [
+          "company",
+          "role",
+          "start"
+        ],
+        "additionalProperties": false
+      }
+    }
+  },
+  "required": [
+    "experience"
+  ],
+  "additionalProperties": false
+}

@@ -1,194 +1,76 @@
-# Akhil Nadh PC Portfolio
+# akhilnadhpc portfolio
 
-A modern, responsive personal portfolio application built with React, Vite, TypeScript, and Tailwind CSS. The portfolio is a monolithic, static frontend application where all data is managed via local TypeScript files for fast performance and easy maintenance.
+Monochrome NeoPOP portfolio with an interactive 3D avatar. Installable as a PWA.
 
-## 🚀 Features
-- **Static Monolithic Architecture**: Fast, lightweight, and easily deployable without the need for a backend server.
-- **Dynamic Content Management**: Profile, skills, projects, certifications, and timeline are loaded from structured local TypeScript files (`src/data/`).
-- **Modern UI/UX**: Responsive, accessible, and beautiful design with dark/light mode switching.
-- **TypeScript**: End-to-end type safety.
-- **Clean Architecture**: Component-based design, SOLID principles, and separation of concerns.
+## Stack
 
-## 🏗️ Project Structure
+- Vite + React 19 + TypeScript
+- three.js via `@react-three/fiber` (lazy-loaded; the page paints before 3D loads)
+- `vite-plugin-pwa` (Workbox) for offline + install
+- Plain CSS design tokens, no UI framework
 
-```
-akhilnadhpc_portfolio/
-├── front_end/         # React frontend application
-│   ├── src/           
-│   │   ├── components/  # Reusable UI components
-│   │   ├── data/        # Static data files (personal, projects, etc.)
-│   │   ├── pages/       # Application views
-│   │   ├── hooks/       # Custom React hooks
-│   │   └── types/       # TypeScript definitions
-│   ├── package.json
-│   ├── tailwind.config.ts
-│   └── vite.config.ts
-├── Dockerfile         # Docker build for Nginx deployment
-├── nginx.conf         # Nginx configuration
-└── README.md          # Root documentation (this file)
-```
-
-## 🏛️ Application Architecture
-
-The portfolio follows a clean frontend architecture with a clear separation of concerns:
+## Structure
 
 ```
-┌─────────────────────────────────────────────────────────────────────────────┐
-│                              Frontend Layer                                 │
-│                         (React + TypeScript + Vite)                         │
-├─────────────────────────────────────────────────────────────────────────────┤
-│  ┌─────────────┐  ┌─────────────┐  ┌─────────────┐  ┌─────────────┐         │
-│  │   Pages     │  │ Components  │  │    Hooks    │  │    Types    │         │
-│  │             │  │             │  │             │  │             │         │
-│  │ • Home      │  │ • UI        │  │ • useAbout  │  │ • Data      │         │
-│  │ • About     │  │ • Layout    │  │ • useSkills │  │ • API       │         │
-│  │ • Skills    │  │ • Cards     │  │ • useProjects│ │ • Components│         │
-│  │ • Projects  │  │ • Modals    │  │ • useTimeline│ │             │         │
-│  │ • Timeline  │  │ • Charts    │  │             │  │             │         │
-│  └─────────────┘  └─────────────┘  └─────────────┘  └─────────────┘         │
-└─────────────────────────────────────────────────────────────────────────────┘
-                                    │
-                                    ▼ 
-┌─────────────────────────────────────────────────────────────────────────────┐
-│                              Data Layer                                     │
-│                            (TypeScript)                                     │
-├─────────────────────────────────────────────────────────────────────────────┤
-│  ┌─────────────┐  ┌─────────────┐  ┌─────────────┐  ┌─────────────┐         │
-│  │   Personal  │  │   Skills    │  │  Projects   │  │Work Experience│       │
-│  │             │  │             │  │             │  │             │         │
-│  │ • Profile   │  │ • Categories│  │ • Projects  │  │ • Timeline  │         │
-│  │ • Education │  │ • Levels    │  │ • Links     │  │ • Companies │         │
-│  │ • Social    │  │             │  │ • Tags      │  │             │         │
-│  └─────────────┘  └─────────────┘  └─────────────┘  └─────────────┘         │
-└─────────────────────────────────────────────────────────────────────────────┘
+src/
+  App.tsx                   app shell: Navbar + Home + Footer
+  pages/
+    Home.tsx                the inner app: lays out avatar, chat and personal info (home.css)
+  components/layout/
+    Navbar.tsx              top bar (nav + hamburger appear once config/site.ts navLinks has entries)
+    Footer.tsx              one thin line: name + repo link
+  features/
+    profile/
+      PersonalInfo.tsx      right side: role / location tags, name, intro
+    avatar/
+      Avatar.tsx            the avatar area: hosts Avatar2D + Avatar3D and crossfades between them
+      Avatar2D.tsx          static portrait (resting state, no-WebGL fallback)
+      Avatar3D.tsx          lazy-loaded 3D avatar (mounts on open, unmounts on close)
+      AvatarStage.tsx       <Canvas>, framing rig, pointer tracking (inside Avatar3D)
+      controller.ts         avatar state (supported / active / ready) + commands: open(), close(), play(), say()
+      useAvatarState.ts     React hook for that state
+      stageLoader.ts        lazy-loads the 3D chunk; preloads it on button hover
+      framing.ts            per-layout placement (mobile/tablet/wide)
+      chat/AvatarChat.tsx   "Say hi" button, loading state, the avatar message + close;
+                            the one place to build STT / AI reply / TTS
+      scene/                Head (GLB rig), RollNeck (turtleneck), Halo, Papers, Backdrop, monochrome shader
+  config/site.ts            what the site shows, derived from data/profile.json (+ nav links)
+  data/                     all site content as JSON (+ schemas, types, tiny loaders); see data/README.md
+  hooks/                    layout, media-query and PWA-install hooks
+  styles/                   tokens, base, NeoPOP primitives (component styles live next to components)
+public/
+  models/akhil-head.glb     optimised runtime model (meshopt + WebP, ~0.8 MB)
+  images/                   poster + social preview
+design/avatar/              source art: .blend, source GLB, references (not shipped)
 ```
 
-**Architecture Principles:**
-- **No Backend**: Removed API calls in favor of local data mapping for improved speed and zero server dependencies.
-- **Type Safety**: TypeScript provides complete type safety across components and data files.
-- **Component Modularity**: UI is decoupled into reusable, self-contained elements.
+## Avatar flow
 
-## 🐳 Docker & Nginx Deployment
+1. The page shows the static portrait and a **Say hi to my avatar** button. Nothing 3D is downloaded.
+2. Click: the 3D chunk and model load (hovering the button warms them), the portrait crossfades to the 3D avatar, which nods and shows one message.
+3. **✕** (or Esc) unmounts the 3D stage and returns to the portrait and button.
+4. Devices without WebGL keep the portrait and are not offered the button.
 
-This project is fully containerized using a multi-stage Docker build. It builds the React application and serves the static files using Nginx.
+## Avatar model
 
-### Quick Start (Docker)
+Regenerate the runtime model after exporting from Blender:
 
-This is the recommended way to run the application for production or local testing.
-
-**1. Build the Docker Image:**
 ```bash
-docker build -t portfolio-static .
+npx @gltf-transform/cli optimize design/avatar/akhilnadhpc.source.glb public/models/akhil-head.glb \
+  --compress meshopt --texture-compress webp --texture-size 1024 \
+  --join false --flatten false --instance false --simplify false
 ```
 
-**2. Run the Docker Container:**
-```bash
-docker run -d -p 8080:8080 --name my-portfolio portfolio-static
-```
+Node names `CharacterRoot`, `Head`, `Eye_L/R`, `Lid_L/R` and clips `Nod`, `Shake`,
+`LookAround`, `Blink` are used by the scene and must be kept.
 
-**3. Access the Application:**
-Open your browser to [`http://localhost:8080`](http://localhost:8080)
+## Scripts
 
-## � Vercel Deployment (Recommended for Production)
-
-Vercel is the optimal platform for deploying this static portfolio application. It provides:
-- ✅ Zero-configuration deployment
-- ✅ Automatic HTTPS and CDN
-- ✅ Preview deployments for pull requests
-- ✅ Analytics and monitoring
-- ✅ Custom domain support
-- ✅ Environment variables support
-
-### Prerequisites
-- GitHub account (Vercel integrates with GitHub)
-- Vercel account (sign up at [vercel.com](https://vercel.com))
-
-### Deployment Steps
-
-**1. Push your project to GitHub**
-```bash
-git push origin main
-```
-
-**2. Import project to Vercel**
-- Visit [https://vercel.com/new](https://vercel.com/new)
-- Select "Import Git Repository"
-- Choose your repository
-- Click "Import"
-
-**3. Configure Build Settings**
-Vercel will automatically detect this as a monorepo and may need manual configuration:
-- **Root Directory**: Leave blank (root)
-- **Build Command**: `cd front_end && npm install && npm run build`
-- **Output Directory**: `front_end/dist`
-- **Install Command**: Leave blank (Vercel handles it)
-
-**4. Deploy**
-- Click "Deploy"
-- Wait for the deployment to complete
-- Access your portfolio at the generated URL (e.g., `your-project.vercel.app`)
-
-### Vercel Configuration File
-
-The project includes a `vercel.json` file that contains:
-- Build and output directory configuration
-- Rewrite rules for client-side routing (SPA support)
-- Security headers
-- Static asset caching
-- Redirects for static files
-
-If you need to modify deployment settings, edit `vercel.json` and push the changes to trigger a redeployment.
-
-### Custom Domain
-
-To use a custom domain:
-1. In Vercel dashboard, go to your project settings
-2. Navigate to "Domains"
-3. Add your custom domain
-4. Update your domain's DNS records to point to Vercel
-5. Wait for DNS propagation (typically a few minutes)
-
-### Environment Variables
-
-If you need environment-specific configuration in the future:
-1. Go to project settings → Environment Variables
-2. Add your variables
-3. They'll be available at build time and runtime
-
-### Automatic Deployments
-
-By default, Vercel deploys automatically when you:
-- Push to the main branch (production)
-- Create pull requests (preview deployments)
-- Push to other branches (preview deployments)
-
-## �💻 Local Development
-
-If you want to run the application locally for development:
-
-**1. Navigate to the frontend directory:**
-```bash
-cd front_end
-```
-
-**2. Install dependencies:**
 ```bash
 npm install
+npm run dev        # http://localhost:5000
+npm run check:data # validate the JSON data files
+npm run build      # data check + type-check + production build + service worker
+npm run preview
+npx pwa-assets-generator   # regenerate icons from public/logo.svg
 ```
-
-**3. Start the development server:**
-```bash
-npm run dev
-```
-The frontend will be available at `http://localhost:5173`.
-
-## 🎨 Modifying Content
-
-To update your portfolio details, you don't need to modify components. Just edit the local data files in `front_end/src/data/`:
-- `personal.ts`: Basic profile information, social links, education.
-- `skills.ts`: Skill categories and tools.
-- `projects.ts`: Your portfolio projects and their associated links/technologies.
-- `timeline.ts`: Work experience and career progression.
-
-## 📄 License
-This project is part of the personal portfolio of Akhil Nadh PC. Feel free to use as a template for your own portfolio!
