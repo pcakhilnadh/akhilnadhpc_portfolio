@@ -1,10 +1,10 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
-import App from "./App";
+// Global styles first, so component styles (imported by App) cascade after them.
 import "./styles/tokens.css";
 import "./styles/base.css";
 import "./styles/neopop.css";
-import "./styles/layout.css";
+import App from "./App";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>

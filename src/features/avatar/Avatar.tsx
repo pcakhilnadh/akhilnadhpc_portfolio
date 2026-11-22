@@ -1,9 +1,9 @@
-import { Component, lazy, Suspense, useEffect, useState, type ReactNode, type RefObject } from "react";
+import { useEffect } from "react";
+import { Avatar2D } from "./Avatar2D";
+import { Avatar3D, type Avatar3DProps } from "./Avatar3D";
 import { avatar } from "./controller";
-import type { Framing } from "./framing";
+import { useAvatarState } from "./useAvatarState";
 import "./avatar.css";
-
-const AvatarStage = lazy(() => import("./AvatarStage"));
 
 function hasWebGL(): boolean {
   try {
@@ -14,83 +14,23 @@ function hasWebGL(): boolean {
   }
 }
 
-class StageBoundary extends Component<{ children: ReactNode; onError: () => void }, { failed: boolean }> {
-  state = { failed: false };
-  static getDerivedStateFromError() {
-    return { failed: true };
-  }
-  componentDidCatch(error: unknown) {
-    console.warn("Avatar stage failed, showing poster instead.", error);
-    this.props.onError();
-  }
-  render() {
-    return this.state.failed ? null : this.props.children;
-  }
-}
+/**
+ * The avatar area: hosts <Avatar2D /> and <Avatar3D /> in the same spot and
+ * crossfades between them as the avatar is opened and closed
+ * (see controller.ts for the state they follow).
+ */
+export function Avatar(props: Avatar3DProps) {
+  const { active, ready } = useAvatarState();
 
-/** Rendered by the hero above its copy, so the bubble is never covered by text. */
-export function SpeechBubble() {
-  const [line, setLine] = useState<{ text: string; key: number } | null>(null);
+  // Devices without WebGL keep the 2D portrait and are never offered the 3D avatar.
   useEffect(() => {
-    let timer: number | undefined;
-    const unsubscribe = avatar.subscribe((e) => {
-      if (e.type === "say") {
-        window.clearTimeout(timer);
-        setLine({ text: e.text, key: Date.now() });
-        timer = window.setTimeout(() => setLine(null), e.durationMs);
-      }
-      if (e.type === "hush") setLine(null);
-    });
-    return () => {
-      unsubscribe();
-      window.clearTimeout(timer);
-    };
+    if (!hasWebGL()) avatar.setSupported(false);
   }, []);
-  return (
-    <div className="bubble-anchor" aria-live="polite">
-      {line && (
-        <p key={line.key} className="bubble">
-          {line.text}
-        </p>
-      )}
-    </div>
-  );
-}
-
-interface Props {
-  eventSource: RefObject<HTMLElement | null>;
-  framing: Framing;
-  active: boolean;
-  reducedMotion: boolean;
-  lowPower: boolean;
-}
-
-/** The avatar layer of the hero: 3D stage when possible, illustrated poster otherwise. */
-export function Avatar(props: Props) {
-  const [webgl] = useState(hasWebGL);
-  const [ready, setReady] = useState(false);
-  const [failed, setFailed] = useState(false);
-  const show3d = webgl && !failed;
 
   return (
-    <div className="avatar-layer" data-ready={ready && show3d}>
-      <div className="avatar-poster" aria-hidden={show3d && ready}>
-        <img
-          src="/images/avatar-poster.webp"
-          alt="Illustrated portrait of Akhil Nadh in a wide-brimmed hat and turtleneck"
-          width={720}
-          height={964}
-          decoding="async"
-          fetchPriority="high"
-        />
-      </div>
-      {show3d && (
-        <StageBoundary onError={() => setFailed(true)}>
-          <Suspense fallback={null}>
-            <AvatarStage {...props} onReady={() => setReady(true)} />
-          </Suspense>
-        </StageBoundary>
-      )}
+    <div className="avatar-layer" data-ready={active && ready}>
+      <Avatar2D hidden={active && ready} />
+      <Avatar3D {...props} />
     </div>
   );
 }

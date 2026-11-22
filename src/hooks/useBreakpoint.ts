@@ -10,7 +10,7 @@ function subscribe(cb: () => void) {
   };
 }
 
-/** Current hero layout: "mobile" | "tablet" | "wide". */
+/** Current page layout: "mobile" | "tablet" | "wide". */
 export function useLayout(): Layout {
   return useSyncExternalStore(
     subscribe,

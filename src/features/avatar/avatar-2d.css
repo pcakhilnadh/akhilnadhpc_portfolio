@@ -1,0 +1,34 @@
+/* Avatar2D: the avatar's resting state (and the no-WebGL fallback).
+   A soft-edged medallion cropped around the head so the portrait's white
+   background reads as a halo. In the portrait the brim spans ~75% of the
+   width, centred at x 53%, with the head at ~43% of the height, so the
+   image is sized and offset to sit exactly where the 3D head will appear. */
+.avatar-2d {
+  position: absolute;
+  left: var(--hx);
+  top: var(--hy);
+  width: calc(var(--hr) * 2.5);
+  aspect-ratio: 1;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  overflow: hidden;
+  background: radial-gradient(circle, #e9e9e9 0, #9a9a9a 45%, #3a3a3a 72%);
+  -webkit-mask-image: radial-gradient(circle, #000 60%, transparent 71%);
+  mask-image: radial-gradient(circle, #000 60%, transparent 71%);
+  transition: opacity 600ms ease;
+  pointer-events: none;
+}
+.avatar-2d img {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 106.8%;
+  max-width: none;
+  height: auto;
+  transform: translate(-53%, -43%);
+  mix-blend-mode: multiply;
+}
+/* Crossfade away once the 3D avatar is showing */
+.avatar-layer[data-ready="true"] .avatar-2d {
+  opacity: 0;
+}

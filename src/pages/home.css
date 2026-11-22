@@ -1,0 +1,95 @@
+/* ==========================================================
+   Home: the inner app. The area between Navbar and Footer; it lays out the
+   avatar and the personal info and owns nothing else.
+
+   It is exactly one screen tall (no page scroll). Stacked layout (phones,
+   portrait tablets): the avatar stage flexes to fill whatever height the
+   info leaves, so nothing is clipped. Wide layout (desktop, landscape):
+   the stage fills the page, the avatar stands on the left and the info sits
+   on the right.
+
+   Keep the wide media query in sync with layoutFor() in
+   features/avatar/framing.ts.
+   ========================================================== */
+.home {
+  /* How far the info is pulled up over the avatar stage (stacked layout). */
+  --home-overlap: 24px;
+  position: relative;
+  isolation: isolate;
+  display: flex;
+  flex-direction: column;
+  height: calc(100vh - var(--footer-h));
+  height: calc(100svh - var(--footer-h));
+  overflow: hidden;
+  background: var(--bg);
+}
+.home__stage {
+  position: relative;
+  flex: 1 1 0;
+  min-height: 180px;
+  touch-action: pan-y;
+}
+/* Fade the stage into the info below */
+.home__stage::after {
+  content: "";
+  position: absolute;
+  inset: auto 0 0;
+  z-index: 1;
+  height: 22%;
+  background: linear-gradient(to bottom, rgb(10 10 10 / 0), var(--bg) 92%);
+  pointer-events: none;
+}
+.home__info {
+  position: relative;
+  z-index: 2;
+  flex: none;
+  margin-top: calc(-1 * var(--home-overlap));
+  padding-bottom: clamp(16px, 3.5svh, 40px);
+}
+
+/* ---------- Wide: avatar left, info right ---------- */
+@media (min-width: 1024px), (min-width: 640px) and (min-aspect-ratio: 6/5) {
+  .home {
+    flex-direction: row;
+    --home-overlap: 0px;
+  }
+  .home__stage {
+    position: absolute;
+    inset: 0;
+    height: auto;
+  }
+  .home__stage::after {
+    display: none;
+  }
+  .home__info {
+    /* width of the info column (also read by personal-info.css) */
+    --info-w: min(560px, 50%);
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    margin-top: 0;
+    padding-top: calc(var(--header-h) + 16px);
+    padding-bottom: 40px;
+    pointer-events: none;
+  }
+  /* scrim behind the info so drifting pages never hurt legibility */
+  .home__info::before {
+    content: "";
+    position: absolute;
+    /* Spans the info column plus a 160px fade to its left (and out past the
+       right edge), so it never reaches over the avatar on narrower screens. */
+    inset: 0 -50vw 0 auto;
+    width: calc(50vw + var(--info-w) + 160px);
+    z-index: -1;
+    background: linear-gradient(to left, rgb(10 10 10 / 0.9) calc(100% - 160px), rgb(10 10 10 / 0));
+    pointer-events: none;
+  }
+}
+
+/* Landscape phones / short windows: tighter padding so everything fits one screen */
+@media (min-width: 640px) and (min-aspect-ratio: 6/5) and (max-height: 600px) {
+  .home__info {
+    padding-top: calc(var(--header-h) + 8px);
+    padding-bottom: 20px;
+  }
+}

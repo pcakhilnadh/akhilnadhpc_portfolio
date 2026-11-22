@@ -9,10 +9,10 @@ import { stage } from "./scene/stageState";
 import type { Framing } from "./framing";
 
 interface Props {
-  /** Element that receives pointer events (the whole hero, so overlays don't block). */
+  /** Element that receives pointer events (the whole page area, so overlays don't block). */
   eventSource: RefObject<HTMLElement | null>;
   framing: Framing;
-  active: boolean;
+  running: boolean;
   reducedMotion: boolean;
   lowPower: boolean;
   onReady: () => void;
@@ -34,7 +34,7 @@ function FramingRig({ framing }: { framing: Framing }) {
   return null;
 }
 
-export default function AvatarStage({ eventSource, framing, active, reducedMotion, lowPower, onReady }: Props) {
+export default function AvatarStage({ eventSource, framing, running, reducedMotion, lowPower, onReady }: Props) {
   stage.reducedMotion = reducedMotion;
 
   // Track the pointer anywhere on the page, in the canvas's NDC (so the
@@ -61,7 +61,7 @@ export default function AvatarStage({ eventSource, framing, active, reducedMotio
       className="stage-canvas"
       eventSource={eventSource as RefObject<HTMLElement>}
       eventPrefix="client"
-      frameloop={active ? "always" : "never"}
+      frameloop={running ? "always" : "never"}
       dpr={lowPower ? [1, 1.5] : [1, 2]}
       flat
       camera={{ fov: 30, position: [0, 0, 10], near: 0.1, far: 50 }}

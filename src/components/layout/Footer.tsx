@@ -1,23 +1,17 @@
-import { site, socialLinks } from "../../config/site";
-import { Logo } from "./Header";
+import { site } from "../../config/site";
+import "./footer.css";
 
 export function Footer() {
   return (
     <footer className="site-footer">
       <div className="container site-footer__inner">
-        <Logo />
-        <ul className="site-footer__links">
-          {socialLinks.map((s) => (
-            <li key={s.href}>
-              <a href={s.href} target="_blank" rel="noopener noreferrer">
-                {s.label} ↗
-              </a>
-            </li>
-          ))}
-        </ul>
-        <p className="site-footer__meta">
-          © {new Date().getFullYear()} {site.fullName}
+        <p>
+          <span className="site-footer__year">© {new Date().getFullYear()} </span>
+          {site.fullName}
         </p>
+        <a href={site.repoUrl} target="_blank" rel="noopener noreferrer">
+          GitHub ↗
+        </a>
       </div>
     </footer>
   );

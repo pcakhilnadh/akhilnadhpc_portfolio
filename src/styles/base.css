@@ -76,11 +76,24 @@ html.is-grabbing * {
   user-select: none;
 }
 
+/* The landing page is one fixed screen: no scroll, no scrollbar. This
+   switches itself off as soon as more sections are added after Home. */
+html:has(main > .home:only-child),
+html:has(main > .home:only-child) body {
+  height: 100%;
+  overflow: hidden;
+  overscroll-behavior: none;
+}
+
 .container {
   width: 100%;
   max-width: var(--container);
   margin-inline: auto;
   padding-inline: var(--gutter);
+}
+
+main:focus {
+  outline: none; /* focus lands here from the skip link; it is not an interactive control */
 }
 
 .visually-hidden {

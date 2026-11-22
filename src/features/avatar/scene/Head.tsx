@@ -13,11 +13,10 @@ import {
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
 import { MeshoptDecoder } from "three/examples/jsm/libs/meshopt_decoder.module.js";
 import { avatar, type AvatarClip } from "../controller";
+import { MODEL_URL } from "../model";
 import { RollNeck } from "./RollNeck";
 import { monochromize } from "./monochrome";
 import { clamp, damp, fromControl, stage } from "./stageState";
-
-export const MODEL_URL = "/models/akhil-head.glb";
 
 const configureLoader = (loader: GLTFLoader) => {
   loader.setMeshoptDecoder(MeshoptDecoder);

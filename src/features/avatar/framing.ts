@@ -2,16 +2,16 @@
  * Where (and how big) the avatar sits for each layout.
  *
  * Coordinates are relative to the avatar stage (the canvas box):
- *  - "wide"    stage = whole hero; figure on the left, copy on the right.
+ *  - "wide"    stage = the whole page area; avatar on the left, info on the right.
  *              Used on desktop, landscape tablets and landscape phones.
- *  - "tablet"  stage = top block of the hero; copy flows below it.
+ *  - "tablet"  stage = top block of the page; the info flows below it.
  *  - "mobile"  same stacked layout, tuned for narrow portrait screens.
  *
  * `variant` picks the model. Today every layout uses "head" (head GLB +
  * roll-neck). A modelled bust / full-body GLB can add "bust" / "full" later,
  * e.g. full body on wide screens and head-only on phones.
  *
- * Keep the media query in layout.css (`--wide`) in sync with `layoutFor`.
+ * Keep the wide media query in pages/home.css (and personal-info.css) in sync with `layoutFor`.
  */
 export type Layout = "mobile" | "tablet" | "wide";
 export type AvatarVariant = "head" | "bust" | "full";
