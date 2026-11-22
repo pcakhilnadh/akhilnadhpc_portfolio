@@ -27,7 +27,7 @@ export interface Profile {
   summary: string;
   /** What the avatar says when opened */
   avatarGreeting: string;
-  /** Long bio, for a future About page; blank lines separate paragraphs */
+  /** Long bio for the About section; blank lines separate paragraphs */
   about?: string;
   resumeSummary?: string;
   email: string;
@@ -137,10 +137,10 @@ export interface Project {
 
 /** personal.json: sensitive details. Deliberately NOT exported from index.ts, so the website cannot ship it. */
 export interface Personal {
-  dateOfBirth?: string;
+  /** "YYYY-MM": month and year only, the full date is deliberately not stored */
+  birthMonth?: string;
   placeOfBirth?: string;
   maritalStatus?: string;
-  phone?: string;
   address?: { street?: string; postalCode?: string };
-  family?: { relationship: string; name: string; occupation?: string; dateOfBirth?: string; profileUrl?: string }[];
+  family?: { relationship: string; name: string; occupation?: string; birthMonth?: string; profileUrl?: string }[];
 }

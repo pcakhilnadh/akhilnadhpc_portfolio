@@ -1,0 +1,144 @@
+/* ==========================================================
+   Projects: one plank per case study; the detail folds open.
+   ========================================================== */
+.projects {
+  display: grid;
+  gap: 40px;
+}
+.project {
+  display: grid;
+  gap: 28px;
+  padding: clamp(20px, 4vw, 44px);
+}
+.project__kicker {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 18px;
+}
+.project__kicker .np-tag:not(.np-tag--solid) {
+  color: var(--ink-soft);
+}
+.project__title {
+  font: 400 clamp(26px, 4.6vw, 48px) / 1 var(--font-display);
+  text-transform: uppercase;
+  max-width: 22ch;
+}
+.project__desc {
+  max-width: 62ch;
+  margin-top: 16px;
+  color: var(--ink-soft);
+  font-size: clamp(15px, 1vw + 11px, 18px);
+}
+
+.project__facts {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 130px), 1fr));
+  gap: 20px;
+  padding-block: 20px;
+  border-block: 1px solid var(--line);
+}
+
+/* Stat blocks: light planks, dark ink */
+.project__stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 136px), 1fr));
+  gap: 14px;
+}
+.project__stat {
+  display: grid;
+  align-content: space-between;
+  gap: 14px;
+  min-height: clamp(96px, 12vw, 112px);
+  padding: clamp(12px, 2vw, 16px);
+  background: var(--c-8);
+  color: var(--c-0);
+  box-shadow: 5px 5px 0 var(--c-4);
+}
+.project__stat-value {
+  font: 400 clamp(20px, 3vw, 34px) / 1 var(--font-display);
+  overflow-wrap: anywhere;
+}
+.project__stat-label {
+  font: 500 11px/1.35 var(--font-mono);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+/* ---------- Case study fold ---------- */
+.project__more summary {
+  width: max-content;
+  list-style: none;
+  cursor: pointer;
+}
+.project__more summary::-webkit-details-marker {
+  display: none;
+}
+.project__more[open] summary .arrow {
+  transform: rotate(180deg);
+}
+.project__case {
+  display: grid;
+  gap: 28px;
+  margin-top: 28px;
+  color: var(--ink-soft);
+}
+.case-block {
+  display: grid;
+  gap: 12px;
+  max-width: 78ch;
+}
+.project__steps {
+  display: grid;
+  gap: 8px;
+  counter-reset: step;
+}
+.project__steps li {
+  counter-increment: step;
+  display: grid;
+  grid-template-columns: 32px 1fr;
+}
+.project__steps li::before {
+  content: counter(step, decimal-leading-zero);
+  font: 500 12px/1.9 var(--font-mono);
+  color: var(--ink-mute);
+}
+.project__models {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 12px;
+}
+.project__models li {
+  display: grid;
+  align-content: start;
+  gap: 4px;
+  padding: 14px;
+  border: 1px solid var(--c-4);
+}
+.project__models strong {
+  color: var(--ink);
+}
+.project__models span {
+  font-size: 14px;
+}
+.project__model-purpose {
+  color: var(--ink-mute);
+}
+.project__impact {
+  display: grid;
+  gap: 8px;
+}
+.project__impact li {
+  display: grid;
+  grid-template-columns: 22px 1fr;
+}
+.project__impact li::before {
+  content: "→";
+  font-family: var(--font-mono);
+  color: var(--ink);
+}
+.project__stack {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 18px;
+}

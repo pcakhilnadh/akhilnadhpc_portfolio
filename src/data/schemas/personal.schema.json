@@ -1,16 +1,16 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
   "title": "Personal (private)",
-  "description": "Sensitive details. The website never imports this file. Consider keeping it out of a public repository.",
+  "description": "Sensitive details. The website never imports this file. No phone number or full date of birth is kept here. Consider keeping it out of a public repository.",
   "type": "object",
   "properties": {
     "$schema": {
       "type": "string"
     },
-    "dateOfBirth": {
+    "birthMonth": {
       "type": "string",
-      "description": "YYYY-MM-DD.",
-      "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+      "description": "Month and year of birth, YYYY-MM. The full date is deliberately not stored.",
+      "pattern": "^d{4}-(0[1-9]|1[0-2])$"
     },
     "placeOfBirth": {
       "type": "string",
@@ -19,10 +19,6 @@
     "maritalStatus": {
       "type": "string",
       "description": "Marital status."
-    },
-    "phone": {
-      "type": "string",
-      "description": "Phone number."
     },
     "address": {
       "type": "object",
@@ -56,10 +52,10 @@
             "type": "string",
             "description": "Occupation."
           },
-          "dateOfBirth": {
+          "birthMonth": {
             "type": "string",
-            "description": "YYYY-MM-DD.",
-            "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+            "description": "Month and year of birth, YYYY-MM. The full date is deliberately not stored.",
+            "pattern": "^d{4}-(0[1-9]|1[0-2])$"
           },
           "profileUrl": {
             "type": "string",

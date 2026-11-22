@@ -1,0 +1,67 @@
+.skills {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr));
+  gap: 24px;
+  align-items: start;
+}
+.skills__legend {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  margin: -24px 0 32px;
+  font: 500 11px/1 var(--font-mono);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-mute);
+}
+.skills__legend-sep {
+  padding-inline: 4px;
+}
+.skill-group__head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  padding-bottom: 14px;
+  margin-bottom: 14px;
+  border-bottom: 1px solid var(--line);
+}
+.skill-group__title {
+  font: 400 18px/1.1 var(--font-display);
+  text-transform: uppercase;
+}
+.skill-group__count {
+  font: 500 12px/1 var(--font-mono);
+  color: var(--ink-mute);
+}
+.skill-group__list {
+  display: grid;
+  gap: 10px;
+}
+.skill {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+.skill__name {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+/* Five hard-edged blocks */
+.meter {
+  display: inline-flex;
+  flex: none;
+  gap: 3px;
+}
+.meter span {
+  width: 10px;
+  height: 10px;
+  border: 1px solid var(--c-4);
+}
+.meter span[data-on] {
+  background: var(--ink);
+  border-color: var(--ink);
+}

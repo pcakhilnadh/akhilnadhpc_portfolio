@@ -1,19 +1,11 @@
-import { useEffect, useState, type MouseEvent } from "react";
-import { navLinks, site } from "../../config/site";
+import { useEffect, useState } from "react";
+import { contactHref, navLinks, site } from "../../config/site";
+import { useActiveSection } from "../../hooks/useActiveSection";
 import { useInstallPrompt } from "../../hooks/useInstallPrompt";
+import { scrollToHash } from "../../lib/scrollToHash";
 import "./navbar.css";
 
-/**
- * In-page links scroll to their target without touching the URL, so the
- * address bar never gains a "/#section" suffix. (Smooth scrolling and its
- * reduced-motion opt-out come from the `scroll-behavior` rule in base.css.)
- */
-function scrollToHash(e: MouseEvent<HTMLAnchorElement>, hash: string, afterScroll?: () => void) {
-  if (!hash.startsWith("#")) return; // real links navigate normally
-  e.preventDefault();
-  document.querySelector(hash)?.scrollIntoView();
-  afterScroll?.();
-}
+const sectionIds = navLinks.map((l) => l.href.slice(1));
 
 function Logo() {
   return (
@@ -38,11 +30,12 @@ function Logo() {
   );
 }
 
-/** The top bar: logo, (later) section links, and the install / contact buttons. */
+/** The top bar: logo, section links, and the install / contact buttons. */
 export function Navbar() {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const { canInstall, install } = useInstallPrompt();
+  const active = useActiveSection(sectionIds);
   // The nav + hamburger only exist once navLinks has entries (see config/site.ts).
   const hasNav = navLinks.length > 0;
 
@@ -71,7 +64,11 @@ export function Navbar() {
               <ul>
                 {navLinks.map((l) => (
                   <li key={l.href}>
-                    <a href={l.href} onClick={(e) => scrollToHash(e, l.href)}>
+                    <a
+                      href={l.href}
+                      aria-current={active === l.href.slice(1) ? "location" : undefined}
+                      onClick={(e) => scrollToHash(e, l.href)}
+                    >
                       {l.label}
                     </a>
                   </li>
@@ -85,7 +82,11 @@ export function Navbar() {
                 Install app
               </button>
             )}
-            <a href={"mailto:" + site.email} className="np np-btn np-btn--primary np-btn--sm header-cta">
+            <a
+              href={contactHref}
+              className="np np-btn np-btn--primary np-btn--sm header-cta"
+              onClick={(e) => scrollToHash(e, contactHref, () => setOpen(false))}
+            >
               Let&apos;s talk
             </a>
             {hasNav && (
@@ -121,11 +122,21 @@ export function Navbar() {
               ))}
             </ol>
           </nav>
-          {canInstall && (
-            <button type="button" className="np np-btn np-btn--primary" onClick={install}>
-              Install as app
-            </button>
-          )}
+          <div className="mobile-menu__actions">
+            {/* The header's "Let's talk" is hidden on the smallest phones; this one always shows. */}
+            <a
+              href={contactHref}
+              className="np np-btn np-btn--primary"
+              onClick={(e) => scrollToHash(e, contactHref, () => setOpen(false))}
+            >
+              Let&apos;s talk <span className="arrow" aria-hidden="true">→</span>
+            </a>
+            {canInstall && (
+              <button type="button" className="np np-btn np-btn--ghost" onClick={install}>
+                Install as app
+              </button>
+            )}
+          </div>
         </div>
       )}
     </>

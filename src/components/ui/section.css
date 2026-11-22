@@ -1,0 +1,83 @@
+/* ==========================================================
+   Section shell + the card primitive the sections share.
+   ========================================================== */
+.section {
+  padding-block: clamp(72px, 12vw, 140px);
+  border-top: var(--stroke) solid var(--line);
+}
+.section__head {
+  margin-bottom: clamp(36px, 6vw, 64px);
+}
+.section__index {
+  color: var(--ink);
+}
+.section__title {
+  display: grid;
+  gap: 6px;
+  margin-top: 18px;
+  font-size: clamp(40px, 9vw, 96px);
+}
+.section__outline {
+  font-size: 0.42em;
+  color: var(--bg);
+  -webkit-text-stroke: 1.2px var(--ink);
+  letter-spacing: 0.01em;
+}
+
+/* Sub-heading inside a section (e.g. Education inside About) */
+.subhead {
+  display: flex;
+  align-items: baseline;
+  gap: 14px;
+  margin-bottom: 28px;
+  font: 400 clamp(24px, 4vw, 36px) / 1 var(--font-display);
+  text-transform: uppercase;
+}
+.subhead small {
+  font: 500 12px/1 var(--font-mono);
+  letter-spacing: 0.16em;
+  color: var(--ink-mute);
+}
+
+/* ---------- Card: a dark plank with a quiet extrusion ---------- */
+.card {
+  --d: 6px;
+  --face-r: var(--c-4);
+  --face-b: var(--c-3);
+  border-color: var(--c-4);
+  background: var(--surface);
+  padding: clamp(18px, 3vw, 28px);
+}
+
+/* Small mono label/value pair */
+.kv {
+  display: grid;
+  gap: 6px;
+}
+.kv dt {
+  font: 500 11px/1 var(--font-mono);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--ink-mute);
+}
+.kv dd {
+  color: var(--ink);
+}
+
+.tag-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.tag-list .np-tag {
+  color: var(--ink-soft);
+}
+
+/* Inline text link with an underline that fills in */
+.text-link {
+  border-bottom: 1px solid var(--c-4);
+  transition: border-color 150ms ease;
+}
+.text-link:hover {
+  border-bottom-color: var(--ink);
+}

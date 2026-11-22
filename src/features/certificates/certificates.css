@@ -1,0 +1,39 @@
+.certs {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 320px), 1fr));
+  gap: 24px;
+}
+.cert {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.cert__top {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  font: 500 12px/1 var(--font-mono);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-mute);
+}
+.cert__name {
+  font-size: clamp(18px, 1vw + 14px, 21px);
+  font-weight: 700;
+  line-height: 1.25;
+}
+.cert__link {
+  margin-top: auto;
+  padding-top: 14px;
+  border-top: 1px solid var(--line);
+  font: 500 12px/1 var(--font-mono);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  transition: color 150ms ease;
+}
+.cert__link:hover {
+  color: var(--ink);
+}

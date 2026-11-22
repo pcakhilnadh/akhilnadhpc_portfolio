@@ -4,14 +4,14 @@ Everything the site says about you lives in the JSON files in this folder. Edit 
 
 | File | What it holds | Used by the site today |
 |---|---|---|
-| `profile.json` | Name, role, summary, location, email, socials, bios, repo link | **Yes**: landing page, footer, page title, share cards, installable-app name |
-| `skills.json` | Skills grouped by category, rated 1 to 5 | Not yet |
-| `certifications.json` | Courses and certificates (skills listed by name) | Not yet |
-| `experience.json` | Jobs, with their references nested inside | Not yet |
-| `education.json` | Degrees | Not yet |
-| `projects.json` | Case studies | Not yet |
+| `profile.json` | Name, role, summary, location, email, socials, bios, repo link | **Yes**: landing page, About, Contact, footer, page title, share cards, installable-app name |
+| `skills.json` | Skills grouped by category, rated 1 to 5 | **Yes**: Skills |
+| `certifications.json` | Courses and certificates (skills listed by name) | **Yes**: Certificates |
+| `experience.json` | Jobs, with their references nested inside | **Yes**: Experience timeline |
+| `education.json` | Degrees | **Yes**: Education timeline, inside About |
+| `projects.json` | Case studies | **Yes**: Projects, linked from Experience |
 | `services.json` | What you offer | Not yet |
-| `personal.json` | **Sensitive**: date of birth, phone, address, family | Never (see below) |
+| `personal.json` | **Sensitive**: birth month/year, address, family (no phone, no full date of birth) | Never (see below) |
 
 ## Common edits
 
