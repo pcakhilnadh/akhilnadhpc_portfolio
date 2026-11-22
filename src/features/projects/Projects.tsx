@@ -5,13 +5,12 @@ import type { Project } from "../../data/types";
 import { period } from "../../lib/dates";
 import "./projects.css";
 
-/** Case studies from projects.json, latest first. */
+/** Case studies from projects.json, in the order they appear in the file. */
 export function Projects() {
-  const sorted = [...projects].sort((a, b) => (a.startDate < b.startDate ? 1 : -1));
   return (
     <Section id="projects" index="03" eyebrow="Projects" title="Projects" outline="Selected work">
       <div className="projects">
-        {sorted.map((p, i) => (
+        {projects.map((p, i) => (
           <ProjectCard key={p.slug} project={p} index={i + 1} />
         ))}
       </div>
@@ -23,7 +22,7 @@ function ProjectCard({ project: p, index }: { project: Project; index: number })
   const facts = [
     { k: "Role", v: p.role },
     { k: "Company", v: p.company },
-    { k: "When", v: period(p.startDate, p.endDate) + (p.duration ? ` · ${p.duration}` : "") },
+    { k: "When", v: p.startDate ? period(p.startDate, p.endDate) + (p.duration ? ` · ${p.duration}` : "") : undefined },
     { k: "Team", v: p.teamSize ? `${p.teamSize} people` : undefined },
   ].filter((f) => f.v);
 
@@ -49,14 +48,16 @@ function ProjectCard({ project: p, index }: { project: Project; index: number })
         <p className="project__desc">{p.shortDescription}</p>
       </header>
 
-      <dl className="project__facts">
-        {facts.map((f) => (
-          <div key={f.k} className="kv">
-            <dt>{f.k}</dt>
-            <dd>{f.v}</dd>
-          </div>
-        ))}
-      </dl>
+      {facts.length > 0 && (
+        <dl className="project__facts">
+          {facts.map((f) => (
+            <div key={f.k} className="kv">
+              <dt>{f.k}</dt>
+              <dd>{f.v}</dd>
+            </div>
+          ))}
+        </dl>
+      )}
 
       {p.highlights && p.highlights.length > 0 && (
         <ul className="project__stats" aria-label="Highlights">
@@ -84,6 +85,11 @@ function ProjectCard({ project: p, index }: { project: Project; index: number })
           Case study <span className="arrow" aria-hidden="true">↓</span>
         </summary>
         <div className="project__case">
+          {p.longDescription && (
+            <CaseBlock title="Overview">
+              <p>{p.longDescription}</p>
+            </CaseBlock>
+          )}
           {p.problemStatement && (
             <CaseBlock title="Problem">
               <p>{p.problemStatement}</p>

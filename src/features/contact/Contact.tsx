@@ -9,7 +9,7 @@ export function Contact() {
   const socials = [...(profile.socials ?? [])].sort((a, b) => Number(!!b.primary) - Number(!!a.primary));
 
   return (
-    <Section id="contact" index="06" eyebrow="Contact" title="Let's talk" outline="Say hello">
+    <Section id="contact" index="07" eyebrow="Contact" title="Let's talk" outline="Say hello">
       <div className="contact">
         <div className="contact__cta">
           <p className="contact__lead">

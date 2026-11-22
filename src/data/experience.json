@@ -2,34 +2,25 @@
   "$schema": "./schemas/experience.schema.json",
   "experience": [
     {
-      "company": "NEST DIGITAL PVT LTD",
-      "location": "Kochi",
-      "role": "Senior Software Engineer",
-      "start": "2019-12-03",
-      "end": "2024-09-23",
-      "url": "https://www.nestdigital.com",
-      "references": [
-        {
-          "name": "Rameel Rahman",
-          "role": "Principal Architect at NeST",
-          "linkedin": "https://www.linkedin.com/in/rameelrahman/",
-          "relationship": "Manager"
-        },
-        {
-          "name": "Mohammed Riyaz Srambikkal",
-          "role": "Associate Delivery Manager",
-          "linkedin": "https://www.linkedin.com/in/mohammed-riyaz-srambikkal/",
-          "relationship": "Manager"
-        }
-      ]
+      "company": "Recode Solutions",
+      "location": "Chennai",
+      "role": "Gen AI Engineer",
+      "start": "2026-10-01",
+      "context": "Service-based company."
     },
     {
       "company": "Air India",
       "location": "Kochi",
-      "role": "Lead Data Scientist",
+      "role": "Lead Engineer – Data Scientist",
       "start": "2024-10-03",
-      "end": "2026-09-29",
+      "end": "2026-09-30",
       "url": "https://www.airindia.com",
+      "context": "Product company",
+      "highlights": [
+        "Architected and deployed enterprise AI solutions for intelligent cargo document processing, leveraging Azure Document Intelligence and multimodal LLMs including Azure OpenAI, Gemini, and Claude for extraction, validation, reconciliation, and discrepancy detection. Reduced manual validation effort by 70%, saving 22,000+ hours annually and resolving ₹2 Cr/month in revenue discrepancies.",
+        "Designed and deployed a LangGraph-based multi-agent FinOps Analytics chatbot using Azure OpenAI, PgVector, FastAPI, and Docker, enabling conversational analytics through contextual retrieval, intelligent SQL generation, and automated query validation.",
+        "Developed personalized recommendation and predictive analytics solutions leveraging customer behavioral data and deep learning, improving targeted marketing campaign conversion by 6%."
+      ],
       "references": [
         {
           "name": "Jishad AV",
@@ -45,15 +36,32 @@
         }
       ]
     },
-    
     {
-      "company": "INTELLIUS RECODE LIMITED",
-      "location": "Chennai",
-      "role": "Technical Analyst - Data Scientist",
-      "start": "2026-10-01",
-      "url": "https://www.recodesolutions.com/",
+      "company": "Nest Digital Private Limited",
+      "location": "Kochi",
+      "role": "Senior Software Engineer – ML Engineer",
+      "start": "2019-12-03",
+      "end": "2024-10-02",
+      "url": "https://www.nestdigital.com",
+      "context": "Service-based company, serving Renault, BHGE and Nissan",
+      "highlights": [
+        "Architected and deployed production-grade machine learning solutions for predictive defect classification of industrial components at Baker Hughes GE.",
+        "Built scalable ML pipelines, tracked experiments and managed model versions with MLflow, served models through FastAPI-based REST APIs, containerized applications using Docker, and implemented automated retraining workflows to ensure continuous model performance.",
+        "Spearheaded Python-based document data extraction projects for Oil & Gas companies using OpenCV and Tesseract."
+      ],
       "references": [
-        
+        {
+          "name": "Rameel Rahman",
+          "role": "Principal Architect at NeST",
+          "linkedin": "https://www.linkedin.com/in/rameelrahman/",
+          "relationship": "Manager"
+        },
+        {
+          "name": "Mohammed Riyaz Srambikkal",
+          "role": "Associate Delivery Manager",
+          "linkedin": "https://www.linkedin.com/in/mohammed-riyaz-srambikkal/",
+          "relationship": "Manager"
+        }
       ]
     }
   ]

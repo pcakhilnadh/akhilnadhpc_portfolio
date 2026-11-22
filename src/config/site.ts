@@ -15,7 +15,9 @@ export const site = {
   avatarGreeting: profile.avatarGreeting,
   email: profile.email,
   repoUrl: profile.repoUrl,
+  /** Where you live now, short: "Chennai, India" */
   location: [profile.location.city, profile.location.country].join(", "),
+  hometown: profile.hometown,
 };
 
 /**
@@ -27,6 +29,7 @@ export const navLinks: readonly { label: string; href: string }[] = [
   { label: "Experience", href: "#experience" },
   { label: "Projects", href: "#projects" },
   { label: "Skills", href: "#skills" },
+  { label: "Resume", href: "#resume" },
 ];
 
 /** Where the header's "Let's talk" button goes. */

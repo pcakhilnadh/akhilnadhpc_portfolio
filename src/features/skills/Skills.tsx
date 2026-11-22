@@ -1,51 +1,49 @@
 import { Section } from "../../components/ui/Section";
 import { skillGroups } from "../../data/skills";
+import type { SkillGroup } from "../../data/types";
 import "./skills.css";
 
-const LEVELS = ["", "Familiar", "Working", "Proficient", "Advanced", "Expert"];
-
-/** Skill groups from skills.json; each skill shows its 1–5 rating as five blocks. */
+/**
+ * Skills as a ruled list: one full-width row per group (number, name, count)
+ * with its skills as uniform chips. The groups that go on the resume come
+ * first; the rest sit under "Also worked with".
+ */
 export function Skills() {
+  const core = skillGroups.filter((g) => g.resume !== false);
+  const more = skillGroups.filter((g) => g.resume === false);
+
   return (
     <Section id="skills" index="04" eyebrow="Skills" title="Skills" outline="The toolbox">
-      <p className="skills__legend" aria-hidden="true">
-        <Meter rating={1} /> Familiar <span className="skills__legend-sep">→</span> <Meter rating={5} /> Expert
-      </p>
-      <div className="skills">
-        {skillGroups.map((g) => (
-          <section key={g.category} className="skill-group np card" aria-labelledby={`skills-${slug(g.category)}`}>
-            <header className="skill-group__head">
-              <h3 id={`skills-${slug(g.category)}`} className="skill-group__title">
-                {g.category}
-              </h3>
-              <span className="skill-group__count">{String(g.skills.length).padStart(2, "0")}</span>
-            </header>
-            <ul className="skill-group__list">
-              {g.skills.map((s) => (
-                <li key={s.name} className="skill" title={s.description}>
-                  <span className="skill__name">{s.name}</span>
-                  <Meter rating={s.rating} />
-                  <span className="visually-hidden">
-                    {LEVELS[s.rating] ?? ""}, {s.rating} of 5
-                  </span>
-                </li>
-              ))}
-            </ul>
-          </section>
-        ))}
-      </div>
+      <SkillRows groups={core} />
+      {more.length > 0 && (
+        <>
+          <h3 className="subhead skills__more">Also worked with</h3>
+          <SkillRows groups={more} compact />
+        </>
+      )}
     </Section>
   );
 }
 
-function Meter({ rating }: { rating: number }) {
+function SkillRows({ groups, compact = false }: { groups: SkillGroup[]; compact?: boolean }) {
   return (
-    <span className="meter" aria-hidden="true">
-      {[1, 2, 3, 4, 5].map((n) => (
-        <span key={n} data-on={n <= rating || undefined} />
+    <ol className={`skill-rows${compact ? " skill-rows--compact" : ""}`}>
+      {groups.map((g, i) => (
+        <li key={g.category} className="skill-row">
+          <div className="skill-row__head">
+            {!compact && <span className="skill-row__index">{String(i + 1).padStart(2, "0")}</span>}
+            <h4 className="skill-row__title">{g.category}</h4>
+            <span className="skill-row__count">{g.skills.length}</span>
+          </div>
+          <ul className="skill-chips" aria-label={g.category}>
+            {g.skills.map((s) => (
+              <li key={s.name} className="skill-chip" title={s.description}>
+                {s.name}
+              </li>
+            ))}
+          </ul>
+        </li>
       ))}
-    </span>
+    </ol>
   );
 }
-
-const slug = (s: string) => s.toLowerCase().replace(/[^a-z0-9]+/g, "-");

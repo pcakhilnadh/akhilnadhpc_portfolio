@@ -5,6 +5,7 @@ import { Certificates } from "./features/certificates/Certificates";
 import { Contact } from "./features/contact/Contact";
 import { Experience } from "./features/experience/Experience";
 import { Projects } from "./features/projects/Projects";
+import { Resume } from "./features/resume/Resume";
 import { Skills } from "./features/skills/Skills";
 import { Home } from "./pages/Home";
 
@@ -35,6 +36,7 @@ export default function App() {
         <Projects />
         <Skills />
         <Certificates />
+        <Resume />
         <Contact />
       </main>
       <Footer />

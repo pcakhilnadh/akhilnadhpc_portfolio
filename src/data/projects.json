@@ -2,6 +2,170 @@
   "$schema": "./schemas/projects.schema.json",
   "projects": [
     {
+      "title": "Intelligent Document Processing & Reconciliation",
+      "slug": "intelligent-document-processing-reconciliation",
+      "shortDescription": "AI-powered cargo invoice reconciliation platform using OCR, Azure Document Intelligence and multimodal LLMs to automate extraction, validation and discrepancy detection.",
+      "longDescription": "Designed and deployed an end-to-end AI-powered cargo invoice reconciliation platform, leveraging OCR, Azure Document Intelligence, and multimodal LLMs (Azure OpenAI, Gemini, Claude) to automate document extraction, validation, and reconciliation against operational, financial, and contractual data. Implemented automated discrepancy detection and revenue leakage analysis, reducing manual validation effort by 70%, saving 22,000+ hours annually, and addressing ₹2 Cr/month in revenue discrepancies.",
+      "projectType": "Project",
+      "domain": [
+        "Generative AI",
+        "Document AI",
+        "OCR"
+      ],
+      "industry": [
+        "Aviation",
+        "Air Cargo"
+      ],
+      "status": "Deployed",
+      "company": "Air India",
+      "highlights": [
+        {
+          "label": "Manual validation effort reduced",
+          "value": "70%",
+          "category": "Business"
+        },
+        {
+          "label": "Hours saved per year",
+          "value": "22,000+",
+          "category": "Business"
+        },
+        {
+          "label": "Revenue discrepancies addressed",
+          "value": "₹2 Cr/mo",
+          "category": "Business"
+        }
+      ],
+      "technologies": [
+        "Python",
+        "Azure"
+      ],
+      "cloudServices": [
+        "Azure Document Intelligence",
+        "Azure OpenAI"
+      ],
+      "frameworks": [
+        "Gemini",
+        "Claude"
+      ],
+      "tags": [
+        "Generative AI",
+        "Multimodal LLMs",
+        "Document AI",
+        "OCR",
+        "Reconciliation"
+      ]
+    },
+    {
+      "title": "Multi-Agent FinOps Analytics Chatbot",
+      "slug": "multi-agent-finops-analytics-chatbot",
+      "shortDescription": "LangGraph multi-agent chatbot for conversational financial analytics, with RAG-based SQL template retrieval and a LoRA fine-tuned Text-to-SQL model.",
+      "longDescription": "Built a LangGraph-based multi-agent FinOps Analytics chatbot using Azure OpenAI, FastAPI, Docker, and PgVector. Designed supervisor-driven orchestration with specialized reasoning agents, implementing RAG-based semantic retrieval of SQL templates using Sentence Transformers for query selection and a LoRA fine-tuned Qwen model for Text-to-SQL generation. Integrated self-correcting SQL generation and automated validation to enable conversational financial analytics over enterprise data.",
+      "projectType": "Project",
+      "domain": [
+        "Agentic AI",
+        "RAG",
+        "Text-to-SQL"
+      ],
+      "industry": [
+        "Aviation",
+        "Finance"
+      ],
+      "status": "Deployed",
+      "company": "Air India",
+      "technologies": [
+        "Python",
+        "FastAPI",
+        "Docker",
+        "PgVector"
+      ],
+      "frameworks": [
+        "LangGraph",
+        "Sentence Transformers",
+        "Qwen (LoRA)"
+      ],
+      "cloudServices": [
+        "Azure OpenAI"
+      ],
+      "tags": [
+        "Agentic AI",
+        "Multi-Agent",
+        "LangGraph",
+        "RAG",
+        "Text-to-SQL",
+        "LoRA"
+      ]
+    },
+    {
+      "title": "Enterprise RAG Platform for Contextual Document Retrieval",
+      "slug": "enterprise-rag-platform",
+      "shortDescription": "End-to-end RAG pipeline with semantic chunking and ChromaDB, answering questions over enterprise documents with exact document and page citations.",
+      "longDescription": "Designed and deployed an end-to-end enterprise RAG pipeline using Docling, LlamaIndex, semantic chunking, and ChromaDB for document ingestion, parsing, embedding generation, and contextual retrieval. Integrated LLM-based question answering with exact document and page citations through a FastAPI backend, enabling grounded responses and contextualized information retrieval across unstructured enterprise documents.",
+      "projectType": "Project",
+      "domain": [
+        "RAG",
+        "Generative AI",
+        "Document AI"
+      ],
+      "status": "Deployed",
+      "technologies": [
+        "Python",
+        "FastAPI",
+        "ChromaDB"
+      ],
+      "frameworks": [
+        "LlamaIndex",
+        "Docling"
+      ],
+      "tags": [
+        "RAG",
+        "LlamaIndex",
+        "Semantic Chunking",
+        "Citations",
+        "ChromaDB"
+      ]
+    },
+    {
+      "title": "NLP-Based Maintenance Log Classification",
+      "slug": "nlp-maintenance-log-classification",
+      "shortDescription": "TF-IDF + SVM pipeline that maps unstructured industrial maintenance descriptions into 50 standardized component categories.",
+      "longDescription": "Developed a production-oriented NLP classification pipeline using TF-IDF representations and SVM to automatically map unstructured industrial maintenance descriptions into 50 standardized component categories. Implemented domain-specific text preprocessing and feature engineering, achieving an F1-score of 0.60 and reducing manual maintenance log triage effort.",
+      "projectType": "Project",
+      "domain": [
+        "NLP",
+        "Machine Learning"
+      ],
+      "industry": [
+        "Oil & Gas",
+        "Industrial"
+      ],
+      "status": "Completed",
+      "company": "Nest Digital Private Limited",
+      "highlights": [
+        {
+          "label": "Component categories",
+          "value": "50",
+          "category": "Scale"
+        },
+        {
+          "label": "F1-score",
+          "value": "0.60",
+          "category": "Accuracy"
+        }
+      ],
+      "technologies": [
+        "Python"
+      ],
+      "libraries": [
+        "Scikit-learn"
+      ],
+      "tags": [
+        "NLP",
+        "Text Classification",
+        "TF-IDF",
+        "SVM"
+      ]
+    },
+    {
       "title": "End-to-End Inflight Meal Consumption Analytics",
       "slug": "end-to-end-inflight-meal-consumption-analytics",
       "shortDescription": "AI-powered computer vision platform for automated inflight food waste analytics using edge AI and Azure cloud infrastructure.",
@@ -299,7 +463,8 @@
         "Real-Time Inference",
         "Object Detection"
       ],
-      "company": "Air India"
+      "company": "Air India",
+      "resume": false
     }
   ]
 }

@@ -11,6 +11,7 @@ export function Experience() {
   const items: TimelineItem[] = experience.map((job) => {
     const jobProjects = projects.filter((p) => p.company === job.company);
     const refs = job.references ?? [];
+    const bullets = job.highlights ?? [];
     return {
       key: `${job.company}-${job.start}`,
       sortDate: job.start,
@@ -22,8 +23,16 @@ export function Experience() {
       meta: job.location,
       current: !job.end,
       children:
-        jobProjects.length + refs.length > 0 ? (
+        jobProjects.length + refs.length + bullets.length > 0 || job.context ? (
           <div className="job">
+            {job.context && <p className="job__context">{job.context}</p>}
+            {bullets.length > 0 && (
+              <ul className="job__bullets">
+                {bullets.map((b) => (
+                  <li key={b}>{b}</li>
+                ))}
+              </ul>
+            )}
             {jobProjects.length > 0 && (
               <div className="job__block">
                 <p className="kv__label">Projects</p>

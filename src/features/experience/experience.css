@@ -2,6 +2,27 @@
   display: grid;
   gap: 20px;
 }
+.job__context {
+  margin-top: -8px;
+  font: 500 12px/1.5 var(--font-mono);
+  letter-spacing: 0.04em;
+  color: var(--ink-mute);
+}
+.job__bullets {
+  display: grid;
+  gap: 10px;
+  max-width: 72ch;
+  color: var(--ink-soft);
+}
+.job__bullets li {
+  display: grid;
+  grid-template-columns: 22px 1fr;
+}
+.job__bullets li::before {
+  content: "→";
+  font-family: var(--font-mono);
+  color: var(--ink);
+}
 .job__block {
   display: grid;
   gap: 10px;

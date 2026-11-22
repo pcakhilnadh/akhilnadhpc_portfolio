@@ -15,6 +15,16 @@ export function AboutDetails() {
             {p}
           </p>
         ))}
+        {profile.achievements && profile.achievements.length > 0 && (
+          <div className="about__awards">
+            <p className="kv__label">Recognition</p>
+            <ul>
+              {profile.achievements.map((a) => (
+                <li key={a}>{a}</li>
+              ))}
+            </ul>
+          </div>
+        )}
       </div>
 
       <aside className="about__facts np card" aria-label="Quick facts">
@@ -33,6 +43,12 @@ export function AboutDetails() {
             <dt>Based in</dt>
             <dd>{[city, state, country].filter(Boolean).join(", ")}</dd>
           </div>
+          {profile.hometown && (
+            <div className="kv">
+              <dt>Hometown</dt>
+              <dd>{profile.hometown}</dd>
+            </div>
+          )}
           <div className="kv">
             <dt>Email</dt>
             <dd>

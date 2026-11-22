@@ -18,6 +18,27 @@
   font-weight: 500;
   line-height: 1.45;
 }
+.about__awards {
+  display: grid;
+  gap: 12px;
+  margin-top: 12px;
+  padding-top: 20px;
+  border-top: 1px solid var(--line);
+}
+.about__awards ul {
+  display: grid;
+  gap: 8px;
+}
+.about__awards li {
+  display: grid;
+  grid-template-columns: 22px 1fr;
+  color: var(--ink);
+}
+.about__awards li::before {
+  content: "★";
+  font-size: 0.9em;
+  line-height: 1.7;
+}
 .about__facts {
   display: grid;
   gap: 24px;

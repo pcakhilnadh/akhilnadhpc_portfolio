@@ -29,9 +29,18 @@ export interface Profile {
   avatarGreeting: string;
   /** Long bio for the About section; blank lines separate paragraphs */
   about?: string;
+  /** Summary paragraph at the top of the downloadable resume */
   resumeSummary?: string;
+  /** Name as printed on the resume; defaults to firstName + lastName */
+  resumeName?: string;
+  /** Resume headline under the name; defaults to title */
+  headline?: string;
   email: string;
+  /** Where you live now */
   location: { city: string; state?: string; country: string };
+  /** Where you are from, if different from location */
+  hometown?: string;
+  achievements?: string[];
   careerStart?: string;
   repoUrl: string;
   socials?: Social[];
@@ -46,12 +55,14 @@ export interface Education {
   startYear: number;
   endYear: number;
   grade?: string;
+  /** false leaves it off the downloadable resume */
+  resume?: boolean;
 }
 
 export interface Skill {
   name: string;
-  /** 1 (familiar) to 5 (expert) */
-  rating: number;
+  /** 1 (familiar) to 5 (expert); unrated skills show without the meter */
+  rating?: number;
   description?: string;
 }
 
@@ -59,6 +70,8 @@ export interface SkillGroup {
   category: string;
   description?: string;
   skills: Skill[];
+  /** false leaves it off the downloadable resume */
+  resume?: boolean;
 }
 
 export interface Certification {
@@ -88,6 +101,10 @@ export interface Experience {
   /** Omitted for the current job */
   end?: string;
   url?: string;
+  /** One line about the company or client */
+  context?: string;
+  /** What you did there, one bullet each */
+  highlights?: string[];
   references?: Reference[];
 }
 
@@ -108,10 +125,12 @@ export interface Project {
   industry?: string[];
   skills?: string[];
   status: string;
-  startDate: string;
+  startDate?: string;
   endDate?: string;
   duration?: string;
-  role: string;
+  role?: string;
+  /** false leaves it off the downloadable resume */
+  resume?: boolean;
   /** Matches a company in experience.json */
   company?: string;
   teamSize?: number;

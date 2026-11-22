@@ -2,14 +2,229 @@
   "$schema": "./schemas/skills.schema.json",
   "groups": [
     {
-      "category": "Programming Languages",
-      "description": "Programming languages used for development",
+      "category": "Generative AI & LLMs",
+      "description": "Building with large language models",
+      "skills": [
+        {
+          "name": "Azure OpenAI"
+        },
+        {
+          "name": "OpenAI API"
+        },
+        {
+          "name": "Claude"
+        },
+        {
+          "name": "Gemini"
+        },
+        {
+          "name": "Qwen"
+        },
+        {
+          "name": "Prompt Engineering"
+        },
+        {
+          "name": "Structured Outputs"
+        },
+        {
+          "name": "LLM Orchestration"
+        },
+        {
+          "name": "LoRA Fine-Tuning"
+        },
+        {
+          "name": "LLM Evaluation"
+        },
+        {
+          "name": "Guardrails & Safety"
+        }
+      ]
+    },
+    {
+      "category": "RAG & NLP",
+      "description": "Retrieval, language and document understanding",
+      "skills": [
+        {
+          "name": "Retrieval-Augmented Generation"
+        },
+        {
+          "name": "LangChain"
+        },
+        {
+          "name": "LlamaIndex"
+        },
+        {
+          "name": "Semantic Chunking"
+        },
+        {
+          "name": "Embeddings"
+        },
+        {
+          "name": "Vector Search"
+        },
+        {
+          "name": "Reranking"
+        },
+        {
+          "name": "PgVector"
+        },
+        {
+          "name": "ChromaDB"
+        },
+        {
+          "name": "TF-IDF"
+        },
+        {
+          "name": "Text Classification"
+        },
+        {
+          "name": "Text-to-SQL"
+        },
+        {
+          "name": "Document Parsing"
+        },
+        {
+          "name": "OCR"
+        },
+        {
+          "name": "MongoDB",
+          "rating": 3,
+          "description": "NoSQL database"
+        },
+        {
+          "name": "Ragas"
+        }
+      ]
+    },
+    {
+      "category": "Agentic AI",
+      "description": "Multi-agent systems and tool use",
+      "skills": [
+        {
+          "name": "Multi-Agent Systems"
+        },
+        {
+          "name": "LangGraph"
+        },
+        {
+          "name": "Supervisor-Driven Workflows"
+        },
+        {
+          "name": "Tool Calling"
+        },
+        {
+          "name": "MCP"
+        },
+        {
+          "name": "FastMCP"
+        }
+      ]
+    },
+    {
+      "category": "Machine Learning & Deep Learning",
+      "description": "Modelling and training",
+      "skills": [
+        {
+          "name": "Scikit-learn",
+          "rating": 4,
+          "description": "Traditional machine learning library"
+        },
+        {
+          "name": "PyTorch",
+          "rating": 4,
+          "description": "Deep learning framework"
+        },
+        {
+          "name": "TensorFlow",
+          "rating": 4,
+          "description": "Deep learning framework"
+        },
+        {
+          "name": "Transformers"
+        },
+        {
+          "name": "SVM"
+        },
+        {
+          "name": "Classification"
+        },
+        {
+          "name": "Predictive Modeling"
+        },
+        {
+          "name": "Feature Engineering"
+        }
+      ]
+    },
+    {
+      "category": "Python & Deployment",
+      "description": "Shipping models to production",
       "skills": [
         {
           "name": "Python",
           "rating": 5,
           "description": "Primary programming language for data science and ML"
         },
+        {
+          "name": "FastAPI",
+          "rating": 3,
+          "description": "Web framework for APIs"
+        },
+        {
+          "name": "REST APIs"
+        },
+        {
+          "name": "Docker",
+          "rating": 3,
+          "description": "Containerization platform"
+        },
+        {
+          "name": "MLflow",
+          "rating": 3,
+          "description": "ML lifecycle management"
+        },
+        {
+          "name": "CI/CD"
+        },
+        {
+          "name": "Model Deployment"
+        },
+        {
+          "name": "Production ML Pipelines"
+        }
+      ]
+    },
+    {
+      "category": "Cloud & MLOps",
+      "description": "Cloud platforms and services",
+      "skills": [
+        {
+          "name": "Microsoft Azure"
+        },
+        {
+          "name": "Azure AI Document Intelligence"
+        },
+        {
+          "name": "Azure AI Foundry"
+        },
+        {
+          "name": "Azure Kubernetes Service"
+        },
+        {
+          "name": "Azure Databricks"
+        },
+        {
+          "name": "Google Vertex AI"
+        },
+        {
+          "name": "Google Cloud Run"
+        }
+      ]
+    },
+    {
+      "category": "Programming Languages",
+      "description": "Programming languages used for development",
+      "skills": [
         {
           "name": "SQL",
           "rating": 4,
@@ -30,22 +245,13 @@
           "rating": 3,
           "description": "General-purpose programming language"
         }
-      ]
+      ],
+      "resume": false
     },
     {
       "category": "Machine Learning Frameworks",
       "description": "Frameworks and libraries for ML and DL",
       "skills": [
-        {
-          "name": "TensorFlow",
-          "rating": 4,
-          "description": "Deep learning framework"
-        },
-        {
-          "name": "PyTorch",
-          "rating": 4,
-          "description": "Deep learning framework"
-        },
         {
           "name": "Keras",
           "rating": 4,
@@ -55,11 +261,6 @@
           "name": "Ultralytics",
           "rating": 3,
           "description": "YOLO object detection library"
-        },
-        {
-          "name": "Scikit-learn",
-          "rating": 4,
-          "description": "Traditional machine learning library"
         },
         {
           "name": "OpenCV",
@@ -91,7 +292,8 @@
           "rating": 3,
           "description": "NLP library"
         }
-      ]
+      ],
+      "resume": false
     },
     {
       "category": "Data Processing",
@@ -107,7 +309,8 @@
           "rating": 5,
           "description": "Numerical computing library"
         }
-      ]
+      ],
+      "resume": false
     },
     {
       "category": "Cloud Platforms",
@@ -123,22 +326,13 @@
           "rating": 3,
           "description": "Cloud platform"
         }
-      ]
+      ],
+      "resume": false
     },
     {
       "category": "DevOps & MLOps",
       "description": "DevOps and MLOps tools",
       "skills": [
-        {
-          "name": "ML Flow",
-          "rating": 3,
-          "description": "ML lifecycle management"
-        },
-        {
-          "name": "Docker",
-          "rating": 3,
-          "description": "Containerization platform"
-        },
         {
           "name": "GIT",
           "rating": 3,
@@ -149,7 +343,8 @@
           "rating": 2,
           "description": "Version control system"
         }
-      ]
+      ],
+      "resume": false
     },
     {
       "category": "Databases",
@@ -166,11 +361,6 @@
           "description": "Relational database"
         },
         {
-          "name": "MongoDB",
-          "rating": 3,
-          "description": "NoSQL database"
-        },
-        {
           "name": "sqlite",
           "rating": 3,
           "description": "Embedded database"
@@ -185,7 +375,8 @@
           "rating": 3,
           "description": "Python SQL toolkit"
         }
-      ]
+      ],
+      "resume": false
     },
     {
       "category": "Visualization",
@@ -201,17 +392,13 @@
           "rating": 4,
           "description": "Statistical data visualization"
         }
-      ]
+      ],
+      "resume": false
     },
     {
       "category": "Web Frameworks",
       "description": "Web development frameworks",
       "skills": [
-        {
-          "name": "FastAPI",
-          "rating": 3,
-          "description": "Web framework for APIs"
-        },
         {
           "name": "Django",
           "rating": 3,
@@ -232,7 +419,8 @@
           "rating": 3,
           "description": "Web scraping library"
         }
-      ]
+      ],
+      "resume": false
     },
     {
       "category": "Other",
@@ -263,7 +451,8 @@
           "rating": 2,
           "description": "Non-fungible tokens"
         }
-      ]
+      ],
+      "resume": false
     }
   ]
 }

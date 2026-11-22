@@ -44,6 +44,10 @@
           "grade": {
             "type": "string",
             "description": "As you want it shown, e.g. 7.5 CGPA or 92%."
+          },
+          "resume": {
+            "type": "boolean",
+            "description": "Set to false to leave this out of the downloadable resume. Defaults to true."
           }
         },
         "required": [
