@@ -5,15 +5,31 @@ import type { Project } from "../../data/types";
 import { period } from "../../lib/dates";
 import "./projects.css";
 
-/** Case studies from projects.json, in the order they appear in the file. */
+/**
+ * Case studies from projects.json, in file order: work first, then the ones
+ * with projectType "Personal" under their own heading.
+ */
 export function Projects() {
+  const work = projects.filter((p) => p.projectType !== "Personal");
+  const personal = projects.filter((p) => p.projectType === "Personal");
+
   return (
     <Section id="projects" index="03" eyebrow="Projects" title="Projects" outline="Selected work">
       <div className="projects">
-        {projects.map((p, i) => (
+        {work.map((p, i) => (
           <ProjectCard key={p.slug} project={p} index={i + 1} />
         ))}
       </div>
+      {personal.length > 0 && (
+        <>
+          <h3 className="subhead projects__group">Personal projects</h3>
+          <div className="projects">
+            {personal.map((p, i) => (
+              <ProjectCard key={p.slug} project={p} index={work.length + i + 1} />
+            ))}
+          </div>
+        </>
+      )}
     </Section>
   );
 }
@@ -68,6 +84,21 @@ function ProjectCard({ project: p, index }: { project: Project; index: number })
             </li>
           ))}
         </ul>
+      )}
+
+      {(p.liveUrl || p.repoUrl) && (
+        <p className="project__links">
+          {p.liveUrl && (
+            <a className="np np-btn np-btn--primary np-btn--sm" href={p.liveUrl} target="_blank" rel="noopener noreferrer">
+              Live site <span className="arrow" aria-hidden="true">↗</span>
+            </a>
+          )}
+          {p.repoUrl && (
+            <a className="np np-btn np-btn--ghost np-btn--sm" href={p.repoUrl} target="_blank" rel="noopener noreferrer">
+              Source on GitHub <span className="arrow" aria-hidden="true">↗</span>
+            </a>
+          )}
+        </p>
       )}
 
       {p.tags && (

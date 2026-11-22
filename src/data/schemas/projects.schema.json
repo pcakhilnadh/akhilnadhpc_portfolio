@@ -63,7 +63,8 @@
               "Ideation",
               "Research",
               "Development",
-              "Completed"
+              "Completed",
+              "Deployed"
             ],
             "description": "Where it stands."
           },
@@ -204,6 +205,16 @@
               "type": "string"
             },
             "description": "Dashboard / BI tools."
+          },
+          "repoUrl": {
+            "type": "string",
+            "description": "Source code link, e.g. a GitHub repository.",
+            "pattern": "^https?://"
+          },
+          "liveUrl": {
+            "type": "string",
+            "description": "Link to the running app or site.",
+            "pattern": "^https?://"
           },
           "thumbnailUrl": {
             "type": "string",

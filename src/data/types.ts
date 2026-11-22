@@ -149,6 +149,10 @@ export interface Project {
   libraries?: string[];
   cloudServices?: string[];
   dashboardTools?: string[];
+  /** Source code, e.g. a GitHub repository */
+  repoUrl?: string;
+  /** The running app or site */
+  liveUrl?: string;
   thumbnailUrl?: string;
   images?: string[];
   tags?: string[];

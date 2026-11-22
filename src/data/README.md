@@ -19,6 +19,7 @@ Everything the site says about you lives in the JSON files in this folder. Edit 
 - **Add a skill:** add `{ "name": "...", "rating": 1-5 }` to a group in `skills.json`. `rating` is optional; unrated skills show without the meter.
 - **Add a certification:** add an entry to `certifications.json`; its `skills` must match names in `skills.json` exactly.
 - **New job:** add to `experience.json`. Leave `end` out for your current job, and set `profile.json`'s `title` to its role. `highlights` are the bullets shown on the timeline and the resume. A project's `company` must match a job's `company`.
+- **Personal project:** add to `projects.json` with `"projectType": "Personal"` and no `company`; it shows under "Personal projects". `repoUrl` and `liveUrl` add "Source on GitHub" and "Live site" buttons to any project.
 - **Moved city:** edit `location` in `profile.json`; `hometown` is shown separately in About.
 
 ## The downloadable resume

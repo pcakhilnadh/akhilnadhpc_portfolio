@@ -5,6 +5,14 @@
   display: grid;
   gap: 40px;
 }
+.projects__group {
+  margin-top: clamp(56px, 8vw, 96px);
+}
+.project__links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+}
 .project {
   display: grid;
   gap: 28px;
