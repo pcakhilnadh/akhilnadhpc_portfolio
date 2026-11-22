@@ -3,7 +3,7 @@ import { Timeline, type TimelineItem } from "../../components/ui/Timeline";
 import { experience } from "../../data/experience";
 import { projects } from "../../data/projects";
 import { formatMonths, monthsBetween, period } from "../../lib/dates";
-import { scrollToHash } from "../../lib/scrollToHash";
+import { openProject } from "../projects/meta";
 import "./experience.css";
 
 /** Jobs from experience.json on the shared timeline, latest first, with their projects and references. */
@@ -42,7 +42,10 @@ export function Experience() {
                       <a
                         href={`#project-${p.slug}`}
                         className="text-link"
-                        onClick={(e) => scrollToHash(e, `#project-${p.slug}`)}
+                        onClick={(e) => {
+                          e.preventDefault();
+                          openProject(p.slug);
+                        }}
                       >
                         {p.title}
                       </a>

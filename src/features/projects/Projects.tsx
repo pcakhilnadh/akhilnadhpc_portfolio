@@ -1,193 +1,168 @@
-import type { ReactNode } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Section } from "../../components/ui/Section";
 import { projects } from "../../data/projects";
 import type { Project } from "../../data/types";
-import { period } from "../../lib/dates";
+import { ProjectCard } from "./ProjectCard";
+import { ProjectDialog } from "./ProjectDialog";
+import { PROJECT_AREAS } from "./areas";
+import { haystack, inArea, kindOf, OPEN_PROJECT_EVENT, recency, type Kind } from "./meta";
 import "./projects.css";
 
+type KindFilter = "all" | Kind;
+type Sort = "latest" | "oldest";
+
+const KINDS: { id: KindFilter; label: string }[] = [
+  { id: "all", label: "All" },
+  { id: "professional", label: "Professional" },
+  { id: "personal", label: "Personal" },
+];
+
+
 /**
- * Case studies from projects.json, in file order: work first, then the ones
- * with projectType "Personal" under their own heading.
+ * Projects from projects.json: search, filter by kind and skill, sort by
+ * date, and open a case study in a dialog.
  */
 export function Projects() {
-  const work = projects.filter((p) => p.projectType !== "Personal");
-  const personal = projects.filter((p) => p.projectType === "Personal");
+  const [query, setQuery] = useState("");
+  const [kind, setKind] = useState<KindFilter>("all");
+  const [area, setArea] = useState<string | null>(null);
+  const [sort, setSort] = useState<Sort>("latest");
+  const [open, setOpen] = useState<Project | null>(null);
+
+  // Experience links open a project's case study directly.
+  useEffect(() => {
+    const onOpen = (e: Event) => {
+      const p = projects.find((x) => x.slug === (e as CustomEvent<string>).detail);
+      if (p) setOpen(p);
+    };
+    window.addEventListener(OPEN_PROJECT_EVENT, onOpen);
+    return () => window.removeEventListener(OPEN_PROJECT_EVENT, onOpen);
+  }, []);
+
+  const counts = useMemo(
+    () => ({
+      all: projects.length,
+      professional: projects.filter((p) => kindOf(p) === "professional").length,
+      personal: projects.filter((p) => kindOf(p) === "personal").length,
+    }),
+    [],
+  );
+
+  // Focus areas that at least one project falls under, with their counts.
+  const areas = useMemo(
+    () =>
+      PROJECT_AREAS.map((a) => ({ ...a, count: projects.filter((p) => inArea(p, a.terms)).length })).filter((a) => a.count > 0),
+    [],
+  );
+
+  const shown = useMemo(() => {
+    const q = query.trim().toLowerCase();
+    const terms = areas.find((a) => a.label === area)?.terms;
+    const list = projects.filter(
+      (p) =>
+        (kind === "all" || kindOf(p) === kind) &&
+        (!terms || inArea(p, terms)) &&
+        (!q || q.split(/\s+/).every((w) => haystack(p).includes(w))),
+    );
+    // stable sort, so equal dates keep file order
+    return [...list].sort((a, b) => {
+      const d = recency(b).localeCompare(recency(a));
+      return sort === "latest" ? d : -d;
+    });
+  }, [query, kind, area, sort, areas]);
+
+  const filtered = query.trim() !== "" || kind !== "all" || area !== null;
+  const clear = () => {
+    setQuery("");
+    setKind("all");
+    setArea(null);
+  };
 
   return (
     <Section id="projects" index="03" eyebrow="Projects" title="Projects" outline="Selected work">
-      <div className="projects">
-        {work.map((p, i) => (
-          <ProjectCard key={p.slug} project={p} index={i + 1} />
-        ))}
-      </div>
-      {personal.length > 0 && (
-        <>
-          <h3 className="subhead projects__group">Personal projects</h3>
-          <div className="projects">
-            {personal.map((p, i) => (
-              <ProjectCard key={p.slug} project={p} index={work.length + i + 1} />
+      <div className="pf" role="search">
+        <div className="pf__row">
+          <label className="pf__search">
+            <span className="visually-hidden">Search projects</span>
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <circle cx="10.5" cy="10.5" r="6.5" />
+              <path d="m15.5 15.5 5 5" />
+            </svg>
+            <input
+              type="search"
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+              placeholder="Search by name, tech or company"
+              autoComplete="off"
+            />
+          </label>
+
+          <div className="pf__tabs" role="group" aria-label="Project type">
+            {KINDS.map((k) => (
+              <button key={k.id} type="button" className="pf__tab" aria-pressed={kind === k.id} onClick={() => setKind(k.id)}>
+                {k.label}
+                <span className="pf__count">{counts[k.id]}</span>
+              </button>
             ))}
           </div>
-        </>
-      )}
-    </Section>
-  );
-}
 
-function ProjectCard({ project: p, index }: { project: Project; index: number }) {
-  const facts = [
-    { k: "Role", v: p.role },
-    { k: "Company", v: p.company },
-    { k: "When", v: p.startDate ? period(p.startDate, p.endDate) + (p.duration ? ` · ${p.duration}` : "") : undefined },
-    { k: "Team", v: p.teamSize ? `${p.teamSize} people` : undefined },
-  ].filter((f) => f.v);
-
-  const stack = [
-    { k: "Frameworks", v: p.frameworks },
-    { k: "Technologies", v: p.technologies },
-    { k: "Libraries", v: p.libraries },
-    { k: "Cloud", v: p.cloudServices },
-    { k: "Dashboards", v: p.dashboardTools },
-  ].filter((s) => s.v && s.v.length > 0);
-
-  const models = (p.models ?? []) as { componentName?: string; modelName?: string; purpose?: string; inferenceLocation?: string }[];
-
-  return (
-    <article id={`project-${p.slug}`} className="project np card">
-      <header className="project__head">
-        <p className="project__kicker">
-          <span className="np-tag np-tag--solid">{String(index).padStart(2, "0")}</span>
-          <span className="np-tag">{p.status}</span>
-          {p.industry?.[0] && <span className="np-tag">{p.industry[0]}</span>}
-        </p>
-        <h3 className="project__title">{p.title}</h3>
-        <p className="project__desc">{p.shortDescription}</p>
-      </header>
-
-      {facts.length > 0 && (
-        <dl className="project__facts">
-          {facts.map((f) => (
-            <div key={f.k} className="kv">
-              <dt>{f.k}</dt>
-              <dd>{f.v}</dd>
-            </div>
-          ))}
-        </dl>
-      )}
-
-      {p.highlights && p.highlights.length > 0 && (
-        <ul className="project__stats" aria-label="Highlights">
-          {p.highlights.map((h) => (
-            <li key={h.label} className="project__stat">
-              <span className="project__stat-value">{h.value}</span>
-              <span className="project__stat-label">{h.label}</span>
-            </li>
-          ))}
-        </ul>
-      )}
-
-      {(p.liveUrl || p.repoUrl) && (
-        <p className="project__links">
-          {p.liveUrl && (
-            <a className="np np-btn np-btn--primary np-btn--sm" href={p.liveUrl} target="_blank" rel="noopener noreferrer">
-              Live site <span className="arrow" aria-hidden="true">↗</span>
-            </a>
-          )}
-          {p.repoUrl && (
-            <a className="np np-btn np-btn--ghost np-btn--sm" href={p.repoUrl} target="_blank" rel="noopener noreferrer">
-              Source on GitHub <span className="arrow" aria-hidden="true">↗</span>
-            </a>
-          )}
-        </p>
-      )}
-
-      {p.tags && (
-        <ul className="tag-list" aria-label="Tags">
-          {p.tags.map((t) => (
-            <li key={t} className="np-tag">
-              {t}
-            </li>
-          ))}
-        </ul>
-      )}
-
-      <details className="project__more">
-        <summary className="np np-btn np-btn--ghost np-btn--sm">
-          Case study <span className="arrow" aria-hidden="true">↓</span>
-        </summary>
-        <div className="project__case">
-          {p.longDescription && (
-            <CaseBlock title="Overview">
-              <p>{p.longDescription}</p>
-            </CaseBlock>
-          )}
-          {p.problemStatement && (
-            <CaseBlock title="Problem">
-              <p>{p.problemStatement}</p>
-            </CaseBlock>
-          )}
-          {p.architectureOverview && (
-            <CaseBlock title="Approach">
-              <p>{p.architectureOverview}</p>
-            </CaseBlock>
-          )}
-          {p.workflowSteps && p.workflowSteps.length > 0 && (
-            <CaseBlock title="Pipeline">
-              <ol className="project__steps">
-                {p.workflowSteps.map((s) => (
-                  <li key={s}>{s}</li>
-                ))}
-              </ol>
-            </CaseBlock>
-          )}
-          {models.length > 0 && (
-            <CaseBlock title="Models">
-              <ul className="project__models">
-                {models.map((m) => (
-                  <li key={`${m.componentName}-${m.modelName}`}>
-                    <strong>{m.modelName}</strong>
-                    <span>
-                      {m.componentName}
-                      {m.inferenceLocation && ` · ${m.inferenceLocation}`}
-                    </span>
-                    {m.purpose && <span className="project__model-purpose">{m.purpose}</span>}
-                  </li>
-                ))}
-              </ul>
-            </CaseBlock>
-          )}
-          {p.businessImpact && p.businessImpact.length > 0 && (
-            <CaseBlock title="Impact">
-              <ul className="project__impact">
-                {p.businessImpact.map((b) => (
-                  <li key={b}>{b}</li>
-                ))}
-              </ul>
-            </CaseBlock>
-          )}
-          {stack.length > 0 && (
-            <CaseBlock title="Stack">
-              <dl className="project__stack">
-                {stack.map((s) => (
-                  <div key={s.k} className="kv">
-                    <dt>{s.k}</dt>
-                    <dd>{s.v!.join(", ")}</dd>
-                  </div>
-                ))}
-              </dl>
-            </CaseBlock>
-          )}
+          <label className="pf__sort">
+            <span className="visually-hidden">Sort</span>
+            <select value={sort} onChange={(e) => setSort(e.target.value as Sort)}>
+              <option value="latest">Latest first</option>
+              <option value="oldest">Oldest first</option>
+            </select>
+          </label>
         </div>
-      </details>
-    </article>
-  );
-}
 
-function CaseBlock({ title, children }: { title: string; children: ReactNode }) {
-  return (
-    <section className="case-block">
-      <h4 className="kv__label">{title}</h4>
-      {children}
-    </section>
+        {areas.length > 0 && (
+          <div className="pf__skills" role="group" aria-label="Filter by focus area">
+            {areas.map((a) => (
+              <button
+                key={a.label}
+                type="button"
+                className="pf__skill"
+                aria-pressed={area === a.label}
+                onClick={() => setArea(area === a.label ? null : a.label)}
+              >
+                {a.label}
+                <span className="pf__count">{a.count}</span>
+              </button>
+            ))}
+          </div>
+        )}
+
+        <p className="pf__status" aria-live="polite">
+          <span>
+            {shown.length} {shown.length === 1 ? "project" : "projects"}
+            {area && ` in ${area}`}
+          </span>
+          {filtered && (
+            <button type="button" className="pf__clear" onClick={clear}>
+              Clear filters
+            </button>
+          )}
+        </p>
+      </div>
+
+      {shown.length > 0 ? (
+        <ul className="pgrid">
+          {shown.map((p, i) => (
+            <li key={p.slug}>
+              <ProjectCard project={p} index={i + 1} onOpen={() => setOpen(p)} />
+            </li>
+          ))}
+        </ul>
+      ) : (
+        <div className="pgrid__empty">
+          <p>No projects match.</p>
+          <button type="button" className="np np-btn np-btn--ghost np-btn--sm" onClick={clear}>
+            Clear filters
+          </button>
+        </div>
+      )}
+
+      <ProjectDialog project={open} onClose={() => setOpen(null)} />
+    </Section>
   );
 }
