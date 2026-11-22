@@ -4,7 +4,7 @@ Everything the site says about you lives in the JSON files in this folder. Edit 
 
 | File | What it holds | Used by the site today |
 |---|---|---|
-| `profile.json` | Name, role, intro, location, email, socials, bios, repo link | **Yes**: landing page, footer, page title, share cards, installable-app name |
+| `profile.json` | Name, role, summary, location, email, socials, bios, repo link | **Yes**: landing page, footer, page title, share cards, installable-app name |
 | `skills.json` | Skills grouped by category, rated 1 to 5 | Not yet |
 | `certifications.json` | Courses and certificates (skills listed by name) | Not yet |
 | `experience.json` | Jobs, with their references nested inside | Not yet |
@@ -15,7 +15,7 @@ Everything the site says about you lives in the JSON files in this folder. Edit 
 
 ## Common edits
 
-- **Change your name, role or intro:** edit `profile.json`. Rebuild and the landing page, browser tab, share cards and app name all follow.
+- **Change your name, role or summary:** edit `profile.json`. Rebuild and the landing page, browser tab, share cards and app name all follow.
 - **Add a skill:** add `{ "name": "...", "rating": 1-5 }` to a group in `skills.json`.
 - **Add a certification:** add an entry to `certifications.json`; its `skills` must match names in `skills.json` exactly.
 - **New job:** add to `experience.json`. Leave `end` out for your current job. A project's `company` must match a job's `company`.

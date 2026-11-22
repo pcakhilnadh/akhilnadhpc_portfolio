@@ -61,6 +61,13 @@ const slugs = new Set();
   slugs.add(p.slug);
 });
 
+// 4) the role on the landing page must be your current job's role
+const currentJobs = (experience?.experience ?? []).filter((e) => !e.end);
+if (profile?.title && currentJobs.length === 1 && currentJobs[0].role !== profile.title) {
+  fail("profile.json", `title "${profile.title}" differs from your current job in experience.json ("${currentJobs[0].role}" at ${currentJobs[0].company}). Make them match.`);
+}
+if (currentJobs.length > 1) fail("experience.json", `${currentJobs.length} jobs have no "end" date; only your current job should`);
+
 if (errors.length) {
   console.error(`\nData check failed (${errors.length}):\n${errors.join("\n")}\n`);
   process.exit(1);

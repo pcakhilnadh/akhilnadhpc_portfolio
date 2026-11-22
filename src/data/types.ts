@@ -23,10 +23,11 @@ export interface Profile {
   firstName: string;
   lastName: string;
   title: string;
-  intro: string;
+  /** Short bio shown on the landing page */
+  summary: string;
   /** What the avatar says when opened */
-  avatarGreeting?: string;
-  summary?: string;
+  avatarGreeting: string;
+  /** Long bio, for a future About page; blank lines separate paragraphs */
   about?: string;
   resumeSummary?: string;
   email: string;

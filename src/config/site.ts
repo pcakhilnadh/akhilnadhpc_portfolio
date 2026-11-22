@@ -2,7 +2,7 @@ import { profile } from "../data/profile";
 
 /**
  * What the site shows, derived from src/data/profile.json. Nothing here is
- * typed by hand: change your name, role, intro or email in profile.json and
+ * typed by hand: change your name, role, summary or email in profile.json and
  * the landing page, footer and navbar follow.
  */
 export const site = {
@@ -10,8 +10,9 @@ export const site = {
   lastName: profile.lastName,
   fullName: `${profile.firstName} ${profile.lastName}`,
   title: profile.title,
-  intro: profile.intro,
-  avatarGreeting: profile.avatarGreeting ?? `Hi, I'm ${profile.firstName}.`,
+  /** The short bio, on one line (line breaks in the JSON are ignored). */
+  summary: profile.summary.replace(/\s+/g, " ").trim(),
+  avatarGreeting: profile.avatarGreeting,
   email: profile.email,
   repoUrl: profile.repoUrl,
   location: [profile.location.city, profile.location.country].join(", "),

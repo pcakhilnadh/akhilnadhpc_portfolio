@@ -13,7 +13,7 @@ import "./home.css";
  * It only arranges the parts and measures the space they share:
  *   - <Avatar />       the 2D portrait / 3D avatar area  (left, or top on phones)
  *   - <AvatarChat />   the "Say hi" button and the avatar's message
- *   - <PersonalInfo /> name, role and intro              (right, or below on phones)
+ *   - <PersonalInfo /> name, role and bio                (right, or below on phones)
  *
  * Each part owns its own behaviour and styles; swap or extend any of them
  * without touching the others.

@@ -7,7 +7,7 @@ import profile from "./src/data/profile.json";
    src/data/profile.json too, so there is one place to edit who you are. */
 const fullName = `${profile.firstName} ${profile.lastName}`;
 const pageTitle = `${fullName} — ${profile.title}`;
-const description = `${fullName} is a ${profile.title}. ${profile.intro}`;
+const description = `${fullName} is a ${profile.title}. ${profile.summary.replace(/\s+/g, " ").trim()}`;
 const siteUrl = profile.socials.find((s) => s.platform === "Portfolio Website")?.url ?? "";
 
 const escapeHtml = (s: string) => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");

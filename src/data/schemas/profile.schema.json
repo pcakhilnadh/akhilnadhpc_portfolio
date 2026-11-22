@@ -1,7 +1,7 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
   "title": "Profile",
-  "description": "Who you are. Drives everything on the landing page (name, role, intro, location) plus the footer repo link, the PWA name and the page title.",
+  "description": "Who you are. Drives the landing page (name, role, location, summary) plus the footer repo link, the PWA name and the page title.",
   "type": "object",
   "properties": {
     "$schema": {
@@ -17,23 +17,19 @@
     },
     "title": {
       "type": "string",
-      "description": "Current role, shown as the first tag and in the page title."
-    },
-    "intro": {
-      "type": "string",
-      "description": "One or two sentences under your name on the landing page."
+      "description": "Current role, shown as the first tag and in the page title. Keep it the same as your current job in experience.json."
     },
     "avatarGreeting": {
       "type": "string",
-      "description": "What your avatar says when a visitor opens it. Optional; falls back to a simple hello."
+      "description": "What your avatar says when a visitor opens it."
     },
     "summary": {
       "type": "string",
-      "description": "Short bio (2 lines), for future pages."
+      "description": "Short bio (one or two lines), shown on the landing page and in the page description."
     },
     "about": {
       "type": "string",
-      "description": "Long bio, for a future About page. Blank lines separate paragraphs (\\n\\n)."
+      "description": "Long bio, for a future About page. Blank lines (\n\n) separate paragraphs. Not shown on the landing page."
     },
     "resumeSummary": {
       "type": "string",
@@ -137,7 +133,8 @@
     "firstName",
     "lastName",
     "title",
-    "intro",
+    "summary",
+    "avatarGreeting",
     "email",
     "location",
     "repoUrl"
