@@ -1,19 +1,21 @@
-import { personalProfile, workExperience } from "../data";
+import { profile } from "../data/profile";
 
-/** Presentation-level identity. Content lives in src/data; this picks what the site shows. */
+/**
+ * What the site shows, derived from src/data/profile.json. Nothing here is
+ * typed by hand: change your name, role, intro or email in profile.json and
+ * the landing page, footer and navbar follow.
+ */
 export const site = {
-  firstName: "Akhil Nadh",
-  lastName: "Pullolikkal Chandran",
-  fullName: "Akhil Nadh Pullolikkal Chandran",
-  title: "Senior Data Scientist",
-  intro:
-    "I design and ship computer-vision and LLM systems, from passport & visa verification to passenger-flow analytics, for aviation at scale.",
-  email: personalProfile.email,
-  repoUrl: "https://github.com/pcakhilnadh/akhilnadhpc_portfolio",
-  location: `${personalProfile.address_city}, ${personalProfile.address_country}`,
-  workStart: personalProfile.work_start_date,
-  currentCompany: workExperience.find((w) => !w.end_date)?.company_name ?? "",
-} as const;
+  firstName: profile.firstName,
+  lastName: profile.lastName,
+  fullName: `${profile.firstName} ${profile.lastName}`,
+  title: profile.title,
+  intro: profile.intro,
+  avatarGreeting: profile.avatarGreeting ?? `Hi, I'm ${profile.firstName}.`,
+  email: profile.email,
+  repoUrl: profile.repoUrl,
+  location: [profile.location.city, profile.location.country].join(", "),
+};
 
 /**
  * In-page navigation. Empty while the site is a single landing page; add

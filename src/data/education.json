@@ -1,0 +1,32 @@
+{
+  "$schema": "./schemas/education.schema.json",
+  "education": [
+    {
+      "degree": "M.Tech",
+      "field": "Computer Science and Information Security",
+      "institution": "National Institute of Technology Jalandhar",
+      "url": "https://www.nitj.ac.in/",
+      "startYear": 2017,
+      "endYear": 2019,
+      "grade": "7.5 CGPA"
+    },
+    {
+      "degree": "B.Tech",
+      "field": "Computer Science and Engineering",
+      "institution": "College of Engineering Chengannur",
+      "url": "https://www.ceconline.edu/",
+      "startYear": 2011,
+      "endYear": 2015,
+      "grade": "72%"
+    },
+    {
+      "degree": "12th",
+      "field": "Computer Science",
+      "institution": "Don bosco HSS Irinjalakuda",
+      "url": "https://www.donboscoirinjalakuda.com/",
+      "startYear": 2009,
+      "endYear": 2011,
+      "grade": "92%"
+    }
+  ]
+}

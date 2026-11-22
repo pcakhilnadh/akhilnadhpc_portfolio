@@ -1,0 +1,146 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Profile",
+  "description": "Who you are. Drives everything on the landing page (name, role, intro, location) plus the footer repo link, the PWA name and the page title.",
+  "type": "object",
+  "properties": {
+    "$schema": {
+      "type": "string"
+    },
+    "firstName": {
+      "type": "string",
+      "description": "First / given names, shown large on the landing page."
+    },
+    "lastName": {
+      "type": "string",
+      "description": "Family name, shown in outline under the first name."
+    },
+    "title": {
+      "type": "string",
+      "description": "Current role, shown as the first tag and in the page title."
+    },
+    "intro": {
+      "type": "string",
+      "description": "One or two sentences under your name on the landing page."
+    },
+    "avatarGreeting": {
+      "type": "string",
+      "description": "What your avatar says when a visitor opens it. Optional; falls back to a simple hello."
+    },
+    "summary": {
+      "type": "string",
+      "description": "Short bio (2 lines), for future pages."
+    },
+    "about": {
+      "type": "string",
+      "description": "Long bio, for a future About page. Blank lines separate paragraphs (\\n\\n)."
+    },
+    "resumeSummary": {
+      "type": "string",
+      "description": "Paragraph for a future resume page."
+    },
+    "email": {
+      "type": "string",
+      "description": "Public contact email.",
+      "format": "email"
+    },
+    "location": {
+      "type": "object",
+      "properties": {
+        "city": {
+          "type": "string",
+          "description": "City."
+        },
+        "state": {
+          "type": "string",
+          "description": "State / region."
+        },
+        "country": {
+          "type": "string",
+          "description": "Country."
+        }
+      },
+      "required": [
+        "city",
+        "country"
+      ],
+      "additionalProperties": false
+    },
+    "careerStart": {
+      "type": "string",
+      "description": "Date you started working (YYYY-MM-DD). Used to compute years of experience.",
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+    },
+    "repoUrl": {
+      "type": "string",
+      "description": "Link to this site's source code, shown in the footer.",
+      "format": "uri"
+    },
+    "socials": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "platform": {
+            "type": "string",
+            "description": "Display name, e.g. LinkedIn."
+          },
+          "url": {
+            "type": "string",
+            "description": "Profile URL.",
+            "format": "uri"
+          },
+          "username": {
+            "type": "string",
+            "description": "Handle on that platform."
+          },
+          "primary": {
+            "type": "boolean",
+            "description": "Mark your main profile(s)."
+          }
+        },
+        "required": [
+          "platform",
+          "url"
+        ],
+        "additionalProperties": false
+      },
+      "description": "Links to your profiles."
+    },
+    "interests": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Interest."
+          },
+          "description": {
+            "type": "string",
+            "description": "Optional detail."
+          },
+          "level": {
+            "type": "string",
+            "description": "Optional level."
+          }
+        },
+        "required": [
+          "name"
+        ],
+        "additionalProperties": false
+      },
+      "description": "Hobbies and interests."
+    }
+  },
+  "required": [
+    "firstName",
+    "lastName",
+    "title",
+    "intro",
+    "email",
+    "location",
+    "repoUrl"
+  ],
+  "additionalProperties": false
+}

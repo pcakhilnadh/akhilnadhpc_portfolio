@@ -1,0 +1,269 @@
+{
+  "$schema": "./schemas/skills.schema.json",
+  "groups": [
+    {
+      "category": "Programming Languages",
+      "description": "Programming languages used for development",
+      "skills": [
+        {
+          "name": "Python",
+          "rating": 5,
+          "description": "Primary programming language for data science and ML"
+        },
+        {
+          "name": "SQL",
+          "rating": 4,
+          "description": "Database querying and data manipulation"
+        },
+        {
+          "name": "HTML",
+          "rating": 3,
+          "description": "Markup language for web development"
+        },
+        {
+          "name": "PHP",
+          "rating": 3,
+          "description": "Server-side scripting language"
+        },
+        {
+          "name": "C#",
+          "rating": 3,
+          "description": "General-purpose programming language"
+        }
+      ]
+    },
+    {
+      "category": "Machine Learning Frameworks",
+      "description": "Frameworks and libraries for ML and DL",
+      "skills": [
+        {
+          "name": "TensorFlow",
+          "rating": 4,
+          "description": "Deep learning framework"
+        },
+        {
+          "name": "PyTorch",
+          "rating": 4,
+          "description": "Deep learning framework"
+        },
+        {
+          "name": "Keras",
+          "rating": 4,
+          "description": "Deep learning API"
+        },
+        {
+          "name": "Ultralytics",
+          "rating": 3,
+          "description": "YOLO object detection library"
+        },
+        {
+          "name": "Scikit-learn",
+          "rating": 4,
+          "description": "Traditional machine learning library"
+        },
+        {
+          "name": "OpenCV",
+          "rating": 4,
+          "description": "Computer vision library"
+        },
+        {
+          "name": "Mediapipe",
+          "rating": 3,
+          "description": "Computer vision library"
+        },
+        {
+          "name": "Word2Vec",
+          "rating": 3,
+          "description": "Word embedding technique"
+        },
+        {
+          "name": "Gensim",
+          "rating": 3,
+          "description": "Topic modeling and document similarity"
+        },
+        {
+          "name": "Spacy",
+          "rating": 3,
+          "description": "NLP library"
+        },
+        {
+          "name": "NLTK",
+          "rating": 3,
+          "description": "NLP library"
+        }
+      ]
+    },
+    {
+      "category": "Data Processing",
+      "description": "Data manipulation and analysis tools",
+      "skills": [
+        {
+          "name": "Pandas",
+          "rating": 5,
+          "description": "Data manipulation and analysis"
+        },
+        {
+          "name": "Numpy",
+          "rating": 5,
+          "description": "Numerical computing library"
+        }
+      ]
+    },
+    {
+      "category": "Cloud Platforms",
+      "description": "Cloud and deployment platforms",
+      "skills": [
+        {
+          "name": "AWS",
+          "rating": 3,
+          "description": "Cloud platform"
+        },
+        {
+          "name": "Heroku",
+          "rating": 3,
+          "description": "Cloud platform"
+        }
+      ]
+    },
+    {
+      "category": "DevOps & MLOps",
+      "description": "DevOps and MLOps tools",
+      "skills": [
+        {
+          "name": "ML Flow",
+          "rating": 3,
+          "description": "ML lifecycle management"
+        },
+        {
+          "name": "Docker",
+          "rating": 3,
+          "description": "Containerization platform"
+        },
+        {
+          "name": "GIT",
+          "rating": 3,
+          "description": "Version control system"
+        },
+        {
+          "name": "SVN",
+          "rating": 2,
+          "description": "Version control system"
+        }
+      ]
+    },
+    {
+      "category": "Databases",
+      "description": "Database technologies",
+      "skills": [
+        {
+          "name": "PostgreSQL",
+          "rating": 3,
+          "description": "Relational database"
+        },
+        {
+          "name": "MySQL",
+          "rating": 3,
+          "description": "Relational database"
+        },
+        {
+          "name": "MongoDB",
+          "rating": 3,
+          "description": "NoSQL database"
+        },
+        {
+          "name": "sqlite",
+          "rating": 3,
+          "description": "Embedded database"
+        },
+        {
+          "name": "psycopg2",
+          "rating": 3,
+          "description": "PostgreSQL adapter for Python"
+        },
+        {
+          "name": "SQLAlchemy",
+          "rating": 3,
+          "description": "Python SQL toolkit"
+        }
+      ]
+    },
+    {
+      "category": "Visualization",
+      "description": "Visualization and reporting tools",
+      "skills": [
+        {
+          "name": "Matplotlib",
+          "rating": 4,
+          "description": "Data visualization library"
+        },
+        {
+          "name": "Seaborn",
+          "rating": 4,
+          "description": "Statistical data visualization"
+        }
+      ]
+    },
+    {
+      "category": "Web Frameworks",
+      "description": "Web development frameworks",
+      "skills": [
+        {
+          "name": "FastAPI",
+          "rating": 3,
+          "description": "Web framework for APIs"
+        },
+        {
+          "name": "Django",
+          "rating": 3,
+          "description": "Web framework"
+        },
+        {
+          "name": "Django REST",
+          "rating": 3,
+          "description": "REST API framework"
+        },
+        {
+          "name": "Angular",
+          "rating": 3,
+          "description": "Frontend web framework"
+        },
+        {
+          "name": "BeautifulSoup",
+          "rating": 3,
+          "description": "Web scraping library"
+        }
+      ]
+    },
+    {
+      "category": "Other",
+      "description": "Other relevant skills",
+      "skills": [
+        {
+          "name": "ROS2 Humble",
+          "rating": 2,
+          "description": "Robotic Operating System"
+        },
+        {
+          "name": "ROS2 Eloquent",
+          "rating": 2,
+          "description": "Robotic Operating System"
+        },
+        {
+          "name": "IBM Blockchain",
+          "rating": 2,
+          "description": "Blockchain platform"
+        },
+        {
+          "name": "Smart contract",
+          "rating": 2,
+          "description": "Blockchain smart contracts"
+        },
+        {
+          "name": "NFT",
+          "rating": 2,
+          "description": "Non-fungible tokens"
+        }
+      ]
+    }
+  ]
+}

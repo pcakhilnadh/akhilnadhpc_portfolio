@@ -1,3 +1,4 @@
+import { site } from "../../config/site";
 import "./avatar-2d.css";
 
 /**
@@ -13,7 +14,7 @@ export function Avatar2D({ hidden = false }: { hidden?: boolean }) {
     <div className="avatar-2d" aria-hidden={hidden || undefined}>
       <img
         src="/images/avatar-poster.webp"
-        alt="Illustrated portrait of Akhil Nadh in a wide-brimmed hat and turtleneck"
+        alt={`Illustrated portrait of ${site.firstName} in a wide-brimmed hat and turtleneck`}
         width={720}
         height={964}
         decoding="async"

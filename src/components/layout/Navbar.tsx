@@ -28,10 +28,11 @@ function Logo() {
       }}
     >
       <span className="logo__mark np" aria-hidden="true">
-        A
+        {site.firstName.charAt(0)}
       </span>
       <span className="logo__word">
-        Akhil Nadh<span>.</span>
+        {site.firstName}
+        <span>.</span>
       </span>
     </a>
   );

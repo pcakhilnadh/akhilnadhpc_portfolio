@@ -34,8 +34,8 @@ src/
       chat/AvatarChat.tsx   "Say hi" button, loading state, the avatar message + close;
                             the one place to build STT / AI reply / TTS
       scene/                Head (GLB rig), RollNeck (turtleneck), Halo, Papers, Backdrop, monochrome shader
-  config/site.ts            what the site shows (name, title, intro, repo link, nav)
-  data/                     portfolio content (profile, skills, projects, blogs)
+  config/site.ts            what the site shows, derived from data/profile.json (+ nav links)
+  data/                     all site content as JSON (+ schemas, types, tiny loaders); see data/README.md
   hooks/                    layout, media-query and PWA-install hooks
   styles/                   tokens, base, NeoPOP primitives (component styles live next to components)
 public/
@@ -69,7 +69,8 @@ Node names `CharacterRoot`, `Head`, `Eye_L/R`, `Lid_L/R` and clips `Nod`, `Shake
 ```bash
 npm install
 npm run dev        # http://localhost:5000
-npm run build      # type-check + production build + service worker
+npm run check:data # validate the JSON data files
+npm run build      # data check + type-check + production build + service worker
 npm run preview
 npx pwa-assets-generator   # regenerate icons from public/logo.svg
 ```

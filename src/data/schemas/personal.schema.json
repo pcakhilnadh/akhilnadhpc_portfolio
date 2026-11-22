@@ -1,0 +1,80 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Personal (private)",
+  "description": "Sensitive details. The website never imports this file. Consider keeping it out of a public repository.",
+  "type": "object",
+  "properties": {
+    "$schema": {
+      "type": "string"
+    },
+    "dateOfBirth": {
+      "type": "string",
+      "description": "YYYY-MM-DD.",
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+    },
+    "placeOfBirth": {
+      "type": "string",
+      "description": "Where you were born."
+    },
+    "maritalStatus": {
+      "type": "string",
+      "description": "Marital status."
+    },
+    "phone": {
+      "type": "string",
+      "description": "Phone number."
+    },
+    "address": {
+      "type": "object",
+      "properties": {
+        "street": {
+          "type": "string",
+          "description": "Street / house."
+        },
+        "postalCode": {
+          "type": "string",
+          "description": "Postal code."
+        }
+      },
+      "required": [],
+      "additionalProperties": false
+    },
+    "family": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "relationship": {
+            "type": "string",
+            "description": "e.g. Father."
+          },
+          "name": {
+            "type": "string",
+            "description": "Name."
+          },
+          "occupation": {
+            "type": "string",
+            "description": "Occupation."
+          },
+          "dateOfBirth": {
+            "type": "string",
+            "description": "YYYY-MM-DD.",
+            "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+          },
+          "profileUrl": {
+            "type": "string",
+            "description": "Public profile.",
+            "format": "uri"
+          }
+        },
+        "required": [
+          "relationship",
+          "name"
+        ],
+        "additionalProperties": false
+      }
+    }
+  },
+  "required": [],
+  "additionalProperties": false
+}

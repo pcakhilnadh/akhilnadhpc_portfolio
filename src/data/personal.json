@@ -1,0 +1,32 @@
+{
+  "$schema": "./schemas/personal.schema.json",
+  "dateOfBirth": "1994-05-24",
+  "placeOfBirth": "Thrissur Kerala",
+  "maritalStatus": "Married",
+  "phone": "9633311164",
+  "address": {
+    "street": "Pullolikkal House",
+    "postalCode": "680121"
+  },
+  "family": [
+    {
+      "relationship": "Father",
+      "name": "Chandran PP",
+      "occupation": "Doctor",
+      "dateOfBirth": "1959-11-07",
+      "profileUrl": "https://www.instagram.com/drchandranpp"
+    },
+    {
+      "relationship": "Mother",
+      "name": "Preethy KS",
+      "occupation": "Retired Teacher",
+      "dateOfBirth": "1966-06-01",
+      "profileUrl": "https://www.instagram.com/preethychandran"
+    },
+    {
+      "relationship": "Wife",
+      "name": "Sethulakshmi R",
+      "occupation": "Senior Design Engineer"
+    }
+  ]
+}

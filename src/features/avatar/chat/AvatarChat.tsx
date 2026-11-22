@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { site } from "../../../config/site";
 import { avatar } from "../controller";
 import { preloadStage } from "../stageLoader";
 import { useAvatarState } from "../useAvatarState";
@@ -15,14 +16,11 @@ import "./chat.css";
  *
  * PLANNED: speech-to-text → AI reply → text-to-speech with lip-sync, and
  * reading blog posts aloud. All of that belongs in this folder: replace the
- * single GREETING with the real pipeline, and the message bubble with a mic /
- * transcript UI. The page only mounts <AvatarChat />, and the avatar is
- * driven purely through `avatar.*` (see ../controller.ts), so nothing else
- * has to change.
+ * single greeting (profile.json > avatarGreeting) with the real pipeline, and
+ * the message bubble with a mic / transcript UI. The page only mounts
+ * <AvatarChat />, and the avatar is driven purely through `avatar.*` (see
+ * ../controller.ts), so nothing else has to change.
  */
-
-const GREETING = "Hey, I'm Akhil. Voice chat is coming soon. For now, drag my head or fling the pages around.";
-
 export function AvatarChat() {
   const { supported, active, ready } = useAvatarState();
   const [message, setMessage] = useState<string | null>(null);
@@ -43,7 +41,7 @@ export function AvatarChat() {
   // Once the 3D avatar is on screen: nod and say hello.
   useEffect(() => {
     if (!ready) return;
-    avatar.say(GREETING);
+    avatar.say(site.avatarGreeting);
     avatar.play("Nod");
   }, [ready]);
 

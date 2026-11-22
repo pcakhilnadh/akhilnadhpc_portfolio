@@ -1,0 +1,63 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Skills",
+  "description": "Skills grouped by category. Certifications refer to skills by exact name, so keep names unique.",
+  "type": "object",
+  "properties": {
+    "$schema": {
+      "type": "string"
+    },
+    "groups": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "category": {
+            "type": "string",
+            "description": "Group title, e.g. Programming Languages."
+          },
+          "description": {
+            "type": "string",
+            "description": "One line about the group."
+          },
+          "skills": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "description": "Skill name. Certifications match on this exact text."
+                },
+                "rating": {
+                  "type": "number",
+                  "description": "1 (familiar) to 5 (expert).",
+                  "minimum": 1,
+                  "maximum": 5
+                },
+                "description": {
+                  "type": "string",
+                  "description": "Optional one-liner."
+                }
+              },
+              "required": [
+                "name",
+                "rating"
+              ],
+              "additionalProperties": false
+            }
+          }
+        },
+        "required": [
+          "category",
+          "skills"
+        ],
+        "additionalProperties": false
+      }
+    }
+  },
+  "required": [
+    "groups"
+  ],
+  "additionalProperties": false
+}

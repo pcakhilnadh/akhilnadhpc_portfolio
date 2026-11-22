@@ -1,0 +1,83 @@
+{
+  "$schema": "./schemas/services.schema.json",
+  "services": [
+    {
+      "title": "AI/ML Development",
+      "description": "Custom machine learning models and AI solutions tailored to your business needs.",
+      "category": "AI/ML",
+      "features": [
+        "Predictive Analytics",
+        "Computer Vision",
+        "Natural Language Processing",
+        "Recommendation Systems",
+        "Model Optimization",
+        "Production Deployment"
+      ]
+    },
+    {
+      "title": "Full-Stack Development",
+      "description": "End-to-end web and mobile applications with modern technologies.",
+      "category": "Development",
+      "features": [
+        "React/Next.js Frontend",
+        "Node.js/Python Backend",
+        "Database Design",
+        "API Development",
+        "Cloud Deployment",
+        "Performance Optimization"
+      ]
+    },
+    {
+      "title": "Data Engineering",
+      "description": "Scalable data pipelines and infrastructure for big data processing.",
+      "category": "AI/ML",
+      "features": [
+        "ETL Pipeline Design",
+        "Data Warehousing",
+        "Real-time Processing",
+        "Data Quality Assurance",
+        "Monitoring & Alerting",
+        "Cost Optimization"
+      ]
+    },
+    {
+      "title": "DevOps & Cloud",
+      "description": "Infrastructure automation and cloud-native solutions.",
+      "category": "Development",
+      "features": [
+        "CI/CD Pipeline Setup",
+        "Container Orchestration",
+        "Cloud Architecture",
+        "Monitoring & Logging",
+        "Security Best Practices",
+        "Cost Management"
+      ]
+    },
+    {
+      "title": "Technical Consulting",
+      "description": "Strategic guidance for technology decisions and architecture.",
+      "category": "Consulting",
+      "features": [
+        "Technology Assessment",
+        "Architecture Design",
+        "Performance Audits",
+        "Security Reviews",
+        "Team Training",
+        "Project Planning"
+      ]
+    },
+    {
+      "title": "API Development",
+      "description": "Robust and scalable APIs for seamless integration.",
+      "category": "Development",
+      "features": [
+        "RESTful API Design",
+        "GraphQL Implementation",
+        "Authentication & Authorization",
+        "Rate Limiting",
+        "Documentation",
+        "Testing & Monitoring"
+      ]
+    }
+  ]
+}

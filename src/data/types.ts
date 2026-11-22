@@ -1,19 +1,145 @@
 /**
- * Shared data types used by the data modules.
+ * Shapes of the JSON data files (src/data/*.json). The loader in index.ts
+ * assigns each JSON file to one of these types, so a field that is missing or
+ * has the wrong type fails `npm run build` instead of failing in the browser.
+ * Editors also get autocomplete from the matching schemas in ./schemas.
  */
 
-export type BlogTag = 'Tech' | 'Personal' | 'InterviewEx';
+export interface Social {
+  platform: string;
+  url: string;
+  username?: string;
+  primary?: boolean;
+}
 
-export interface BlogPost {
-  id: string;
+export interface Interest {
+  name: string;
+  description?: string;
+  level?: string;
+}
+
+/** profile.json: who you are. Drives the landing page, page title, PWA name and footer. */
+export interface Profile {
+  firstName: string;
+  lastName: string;
   title: string;
-  slug?: string;
-  author: string;
-  content: string; // HTML content
-  excerpt?: string;
-  tags: BlogTag[];
-  created_date: string;
-  updated_date?: string;
-  featured_image?: string;
-  read_time?: number; // in minutes
+  intro: string;
+  /** What the avatar says when opened */
+  avatarGreeting?: string;
+  summary?: string;
+  about?: string;
+  resumeSummary?: string;
+  email: string;
+  location: { city: string; state?: string; country: string };
+  careerStart?: string;
+  repoUrl: string;
+  socials?: Social[];
+  interests?: Interest[];
+}
+
+export interface Education {
+  degree: string;
+  field?: string;
+  institution: string;
+  url?: string;
+  startYear: number;
+  endYear: number;
+  grade?: string;
+}
+
+export interface Skill {
+  name: string;
+  /** 1 (familiar) to 5 (expert) */
+  rating: number;
+  description?: string;
+}
+
+export interface SkillGroup {
+  category: string;
+  description?: string;
+  skills: Skill[];
+}
+
+export interface Certification {
+  name: string;
+  issuer: string;
+  issued: string;
+  expires?: string;
+  credentialId?: string;
+  url?: string;
+  description?: string;
+  /** Skill names from skills.json */
+  skills?: string[];
+}
+
+export interface Reference {
+  name: string;
+  role?: string;
+  linkedin?: string;
+  relationship?: string;
+}
+
+export interface Experience {
+  company: string;
+  location?: string;
+  role: string;
+  start: string;
+  /** Omitted for the current job */
+  end?: string;
+  url?: string;
+  references?: Reference[];
+}
+
+export interface Service {
+  title: string;
+  description: string;
+  category?: string;
+  features?: string[];
+}
+
+export interface Project {
+  title: string;
+  slug: string;
+  shortDescription: string;
+  longDescription?: string;
+  projectType: string;
+  domain?: string[];
+  industry?: string[];
+  skills?: string[];
+  status: string;
+  startDate: string;
+  endDate?: string;
+  duration?: string;
+  role: string;
+  /** Matches a company in experience.json */
+  company?: string;
+  teamSize?: number;
+  highlights?: { label: string; value: string; category?: string }[];
+  problemStatement?: string;
+  businessImpact?: string[];
+  architectureOverview?: string;
+  workflowSteps?: string[];
+  architectureImage?: string;
+  datasets?: Record<string, unknown>[];
+  models?: Record<string, unknown>[];
+  deployment?: Record<string, unknown>;
+  operations?: Record<string, unknown>;
+  technologies?: string[];
+  frameworks?: string[];
+  libraries?: string[];
+  cloudServices?: string[];
+  dashboardTools?: string[];
+  thumbnailUrl?: string;
+  images?: string[];
+  tags?: string[];
+}
+
+/** personal.json: sensitive details. Deliberately NOT exported from index.ts, so the website cannot ship it. */
+export interface Personal {
+  dateOfBirth?: string;
+  placeOfBirth?: string;
+  maritalStatus?: string;
+  phone?: string;
+  address?: { street?: string; postalCode?: string };
+  family?: { relationship: string; name: string; occupation?: string; dateOfBirth?: string; profileUrl?: string }[];
 }

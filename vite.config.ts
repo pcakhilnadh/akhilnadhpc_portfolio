@@ -1,19 +1,41 @@
-import { defineConfig } from "vite";
+import { defineConfig, type Plugin } from "vite";
 import react from "@vitejs/plugin-react";
 import { VitePWA } from "vite-plugin-pwa";
+import profile from "./src/data/profile.json";
+
+/* The browser tab, share cards and installable-app name come from
+   src/data/profile.json too, so there is one place to edit who you are. */
+const fullName = `${profile.firstName} ${profile.lastName}`;
+const pageTitle = `${fullName} — ${profile.title}`;
+const description = `${fullName} is a ${profile.title}. ${profile.intro}`;
+const siteUrl = profile.socials.find((s) => s.platform === "Portfolio Website")?.url ?? "";
+
+const escapeHtml = (s: string) => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+
+/** Fills the %TOKENS% in index.html from the profile. */
+const htmlFromProfile = (): Plugin => ({
+  name: "html-from-profile",
+  transformIndexHtml: (html) =>
+    html
+      .replaceAll("%PAGE_TITLE%", escapeHtml(pageTitle))
+      .replaceAll("%FULL_NAME%", escapeHtml(fullName))
+      .replaceAll("%SHORT_NAME%", escapeHtml(profile.firstName))
+      .replaceAll("%DESCRIPTION%", escapeHtml(description))
+      .replaceAll("%SITE_URL%", escapeHtml(siteUrl)),
+});
 
 export default defineConfig({
   plugins: [
     react(),
+    htmlFromProfile(),
     VitePWA({
       registerType: "autoUpdate",
       includeAssets: ["favicon.ico", "logo.svg", "apple-touch-icon-180x180.png"],
       manifest: {
         id: "/",
-        name: "Akhil Nadh Pullolikkal Chandran — Senior Data Scientist",
-        short_name: "Akhil Nadh",
-        description:
-          "Portfolio of Akhil Nadh Pullolikkal Chandran, Senior Data Scientist building computer-vision and LLM systems.",
+        name: pageTitle,
+        short_name: profile.firstName,
+        description,
         start_url: "/",
         scope: "/",
         display: "standalone",
