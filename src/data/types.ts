@@ -27,11 +27,20 @@ export interface Profile {
   summary: string;
   /** What the avatar says when opened */
   avatarGreeting: string;
-  /** Long bio, for a future About page; blank lines separate paragraphs */
+  /** Long bio for the About section; blank lines separate paragraphs */
   about?: string;
+  /** Summary paragraph at the top of the downloadable resume */
   resumeSummary?: string;
+  /** Name as printed on the resume; defaults to firstName + lastName */
+  resumeName?: string;
+  /** Resume headline under the name; defaults to title */
+  headline?: string;
   email: string;
+  /** Where you live now */
   location: { city: string; state?: string; country: string };
+  /** Where you are from, if different from location */
+  hometown?: string;
+  achievements?: string[];
   careerStart?: string;
   repoUrl: string;
   socials?: Social[];
@@ -46,12 +55,14 @@ export interface Education {
   startYear: number;
   endYear: number;
   grade?: string;
+  /** false leaves it off the downloadable resume */
+  resume?: boolean;
 }
 
 export interface Skill {
   name: string;
-  /** 1 (familiar) to 5 (expert) */
-  rating: number;
+  /** 1 (familiar) to 5 (expert); unrated skills show without the meter */
+  rating?: number;
   description?: string;
 }
 
@@ -59,6 +70,8 @@ export interface SkillGroup {
   category: string;
   description?: string;
   skills: Skill[];
+  /** false leaves it off the downloadable resume */
+  resume?: boolean;
 }
 
 export interface Certification {
@@ -88,6 +101,10 @@ export interface Experience {
   /** Omitted for the current job */
   end?: string;
   url?: string;
+  /** One line about the company or client */
+  context?: string;
+  /** What you did there, one bullet each */
+  highlights?: string[];
   references?: Reference[];
 }
 
@@ -108,10 +125,12 @@ export interface Project {
   industry?: string[];
   skills?: string[];
   status: string;
-  startDate: string;
+  startDate?: string;
   endDate?: string;
   duration?: string;
-  role: string;
+  role?: string;
+  /** false leaves it off the downloadable resume */
+  resume?: boolean;
   /** Matches a company in experience.json */
   company?: string;
   teamSize?: number;
@@ -130,6 +149,10 @@ export interface Project {
   libraries?: string[];
   cloudServices?: string[];
   dashboardTools?: string[];
+  /** Source code, e.g. a GitHub repository */
+  repoUrl?: string;
+  /** The running app or site */
+  liveUrl?: string;
   thumbnailUrl?: string;
   images?: string[];
   tags?: string[];
@@ -137,10 +160,10 @@ export interface Project {
 
 /** personal.json: sensitive details. Deliberately NOT exported from index.ts, so the website cannot ship it. */
 export interface Personal {
-  dateOfBirth?: string;
+  /** "YYYY-MM": month and year only, the full date is deliberately not stored */
+  birthMonth?: string;
   placeOfBirth?: string;
   maritalStatus?: string;
-  phone?: string;
   address?: { street?: string; postalCode?: string };
-  family?: { relationship: string; name: string; occupation?: string; dateOfBirth?: string; profileUrl?: string }[];
+  family?: { relationship: string; name: string; occupation?: string; birthMonth?: string; profileUrl?: string }[];
 }

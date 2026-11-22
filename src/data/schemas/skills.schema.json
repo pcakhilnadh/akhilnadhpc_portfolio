@@ -31,7 +31,7 @@
                 },
                 "rating": {
                   "type": "number",
-                  "description": "1 (familiar) to 5 (expert).",
+                  "description": "1 (familiar) to 5 (expert). Optional: unrated skills show without the meter.",
                   "minimum": 1,
                   "maximum": 5
                 },
@@ -41,11 +41,14 @@
                 }
               },
               "required": [
-                "name",
-                "rating"
+                "name"
               ],
               "additionalProperties": false
             }
+          },
+          "resume": {
+            "type": "boolean",
+            "description": "Set to false to leave this out of the downloadable resume. Defaults to true."
           }
         },
         "required": [

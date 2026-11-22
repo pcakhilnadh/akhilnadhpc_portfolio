@@ -4,21 +4,44 @@ Everything the site says about you lives in the JSON files in this folder. Edit 
 
 | File | What it holds | Used by the site today |
 |---|---|---|
-| `profile.json` | Name, role, summary, location, email, socials, bios, repo link | **Yes**: landing page, footer, page title, share cards, installable-app name |
-| `skills.json` | Skills grouped by category, rated 1 to 5 | Not yet |
-| `certifications.json` | Courses and certificates (skills listed by name) | Not yet |
-| `experience.json` | Jobs, with their references nested inside | Not yet |
-| `education.json` | Degrees | Not yet |
-| `projects.json` | Case studies | Not yet |
+| `profile.json` | Name, role, summary, location, email, socials, bios, repo link | **Yes**: landing page, About, Contact, footer, page title, share cards, installable-app name |
+| `skills.json` | Skills grouped by category, rated 1 to 5 | **Yes**: Skills |
+| `certifications.json` | Courses and certificates (skills listed by name) | **Yes**: Certificates |
+| `experience.json` | Jobs, with their references nested inside | **Yes**: Experience timeline |
+| `education.json` | Degrees | **Yes**: Education timeline, inside About |
+| `projects.json` | Case studies | **Yes**: Projects, linked from Experience |
 | `services.json` | What you offer | Not yet |
-| `personal.json` | **Sensitive**: date of birth, phone, address, family | Never (see below) |
+| `personal.json` | **Sensitive**: birth month/year, address, family (no phone, no full date of birth) | Never (see below) |
 
 ## Common edits
 
 - **Change your name, role or summary:** edit `profile.json`. Rebuild and the landing page, browser tab, share cards and app name all follow.
-- **Add a skill:** add `{ "name": "...", "rating": 1-5 }` to a group in `skills.json`.
+- **Add a skill:** add `{ "name": "...", "rating": 1-5 }` to a group in `skills.json`. `rating` is optional; unrated skills show without the meter.
 - **Add a certification:** add an entry to `certifications.json`; its `skills` must match names in `skills.json` exactly.
-- **New job:** add to `experience.json`. Leave `end` out for your current job. A project's `company` must match a job's `company`.
+- **New job:** add to `experience.json`. Leave `end` out for your current job, and set `profile.json`'s `title` to its role. `highlights` are the bullets shown on the timeline and the resume. A project's `company` must match a job's `company`.
+- **Personal project:** add to `projects.json` with `"projectType": "Personal"` and no `company`; it shows under "Personal projects". `repoUrl` and `liveUrl` add "Source on GitHub" and "Live site" buttons to any project.
+- **Moved city:** edit `location` in `profile.json`; `hometown` is shown separately in About.
+
+## The downloadable resume
+
+The Resume section builds the PDF in the visitor's browser when they click Download, from these files, so it is always current:
+
+| Resume part | Comes from |
+|---|---|
+| Name, headline | `profile.json` → `resumeName`, `headline` (fall back to the full name and `title`) |
+| Contact line | `profile.json` → `email`, `location`, and the LinkedIn, GitHub and Portfolio Website `socials` |
+| Summary | `profile.json` → `resumeSummary` |
+| Experience | `experience.json`, newest first, with `context` and `highlights` |
+| Projects | `projects.json`, in file order, using `longDescription` |
+| Skills | `skills.json` groups |
+| Education | `education.json`, newest first |
+| Key achievements | `profile.json` → `achievements` |
+
+Add `"resume": false` to a project, skill group or education entry to keep it on the website but out of the PDF.
+
+**Last updated** is the date of the last commit that changed `src/data` (or today, while you have uncommitted edits there).
+
+**Phone number:** it is not stored in any JSON file. It comes from the `VITE_RESUME_PHONE` environment variable: put it in `.env.local` (git-ignored) for local builds, and add the same variable in Vercel → Project → Settings → Environment Variables for the live site. Without it, the PDF simply has no phone number. The number only appears in the PDF and in the script that builds it, never on the page itself.
 
 ## Checks
 

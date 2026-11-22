@@ -2,6 +2,170 @@
   "$schema": "./schemas/projects.schema.json",
   "projects": [
     {
+      "title": "Intelligent Document Processing & Reconciliation",
+      "slug": "intelligent-document-processing-reconciliation",
+      "shortDescription": "AI-powered cargo invoice reconciliation platform using OCR, Azure Document Intelligence and multimodal LLMs to automate extraction, validation and discrepancy detection.",
+      "longDescription": "Designed and deployed an end-to-end AI-powered cargo invoice reconciliation platform, leveraging OCR, Azure Document Intelligence, and multimodal LLMs (Azure OpenAI, Gemini, Claude) to automate document extraction, validation, and reconciliation against operational, financial, and contractual data. Implemented automated discrepancy detection and revenue leakage analysis, reducing manual validation effort by 70%, saving 22,000+ hours annually, and addressing ₹2 Cr/month in revenue discrepancies.",
+      "projectType": "Project",
+      "domain": [
+        "Generative AI",
+        "Document AI",
+        "OCR"
+      ],
+      "industry": [
+        "Aviation",
+        "Air Cargo"
+      ],
+      "status": "Deployed",
+      "company": "Air India",
+      "highlights": [
+        {
+          "label": "Manual validation effort reduced",
+          "value": "70%",
+          "category": "Business"
+        },
+        {
+          "label": "Hours saved per year",
+          "value": "22,000+",
+          "category": "Business"
+        },
+        {
+          "label": "Revenue discrepancies addressed",
+          "value": "₹2 Cr/mo",
+          "category": "Business"
+        }
+      ],
+      "technologies": [
+        "Python",
+        "Azure"
+      ],
+      "cloudServices": [
+        "Azure Document Intelligence",
+        "Azure OpenAI"
+      ],
+      "frameworks": [
+        "Gemini",
+        "Claude"
+      ],
+      "tags": [
+        "Generative AI",
+        "Multimodal LLMs",
+        "Document AI",
+        "OCR",
+        "Reconciliation"
+      ]
+    },
+    {
+      "title": "Multi-Agent FinOps Analytics Chatbot",
+      "slug": "multi-agent-finops-analytics-chatbot",
+      "shortDescription": "LangGraph multi-agent chatbot for conversational financial analytics, with RAG-based SQL template retrieval and a LoRA fine-tuned Text-to-SQL model.",
+      "longDescription": "Built a LangGraph-based multi-agent FinOps Analytics chatbot using Azure OpenAI, FastAPI, Docker, and PgVector. Designed supervisor-driven orchestration with specialized reasoning agents, implementing RAG-based semantic retrieval of SQL templates using Sentence Transformers for query selection and a LoRA fine-tuned Qwen model for Text-to-SQL generation. Integrated self-correcting SQL generation and automated validation to enable conversational financial analytics over enterprise data.",
+      "projectType": "Project",
+      "domain": [
+        "Agentic AI",
+        "RAG",
+        "Text-to-SQL"
+      ],
+      "industry": [
+        "Aviation",
+        "Finance"
+      ],
+      "status": "Deployed",
+      "company": "Air India",
+      "technologies": [
+        "Python",
+        "FastAPI",
+        "Docker",
+        "PgVector"
+      ],
+      "frameworks": [
+        "LangGraph",
+        "Sentence Transformers",
+        "Qwen (LoRA)"
+      ],
+      "cloudServices": [
+        "Azure OpenAI"
+      ],
+      "tags": [
+        "Agentic AI",
+        "Multi-Agent",
+        "LangGraph",
+        "RAG",
+        "Text-to-SQL",
+        "LoRA"
+      ]
+    },
+    {
+      "title": "Enterprise RAG Platform for Contextual Document Retrieval",
+      "slug": "enterprise-rag-platform",
+      "shortDescription": "End-to-end RAG pipeline with semantic chunking and ChromaDB, answering questions over enterprise documents with exact document and page citations.",
+      "longDescription": "Designed and deployed an end-to-end enterprise RAG pipeline using Docling, LlamaIndex, semantic chunking, and ChromaDB for document ingestion, parsing, embedding generation, and contextual retrieval. Integrated LLM-based question answering with exact document and page citations through a FastAPI backend, enabling grounded responses and contextualized information retrieval across unstructured enterprise documents.",
+      "projectType": "Project",
+      "domain": [
+        "RAG",
+        "Generative AI",
+        "Document AI"
+      ],
+      "status": "Deployed",
+      "technologies": [
+        "Python",
+        "FastAPI",
+        "ChromaDB"
+      ],
+      "frameworks": [
+        "LlamaIndex",
+        "Docling"
+      ],
+      "tags": [
+        "RAG",
+        "LlamaIndex",
+        "Semantic Chunking",
+        "Citations",
+        "ChromaDB"
+      ]
+    },
+    {
+      "title": "NLP-Based Maintenance Log Classification",
+      "slug": "nlp-maintenance-log-classification",
+      "shortDescription": "TF-IDF + SVM pipeline that maps unstructured industrial maintenance descriptions into 50 standardized component categories.",
+      "longDescription": "Developed a production-oriented NLP classification pipeline using TF-IDF representations and SVM to automatically map unstructured industrial maintenance descriptions into 50 standardized component categories. Implemented domain-specific text preprocessing and feature engineering, achieving an F1-score of 0.60 and reducing manual maintenance log triage effort.",
+      "projectType": "Project",
+      "domain": [
+        "NLP",
+        "Machine Learning"
+      ],
+      "industry": [
+        "Oil & Gas",
+        "Industrial"
+      ],
+      "status": "Completed",
+      "company": "Nest Digital Private Limited",
+      "highlights": [
+        {
+          "label": "Component categories",
+          "value": "50",
+          "category": "Scale"
+        },
+        {
+          "label": "F1-score",
+          "value": "0.60",
+          "category": "Accuracy"
+        }
+      ],
+      "technologies": [
+        "Python"
+      ],
+      "libraries": [
+        "Scikit-learn"
+      ],
+      "tags": [
+        "NLP",
+        "Text Classification",
+        "TF-IDF",
+        "SVM"
+      ]
+    },
+    {
       "title": "End-to-End Inflight Meal Consumption Analytics",
       "slug": "end-to-end-inflight-meal-consumption-analytics",
       "shortDescription": "AI-powered computer vision platform for automated inflight food waste analytics using edge AI and Azure cloud infrastructure.",
@@ -299,7 +463,116 @@
         "Real-Time Inference",
         "Object Detection"
       ],
-      "company": "Air India"
+      "company": "Air India",
+      "resume": false
+    },
+    {
+      "title": "MyTracker: Money, Food & Meal Planning App",
+      "slug": "mytracker",
+      "shortDescription": "An installable, offline-first personal tracker with three apps in one: expenses and shared group splits, a calorie diary, and household meal planning, with AI that reads bills and food photos.",
+      "longDescription": "Built and shipped a full-stack, offline-first PWA combining three apps: My Money (expenses, income, transfers, accounts, budgets and shared group expenses with settle-up), My Food (a calorie diary with insights) and MyPlate (shared weekly meal plans, prep reminders and an aisle-sorted grocery list). Implemented vision-LLM extraction that turns a photo of a bill into a transaction and a photo of a meal into food entries, with every AI call logged for auditing. Designed a local-first sync engine on IndexedDB with background sync to a FastAPI and PostgreSQL backend, Google sign-in, and email or join-code invites for groups and kitchens.",
+      "projectType": "Personal",
+      "domain": [
+        "Full-Stack Development",
+        "Generative AI",
+        "Personal Finance"
+      ],
+      "industry": [
+        "Fintech"
+      ],
+      "status": "Deployed",
+      "startDate": "2026-10-21",
+      "role": "Solo developer",
+      "problemStatement": "Expenses, what I eat and what the household cooks were scattered across separate apps and chats, none of which worked well offline or let a partner or flatmates share the same plan.",
+      "architectureOverview": "A React PWA keeps one local database (IndexedDB via Dexie) per app and account, so screens read and write instantly and work offline. A per-app sync engine pushes changes in the background to a versioned FastAPI API (/api/v1), where sign-in, access rules and business rules such as splits and kitchen membership live, on PostgreSQL (Supabase) through SQLAlchemy and Alembic. Bill and food photos go to a vision LLM through a pluggable provider layer.",
+      "workflowSteps": [
+        "Sign in with Google; the app installs to the home screen and opens offline",
+        "Add a transaction, meal or plan: it saves to the phone's local database first",
+        "Background sync sends changes per app to the FastAPI backend and pulls others' updates",
+        "Snap a bill or a plate: a vision LLM proposes the transaction or foods for review",
+        "Groups and kitchens are shared by email invite or a 6-character join code"
+      ],
+      "businessImpact": [
+        "Three trackers in one installable app that works without a connection",
+        "AI bill and food-photo entry removes most manual typing",
+        "Shared groups and kitchens keep households on the same budget, plan and grocery list"
+      ],
+      "technologies": [
+        "TypeScript",
+        "Python",
+        "PostgreSQL",
+        "IndexedDB",
+        "PWA"
+      ],
+      "frameworks": [
+        "React",
+        "FastAPI",
+        "Vite",
+        "Tailwind CSS"
+      ],
+      "libraries": [
+        "TanStack Query",
+        "Dexie",
+        "SQLAlchemy",
+        "Alembic",
+        "Playwright",
+        "Vitest",
+        "pytest"
+      ],
+      "cloudServices": [
+        "Vercel",
+        "Supabase"
+      ],
+      "tags": [
+        "Offline-First",
+        "PWA",
+        "Vision LLM",
+        "FastAPI",
+        "React",
+        "Fintech"
+      ],
+      "repoUrl": "https://github.com/pcakhilnadh/MyMoney",
+      "liveUrl": "https://mytracker.akhilnadhpc.in/"
+    },
+    {
+      "title": "Wedding Invitation Website",
+      "slug": "wedding-invitation",
+      "shortDescription": "A personal wedding invitation site with an animated, swipeable story timeline, event details with a countdown, a family explorer and a photo gallery.",
+      "longDescription": "Designed and built our wedding invitation website: an animated horizontal story timeline with touch and swipe support, ceremony and reception details with a live countdown, a family tree explorer, a gallery and greetings. Content lives in typed data files so the site is easy to update, and it installs as a PWA.",
+      "projectType": "Personal",
+      "domain": [
+        "Frontend Development"
+      ],
+      "status": "Completed",
+      "startDate": "2026-01-14",
+      "endDate": "2026-03-23",
+      "role": "Designer & developer",
+      "technologies": [
+        "TypeScript",
+        "PWA"
+      ],
+      "frameworks": [
+        "React",
+        "Vite",
+        "Tailwind CSS"
+      ],
+      "libraries": [
+        "Framer Motion",
+        "Radix UI"
+      ],
+      "cloudServices": [
+        "Vercel"
+      ],
+      "tags": [
+        "React",
+        "Framer Motion",
+        "Animation",
+        "Responsive",
+        "PWA"
+      ],
+      "repoUrl": "https://github.com/pcakhilnadh/SethuWedsAkhil",
+      "liveUrl": "https://sethu-weds-akhil.vercel.app",
+      "resume": false
     }
   ]
 }

@@ -68,6 +68,17 @@
               "additionalProperties": false
             },
             "description": "People who can vouch for this job."
+          },
+          "context": {
+            "type": "string",
+            "description": "One line about the company or client, e.g. \"Product company\" or \"Service-based, for Renault and Nissan\"."
+          },
+          "highlights": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "What you did there, one bullet each. Shown on the timeline and the resume."
           }
         },
         "required": [

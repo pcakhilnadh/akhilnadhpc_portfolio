@@ -1,0 +1,92 @@
+/* ==========================================================
+   Timeline: a rail on the left, a square node per entry. On wide screens the
+   period moves into its own column to the left of the rail.
+   ========================================================== */
+.tl {
+  --rail-x: 7px; /* centre of the rail */
+  --node: 16px;
+  position: relative;
+  display: grid;
+  gap: clamp(32px, 5vw, 48px);
+}
+.tl::before {
+  content: "";
+  position: absolute;
+  top: 6px;
+  bottom: 6px;
+  left: calc(var(--rail-x) - 1px);
+  width: var(--stroke);
+  background: var(--line);
+}
+.tl__item {
+  position: relative;
+  display: grid;
+  gap: 10px;
+  padding-left: 40px;
+}
+.tl__node {
+  position: absolute;
+  top: 1px;
+  left: calc(var(--rail-x) - var(--node) / 2);
+  width: var(--node);
+  height: var(--node);
+  border: var(--stroke) solid var(--ink);
+  background: var(--bg);
+  box-shadow: 3px 3px 0 var(--c-4); /* a tiny plunk */
+}
+.tl__item[data-current] .tl__node {
+  background: var(--c-9);
+  border-color: var(--c-9);
+}
+.tl__period {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 12px;
+  font: 500 12px/1.4 var(--font-mono);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+.tl__note {
+  color: var(--ink-mute);
+}
+.tl__now {
+  padding: 4px 8px;
+  font-size: 10px;
+}
+.tl__title {
+  font: 400 clamp(22px, 3.4vw, 32px) / 1.05 var(--font-display);
+  text-transform: uppercase;
+}
+.tl__org {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 14px;
+  margin-top: 8px;
+  font-weight: 500;
+  color: var(--ink);
+}
+.tl__meta {
+  color: var(--ink-mute);
+}
+.tl__extra {
+  margin-top: 18px;
+}
+
+@media (min-width: 860px) {
+  .tl {
+    --rail-x: 240px; /* period column (200) + half the gap (40) */
+  }
+  .tl__item {
+    grid-template-columns: 200px 1fr;
+    column-gap: 80px;
+    padding-left: 0;
+  }
+  .tl__period {
+    flex-direction: column;
+    align-items: flex-end;
+    text-align: right;
+    padding-top: 2px;
+  }
+}

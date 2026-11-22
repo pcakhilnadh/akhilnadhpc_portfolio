@@ -15,12 +15,22 @@ export const site = {
   avatarGreeting: profile.avatarGreeting,
   email: profile.email,
   repoUrl: profile.repoUrl,
+  /** Where you live now, short: "Chennai, India" */
   location: [profile.location.city, profile.location.country].join(", "),
+  hometown: profile.hometown,
 };
 
 /**
- * In-page navigation. Empty while the site is a single landing page; add
- * { label, href } entries as the other pages/sections are built and the
- * header (nav + mobile menu) will appear automatically.
+ * In-page navigation. Each href is a section id rendered in App.tsx. An empty
+ * list hides the nav and the mobile menu entirely.
  */
-export const navLinks: readonly { label: string; href: string }[] = [];
+export const navLinks: readonly { label: string; href: string }[] = [
+  { label: "About", href: "#about" },
+  { label: "Experience", href: "#experience" },
+  { label: "Projects", href: "#projects" },
+  { label: "Skills", href: "#skills" },
+  { label: "Resume", href: "#resume" },
+];
+
+/** Where the header's "Let's talk" button goes. */
+export const contactHref = "#contact";

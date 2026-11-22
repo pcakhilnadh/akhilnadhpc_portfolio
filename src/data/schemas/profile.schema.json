@@ -33,7 +33,7 @@
     },
     "resumeSummary": {
       "type": "string",
-      "description": "Paragraph for a future resume page."
+      "description": "Summary paragraph at the top of the downloadable resume."
     },
     "email": {
       "type": "string",
@@ -127,6 +127,25 @@
         "additionalProperties": false
       },
       "description": "Hobbies and interests."
+    },
+    "resumeName": {
+      "type": "string",
+      "description": "Name as printed on the resume, e.g. \"Akhil Nadh PC\". Defaults to firstName + lastName."
+    },
+    "headline": {
+      "type": "string",
+      "description": "Resume headline under your name, e.g. \"Senior Data Scientist | Gen AI\". Defaults to title."
+    },
+    "hometown": {
+      "type": "string",
+      "description": "Where you are from, if different from location. Shown in About."
+    },
+    "achievements": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Awards and recognition. Shown in About and on the resume."
     }
   },
   "required": [

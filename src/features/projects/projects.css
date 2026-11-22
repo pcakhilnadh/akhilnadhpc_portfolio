@@ -1,0 +1,460 @@
+/* ==========================================================
+   Projects: filter bar, card grid, case-study dialog.
+   ========================================================== */
+
+/* ---------- Filter bar ---------- */
+.pf {
+  display: grid;
+  gap: 16px;
+  margin-bottom: 32px;
+}
+.pf__row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+.pf__search {
+  position: relative;
+  flex: 1 1 280px;
+  display: flex;
+  align-items: center;
+}
+.pf__search svg {
+  position: absolute;
+  left: 14px;
+  width: 18px;
+  height: 18px;
+  fill: none;
+  stroke: var(--ink-mute);
+  stroke-width: 2;
+  pointer-events: none;
+}
+.pf__search input,
+.pf__sort select {
+  width: 100%;
+  min-height: 46px;
+  border: var(--stroke) solid var(--c-4);
+  border-radius: 0;
+  background: var(--surface);
+  color: var(--ink);
+  font: inherit;
+  font-size: 15px;
+}
+.pf__search input {
+  padding: 0 14px 0 42px;
+}
+.pf__search input::placeholder {
+  color: var(--ink-mute);
+}
+.pf__search input:focus-visible,
+.pf__sort select:focus-visible {
+  outline: none;
+  border-color: var(--ink);
+}
+.pf__sort {
+  flex: 0 0 auto;
+}
+.pf__sort select {
+  padding: 0 36px 0 14px;
+  appearance: none;
+  cursor: pointer;
+  background-image: linear-gradient(45deg, transparent 50%, var(--ink-soft) 50%), linear-gradient(-45deg, transparent 50%, var(--ink-soft) 50%);
+  background-position:
+    calc(100% - 18px) 50%,
+    calc(100% - 13px) 50%;
+  background-size: 5px 5px;
+  background-repeat: no-repeat;
+  font: 500 12px/1 var(--font-mono);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+/* Segmented control: All / Professional / Personal */
+.pf__tabs {
+  display: flex;
+  border: var(--stroke) solid var(--c-4);
+}
+.pf__tab {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 42px;
+  padding: 0 14px;
+  border: 0;
+  background: transparent;
+  color: var(--ink-soft);
+  font: 500 12px/1 var(--font-mono);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+.pf__tab + .pf__tab {
+  border-left: var(--stroke) solid var(--c-4);
+}
+.pf__tab:hover {
+  color: var(--ink);
+}
+.pf__tab[aria-pressed="true"] {
+  background: var(--ink);
+  color: var(--bg);
+}
+.pf__count {
+  opacity: 0.6;
+}
+
+/* Skill chips */
+.pf__skills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.pf__skill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 32px;
+  padding: 4px 12px;
+  border: 1px solid var(--c-3);
+  background: transparent;
+  color: var(--ink-soft);
+  font: inherit;
+  font-size: 13px;
+  cursor: pointer;
+  transition:
+    border-color 150ms ease,
+    color 150ms ease;
+}
+.pf__skill:hover {
+  border-color: var(--ink);
+  color: var(--ink);
+}
+.pf__skill[aria-pressed="true"] {
+  border-color: var(--ink);
+  background: var(--ink);
+  color: var(--bg);
+}
+
+.pf__status {
+  display: flex;
+  align-items: baseline;
+  gap: 16px;
+  font: 500 12px/1.4 var(--font-mono);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-mute);
+}
+.pf__clear {
+  padding: 0;
+  border: 0;
+  border-bottom: 1px solid var(--c-4);
+  background: none;
+  color: var(--ink);
+  font: inherit;
+  letter-spacing: inherit;
+  text-transform: inherit;
+  cursor: pointer;
+}
+
+/* ---------- Grid of cards ---------- */
+.pgrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 440px), 1fr));
+  gap: 28px;
+}
+.pgrid > li {
+  display: grid;
+  min-width: 0;
+}
+.pgrid > li > .pcard {
+  min-width: 0; /* let long company names ellipsize instead of widening the card */
+}
+.pgrid__empty {
+  display: grid;
+  justify-items: start;
+  gap: 16px;
+  padding: 40px 0;
+  color: var(--ink-soft);
+}
+
+.pcard {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: clamp(20px, 3vw, 28px);
+}
+.pcard__top {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font: 500 11px/1 var(--font-mono);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-mute);
+}
+.pcard__index {
+  color: var(--ink);
+}
+.pcard__where {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.pcard__status {
+  margin-left: auto;
+  flex: none;
+  color: var(--ink-soft);
+}
+.pcard__title {
+  font: 400 clamp(21px, 1.2vw + 15px, 26px) / 1.1 var(--font-display);
+  text-transform: uppercase;
+}
+.pcard__title button {
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  text-transform: inherit;
+  cursor: pointer;
+}
+.pcard__title button:hover {
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 4px;
+}
+.pcard__when {
+  margin-top: -6px;
+  font: 500 12px/1.3 var(--font-mono);
+  color: var(--ink-mute);
+}
+.pcard__desc {
+  color: var(--ink-soft);
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.pcard__stats {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  padding-block: 14px;
+  border-block: 1px solid var(--line);
+}
+.pcard__stats li,
+.pdialog__stats li {
+  display: grid;
+  gap: 4px;
+  align-content: start;
+}
+.pcard__stats b {
+  font: 400 clamp(20px, 2vw, 26px) / 1 var(--font-display);
+  color: var(--ink);
+  overflow-wrap: anywhere;
+}
+.pcard__stats span {
+  font: 500 11px/1.35 var(--font-mono);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--ink-mute);
+}
+.pcard__stack {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.pcard__stack li {
+  padding: 4px 9px;
+  border: 1px solid var(--c-3);
+  font-size: 12.5px;
+  color: var(--ink-soft);
+}
+.pcard__stack .pcard__more {
+  border-style: dashed;
+  color: var(--ink-mute);
+}
+.pcard__foot {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px 20px;
+  margin-top: auto;
+  padding-top: 8px;
+}
+.pcard__links {
+  display: flex;
+  gap: 18px;
+  font: 500 12px/1 var(--font-mono);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+/* ---------- Case-study dialog ---------- */
+html:has(.pdialog[open]) {
+  overflow: hidden;
+}
+.pdialog {
+  width: min(880px, calc(100% - 2 * var(--gutter)));
+  max-width: none;
+  max-height: calc(100svh - 48px);
+  margin: auto;
+  padding: 0 10px 10px 0; /* room for the plank's extrusion */
+  border: 0;
+  background: transparent;
+  color: var(--ink);
+  overflow: visible;
+}
+.pdialog::backdrop {
+  background: rgb(0 0 0 / 0.78);
+}
+.pdialog__panel {
+  display: flex;
+  flex-direction: column;
+  max-height: calc(100svh - 58px);
+  background: var(--surface);
+}
+.pdialog__head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 20px;
+  padding: clamp(18px, 3vw, 32px) clamp(18px, 3vw, 32px) 18px;
+  border-bottom: 1px solid var(--line);
+}
+.pdialog__domain {
+  margin-bottom: 8px;
+  font: 500 11px/1.4 var(--font-mono);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-mute);
+}
+.pdialog__title {
+  font: 400 clamp(24px, 2.4vw + 14px, 38px) / 1.05 var(--font-display);
+  text-transform: uppercase;
+}
+.pdialog__close {
+  flex: none;
+}
+.pdialog__body {
+  display: grid;
+  gap: 28px;
+  padding: 24px clamp(18px, 3vw, 32px) clamp(24px, 4vw, 36px);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  color: var(--ink-soft);
+}
+.pdialog__lead {
+  font-size: clamp(16px, 0.6vw + 13px, 19px);
+  color: var(--ink);
+}
+.pdialog__facts {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 120px), 1fr));
+  gap: 18px;
+  padding-block: 18px;
+  border-block: 1px solid var(--line);
+}
+.pdialog__links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+}
+.pdialog__stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 130px), 1fr));
+  gap: 12px;
+}
+.pdialog__stats li {
+  padding: 14px;
+  background: var(--c-8);
+  color: var(--c-0);
+  box-shadow: 5px 5px 0 var(--c-4);
+}
+.pdialog__stats b {
+  font: 400 clamp(20px, 2.4vw, 30px) / 1 var(--font-display);
+  overflow-wrap: anywhere;
+}
+.pdialog__stats span {
+  font: 500 11px/1.35 var(--font-mono);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.pdialog__block {
+  display: grid;
+  gap: 10px;
+}
+.pdialog__block h4 {
+  font: 500 11px/1 var(--font-mono);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--ink);
+}
+.pdialog__steps {
+  display: grid;
+  gap: 8px;
+  counter-reset: step;
+}
+.pdialog__steps li {
+  counter-increment: step;
+  display: grid;
+  grid-template-columns: 32px 1fr;
+}
+.pdialog__steps li::before {
+  content: counter(step, decimal-leading-zero);
+  font: 500 12px/1.9 var(--font-mono);
+  color: var(--ink-mute);
+}
+.pdialog__models {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr));
+  gap: 12px;
+}
+.pdialog__models li {
+  display: grid;
+  align-content: start;
+  gap: 4px;
+  padding: 14px;
+  border: 1px solid var(--c-4);
+  font-size: 14px;
+}
+.pdialog__models strong {
+  color: var(--ink);
+}
+.pdialog__muted {
+  color: var(--ink-mute);
+}
+.pdialog__impact {
+  display: grid;
+  gap: 8px;
+}
+.pdialog__impact li {
+  display: grid;
+  grid-template-columns: 22px 1fr;
+}
+.pdialog__impact li::before {
+  content: "→";
+  font-family: var(--font-mono);
+  color: var(--ink);
+}
+.pdialog__stack {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 1fr));
+  gap: 18px;
+}
+
+@media (max-width: 640px) {
+  .pf__tabs {
+    flex: 1 1 100%;
+  }
+  .pf__tab {
+    flex: 1;
+    justify-content: center;
+    padding: 0 8px;
+  }
+  .pf__sort {
+    flex: 1 1 100%;
+  }
+}

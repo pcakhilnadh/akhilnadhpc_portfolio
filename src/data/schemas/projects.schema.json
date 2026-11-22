@@ -27,7 +27,7 @@
           },
           "longDescription": {
             "type": "string",
-            "description": "A paragraph."
+            "description": "Full description. Shown in the case study and used on the resume."
           },
           "projectType": {
             "enum": [
@@ -63,7 +63,8 @@
               "Ideation",
               "Research",
               "Development",
-              "Completed"
+              "Completed",
+              "Deployed"
             ],
             "description": "Where it stands."
           },
@@ -205,6 +206,16 @@
             },
             "description": "Dashboard / BI tools."
           },
+          "repoUrl": {
+            "type": "string",
+            "description": "Source code link, e.g. a GitHub repository.",
+            "pattern": "^https?://"
+          },
+          "liveUrl": {
+            "type": "string",
+            "description": "Link to the running app or site.",
+            "pattern": "^https?://"
+          },
           "thumbnailUrl": {
             "type": "string",
             "description": "Path to a thumbnail image."
@@ -222,6 +233,10 @@
               "type": "string"
             },
             "description": "Free-form tags."
+          },
+          "resume": {
+            "type": "boolean",
+            "description": "Set to false to leave this out of the downloadable resume. Defaults to true."
           }
         },
         "required": [
@@ -229,9 +244,7 @@
           "slug",
           "shortDescription",
           "projectType",
-          "status",
-          "startDate",
-          "role"
+          "status"
         ],
         "additionalProperties": false
       }

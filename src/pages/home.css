@@ -2,7 +2,7 @@
    Home: the inner app. The area between Navbar and Footer; it lays out the
    avatar and the personal info and owns nothing else.
 
-   It is exactly one screen tall (no page scroll). Stacked layout (phones,
+   It is exactly one screen tall; the content sections follow it. Stacked layout (phones,
    portrait tablets): the avatar stage flexes to fill whatever height the
    info leaves, so nothing is clipped. Wide layout (desktop, landscape):
    the stage fills the page, the avatar stands on the left and the info sits
@@ -22,6 +22,12 @@
   height: calc(100svh - var(--footer-h));
   overflow: hidden;
   background: var(--bg);
+}
+/* With sections below, the footer moves to the end of the page, so the
+   landing screen takes the whole viewport. */
+main > .home:not(:only-child) {
+  height: 100vh;
+  height: 100svh;
 }
 .home__stage {
   position: relative;

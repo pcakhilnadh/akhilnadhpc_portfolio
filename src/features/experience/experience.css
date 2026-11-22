@@ -1,0 +1,51 @@
+.job {
+  display: grid;
+  gap: 20px;
+}
+.job__context {
+  margin-top: -8px;
+  font: 500 12px/1.5 var(--font-mono);
+  letter-spacing: 0.04em;
+  color: var(--ink-mute);
+}
+.job__bullets {
+  display: grid;
+  gap: 10px;
+  max-width: 72ch;
+  color: var(--ink-soft);
+}
+.job__bullets li {
+  display: grid;
+  grid-template-columns: 22px 1fr;
+}
+.job__bullets li::before {
+  content: "→";
+  font-family: var(--font-mono);
+  color: var(--ink);
+}
+.job__block {
+  display: grid;
+  gap: 10px;
+}
+.job__projects {
+  display: grid;
+  gap: 6px;
+}
+.job__refs {
+  display: grid;
+  gap: 10px 32px;
+}
+.job__refs li {
+  display: grid;
+  gap: 2px;
+}
+.job__ref-role {
+  font-size: 14px;
+  color: var(--ink-mute);
+}
+
+@media (min-width: 640px) {
+  .job__refs {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}

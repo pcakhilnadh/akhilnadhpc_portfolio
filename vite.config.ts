@@ -1,6 +1,8 @@
 import { defineConfig, type Plugin } from "vite";
 import react from "@vitejs/plugin-react";
 import { VitePWA } from "vite-plugin-pwa";
+import { dataUpdated } from "./scripts/data-updated.mjs";
+import { emptyModule } from "./scripts/paths.mjs";
 import profile from "./src/data/profile.json";
 
 /* The browser tab, share cards and installable-app name come from
@@ -73,6 +75,11 @@ export default defineConfig({
       },
     }),
   ],
+  define: { __DATA_UPDATED__: JSON.stringify(dataUpdated()) },
+  resolve: {
+    // jsPDF's optional add-ons (HTML/SVG rendering); the resume only draws text.
+    alias: { html2canvas: emptyModule, dompurify: emptyModule, canvg: emptyModule },
+  },
   server: { port: 5000 },
   // three.js lives in the lazily-loaded avatar chunk; it never blocks first paint.
   build: { chunkSizeWarningLimit: 1100 },

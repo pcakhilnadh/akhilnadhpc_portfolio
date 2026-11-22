@@ -1,0 +1,89 @@
+/* ==========================================================
+   Skills: a ruled list, one full-width row per group.
+   ========================================================== */
+.skill-rows {
+  border-top: var(--stroke) solid var(--ink);
+}
+.skill-row {
+  display: grid;
+  gap: 16px;
+  padding: 24px 0;
+  border-bottom: 1px solid var(--line);
+}
+.skill-row__head {
+  display: flex;
+  align-items: baseline;
+  gap: 14px;
+}
+.skill-row__index {
+  flex: none;
+  font: 500 12px/1 var(--font-mono);
+  letter-spacing: 0.1em;
+  color: var(--ink-mute);
+}
+.skill-row__title {
+  font: 400 clamp(20px, 1.6vw + 12px, 26px) / 1.1 var(--font-display);
+  text-transform: uppercase;
+}
+.skill-row__count {
+  margin-left: auto;
+  font: 500 12px/1 var(--font-mono);
+  color: var(--ink-mute);
+}
+
+/* Every chip the same height, border and type: only the text varies. */
+.skill-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.skill-chip {
+  display: inline-flex;
+  align-items: center;
+  min-height: 34px;
+  padding: 6px 12px;
+  border: 1px solid var(--c-3);
+  font-size: 14px;
+  line-height: 1.2;
+  color: var(--ink-soft);
+  transition:
+    border-color 150ms ease,
+    color 150ms ease;
+}
+.skill-chip:hover {
+  border-color: var(--ink);
+  color: var(--ink);
+}
+
+/* "Also worked with": quieter and denser */
+.skills__more {
+  margin-top: clamp(48px, 7vw, 80px);
+}
+.skill-rows--compact .skill-row {
+  padding: 16px 0;
+}
+.skill-rows--compact .skill-row__title {
+  font: 500 13px/1.2 var(--font-mono);
+  letter-spacing: 0.1em;
+  color: var(--ink-soft);
+}
+.skill-rows--compact .skill-chip {
+  min-height: 30px;
+  padding: 4px 10px;
+  font-size: 13px;
+}
+
+/* Wide screens: group name in a fixed left column, chips on the right. */
+@media (min-width: 860px) {
+  .skill-row {
+    grid-template-columns: 300px minmax(0, 1fr);
+    gap: 32px;
+    align-items: start;
+  }
+  .skill-row__head {
+    padding-top: 6px;
+  }
+  .skill-rows--compact .skill-row {
+    grid-template-columns: 300px minmax(0, 1fr);
+  }
+}
