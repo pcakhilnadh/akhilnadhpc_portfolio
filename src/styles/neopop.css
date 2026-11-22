@@ -1,0 +1,181 @@
+/* ==========================================================
+   NeoPOP primitives
+   .np         — extruded plank (right + bottom faces via pseudo-elements)
+   .np-btn     — plunk button that presses into its own depth
+   .np-tag     — hard-edged label
+   ========================================================== */
+
+.np {
+  --d: 8px;
+  --face-r: var(--edge-light-r);
+  --face-b: var(--edge-light-b);
+  position: relative;
+  border: var(--stroke) solid var(--ink);
+  margin-right: var(--d);
+  margin-bottom: var(--d);
+}
+.np::before,
+.np::after {
+  content: "";
+  position: absolute;
+  pointer-events: none;
+  transition: inherit;
+}
+/* right face */
+.np::before {
+  top: calc(-1 * var(--stroke));
+  right: calc(-1 * var(--d) - var(--stroke));
+  width: var(--d);
+  height: calc(100% + 2 * var(--stroke));
+  background: var(--face-r);
+  transform: skewY(45deg);
+  transform-origin: left top;
+}
+/* bottom face */
+.np::after {
+  left: calc(-1 * var(--stroke));
+  bottom: calc(-1 * var(--d) - var(--stroke));
+  width: calc(100% + 2 * var(--stroke));
+  height: var(--d);
+  background: var(--face-b);
+  transform: skewX(45deg);
+  transform-origin: left top;
+}
+
+/* On light surfaces the extrusion goes dark */
+.np--on-light {
+  --face-r: var(--c-4);
+  --face-b: var(--c-0);
+  border-color: var(--c-0);
+}
+
+/* ---------- Buttons ---------- */
+.np-btn {
+  --d: 6px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  min-height: 52px;
+  padding: 0 26px;
+  font: 700 14px/1 var(--font-body);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  transition:
+    transform 90ms var(--ease-out),
+    background-color 150ms ease,
+    color 150ms ease;
+}
+.np-btn::before,
+.np-btn::after {
+  transition:
+    width 90ms var(--ease-out),
+    height 90ms var(--ease-out),
+    right 90ms var(--ease-out),
+    bottom 90ms var(--ease-out);
+}
+.np-btn--primary {
+  background: var(--c-9);
+  color: var(--c-0);
+  border-color: var(--c-9);
+}
+.np-btn--ghost {
+  background: var(--c-0);
+  color: var(--ink);
+  --face-r: var(--c-6);
+  --face-b: var(--c-4);
+}
+.np-btn--dark {
+  background: var(--c-0);
+  color: var(--c-9);
+  border-color: var(--c-0);
+  --face-r: var(--c-4);
+  --face-b: var(--c-3);
+}
+.np-btn--sm {
+  --d: 4px;
+  min-height: 40px;
+  padding: 0 16px;
+  font-size: 12px;
+}
+@media (hover: hover) {
+  .np-btn--ghost:hover {
+    background: var(--c-2);
+  }
+  .np-btn--primary:hover {
+    background: var(--c-8);
+  }
+}
+.np-btn:active {
+  transform: translate(var(--d), var(--d));
+}
+.np-btn:active::before {
+  width: 0;
+  right: calc(-1 * var(--stroke));
+}
+.np-btn:active::after {
+  height: 0;
+  bottom: calc(-1 * var(--stroke));
+}
+.np-btn .arrow {
+  font-family: var(--font-mono);
+  transition: transform 150ms var(--ease-out);
+}
+@media (hover: hover) {
+  .np-btn:hover .arrow {
+    transform: translateX(3px);
+  }
+}
+
+/* ---------- Tags ---------- */
+.np-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 10px;
+  border: var(--stroke) solid currentColor;
+  font: 500 11px/1 var(--font-mono);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+.np-tag--solid {
+  background: var(--ink);
+  color: var(--bg);
+  border-color: var(--ink);
+}
+
+/* ---------- Section headings ---------- */
+.eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font: 500 12px/1 var(--font-mono);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+.eyebrow::before {
+  content: "";
+  width: 28px;
+  height: var(--stroke);
+  background: currentColor;
+}
+.display {
+  font-family: var(--font-display);
+  font-weight: 400;
+  text-transform: uppercase;
+  line-height: 0.95;
+  letter-spacing: -0.01em;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .np-btn,
+  .np-btn::before,
+  .np-btn::after {
+    transition: none;
+  }
+}

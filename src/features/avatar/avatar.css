@@ -1,0 +1,133 @@
+/* The avatar layer fills the hero's stage. The hero sets:
+   --hx / --hy  head centre (px from the hero's top-left = stage top-left)
+   --hr         head radius (px)                                          */
+
+.avatar-layer {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at var(--hx) var(--hy), #1c1c1c 0, #0a0a0a calc(var(--hr) * 3.2)),
+    var(--bg);
+}
+
+.stage-canvas {
+  position: absolute !important;
+  inset: 0;
+  opacity: 0;
+  transition: opacity 700ms ease;
+}
+.avatar-layer[data-ready="true"] .stage-canvas {
+  opacity: 1;
+}
+
+/* Poster: shown while the 3D scene loads, and as the no-WebGL fallback.
+   A soft-edged medallion cropped around the head so the portrait's white
+   background reads as a halo. In the portrait the brim spans ~75% of the
+   width, centred at x 53%, with the head at ~43% of the height, so the
+   image is sized and offset to sit exactly where the 3D head will appear. */
+.avatar-poster {
+  position: absolute;
+  left: var(--hx);
+  top: var(--hy);
+  width: calc(var(--hr) * 2.5);
+  aspect-ratio: 1;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  overflow: hidden;
+  background: radial-gradient(circle, #e9e9e9 0, #9a9a9a 45%, #3a3a3a 72%);
+  -webkit-mask-image: radial-gradient(circle, #000 60%, transparent 71%);
+  mask-image: radial-gradient(circle, #000 60%, transparent 71%);
+  transition: opacity 600ms ease;
+  pointer-events: none;
+}
+.avatar-poster img {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 106.8%;
+  max-width: none;
+  height: auto;
+  transform: translate(-53%, -43%);
+  mix-blend-mode: multiply;
+}
+.avatar-layer[data-ready="true"] .avatar-poster {
+  opacity: 0;
+}
+
+/* ---------- Speech bubble ----------
+   Stacked layouts: over the chest, tail pointing up at the face.
+   Wide layouts: above-right of the hat, tail pointing down-left.     */
+.bubble-anchor {
+  position: absolute;
+  z-index: 3;
+  left: var(--hx);
+  top: calc(var(--hy) + var(--hr) * 0.78);
+  width: 0;
+  height: 0;
+  pointer-events: none;
+}
+.bubble {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: max-content;
+  max-width: min(300px, calc(100vw - 32px));
+  padding: 14px 16px;
+  background: var(--c-9);
+  color: var(--c-0);
+  border: var(--stroke) solid var(--c-0);
+  box-shadow: 6px 6px 0 var(--c-5);
+  font: 500 15px/1.45 var(--font-body);
+  transform: translateX(-50%);
+  animation: bubble-in-up 260ms var(--ease-out) both;
+}
+.bubble::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: -20px;
+  margin-left: -9px;
+  border: 9px solid transparent;
+  border-bottom: 11px solid var(--c-9);
+}
+@keyframes bubble-in-up {
+  from {
+    opacity: 0;
+    transform: translate(-50%, 8px) scale(0.94);
+  }
+}
+
+@media (min-width: 1024px), (min-width: 640px) and (min-aspect-ratio: 6/5) {
+  .bubble-anchor {
+    left: calc(var(--hx) + var(--hr) * 0.35);
+    top: calc(var(--hy) - var(--hr) * 0.62);
+  }
+  .bubble {
+    top: auto;
+    bottom: 0;
+    transform: none;
+    animation-name: bubble-in-side;
+  }
+  .bubble::after {
+    left: 22px;
+    top: auto;
+    bottom: -20px;
+    margin-left: 0;
+    border: 9px solid transparent;
+    border-top: 11px solid var(--c-9);
+  }
+}
+@keyframes bubble-in-side {
+  from {
+    opacity: 0;
+    transform: translate(-8px, 8px) scale(0.94);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bubble {
+    animation: none;
+  }
+}
