@@ -143,6 +143,17 @@
   font: 400 clamp(34px, 10vw, 56px) / 1 var(--font-display);
   text-transform: uppercase;
 }
+/* The section you are in, marked the same way as in the desktop bar */
+.mobile-menu a[aria-current] {
+  padding-inline: 12px;
+  margin-inline: -12px;
+  background: var(--ink);
+  border-color: var(--ink);
+  color: var(--c-0);
+}
+.mobile-menu a[aria-current] .mobile-menu__num {
+  color: var(--c-4);
+}
 .mobile-menu__actions {
   display: grid;
   gap: 16px;

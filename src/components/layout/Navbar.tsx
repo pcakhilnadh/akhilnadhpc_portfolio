@@ -114,7 +114,11 @@ export function Navbar() {
             <ol>
               {navLinks.map((l, i) => (
                 <li key={l.href}>
-                  <a href={l.href} onClick={(e) => scrollToHash(e, l.href, () => setOpen(false))}>
+                  <a
+                    href={l.href}
+                    aria-current={active === l.href.slice(1) ? "location" : undefined}
+                    onClick={(e) => scrollToHash(e, l.href, () => setOpen(false))}
+                  >
                     <span className="mobile-menu__num">0{i + 1}</span>
                     {l.label}
                   </a>
