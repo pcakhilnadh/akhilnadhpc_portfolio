@@ -3,12 +3,14 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-    <title>%PAGE_TITLE%</title>
+    <title>%SEO_TITLE%</title>
     <meta
       name="description"
       content="%DESCRIPTION%"
     />
+    <meta name="keywords" content="%KEYWORDS%" />
     <meta name="author" content="%FULL_NAME%" />
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1" />
     <meta name="theme-color" content="#0a0a0a" />
     <meta name="color-scheme" content="dark" />
     <link rel="canonical" href="%SITE_URL%" />
@@ -21,12 +23,22 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
     <meta name="apple-mobile-web-app-title" content="%SHORT_NAME%" />
 
-    <meta property="og:type" content="website" />
+    <meta property="og:type" content="profile" />
+    <meta property="og:site_name" content="%FULL_NAME%" />
+    <meta property="og:locale" content="en_IN" />
     <meta property="og:url" content="%SITE_URL%" />
-    <meta property="og:title" content="%PAGE_TITLE%" />
+    <meta property="og:title" content="%SEO_TITLE%" />
     <meta property="og:description" content="%DESCRIPTION%" />
     <meta property="og:image" content="%SITE_URL%images/og.jpg" />
+    <meta property="og:image:alt" content="%FULL_NAME%, Senior Data Scientist" />
     <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@akhilnadhpc" />
+    <meta name="twitter:title" content="%SEO_TITLE%" />
+    <meta name="twitter:description" content="%DESCRIPTION%" />
+    <meta name="twitter:image" content="%SITE_URL%images/og.jpg" />
+
+    <!-- Structured data (schema.org Person / ProfilePage), built from src/data by scripts/seo.ts -->
+    <script type="application/ld+json">%JSON_LD%</script>
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -36,7 +48,11 @@
     />
   </head>
   <body>
-    <noscript>%PAGE_TITLE%. Please enable JavaScript to see the interactive portfolio.</noscript>
+    <noscript>
+      <h1>%FULL_NAME%</h1>
+      <p>%DESCRIPTION%</p>
+      <p>Please enable JavaScript to see the interactive portfolio.</p>
+    </noscript>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>

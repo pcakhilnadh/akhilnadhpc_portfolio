@@ -3,6 +3,7 @@ import react from "@vitejs/plugin-react";
 import { VitePWA } from "vite-plugin-pwa";
 import { dataUpdated } from "./scripts/data-updated.mjs";
 import { emptyModule } from "./scripts/paths.mjs";
+import { jsonLd, keywords, robotsTxt, seoDescription, seoTitle, siteUrl, sitemapXml } from "./scripts/seo";
 import profile from "./src/data/profile.json";
 
 /* The browser tab, share cards and installable-app name come from
@@ -10,20 +11,30 @@ import profile from "./src/data/profile.json";
 const fullName = `${profile.firstName} ${profile.lastName}`;
 const pageTitle = `${fullName} — ${profile.title}`;
 const description = `${fullName} is a ${profile.title}. ${profile.summary.replace(/\s+/g, " ").trim()}`;
-const siteUrl = profile.socials.find((s) => s.platform === "Portfolio Website")?.url ?? "";
+const updated = dataUpdated();
 
 const escapeHtml = (s: string) => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
 
-/** Fills the %TOKENS% in index.html from the profile. */
+/**
+ * Fills the %TOKENS% in index.html from the profile (search tags: scripts/seo.ts),
+ * and writes robots.txt + sitemap.xml next to it.
+ */
 const htmlFromProfile = (): Plugin => ({
   name: "html-from-profile",
   transformIndexHtml: (html) =>
     html
+      .replaceAll("%SEO_TITLE%", escapeHtml(seoTitle))
       .replaceAll("%PAGE_TITLE%", escapeHtml(pageTitle))
-      .replaceAll("%FULL_NAME%", escapeHtml(fullName))
+      .replaceAll("%FULL_NAME%", escapeHtml(profile.resumeName))
       .replaceAll("%SHORT_NAME%", escapeHtml(profile.firstName))
-      .replaceAll("%DESCRIPTION%", escapeHtml(description))
+      .replaceAll("%DESCRIPTION%", escapeHtml(seoDescription))
+      .replaceAll("%KEYWORDS%", escapeHtml(keywords))
+      .replaceAll("%JSON_LD%", jsonLd(updated))
       .replaceAll("%SITE_URL%", escapeHtml(siteUrl)),
+  generateBundle() {
+    this.emitFile({ type: "asset", fileName: "robots.txt", source: robotsTxt() });
+    this.emitFile({ type: "asset", fileName: "sitemap.xml", source: sitemapXml(updated) });
+  },
 });
 
 export default defineConfig({
@@ -75,7 +86,7 @@ export default defineConfig({
       },
     }),
   ],
-  define: { __DATA_UPDATED__: JSON.stringify(dataUpdated()) },
+  define: { __DATA_UPDATED__: JSON.stringify(updated) },
   resolve: {
     // jsPDF's optional add-ons (HTML/SVG rendering); the resume only draws text.
     alias: { html2canvas: emptyModule, dompurify: emptyModule, canvg: emptyModule },
