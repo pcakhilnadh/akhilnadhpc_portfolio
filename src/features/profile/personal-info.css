@@ -12,6 +12,15 @@
   gap: 8px 10px;
   margin-bottom: clamp(10px, 2svh, 18px);
 }
+/* Years of experience: outlined like the location tag, the number in full ink */
+.info__yoe {
+  color: var(--ink-soft);
+}
+.info__yoe strong {
+  color: var(--ink);
+  font-weight: 700;
+}
+
 .info__name {
   display: grid;
   gap: 8px;

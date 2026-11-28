@@ -11,6 +11,11 @@ export function PersonalInfo() {
     <div className="info">
       <p className="info__tags">
         <span className="np-tag np-tag--solid">{site.title}</span>
+        {site.yearsOfExperience !== null && (
+          <span className="np-tag info__yoe" aria-label={`${site.yearsOfExperience} plus years of experience`}>
+            <strong>{site.yearsOfExperience}+</strong> yrs exp
+          </span>
+        )}
         <span className="np-tag">{site.location}</span>
       </p>
       <h1 id="profile-title" className="info__name display">

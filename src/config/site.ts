@@ -1,4 +1,5 @@
 import { profile } from "../data/profile";
+import { yearsSince } from "../lib/dates";
 
 /**
  * What the site shows, derived from src/data/profile.json. Nothing here is
@@ -18,6 +19,8 @@ export const site = {
   /** Where you live now, short: "Chennai, India" */
   location: [profile.location.city, profile.location.country].join(", "),
   hometown: profile.hometown,
+  /** Whole years since careerStart (same rule as About and the resume), or null without one. */
+  yearsOfExperience: profile.careerStart ? yearsSince(profile.careerStart) : null,
 };
 
 /**
