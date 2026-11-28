@@ -1,5 +1,6 @@
 import { useMemo, useState } from "react";
 import { Section } from "../../components/ui/Section";
+import { track } from "../../lib/analytics";
 import { buildResume } from "./model";
 import "./resume.css";
 
@@ -26,6 +27,7 @@ export function Resume() {
   const [status, setStatus] = useState<Status>("idle");
 
   async function download() {
+    track("resume_download");
     setStatus("building");
     try {
       const { downloadResume } = await import("./pdf");

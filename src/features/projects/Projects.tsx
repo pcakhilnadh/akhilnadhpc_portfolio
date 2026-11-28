@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import { Section } from "../../components/ui/Section";
 import { projects } from "../../data/projects";
 import type { Project } from "../../data/types";
+import { track } from "../../lib/analytics";
 import { ProjectCard } from "./ProjectCard";
 import { ProjectDialog } from "./ProjectDialog";
 import { PROJECT_AREAS } from "./areas";
@@ -28,6 +29,10 @@ export function Projects() {
   const [area, setArea] = useState<string | null>(null);
   const [sort, setSort] = useState<Sort>("latest");
   const [open, setOpen] = useState<Project | null>(null);
+
+  useEffect(() => {
+    if (open) track("project_open");
+  }, [open]);
 
   // Experience links open a project's case study directly.
   useEffect(() => {

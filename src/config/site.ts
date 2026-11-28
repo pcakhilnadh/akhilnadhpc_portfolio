@@ -32,5 +32,32 @@ export const navLinks: readonly { label: string; href: string }[] = [
   { label: "Resume", href: "#resume" },
 ];
 
+/**
+ * Google Analytics 4. The Measurement ID is public by design (it ships in every
+ * page). Tracking only runs on the deployed site, never on localhost.
+ */
+export const analytics = {
+  measurementId: "G-28D8GDKC6E",
+  /** Every section whose visits are counted, in page order, with its display name. */
+  sections: [
+    { id: "home", label: "Home" },
+    { id: "about", label: "About" },
+    { id: "experience", label: "Experience" },
+    { id: "projects", label: "Projects" },
+    { id: "skills", label: "Skills" },
+    { id: "certificates", label: "Certificates" },
+    { id: "resume", label: "Resume" },
+    { id: "contact", label: "Contact" },
+    { id: "insights", label: "Insights" },
+  ],
+  /** Click events sent with track(), and how the Insights section names them. */
+  clicks: [
+    { id: "resume_download", label: "Resume downloads" },
+    { id: "email", label: "Email clicks" },
+    { id: "project_open", label: "Projects opened" },
+    { id: "chat", label: "Avatar chats" },
+  ],
+} as const;
+
 /** Where the header's "Let's talk" button goes. */
 export const contactHref = "#contact";

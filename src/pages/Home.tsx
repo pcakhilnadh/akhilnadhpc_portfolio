@@ -55,7 +55,7 @@ export function Home() {
   } as CSSProperties;
 
   return (
-    <section ref={homeRef} className="home" data-layout={layout} style={vars} aria-labelledby="profile-title">
+    <section ref={homeRef} id="home" className="home" data-layout={layout} style={vars} aria-labelledby="profile-title">
       <div ref={stageRef} className="home__stage">
         <Avatar
           eventSource={homeRef}

@@ -5,6 +5,7 @@ import { About } from "./features/about/About";
 import { Certificates } from "./features/certificates/Certificates";
 import { Contact } from "./features/contact/Contact";
 import { Experience } from "./features/experience/Experience";
+import { Insights } from "./features/insights/Insights";
 import { Projects } from "./features/projects/Projects";
 import { Resume } from "./features/resume/Resume";
 import { Skills } from "./features/skills/Skills";
@@ -39,6 +40,7 @@ export default function App() {
         <Certificates />
         <Resume />
         <Contact />
+        <Insights />
       </main>
       <Footer />
       <InstallPrompt />

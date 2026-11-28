@@ -5,9 +5,12 @@ import "./styles/tokens.css";
 import "./styles/base.css";
 import "./styles/neopop.css";
 import App from "./App";
+import { initAnalytics } from "./lib/analytics";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <App />
   </StrictMode>,
 );
+
+initAnalytics();
