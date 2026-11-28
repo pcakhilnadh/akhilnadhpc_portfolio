@@ -18,6 +18,14 @@
 .insights__live {
   color: var(--ink) !important;
 }
+/* Nobody here right now: a still, dim dot */
+.insights__live[data-on="false"] {
+  color: var(--ink-soft) !important;
+}
+.insights__live[data-on="false"] .insights__dot {
+  animation: none;
+  background: var(--c-4);
+}
 .insights__dot {
   width: 8px;
   height: 8px;
@@ -97,6 +105,20 @@
 .map__lit:focus-visible {
   stroke: var(--ink);
   stroke-width: 1.5;
+}
+/* Someone from here is on the site right now: the country slowly pulses.
+   (An outline would vanish on the brightest shade; a pulse shows on any.) */
+.map__svg path.map__now,
+.map__legend i.map__legend-now {
+  animation: map-now 1.6s ease-in-out infinite;
+}
+@keyframes map-now {
+  50% {
+    opacity: 0.4;
+  }
+}
+.map__legend i.map__legend-now {
+  background: var(--c-9);
 }
 .map__readout {
   position: absolute;
@@ -253,8 +275,15 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .insights__dot {
+  .insights__dot,
+  .map__svg path.map__now,
+  .map__legend i.map__legend-now {
     animation: none;
+  }
+  /* No motion: mark live countries with a steady outline instead */
+  .map__svg path.map__now {
+    stroke: var(--c-5);
+    stroke-width: 2;
   }
   .usage__bar span {
     transition: none;

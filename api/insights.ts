@@ -54,7 +54,9 @@ const json = (body: unknown, status = 200, cache = true) =>
     status,
     headers: {
       "content-type": "application/json; charset=utf-8",
-      "cache-control": cache ? "public, max-age=300, s-maxage=3600, stale-while-revalidate=86400" : "no-store",
+      // One minute at the edge: fresh enough for the live layer, and still at most
+      // ~60 GA4 calls an hour per region however many people visit.
+      "cache-control": cache ? "public, max-age=30, s-maxage=60, stale-while-revalidate=600" : "no-store",
     },
   });
 
@@ -82,6 +84,23 @@ export async function GET(): Promise<Response> {
       filter: { fieldName: "eventName", stringFilter: { matchType: "BEGINS_WITH", value: prefix } },
     });
 
+    // Realtime = the last 30 minutes, seconds behind. Reported separately from the
+    // totals (never added to them: once GA4 catches up the same visit is in both).
+    const realtime = (body: object) => call<Report>("runRealtimeReport", body);
+    const liveReports = Promise.all([
+      realtime({ metrics: [{ name: "activeUsers" }] }),
+      realtime({ dimensions: [{ name: "countryId" }, { name: "country" }], metrics: [{ name: "activeUsers" }], limit: 250 }),
+      realtime({
+        dimensions: [{ name: "eventName" }],
+        metrics: [{ name: "eventCount" }, { name: "activeUsers" }],
+        dimensionFilter: { orGroup: { expressions: [eventsStartingWith("section_"), eventsStartingWith("click_")] } },
+        limit: 100,
+      }),
+    ]).catch((err) => {
+      console.error("insights realtime:", err);
+      return null;
+    });
+
     const [batch, live] = await Promise.all([
       call<{ reports: Report[] }>("batchRunReports", {
         requests: [
@@ -105,12 +124,33 @@ export async function GET(): Promise<Response> {
           },
         ],
       }),
-      call<Report>("runRealtimeReport", { metrics: [{ name: "activeUsers" }] }).catch(() => null),
+      liveReports,
     ]);
 
     const [totalsR, returningR, countriesR, placesR, eventsR] = batch.reports;
     const t = totalsR.rows?.[0];
     const events = eventsR.rows ?? [];
+
+    const countryRows = (rows: Row[] | undefined) =>
+      (rows ?? []).map((r) => ({ code: dim(r, 0), name: dim(r, 1), users: num(r) })).filter((c) => /^[A-Z]{2}$/.test(c.code));
+    const sectionRows = (rows: Row[]) =>
+      rows
+        .filter((r) => dim(r).startsWith("section_"))
+        .map((r) => ({ id: dim(r).slice("section_".length), views: num(r, 0), users: num(r, 1) }));
+    const clickRows = (rows: Row[]) =>
+      rows.filter((r) => dim(r).startsWith("click_")).map((r) => ({ id: dim(r).slice("click_".length), count: num(r, 0) }));
+
+    let liveBody: Insights["live"] = null;
+    if (live) {
+      const [usersR, liveCountriesR, liveEventsR] = live;
+      const liveEvents = liveEventsR.rows ?? [];
+      liveBody = {
+        users: usersR.rows?.[0] ? num(usersR.rows[0]) : 0,
+        countries: countryRows(liveCountriesR.rows),
+        sections: sectionRows(liveEvents),
+        clicks: clickRows(liveEvents),
+      };
+    }
 
     const body: Insights = {
       updatedAt: new Date().toISOString(),
@@ -122,17 +162,11 @@ export async function GET(): Promise<Response> {
         sessions: t ? num(t, 2) : 0,
         views: t ? num(t, 3) : 0,
       },
-      liveNow: live ? (live.rows?.[0] ? num(live.rows[0]) : 0) : null,
-      countries: (countriesR.rows ?? [])
-        .map((r) => ({ code: dim(r, 0), name: dim(r, 1), users: num(r) }))
-        .filter((c) => /^[A-Z]{2}$/.test(c.code)),
+      live: liveBody,
+      countries: countryRows(countriesR.rows),
       places: (placesR.rows ?? []).map((r) => ({ city: dim(r, 0), country: dim(r, 1), users: num(r) })),
-      sections: events
-        .filter((r) => dim(r).startsWith("section_"))
-        .map((r) => ({ id: dim(r).slice("section_".length), views: num(r, 0), users: num(r, 1) })),
-      clicks: events
-        .filter((r) => dim(r).startsWith("click_"))
-        .map((r) => ({ id: dim(r).slice("click_".length), count: num(r, 0) })),
+      sections: sectionRows(events),
+      clicks: clickRows(events),
     };
     return json(body);
   } catch (err) {
