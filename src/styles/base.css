@@ -20,6 +20,8 @@ html {
 
 body {
   min-height: 100vh;
+  /* Room for the fixed footer, so the last section isn't hidden behind it. */
+  padding-bottom: var(--footer-h);
   background: var(--bg);
   color: var(--ink);
   font-family: var(--font-body);

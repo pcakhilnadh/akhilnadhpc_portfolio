@@ -6,7 +6,7 @@
   position: fixed;
   z-index: 61; /* above the install prompt (60) */
   left: var(--gutter);
-  bottom: calc(20px + var(--d) + env(safe-area-inset-bottom));
+  bottom: calc(var(--footer-h) + 16px + var(--d)); /* sits just above the fixed footer */
   margin: 0;
   width: min(360px, calc(100vw - 2 * var(--gutter) - var(--d)));
   max-height: calc(100dvh - var(--header-h) - 48px);

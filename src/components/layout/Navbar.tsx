@@ -99,8 +99,8 @@ export function Navbar() {
         </div>
       </header>
 
-      {/* Rendered outside <header>: the header's backdrop-filter would otherwise
-          become the containing block for this fixed panel and squash it. */}
+      {/* Rendered outside <header> so this fixed panel is positioned against the
+          viewport, never squashed into the header's box. */}
       {hasNav && (
         <div id="mobile-menu" className="mobile-menu" hidden={!open}>
           <nav aria-label="Mobile">

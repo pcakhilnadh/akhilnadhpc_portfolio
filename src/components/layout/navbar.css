@@ -6,16 +6,13 @@
   inset: 0 0 auto;
   z-index: 50;
   padding-top: env(safe-area-inset-top);
-  transition:
-    background-color 200ms ease,
-    border-color 200ms ease;
+  /* Solid, never see-through: page content never shows behind the bar. */
+  background: var(--bg);
+  transition: border-color 200ms ease;
   border-bottom: var(--stroke) solid transparent;
 }
 .site-header[data-scrolled="true"],
 .site-header[data-open="true"] {
-  background: rgb(10 10 10 / 0.86);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
   border-bottom-color: var(--line);
 }
 .site-header__bar {
