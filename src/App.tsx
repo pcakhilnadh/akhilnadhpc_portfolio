@@ -1,5 +1,6 @@
 import { Footer } from "./components/layout/Footer";
 import { Navbar } from "./components/layout/Navbar";
+import { ConsentBanner } from "./components/ui/ConsentBanner";
 import { InstallPrompt } from "./components/ui/InstallPrompt";
 import { About } from "./features/about/About";
 import { Certificates } from "./features/certificates/Certificates";
@@ -44,6 +45,7 @@ export default function App() {
       </main>
       <Footer />
       <InstallPrompt />
+      <ConsentBanner />
     </>
   );
 }

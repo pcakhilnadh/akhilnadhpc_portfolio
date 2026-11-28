@@ -23,9 +23,17 @@
   text-overflow: ellipsis;
   white-space: nowrap;
 }
-.site-footer a {
+.site-footer__links {
+  flex: none;
+  display: flex;
+  gap: 16px;
+}
+.site-footer a,
+.site-footer button {
   flex: none;
   padding: 8px 0;
+  font: inherit;
+  letter-spacing: inherit;
   text-transform: uppercase;
   color: var(--ink-soft);
   border-bottom: 1px solid transparent;
@@ -54,6 +62,7 @@
     line-height: 1.25;
   }
 }
+.site-footer button:hover,
 .site-footer a:hover {
   color: var(--ink);
   border-bottom-color: var(--ink);

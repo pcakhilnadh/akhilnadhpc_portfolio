@@ -1,13 +1,12 @@
 import { lazy, Suspense, useEffect, useRef, useState } from "react";
 import { Section } from "../../components/ui/Section";
 import { analytics } from "../../config/site";
+import { watchSection } from "../../lib/analytics";
 import type { Insights as Data } from "./types";
 import "./insights.css";
 
 // d3-geo + the world outline only load once this section is near the screen.
 const WorldMap = lazy(() => import("./WorldMap"));
-
-type State = { status: "loading" } | { status: "ready"; data: Data } | { status: "empty"; reason: string };
 
 const fmt = new Intl.NumberFormat("en", { notation: "compact", maximumFractionDigits: 1 });
 
@@ -21,53 +20,63 @@ function sinceLabel(since: string) {
     : `Since ${d.toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" })}`;
 }
 
-/** Insights: where visitors come from and which parts of the site they use, from GA4. */
+/** Fetches /api/insights; resolves to null when there is nothing to show. */
+async function loadInsights(): Promise<Data | null> {
+  try {
+    const res = await fetch("/api/insights");
+    // In `vite dev` there is no /api, and the SPA fallback answers with HTML.
+    if (!res.ok || !(res.headers.get("content-type") ?? "").includes("json")) return null;
+    const data = (await res.json()) as Data;
+    return data.totals?.users > 0 ? data : null;
+  } catch {
+    return null;
+  }
+}
+
+/**
+ * Insights: where visitors come from and which parts of the site they use, from
+ * GA4. Renders nothing at all until there is at least one visitor to show, so a
+ * fresh or unconfigured site never shows an empty dashboard.
+ */
 export function Insights() {
   const ref = useRef<HTMLDivElement>(null);
   const [near, setNear] = useState(false);
-  const [state, setState] = useState<State>({ status: "loading" });
+  const [data, setData] = useState<Data | null>(null);
 
+  // Ask once the page has settled, so it never competes with first paint.
+  useEffect(() => {
+    let alive = true;
+    const t = window.setTimeout(() => loadInsights().then((d) => alive && setData(d)), 1500);
+    return () => {
+      alive = false;
+      window.clearTimeout(t);
+    };
+  }, []);
+
+  // Once shown: count it like any section, and load the map only when it's close.
   useEffect(() => {
     const el = ref.current;
-    if (!el) return;
+    if (!data || !el) return;
+    watchSection("insights");
     const io = new IntersectionObserver(([e]) => e.isIntersecting && setNear(true), { rootMargin: "600px 0px" });
     io.observe(el);
     return () => io.disconnect();
-  }, []);
+  }, [data]);
 
-  useEffect(() => {
-    if (!near) return;
-    let alive = true;
-    fetch("/api/insights")
-      .then(async (res) => {
-        const type = res.headers.get("content-type") ?? "";
-        // In `vite dev` there is no /api, and the SPA fallback answers with HTML.
-        if (!type.includes("json")) throw new Error("Insights are only available on the deployed site.");
-        const body = await res.json();
-        if (!res.ok) throw new Error(body.error ?? "Could not load insights.");
-        return body as Data;
-      })
-      .then((data) => alive && setState({ status: "ready", data }))
-      .catch((err: Error) => alive && setState({ status: "empty", reason: err.message }));
-    return () => {
-      alive = false;
-    };
-  }, [near]);
-
-  const data = state.status === "ready" ? state.data : null;
+  if (!data) return null;
 
   return (
     <Section id="insights" index="08" eyebrow="Insights" title="Insights" outline="Who's been here">
-      <div ref={ref} className="insights" aria-busy={state.status === "loading"}>
+      <div ref={ref} className="insights">
         <div className="insights__meta">
-          <span className="np-tag">{data ? sinceLabel(data.since) : "Site analytics"}</span>
-          {data?.liveNow != null && (
+          <span className="np-tag">{sinceLabel(data.since)}</span>
+          {data.liveNow != null && data.liveNow > 0 && (
             <span className="np-tag insights__live">
               <span className="insights__dot" aria-hidden="true" />
               {data.liveNow} here now
             </span>
           )}
-          {state.status === "empty" && <p className="insights__note">{state.reason}</p>}
+          <p className="insights__note">Counts visitors who accepted analytics cookies.</p>
         </div>
 
         <ul className="insights__stats" aria-label="Totals">
