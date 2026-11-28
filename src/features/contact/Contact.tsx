@@ -1,6 +1,7 @@
 import { Section } from "../../components/ui/Section";
 import { site } from "../../config/site";
 import { profile } from "../../data/profile";
+import { track } from "../../lib/analytics";
 import "./contact.css";
 
 /** Contact: the email call-to-action and every profile link from profile.json. */
@@ -15,7 +16,11 @@ export function Contact() {
           <p className="contact__lead">
             Have a problem that needs ML, GenAI or computer vision? Or just want to say hi? My inbox is open.
           </p>
-          <a href={`mailto:${site.email}`} className="np np-btn np-btn--primary contact__email">
+          <a
+            href={`mailto:${site.email}`}
+            className="np np-btn np-btn--primary contact__email"
+            onClick={() => track("email")}
+          >
             {site.email} <span className="arrow" aria-hidden="true">→</span>
           </a>
           <p className="contact__where">

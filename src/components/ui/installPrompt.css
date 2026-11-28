@@ -1,0 +1,71 @@
+/* ==========================================================
+   Install prompt: a small NeoPOP plank pinned bottom-right
+   ========================================================== */
+.install-toast {
+  --d: 6px;
+  position: fixed;
+  z-index: 60; /* above the header (50) and mobile menu (49) */
+  right: calc(var(--gutter) + var(--d));
+  bottom: calc(20px + var(--d) + env(safe-area-inset-bottom));
+  margin: 0;
+  width: min(320px, calc(100vw - 2 * var(--gutter) - var(--d)));
+  padding: 18px 20px 20px;
+  background: var(--surface);
+  color: var(--ink);
+  animation: install-toast-in 280ms var(--ease-out) both;
+}
+
+.install-toast__close {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  border: var(--stroke) solid transparent;
+  color: var(--ink-soft);
+  font: 400 22px/1 var(--font-body);
+  transition:
+    color 150ms ease,
+    border-color 150ms ease;
+}
+.install-toast__close:hover,
+.install-toast__close:focus-visible {
+  color: var(--ink);
+  border-color: var(--ink);
+}
+
+.install-toast__eyebrow {
+  font: 500 11px/1 var(--font-mono);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ink-mute);
+}
+.install-toast__title {
+  margin-top: 10px;
+  padding-right: 32px;
+  font: 400 18px/1.1 var(--font-display);
+  text-transform: uppercase;
+}
+.install-toast__text {
+  margin-top: 8px;
+  font: 400 14px/1.45 var(--font-body);
+  color: var(--ink-soft);
+}
+.install-toast__cta {
+  margin-top: 16px;
+}
+
+@keyframes install-toast-in {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .install-toast {
+    animation: none;
+  }
+}

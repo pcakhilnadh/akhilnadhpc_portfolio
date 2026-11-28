@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { site } from "../../../config/site";
+import { track } from "../../../lib/analytics";
 import { avatar } from "../controller";
 import { preloadStage } from "../stageLoader";
 import { useAvatarState } from "../useAvatarState";
@@ -88,7 +89,10 @@ export function AvatarChat() {
               className="np np-btn np-btn--ghost np-btn--sm chat-btn"
               disabled={active}
               aria-busy={active || undefined}
-              onClick={avatar.open}
+              onClick={() => {
+                track("chat");
+                avatar.open();
+              }}
               onPointerEnter={preloadStage}
               onFocus={preloadStage}
             >
