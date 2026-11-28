@@ -4,13 +4,14 @@ import { VitePWA } from "vite-plugin-pwa";
 import { dataUpdated } from "./scripts/data-updated.mjs";
 import { emptyModule } from "./scripts/paths.mjs";
 import { jsonLd, keywords, robotsTxt, seoDescription, seoTitle, siteUrl, sitemapXml } from "./scripts/seo";
+import { fillYears } from "./src/data/profile";
 import profile from "./src/data/profile.json";
 
 /* The browser tab, share cards and installable-app name come from
    src/data/profile.json too, so there is one place to edit who you are. */
 const fullName = `${profile.firstName} ${profile.lastName}`;
 const pageTitle = `${fullName} — ${profile.title}`;
-const description = `${fullName} is a ${profile.title}. ${profile.summary.replace(/\s+/g, " ").trim()}`;
+const description = `${fullName} is a ${profile.title}. ${fillYears(profile.summary).replace(/\s+/g, " ").trim()}`;
 const updated = dataUpdated();
 
 const escapeHtml = (s: string) => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");

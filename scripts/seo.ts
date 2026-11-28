@@ -9,6 +9,7 @@ import educationData from "../src/data/education.json";
 import experienceData from "../src/data/experience.json";
 import profile from "../src/data/profile.json";
 import skillsData from "../src/data/skills.json";
+import { yearsSince } from "../src/lib/dates";
 
 /** The job titles you want to be found for, most important first. */
 export const ROLES = [
@@ -24,7 +25,8 @@ const name = profile.resumeName; // "Akhil Nadh PC": how people write it
 const legalName = `${profile.firstName} ${profile.lastName}`;
 const { city, state, country } = profile.location;
 export const siteUrl = profile.socials.find((s) => s.platform === "Portfolio Website")?.url ?? "";
-const years = Math.round((Date.now() - new Date(profile.careerStart).getTime()) / (365.25 * 24 * 3600 * 1000));
+// Same rule as the About card and the resume.
+const years = yearsSince(profile.careerStart);
 
 /** Name first (people search it), then the roles. Google shows about 60 characters. */
 export const seoTitle = `${name} — Senior Data Scientist & Gen AI Consultant | Machine Learning`;

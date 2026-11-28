@@ -29,11 +29,11 @@
     },
     "about": {
       "type": "string",
-      "description": "Long bio, for a future About page. Blank lines (\n\n) separate paragraphs. Not shown on the landing page."
+      "description": "Long bio, shown in the About section. Blank lines (\n\n) separate paragraphs. Write {years} for your years of experience (worked out from careerStart)."
     },
     "resumeSummary": {
       "type": "string",
-      "description": "Summary paragraph at the top of the downloadable resume."
+      "description": "Summary paragraph at the top of the downloadable resume. Write {years} for your years of experience (worked out from careerStart)."
     },
     "email": {
       "type": "string",

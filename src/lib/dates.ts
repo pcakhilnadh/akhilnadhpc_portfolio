@@ -22,6 +22,15 @@ export function monthsBetween(start: string, end?: string): number {
   return Math.max(1, (b.y - a.y) * 12 + (b.m - a.m) + 1);
 }
 
+/**
+ * Whole years of experience since `start`: months counted inclusively, then
+ * rounded down (Dec 2019 → Nov 2026 is 84 months = 7). The About card, the
+ * resume, the bios' {years} and the search description all use this.
+ */
+export function yearsSince(start: string, end?: string): number {
+  return Math.floor(monthsBetween(start, end) / 12);
+}
+
 /** 58 → "4 yrs 10 mos" */
 export function formatMonths(total: number): string {
   const y = Math.floor(total / 12);

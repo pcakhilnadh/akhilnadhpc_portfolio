@@ -3,7 +3,7 @@ import { experience } from "../../data/experience";
 import { profile } from "../../data/profile";
 import { projects } from "../../data/projects";
 import { skillGroups } from "../../data/skills";
-import { monthYear, monthsBetween, period } from "../../lib/dates";
+import { monthYear, period, yearsSince } from "../../lib/dates";
 
 /**
  * The resume as plain data, built from src/data. The on-page preview and the
@@ -54,7 +54,7 @@ export function buildResume(): ResumeDoc {
     location: [city, state, country].filter(Boolean).join(", "),
     links,
     summary: (profile.resumeSummary ?? profile.summary).replace(/\s+/g, " ").trim(),
-    totalYears: profile.careerStart ? Math.floor(monthsBetween(profile.careerStart) / 12) : null,
+    totalYears: profile.careerStart ? yearsSince(profile.careerStart) : null,
     experience: jobs.map((j) => ({
       role: j.role,
       company: j.company,

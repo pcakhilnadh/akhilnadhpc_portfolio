@@ -1,10 +1,10 @@
 import { profile } from "../../data/profile";
-import { monthsBetween } from "../../lib/dates";
+import { yearsSince } from "../../lib/dates";
 
 /** The long bio (profile.about, blank lines = paragraphs), quick facts and interests. */
 export function AboutDetails() {
   const paragraphs = (profile.about ?? profile.summary).split(/\n\s*\n/).map((p) => p.trim()).filter(Boolean);
-  const years = profile.careerStart ? Math.floor(monthsBetween(profile.careerStart) / 12) : null;
+  const years = profile.careerStart ? yearsSince(profile.careerStart) : null;
   const { city, state, country } = profile.location;
 
   return (
