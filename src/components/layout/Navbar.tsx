@@ -6,6 +6,13 @@ import "./navbar.css";
 
 const sectionIds = navLinks.map((l) => l.href.slice(1));
 
+/** Initials of the last name ("Pullolikkal Chandran" → "PC"), so the logo reads "PC Akhil Nadh". */
+const initials = site.lastName
+  .split(/\s+/)
+  .filter(Boolean)
+  .map((w) => w.charAt(0).toUpperCase())
+  .join("");
+
 function Logo() {
   return (
     <a
@@ -19,7 +26,7 @@ function Logo() {
       }}
     >
       <span className="logo__mark np" aria-hidden="true">
-        {site.firstName.charAt(0)}
+        {initials || site.firstName.charAt(0)}
       </span>
       <span className="logo__word">
         {site.firstName}

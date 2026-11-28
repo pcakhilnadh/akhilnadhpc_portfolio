@@ -38,7 +38,8 @@
   background: var(--c-9);
   color: var(--c-0);
   border-color: var(--c-9);
-  font: 400 18px/1 var(--font-display);
+  font: 400 15px/1 var(--font-display); /* two letters ("PC") fit the 34px box */
+  letter-spacing: -0.02em;
 }
 .logo__word {
   font: 400 15px/1 var(--font-display);
