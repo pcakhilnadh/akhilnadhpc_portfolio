@@ -36,13 +36,22 @@ export function ConsentBanner() {
     return () => window.removeEventListener(OPEN_CONSENT_EVENT, onOpen);
   }, []);
 
-  // Lets other bottom popups (the install prompt) step aside on small screens.
+  // While open: the install prompt steps aside, and --consent-space tells the
+  // Home screen's "Say hi" button how far to lift so the strip never covers it.
   useEffect(() => {
     const root = document.documentElement;
-    if (open) root.dataset.consentOpen = "";
-    else delete root.dataset.consentOpen;
+    const el = ref.current;
+    if (!open || !el) return;
+    root.dataset.consentOpen = "";
+    const ro = new ResizeObserver(() => {
+      const gap = 12 + 4 * 2; // strip's offset above the footer + its 3D edge
+      root.style.setProperty("--consent-space", `${Math.ceil(el.getBoundingClientRect().height) + gap}px`);
+    });
+    ro.observe(el);
     return () => {
+      ro.disconnect();
       delete root.dataset.consentOpen;
+      root.style.removeProperty("--consent-space");
     };
   }, [open]);
 
@@ -67,26 +76,49 @@ export function ConsentBanner() {
 
   return (
     <aside ref={ref} className="consent np" aria-labelledby={titleId}>
-      <button type="button" className="consent__close" aria-label="Close without choosing" onClick={dismiss}>
-        <span aria-hidden="true">×</span>
-      </button>
+      <div className="consent__row">
+        <p className="consent__text">
+          <span id={titleId} className="consent__title">
+            Cookies
+          </span>{" "}
+          Allow Google Analytics cookies to count visits? Nothing loads unless you accept.{" "}
+          <button
+            type="button"
+            className="consent__more"
+            aria-expanded={details}
+            aria-controls={detailsId}
+            onClick={() => setDetails((d) => !d)}
+          >
+            {details ? "Less" : "Details"}
+          </button>
+        </p>
 
-      <p id={titleId} className="consent__title">
-        Cookies
-      </p>
-      <p className="consent__text">
-        May I use Google Analytics cookies to count visits and see which sections get read? Nothing loads unless you
-        accept.{" "}
-        <button
-          type="button"
-          className="consent__more"
-          aria-expanded={details}
-          aria-controls={detailsId}
-          onClick={() => setDetails((d) => !d)}
-        >
-          {details ? "Less" : "Details"}
+        {/* When reopened from the footer, the current choice shows as the pressed button. */}
+        <div className="consent__actions">
+          <button
+            type="button"
+            className="np np-btn np-btn--ghost np-btn--sm"
+            aria-pressed={current === "denied"}
+            onClick={() => choose("denied")}
+          >
+            {current === "denied" && <span aria-hidden="true">✓</span>}
+            Decline
+          </button>
+          <button
+            type="button"
+            className="np np-btn np-btn--ghost np-btn--sm"
+            aria-pressed={current === "granted"}
+            onClick={() => choose("granted")}
+          >
+            {current === "granted" && <span aria-hidden="true">✓</span>}
+            Accept
+          </button>
+        </div>
+
+        <button type="button" className="consent__close" aria-label="Close without choosing" onClick={dismiss}>
+          <span aria-hidden="true">×</span>
         </button>
-      </p>
+      </div>
 
       <dl id={detailsId} className="consent__details" hidden={!details}>
         <div>
@@ -114,19 +146,6 @@ export function ConsentBanner() {
           </dd>
         </div>
       </dl>
-
-      {current && (
-        <p className="consent__current">Current choice: {current === "granted" ? "accepted" : "declined"}</p>
-      )}
-
-      <div className="consent__actions">
-        <button type="button" className="np np-btn np-btn--ghost np-btn--sm" onClick={() => choose("denied")}>
-          Decline
-        </button>
-        <button type="button" className="np np-btn np-btn--ghost np-btn--sm" onClick={() => choose("granted")}>
-          Accept
-        </button>
-      </div>
     </aside>
   );
 }

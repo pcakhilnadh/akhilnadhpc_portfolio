@@ -23,12 +23,8 @@
   overflow: hidden;
   background: var(--bg);
 }
-/* With sections below, the footer moves to the end of the page, so the
-   landing screen takes the whole viewport. */
-main > .home:not(:only-child) {
-  height: 100vh;
-  height: 100svh;
-}
+/* The footer is fixed to the bottom of the screen, so the landing screen always
+   stops just above it (the "Say hi" button would otherwise sit under it). */
 .home__stage {
   position: relative;
   flex: 1 1 0;

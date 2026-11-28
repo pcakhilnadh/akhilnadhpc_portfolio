@@ -14,6 +14,9 @@
   position: absolute;
   /* clears the info block, which overlaps the stage by --home-overlap when stacked */
   inset: auto 0 calc(var(--home-overlap, 0px) + clamp(12px, 2.4svh, 28px)) 0;
+  /* lifted above the cookie strip while it's open (set by ConsentBanner) */
+  translate: 0 calc(-1 * var(--consent-space, 0px));
+  transition: translate 200ms var(--ease-out);
 }
 .chat-dock .chat-btn {
   pointer-events: auto;

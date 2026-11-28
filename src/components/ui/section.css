@@ -15,7 +15,8 @@
   display: grid;
   gap: 6px;
   margin-top: 18px;
-  font-size: clamp(40px, 9vw, 96px);
+  /* 9vw lets long one-word titles ("Certificates") fit 320px phones */
+  font-size: clamp(28px, 9vw, 96px);
 }
 .section__outline {
   font-size: 0.42em;
