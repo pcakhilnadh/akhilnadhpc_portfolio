@@ -37,6 +37,18 @@
     <meta name="twitter:description" content="%DESCRIPTION%" />
     <meta name="twitter:image" content="%SITE_URL%images/og.jpg" />
 
+    <!-- Catch Chrome's install offer even if it fires before the app's code has
+         loaded (it can on a refresh). src/hooks/useInstallPrompt.ts takes it from here. -->
+    <script>
+      addEventListener("beforeinstallprompt", function (e) {
+        e.preventDefault();
+        window.__installEvent = e;
+      });
+      addEventListener("appinstalled", function () {
+        window.__installEvent = null;
+      });
+    </script>
+
     <!-- Structured data (schema.org Person / ProfilePage), built from src/data by scripts/seo.ts -->
     <script type="application/ld+json">%JSON_LD%</script>
 

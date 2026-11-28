@@ -6,7 +6,9 @@
   position: fixed;
   z-index: 60; /* above the header (50) and mobile menu (49) */
   right: calc(var(--gutter) + var(--d));
-  bottom: calc(var(--footer-h) + 16px + var(--d)); /* sits just above the fixed footer */
+  /* just above the fixed footer, and above the cookie strip while it's open */
+  bottom: calc(var(--footer-h) + 16px + var(--d) + var(--consent-space, 0px));
+  transition: bottom 200ms var(--ease-out);
   margin: 0;
   width: min(320px, calc(100vw - 2 * var(--gutter) - var(--d)));
   padding: 18px 20px 20px;

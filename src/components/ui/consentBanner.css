@@ -175,9 +175,13 @@
   }
 }
 
-/* One popup at a time: the install prompt waits until this one closes. */
-:root[data-consent-open] .install-toast {
-  display: none;
+/* Phones: one popup at a time, so the screen isn't buried; the install prompt
+   waits until this strip closes. Wider screens stack it above the strip
+   (installPrompt.css reads --consent-space). */
+@media (max-width: 639px) {
+  :root[data-consent-open] .install-toast {
+    display: none;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {

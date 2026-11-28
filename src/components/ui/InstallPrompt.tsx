@@ -2,39 +2,20 @@ import { useState } from "react";
 import { useInstallPrompt } from "../../hooks/useInstallPrompt";
 import "./installPrompt.css";
 
-const DISMISS_KEY = "install-prompt-dismissed";
-
-function wasDismissed() {
-  try {
-    return sessionStorage.getItem(DISMISS_KEY) === "1";
-  } catch {
-    return false;
-  }
-}
-
 /**
- * A small dismissible popup offering to install the site as an app. Only shows
- * when the browser fires `beforeinstallprompt`; closing it hides it for the
- * rest of the browser session.
+ * A small popup offering to install the site as an app. Shows on every page
+ * load (refresh included) whenever the browser says the site can be installed,
+ * i.e. until it is. × hides it for this page view only.
  */
 export function InstallPrompt() {
   const { canInstall, install } = useInstallPrompt();
-  const [dismissed, setDismissed] = useState(wasDismissed);
+  const [dismissed, setDismissed] = useState(false);
 
   if (!canInstall || dismissed) return null;
 
-  const dismiss = () => {
-    setDismissed(true);
-    try {
-      sessionStorage.setItem(DISMISS_KEY, "1");
-    } catch {
-      /* storage blocked: it just stays closed until reload */
-    }
-  };
-
   return (
     <aside className="install-toast np" role="dialog" aria-labelledby="install-toast-title">
-      <button type="button" className="install-toast__close" aria-label="Dismiss" onClick={dismiss}>
+      <button type="button" className="install-toast__close" aria-label="Dismiss" onClick={() => setDismissed(true)}>
         <span aria-hidden="true">×</span>
       </button>
       <p className="install-toast__eyebrow">PWA</p>
