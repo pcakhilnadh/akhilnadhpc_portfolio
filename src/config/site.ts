@@ -33,6 +33,7 @@ export const navLinks: readonly { label: string; href: string }[] = [
   { label: "Projects", href: "#projects" },
   { label: "Skills", href: "#skills" },
   { label: "Resume", href: "#resume" },
+  { label: "Let's talk", href: "#contact" },
 ];
 
 /**
@@ -61,6 +62,3 @@ export const analytics = {
     { id: "chat", label: "Avatar chats" },
   ],
 } as const;
-
-/** Where the header's "Let's talk" button goes. */
-export const contactHref = "#contact";

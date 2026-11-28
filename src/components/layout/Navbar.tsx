@@ -1,5 +1,8 @@
 import { useEffect, useState } from "react";
-import { contactHref, navLinks, site } from "../../config/site";
+import { navLinks, site } from "../../config/site";
+import { sayHiFromAnywhere } from "../../features/avatar/sayHi";
+import { preloadStage } from "../../features/avatar/stageLoader";
+import { useAvatarState } from "../../features/avatar/useAvatarState";
 import { useActiveSection } from "../../hooks/useActiveSection";
 import { scrollToHash } from "../../lib/scrollToHash";
 import "./navbar.css";
@@ -36,11 +39,36 @@ function Logo() {
   );
 }
 
-/** The top bar: logo, section links, and the contact button. */
+/**
+ * True while the Home screen is mostly on screen. Home has its own "Say hi"
+ * button, so the navbar only offers one once you've scrolled past it.
+ */
+function useOnHome() {
+  const [onHome, setOnHome] = useState(true);
+  useEffect(() => {
+    const home = document.getElementById("home");
+    if (!home) return;
+    const io = new IntersectionObserver(([e]) => setOnHome(e.isIntersecting), { threshold: 0.35 });
+    io.observe(home);
+    return () => io.disconnect();
+  }, []);
+  return onHome;
+}
+
+/** The top bar: logo, section links (Let's talk is one of them), and "Say hi" once you've left Home. */
 export function Navbar() {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const active = useActiveSection(sectionIds);
+  const onHome = useOnHome();
+  const { supported, active: avatarOpen } = useAvatarState();
+  // The avatar is already open, or this device can't show it: nothing to offer.
+  const showSayHi = !onHome && supported && !avatarOpen;
+
+  const sayHi = () => {
+    setOpen(false);
+    sayHiFromAnywhere();
+  };
   // The nav + hamburger only exist once navLinks has entries (see config/site.ts).
   const hasNav = navLinks.length > 0;
 
@@ -82,13 +110,22 @@ export function Navbar() {
             </nav>
           )}
           <div className="site-header__actions">
-            <a
-              href={contactHref}
-              className="np np-btn np-btn--primary np-btn--sm header-cta"
-              onClick={(e) => scrollToHash(e, contactHref, () => setOpen(false))}
-            >
-              Let&apos;s talk
-            </a>
+            {supported && (
+              // Always rendered so the bar never shifts; hidden (and out of the
+              // tab order) while Home's own "Say hi" is on screen.
+              <button
+                type="button"
+                className="np np-btn np-btn--primary np-btn--sm header-cta"
+                data-shown={showSayHi}
+                aria-hidden={!showSayHi}
+                tabIndex={showSayHi ? undefined : -1}
+                onClick={sayHi}
+                onPointerEnter={preloadStage}
+                onFocus={preloadStage}
+              >
+                Say hi
+              </button>
+            )}
             {hasNav && (
               <button
                 type="button"
@@ -126,16 +163,13 @@ export function Navbar() {
               ))}
             </ol>
           </nav>
-          <div className="mobile-menu__actions">
-            {/* The header's "Let's talk" is hidden on the smallest phones; this one always shows. */}
-            <a
-              href={contactHref}
-              className="np np-btn np-btn--primary"
-              onClick={(e) => scrollToHash(e, contactHref, () => setOpen(false))}
-            >
-              Let&apos;s talk <span className="arrow" aria-hidden="true">→</span>
-            </a>
-          </div>
+          {showSayHi && (
+            <div className="mobile-menu__actions">
+              <button type="button" className="np np-btn np-btn--primary" onClick={sayHi} onFocus={preloadStage}>
+                Say hi to my avatar <span className="arrow" aria-hidden="true">→</span>
+              </button>
+            </div>
+          )}
         </div>
       )}
     </>

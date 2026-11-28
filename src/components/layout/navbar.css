@@ -84,6 +84,19 @@
 .site-header__actions .np-btn {
   margin-bottom: 4px;
 }
+/* "Say hi": keeps its space, fades in once Home has scrolled away */
+.header-cta {
+  transition:
+    opacity 200ms ease,
+    visibility 200ms,
+    transform 90ms var(--ease-out),
+    background-color 150ms ease;
+}
+.header-cta[data-shown="false"] {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
 
 .menu-btn {
   display: none;
@@ -169,8 +182,17 @@
     display: block;
   }
 }
-@media (max-width: 479px) {
+/* Tiny phones: logo + menu only ("Say hi" is in the menu) */
+@media (max-width: 359px) {
   .header-cta {
     display: none;
+  }
+}
+
+/* Laptops: six links + the button need a little less room */
+@media (min-width: 1024px) and (max-width: 1199px) {
+  .site-nav a {
+    padding-inline: 10px;
+    letter-spacing: 0.12em;
   }
 }
