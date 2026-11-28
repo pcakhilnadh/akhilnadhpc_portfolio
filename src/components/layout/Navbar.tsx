@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { contactHref, navLinks, site } from "../../config/site";
 import { useActiveSection } from "../../hooks/useActiveSection";
-import { useInstallPrompt } from "../../hooks/useInstallPrompt";
 import { scrollToHash } from "../../lib/scrollToHash";
 import "./navbar.css";
 
@@ -30,11 +29,10 @@ function Logo() {
   );
 }
 
-/** The top bar: logo, section links, and the install / contact buttons. */
+/** The top bar: logo, section links, and the contact button. */
 export function Navbar() {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const { canInstall, install } = useInstallPrompt();
   const active = useActiveSection(sectionIds);
   // The nav + hamburger only exist once navLinks has entries (see config/site.ts).
   const hasNav = navLinks.length > 0;
@@ -77,11 +75,6 @@ export function Navbar() {
             </nav>
           )}
           <div className="site-header__actions">
-            {canInstall && (
-              <button type="button" className="np np-btn np-btn--ghost np-btn--sm install-btn" onClick={install}>
-                Install app
-              </button>
-            )}
             <a
               href={contactHref}
               className="np np-btn np-btn--primary np-btn--sm header-cta"
@@ -135,11 +128,6 @@ export function Navbar() {
             >
               Let&apos;s talk <span className="arrow" aria-hidden="true">→</span>
             </a>
-            {canInstall && (
-              <button type="button" className="np np-btn np-btn--ghost" onClick={install}>
-                Install as app
-              </button>
-            )}
           </div>
         </div>
       )}

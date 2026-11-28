@@ -164,8 +164,7 @@
 }
 
 @media (max-width: 1023px) {
-  .site-nav,
-  .install-btn {
+  .site-nav {
     display: none;
   }
   .menu-btn {
